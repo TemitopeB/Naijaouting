@@ -61,18 +61,19 @@ TOPICS = [
 # ---------------- event announcement detection ----------------
 EVENT = re.compile(r"\b(concert|festival|fest|carnival|summit|conference|expo|exhibition|fair|tour|show|awards?|premiere|"
                    r"hackathon|marathon|party|gala|parade|competition|pageant|tournament|workshop|masterclass|"
-                   r"bootcamp|seminar|crusade|convention|meetup|week|edition|screening|play|stage)\b", re.I)
+                   r"bootcamp|seminar|crusade|convention|meetup|edition|screening|stage play)\b|\b(fashion|design|tech|art|startup|music|film|restaurant|beauty|social media|craft|book|game) week\b", re.I)
 AHEAD = re.compile(r"\b(to hold|will hold|set to|set for|slated|scheduled|returns|is back|unveils?|announces?|announced|"
                    r"tickets?|kicks? off|this weekend|upcoming|ahead of|to host|to headline|to perform|to stage|"
                    r"opens? (on|in|this)|registration|register|save the date|coming to|heads? to|counts? down|"
                    r"line-?up|date for|dates for|on (mon|tues|wednes|thurs|fri|satur|sun)day|next (week|month))\b", re.I)
 PAST = re.compile(r"\b(held|ended|wraps? up|wrapped|recap|highlights|photos from|pictures from|stole the show|thrilled|"
                   r"concluded|was held|closes? with|last (week|weekend|night)|yesterday|winners? (list|emerge)|"
-                  r"won|wins|emerged|dies|died|death|arrested|court|obituary|tribute)\b", re.I)
+                  r"won|wins|emerged|named|crowned|bags|clinches|honou?red|dies|died|death|arrested|court|obituary|tribute|tracks|album|ep\b|single|music video|new song|lyrics|stream)\b", re.I)
+RULES = 2  # bump when the lead rules change; older saved leads are dropped
 MONTHS = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
 DATE1 = re.compile(r"\b(\d{1,2})(?:st|nd|rd|th)?(?:\s*(?:-|–|to|&|and)\s*\d{1,2}(?:st|nd|rd|th)?)?\s+(?:of\s+)?"
-                   r"(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?(?:,?\s+(20\d\d))?", re.I)
-DATE2 = re.compile(r"\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?"
+                   r"(january|jan|february|feb|march|mar|april|apr|may|june|jun|july|jul|august|aug|september|sept|sep|october|oct|november|nov|december|dec)\.?(?![a-z])(?:,?\s+(20\d\d))?", re.I)
+DATE2 = re.compile(r"\b(january|jan|february|feb|march|mar|april|apr|may|june|jun|july|jul|august|aug|september|sept|sep|october|oct|november|nov|december|dec)\.?\s+(\d{1,2})(?:st|nd|rd|th)?"
                    r"(?:\s*(?:-|–|to|&|and)\s*\d{1,2}(?:st|nd|rd|th)?)?(?:,?\s+(20\d\d))?\b", re.I)
 
 
@@ -319,13 +320,14 @@ def main():
         rows = db_req("GET", "/rest/v1/docs?select=data&col=eq.leads&id=eq.news") or []
         cur = rows[0]["data"] if rows else {}
         dismissed = cur.get("dismissed", [])
-        keep = [l for l in cur.get("items", []) if l["id"] not in dismissed
+        keep = [l for l in cur.get("items", []) if l["id"] not in dismissed and l.get("v") == RULES
                 and (not l.get("date") or l["date"] >= TODAY.isoformat())
                 and l.get("published", "") >= (TODAY - dt.timedelta(days=30)).isoformat()]
         ids = {l["id"] for l in keep} | set(dismissed)
         for ld in leads:
             if ld["id"] not in ids:
                 ld["found"] = TODAY.isoformat()
+                ld["v"] = RULES
                 keep.append(ld)
                 new += 1
         keep.sort(key=lambda l: (l.get("found", ""), l.get("published", "")), reverse=True)
