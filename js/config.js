@@ -6,6 +6,6 @@
  * Find them in Supabase: Project Settings -> API (or "Connect").
  */
 window.NO_CONFIG = {
-  supabaseUrl: "",      // e.g. "https://abcdefghijk.supabase.co"
-  supabaseAnonKey: ""   // the long "anon" / "publishable" key
+  supabaseUrl: "https://fcdebtyopthaikonnfsd.supabase.co",
+  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZjZGVidHlvcHRoYWlrb25uZnNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ1NDQyMDYsImV4cCI6MjExMDEyMDIwNn0.FASYXyzNWljlkuMo5T-DBZcx-jiR6Bv-fSi00x62SJQ"
 };
