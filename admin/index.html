@@ -17,11 +17,23 @@ h1{margin:0 0 6px;font-size:24px;letter-spacing:-.01em}p{margin:0 0 20px;color:v
 label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
 input{width:100%;height:48px;border:1px solid var(--ln);border-radius:12px;padding:0 14px;font:inherit;background:#fff}
 input:focus{outline:2.5px solid var(--g);outline-offset:1px;border-color:transparent}
-.btn{display:flex;align-items:center;justify-content:center;width:100%;height:50px;margin-top:20px;border:0;border-radius:999px;background:var(--g);color:#fff;font:600 15.5px/1 inherit;cursor:pointer;text-decoration:none}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;height:50px;margin-top:20px;border:0;border-radius:999px;background:var(--g);color:#fff;font:600 15.5px/1 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;cursor:pointer;text-decoration:none}
 .btn:hover{background:var(--g2)}.btn.ln{background:#fff;color:var(--ink);border:1px solid var(--ln);margin-top:10px}
 .msg{margin-top:16px;padding:12px 14px;border-radius:12px;font-size:14px;display:none}.msg.on{display:block}
 .msg.ok{background:var(--gs);color:var(--g)}.msg.bad{background:#FBE3DB;color:#9A2E14}
 .sm{font-size:13px;color:var(--mu);margin-top:18px}.sm a{color:var(--g)}
+body.wide{place-items:start center}body.wide .card{max-width:760px}
+.leads{margin-top:28px;padding-top:24px;border-top:1px solid var(--ln)}
+.leads h2{margin:0 0 4px;font-size:19px}.leads>p{margin:0 0 14px}
+.lead{border:1px solid var(--ln);border-radius:16px;padding:14px 16px;margin-top:10px}
+.lead a.t{display:block;color:var(--ink);font-weight:600;text-decoration:none;line-height:1.35}.lead a.t:hover{color:var(--g)}
+.lead .m{font-size:13px;color:var(--mu);margin-top:4px}.lead .m b{color:var(--ink);font-weight:600}
+.lead .tag{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 8px;margin-left:6px;background:#FCEFD9;color:#9A5B0C}
+.lead .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.lead .row a,.lead .row button{height:36px;padding:0 14px;border-radius:999px;font:600 13.5px/1 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;display:inline-flex;align-items:center;cursor:pointer;text-decoration:none}
+.lead .row .go{background:var(--g);color:#fff;border:0}.lead .row .rd{background:#fff;color:var(--ink);border:1px solid var(--ln)}
+.lead .row .x{background:#fff;color:var(--mu);border:1px solid var(--ln)}
+.empty{color:var(--mu);font-size:14px;padding:14px 0}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -42,6 +54,11 @@ input:focus{outline:2.5px solid var(--g);outline-offset:1px;border-color:transpa
     <a class="btn" href="/events/">Open the site and review</a>
     <button class="btn ln" type="button" id="so">Sign out</button>
     <p class="sm">On the site, press <b>Review</b> at the top to see waiting events, including the ones the Monday sweep collected.</p>
+    <div class="leads" id="leads" hidden>
+      <h2>Possible events from the news</h2>
+      <p class="sm" style="margin-top:0">Found every morning in Nigerian news feeds. Open the article, check the details, then add the event. Dismiss anything that isn’t a real upcoming event.</p>
+      <div id="lst"></div>
+    </div>
   </section>
   <div class="msg" id="msg" role="status"></div>
   <p class="sm"><a href="/">← Back to NaijaOuting</a></p>
@@ -51,15 +68,41 @@ input:focus{outline:2.5px solid var(--g);outline-offset:1px;border-color:transpa
   var sb=window.NO_SB,$=function(s){return document.querySelector(s)};
   function say(t,ok){var m=$("#msg");m.textContent=t;m.className="msg on "+(ok?"ok":"bad")}
   if(!sb){say("The site isn’t connected to the database yet (js/config.js is empty).",false);$("#go").disabled=true;return}
+  function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+  var MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  function nice(d){if(!d)return"";var x=new Date(d+"T00:00:00");return DOW[x.getDay()]+" "+x.getDate()+" "+MON[x.getMonth()]}
+  var LD=null;
+  function leads(){
+    sb.from("docs").select("data").eq("col","leads").eq("id","news").maybeSingle().then(function(r){
+      $("#leads").hidden=false;document.body.classList.add("wide");
+      LD=(r.data&&r.data.data)||{items:[],dismissed:[]};
+      var it=(LD.items||[]).filter(function(l){return (LD.dismissed||[]).indexOf(l.id)<0});
+      if(!it.length){$("#lst").innerHTML='<p class="empty">Nothing waiting. New leads appear here after the morning news run.</p>';return}
+      $("#lst").innerHTML=it.map(function(l){
+        var meta=[l.date?"Event date: <b>"+esc(nice(l.date))+"</b>":"No date found",l.city?esc(l.city):"",l.cat?esc(l.cat):"",esc(l.source)+" · "+esc(nice(l.published))].filter(Boolean).join(" · ");
+        return '<div class="lead" data-id="'+esc(l.id)+'"><a class="t" href="'+esc(l.link)+'" target="_blank" rel="noopener">'+esc(l.title)+'</a>'+
+          '<div class="m">'+meta+(l.listed?'<span class="tag">Maybe already listed</span>':'')+'</div>'+
+          '<div class="row"><a class="rd" href="'+esc(l.link)+'" target="_blank" rel="noopener">Read article</a><a class="go" href="/events/#add=1" target="_blank" rel="noopener">Add as event</a><button class="x" type="button" data-x="'+esc(l.id)+'">Dismiss</button></div></div>'}).join("");
+    });
+  }
+  document.addEventListener("click",function(e){
+    var b=e.target.closest("[data-x]");if(!b||!LD)return;
+    var id=b.getAttribute("data-x");b.disabled=true;
+    var next={updated:LD.updated||"",items:(LD.items||[]).filter(function(l){return l.id!==id}),dismissed:(LD.dismissed||[]).concat([id]).slice(-600)};
+    sb.from("docs").upsert({col:"leads",id:"news",data:next},{onConflict:"col,id"}).then(function(r){
+      if(r.error){b.disabled=false;say("Couldn’t dismiss that one. Try again.",false);return}
+      LD=next;var el=b.closest(".lead");if(el)el.remove();if(!$("#lst .lead"))leads();
+    });
+  });
   function show(){
     sb.auth.getSession().then(function(r){
       var s=r.data&&r.data.session;
-      if(!s||s.user.is_anonymous){$("#out").hidden=false;$("#in").hidden=true;return}
+      if(!s||s.user.is_anonymous){$("#out").hidden=false;$("#in").hidden=true;$("#leads").hidden=true;document.body.classList.remove("wide");return}
       sb.from("admins").select("user_id").eq("user_id",s.user.id).maybeSingle().then(function(a){
         $("#out").hidden=true;$("#in").hidden=false;
         $("#who").textContent="Signed in as "+(s.user.email||"admin")+".";
         if(!(a&&a.data))say("This account isn’t an admin yet. Add it to the admins table in Supabase (see README, step 5).",false);
-        else say("Admin access confirmed.",true);
+        else{say("Admin access confirmed.",true);leads()}
       });
     });
   }

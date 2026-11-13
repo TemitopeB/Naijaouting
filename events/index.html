@@ -1710,8 +1710,8 @@ html.app .hr .btn.p{height:40px!important;min-height:40px}
 <div id="flv" class="md flv" hidden role="dialog" aria-modal="true" aria-label="Flyer"><div class="flvbar"><b id="flvt"></b><button class="flvb" data-a="flvsave">Save</button><button class="flvb" data-a="flvshare">Share</button><button class="flvx" data-a="flvclose" aria-label="Close flyer">✕</button></div><div class="flvsc" data-a="flvbg"><img id="flvimg" alt="" data-a="flvzoom"></div><p class="flvh">Tap the flyer or pinch to zoom</p></div>
 <div id="toast" class="toast" role="status" hidden></div>
 <script>
-/* Headlines collected 29 Oct 2026 from Nigerian and international news sites. Rewritten in short form; each links to its source. */
-const NEWS_UPDATED="9 Nov 2026, 7:50 am WAT";
+/* Built-in headlines. Fresh ones load from /data/news.json, which GitHub Actions rebuilds every morning from Nigerian news feeds. Each links to its source. */
+let NEWS_UPDATED="9 Nov 2026, 7:50 am WAT";
 const NEWS=[
 {c:"Politics",t:"PDP factional chair says courts are tilting toward APC ahead of 2027",s:"Premium Times",d:"2026-11-08",u:"https://www.premiumtimesng.com/news/top-news/923764-2027-pdp-factional-chairman-accuses-judiciary-of-favouring-apc-against-opposition.html"},
 {c:"Politics",t:"Lagos police tell parties to give notice before holding 2027 campaign rallies",s:"Premium Times",d:"2026-11-08",u:"https://www.premiumtimesng.com/news/top-news/923794-lagos-police-ask-political-parties-to-notify-command-ahead-of-2027-rallies.html"},
@@ -3165,6 +3165,11 @@ function tkArm(){clearTimeout(TTIMER);if(TPAUSE)return;TTIMER=setTimeout(()=>{if
 function tkPause(p){TPAUSE=p;const b=$("#tkPause");b.innerHTML=p?PLAY_I:PAUSE_I;b.setAttribute("aria-label",p?"Play headlines":"Pause headlines");const bar=$("#tkWin .tk-bar");if(bar){bar.classList.remove("run");if(!p){void bar.offsetWidth;bar.classList.add("run")}}tkArm()}
 $("#tkWin").addEventListener("mouseenter",()=>{clearTimeout(TTIMER);const bar=$("#tkWin .tk-bar");if(bar)bar.style.animationPlayState="paused"});
 $("#tkWin").addEventListener("mouseleave",()=>{const bar=$("#tkWin .tk-bar");if(bar)bar.style.animationPlayState="";if(!TPAUSE)tkArm()});
+/* fresh headlines (data/news.json, refreshed every morning) */
+fetch("/data/news.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(d=>{
+ if(!d||!Array.isArray(d.items)||d.items.length<5)return;
+ NEWS.length=0;d.items.forEach(n=>{if(n&&n.t&&n.u&&/^https?:\/\//.test(n.u))NEWS.push({c:NC[n.c]?n.c:"Politics",t:String(n.t),s:String(n.s||""),d:String(n.d||""),u:n.u})});
+ if(d.updated)NEWS_UPDATED=String(d.updated);TI=0;if($("#tkWin"))tkShow(true);tkArm();if(S.view==="news")render()}).catch(()=>{});
 
 /* ---------- events ---------- */
 function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>{t.hidden=true},4500)}

@@ -1,0 +1,23 @@
+{
+  "_how_to_use": [
+    "Public RSS feeds from established Nigerian outlets. scripts/news.py reads them every morning.",
+    "\"ticker\": true  -> headlines can appear in the news ticker on the events page.",
+    "\"leads\": true   -> articles that look like upcoming event announcements become leads on /admin/.",
+    "\"default\": ticker category when a headline doesn't clearly fit one.",
+    "Set \"on\": false to stop using a feed. Only headlines and links are shown, always credited to the outlet."
+  ],
+  "feeds": [
+    { "on": true, "name": "Premium Times", "url": "https://www.premiumtimesng.com/feed", "ticker": true, "leads": true, "default": "Politics" },
+    { "on": true, "name": "Vanguard", "url": "https://www.vanguardngr.com/feed/", "ticker": true, "leads": true, "default": "Politics" },
+    { "on": true, "name": "The Guardian Nigeria", "url": "https://guardian.ng/feed/", "ticker": true, "leads": true, "default": "Politics" },
+    { "on": true, "name": "Channels TV", "url": "https://www.channelstv.com/feed/", "ticker": true, "leads": true, "default": "Politics" },
+    { "on": true, "name": "Punch", "url": "https://punchng.com/feed/", "ticker": true, "leads": true, "default": "Politics" },
+    { "on": true, "name": "TheCable", "url": "https://www.thecable.ng/feed", "ticker": true, "leads": true, "default": "Politics" },
+    { "on": true, "name": "Daily Post", "url": "https://dailypost.ng/feed/", "ticker": true, "leads": false, "default": "Politics" },
+    { "on": true, "name": "BusinessDay", "url": "https://businessday.ng/feed/", "ticker": true, "leads": true, "default": "Business" },
+    { "on": true, "name": "BellaNaija", "url": "https://www.bellanaija.com/feed/", "ticker": true, "leads": true, "default": "Entertainment" },
+    { "on": true, "name": "Notjustok", "url": "https://notjustok.com/feed/", "ticker": false, "leads": true, "default": "Entertainment" },
+    { "on": true, "name": "Vanguard Entertainment", "url": "https://www.vanguardngr.com/category/entertainment/feed/", "ticker": false, "leads": true, "default": "Entertainment" },
+    { "on": true, "name": "TechCabal", "url": "https://techcabal.com/feed/", "ticker": false, "leads": true, "default": "Business" }
+  ]
+}

@@ -1,0 +1,49 @@
+# Every morning: refresh the news ticker (data/news.json) and collect possible events
+# from Nigerian news feeds as leads on /admin/. Leads never go live by themselves.
+# Uses the SUPABASE_URL and SUPABASE_SERVICE_KEY repository secrets.
+name: News and event leads
+
+on:
+  schedule:
+    - cron: "23 5 * * *"      # every day, 06:23 Lagos time
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/news.yml"
+      - "scripts/news.py"
+      - "scripts/news_feeds.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Read news feeds
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python scripts/news.py
+      - name: Save headlines if changed
+        run: |
+          git config user.name "naijaouting-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/news.json
+          if git diff --cached --quiet; then
+            echo "No new headlines."
+          else
+            git commit -m "Refresh news headlines"
+            git pull --rebase origin main
+            git push
+          fi

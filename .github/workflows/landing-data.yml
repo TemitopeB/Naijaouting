@@ -19,7 +19,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: landing-data
+  group: data-commits
   cancel-in-progress: false
 
 jobs:
@@ -49,5 +49,6 @@ jobs:
             echo "No change today."
           else
             git commit -m "Refresh landing data"
+            git pull --rebase origin main
             git push
           fi

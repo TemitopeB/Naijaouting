@@ -62,12 +62,17 @@ Then **Actions** tab → enable workflows if asked. Test each with **Run workflo
 
 | When | Job | What it does |
 |---|---|---|
+| Every morning, 06:23 Lagos | **News and event leads** | Refreshes the news ticker (`data/news.json`) from Nigerian news feeds, and lists articles that look like upcoming event announcements on `/admin/` as leads. |
 | Every morning, 06:11 Lagos | **Refresh landing data** | Rebuilds `data/landing.json` from the site + database, so landing numbers stay current. |
 | Mondays, 07:37 Lagos | **Monday event sweep** | Reads the sources in `scripts/sources.json`, adds new upcoming events to the **Review queue**. |
 | Any time | Visitors | "Add event" and corrections go to the Review queue. |
 | Any time | You | Approve, edit or hide events on the site after signing in at `/admin/`. Approved events go live instantly. |
 
 Nothing from the sweep or from visitors goes live until an admin approves it.
+
+## News feeds and event leads
+The feeds are listed in [`scripts/news_feeds.json`](scripts/news_feeds.json) (Premium Times, Vanguard, The Guardian Nigeria, Channels TV, Punch, TheCable, Daily Post, BusinessDay, BellaNaija, Notjustok, TechCabal). Set `"on": false` to stop using one.
+Only headlines and links are used, always credited to the outlet. Leads appear on `/admin/` after you sign in: read the article, then **Add as event** or **Dismiss**.
 
 ## Adding sweep sources
 Edit [`scripts/sources.json`](scripts/sources.json) on GitHub, set `"on": true`, save. Supported:
