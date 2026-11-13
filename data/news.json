@@ -1,5 +1,5 @@
 {
-"updated": "13 Nov 2026, 10:46 pm WAT",
+"updated": "13 Nov 2026, 10:55 pm WAT",
 "items": [
 {
 "c": "Sports",
@@ -14,6 +14,13 @@
 "s": "Punch",
 "d": "2026-11-13",
 "u": "https://punchng.com/nba-petitions-disciplinary-panel-over-lawyers-remarks-against-judge/?utm_source=rss.punchng.com&utm_medium=web"
+},
+{
+"c": "Politics",
+"t": "Global outage: Microsoft blames network change for service disruption",
+"s": "Vanguard",
+"d": "2026-11-13",
+"u": "https://www.vanguardngr.com/2026/11/global-outage-microsoft-blames-network-change-for-service-disruption/"
 },
 {
 "c": "Politics",
@@ -56,13 +63,6 @@
 "s": "Premium Times",
 "d": "2026-11-13",
 "u": "https://www.premiumtimesng.com/business/business-news/925050-finance-must-break-developing-countries-from-debt-and-disaster-loop-un-climate-chief.html"
-},
-{
-"c": "Politics",
-"t": "2027 Elections: ‘We Shall Not Tolerate Irresponsible Conduct’, Tinubu Warns",
-"s": "Channels TV",
-"d": "2026-11-13",
-"u": "https://www.channelstv.com/2026/11/13/2027-elections-we-shall-not-tolerate-irresponsible-conduct-tinubu-warns/"
 },
 {
 "c": "Health",
@@ -135,13 +135,6 @@
 "u": "https://businessday.ng/news/article/soludo-woos-power-investors-unveils-anambras-1000mw-electricity-ambition/"
 },
 {
-"c": "Economy",
-"t": "African films face distribution, revenue gaps despite strong demand – Study",
-"s": "Vanguard",
-"d": "2026-11-13",
-"u": "https://www.vanguardngr.com/2026/11/african-films-face-distribution-revenue-gaps-despite-strong-demand-study/"
-},
-{
 "c": "Entertainment",
 "t": "Heineken Lagos Fashion Week 2026: Heineken Studio Makes Debut Bringing Creativity and Innovation Together",
 "s": "BellaNaija",
@@ -168,6 +161,13 @@
 "s": "Daily Post",
 "d": "2026-11-13",
 "u": "https://dailypost.ng/2026/11/13/diphtheria-outbreak-hits-kano-school-with-12-confirmed-cases/"
+},
+{
+"c": "Sports",
+"t": "AFCON qualifiers: Nigerians react to Super Eagles' 3-1 win over Tanzania",
+"s": "Daily Post",
+"d": "2026-11-13",
+"u": "https://dailypost.ng/2026/11/13/afcon-qualifiers-nigerians-react-to-super-eagles-3-1-win-over-tanzania/"
 }
 ]
 }
