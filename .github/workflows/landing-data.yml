@@ -6,6 +6,11 @@ on:
   schedule:
     - cron: "11 5 * * *"      # every day, 06:11 Lagos time
   workflow_dispatch: {}        # "Run workflow" button
+  push:                        # also runs when the landing-data script or this file changes
+    branches: [main]
+    paths:
+      - ".github/workflows/landing-data.yml"
+      - "scripts/build_landing_data.py"
   workflow_run:
     workflows: ["Monday event sweep"]
     types: [completed]
