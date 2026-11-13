@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>NaijaOuting · Admin sign-in</title>
+<link rel="icon" href="data:,">
+<script src="/js/supabase.js"></script>
+<script src="/js/config.js"></script>
+<script src="/js/shim.js"></script>
+<style>
+:root{--bg:#FBF7F1;--ink:#1F1A16;--mu:#6B625A;--ln:#EADFCF;--g:#0B6B4C;--g2:#095A40;--gs:#E3F1EA;--cor:#E5603F}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:400 16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;padding:24px 16px}
+.card{width:100%;max-width:400px;background:#fff;border:1px solid var(--ln);border-radius:24px;padding:32px 28px}
+h1{margin:0 0 6px;font-size:24px;letter-spacing:-.01em}p{margin:0 0 20px;color:var(--mu);font-size:15px}
+label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+input{width:100%;height:48px;border:1px solid var(--ln);border-radius:12px;padding:0 14px;font:inherit;background:#fff}
+input:focus{outline:2.5px solid var(--g);outline-offset:1px;border-color:transparent}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;height:50px;margin-top:20px;border:0;border-radius:999px;background:var(--g);color:#fff;font:600 15.5px/1 inherit;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--g2)}.btn.ln{background:#fff;color:var(--ink);border:1px solid var(--ln);margin-top:10px}
+.msg{margin-top:16px;padding:12px 14px;border-radius:12px;font-size:14px;display:none}.msg.on{display:block}
+.msg.ok{background:var(--gs);color:var(--g)}.msg.bad{background:#FBE3DB;color:#9A2E14}
+.sm{font-size:13px;color:var(--mu);margin-top:18px}.sm a{color:var(--g)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main class="card">
+  <section id="out">
+    <h1>Admin sign-in</h1>
+    <p>For the NaijaOuting team only. Sign in to review new events, approve submissions and fix listings.</p>
+    <form id="f" autocomplete="on">
+      <label for="em">Email</label><input id="em" type="email" autocomplete="username" required>
+      <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required>
+      <button class="btn" type="submit" id="go">Sign in</button>
+    </form>
+  </section>
+  <section id="in" hidden>
+    <h1>You’re signed in</h1>
+    <p id="who"></p>
+    <a class="btn" href="/events/">Open the site and review</a>
+    <button class="btn ln" type="button" id="so">Sign out</button>
+    <p class="sm">On the site, press <b>Review</b> at the top to see waiting events, including the ones the Monday sweep collected.</p>
+  </section>
+  <div class="msg" id="msg" role="status"></div>
+  <p class="sm"><a href="/">← Back to NaijaOuting</a></p>
+</main>
+<script>
+(function(){
+  var sb=window.NO_SB,$=function(s){return document.querySelector(s)};
+  function say(t,ok){var m=$("#msg");m.textContent=t;m.className="msg on "+(ok?"ok":"bad")}
+  if(!sb){say("The site isn’t connected to the database yet (js/config.js is empty).",false);$("#go").disabled=true;return}
+  function show(){
+    sb.auth.getSession().then(function(r){
+      var s=r.data&&r.data.session;
+      if(!s||s.user.is_anonymous){$("#out").hidden=false;$("#in").hidden=true;return}
+      sb.from("admins").select("user_id").eq("user_id",s.user.id).maybeSingle().then(function(a){
+        $("#out").hidden=true;$("#in").hidden=false;
+        $("#who").textContent="Signed in as "+(s.user.email||"admin")+".";
+        if(!(a&&a.data))say("This account isn’t an admin yet. Add it to the admins table in Supabase (see README, step 5).",false);
+        else say("Admin access confirmed.",true);
+      });
+    });
+  }
+  $("#f").addEventListener("submit",function(e){
+    e.preventDefault();$("#go").disabled=true;say("Signing in…",true);
+    sb.auth.signInWithPassword({email:$("#em").value.trim(),password:$("#pw").value}).then(function(r){
+      $("#go").disabled=false;
+      if(r.error){say("That email and password didn’t match. Try again.",false);return}
+      $("#pw").value="";show();
+    });
+  });
+  $("#so").addEventListener("click",function(){sb.auth.signOut().then(function(){$("#msg").className="msg";show()})});
+  show();
+})();
+</script>
+</body>
+</html>

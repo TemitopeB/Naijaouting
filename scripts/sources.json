@@ -1,0 +1,15 @@
+{
+  "_how_to_use": [
+    "Each source is one page or feed the Monday sweep reads. Set \"on\": true to use it.",
+    "Only add sources whose terms allow automated reading, e.g. organisers' and venues' own websites,",
+    "their public calendar (.ics) feeds, or Eventbrite organisers through the official API.",
+    "Types: \"page\" (website that publishes schema.org Event data), \"ics\" (calendar feed),",
+    "\"eventbrite_organizer\" (needs the EVENTBRITE_TOKEN secret and the organiser's numeric id).",
+    "\"city\" is used when the source doesn't say; \"cat\" forces a category for every event from it."
+  ],
+  "sources": [
+    { "on": false, "type": "page", "name": "Example: an organiser's events page", "url": "https://example.com/events", "city": "Lagos" },
+    { "on": false, "type": "ics", "name": "Example: a venue's public calendar", "url": "https://example.com/calendar.ics", "city": "Abuja" },
+    { "on": false, "type": "eventbrite_organizer", "name": "Example: a promoter on Eventbrite", "id": "12345678901", "city": "Lagos" }
+  ]
+}

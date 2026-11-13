@@ -1,0 +1,48 @@
+# Refreshes data/landing.json every morning so the landing page's numbers stay current.
+# Needs two repository secrets: SUPABASE_URL and SUPABASE_ANON_KEY (Settings -> Secrets and variables -> Actions).
+name: Refresh landing data
+
+on:
+  schedule:
+    - cron: "11 5 * * *"      # every day, 06:11 Lagos time
+  workflow_dispatch: {}        # "Run workflow" button
+  workflow_run:
+    workflows: ["Monday event sweep"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: landing-data
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install headless browser
+        run: |
+          pip install playwright==1.47.0
+          python -m playwright install --with-deps chromium
+      - name: Build landing data
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: python scripts/build_landing_data.py
+      - name: Save if changed
+        run: |
+          git config user.name "naijaouting-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/landing.json
+          if git diff --cached --quiet; then
+            echo "No change today."
+          else
+            git commit -m "Refresh landing data"
+            git push
+          fi

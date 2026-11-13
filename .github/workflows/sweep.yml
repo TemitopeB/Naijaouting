@@ -1,0 +1,28 @@
+# Every Monday morning: collect new events from the sources in scripts/sources.json
+# and put them in the Review queue on the site. Nothing goes live until an admin approves it.
+# Needs two repository secrets: SUPABASE_URL and SUPABASE_SERVICE_KEY.
+name: Monday event sweep
+
+on:
+  schedule:
+    - cron: "37 6 * * 1"      # Mondays, 07:37 Lagos time
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Collect events into the Review queue
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          EVENTBRITE_TOKEN: ${{ secrets.EVENTBRITE_TOKEN }}
+        run: python scripts/sweep.py
