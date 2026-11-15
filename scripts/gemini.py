@@ -57,7 +57,7 @@ def _quota_info(raw):
     return "; ".join(bits) or err.get("message", "")[:200]
 
 
-def _call(method, path, body=None, tries=3, timeout=90):
+def _call(method, path, body=None, tries=3, timeout=45):
     data = json.dumps(body).encode() if body is not None else None
     for n in range(tries):
         req = urllib.request.Request(API + path, data=data, method=method,
@@ -77,6 +77,8 @@ def _call(method, path, body=None, tries=3, timeout=90):
             if e.code in (500, 503) and n < tries - 1:
                 time.sleep(10 * (n + 1))
                 continue
+            if e.code in (404, 500, 503):
+                raise SlowError(f"HTTP {e.code}: model not available right now")
             raise GeminiError(f"HTTP {e.code}: {raw[:300]}")
         except (urllib.error.URLError, TimeoutError, socket.timeout, ConnectionError) as e:
             if n < tries - 1 and not isinstance(e, (TimeoutError, socket.timeout)):

@@ -178,8 +178,13 @@ def main():
         try:
             text, srcs = gemini.ask(prompt, search=True)
         except (gemini.QuotaError, gemini.SlowError) as ex:
-            log(f"- {region} / {cats[0]}…: stopped, no model with free quota answered: {ex}")
-            report.append(f"| {region} | {cats[0]}… | out of quota | 0 |")
+            log(f"- {region} / {cats[0]}…: stopped: {ex}")
+            report.append(f"| {region} | {cats[0]}… | stopped | 0 |")
+            if gemini.QUOTA_LOG and all("Google Search" in q for q in gemini.QUOTA_LOG):
+                log("Google refused web search on every model. Searching with Gemini needs billing turned on "
+                    "for the Google AI Studio project (see README). Nothing was changed.")
+                summary("**Web search isn't allowed on this Gemini key's free tier.** Turn on billing for the "
+                        "Google AI Studio project to use the smart sweep; the news lead pre-fill keeps working for free.")
             break  # nothing left to try today
         except gemini.GeminiError as ex:
             log(f"- {region} / {cats[0]}…: Gemini error: {ex}")

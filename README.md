@@ -78,6 +78,8 @@ Only headlines and links are used, always credited to the outlet. Leads appear o
 ## Smart sweep (Gemini)
 `scripts/smart_sweep.py` uses the `GEMINI_API_KEY` secret. Gemini searches Google and returns events; an event is kept only if its source is one of the pages Google actually returned, its date is in the next 8 weeks, and it isn't already listed. A source on an official ticket site becomes the ticket link; any other source is shown in the description for you to check. Free tier: about 18 requests per Monday. Set `GEMINI_MODEL` (repository variable or env) to force a model.
 
+**Web search needs billing.** On Google's free tier Gemini can read text (used for the news lead pre-fill) but cannot search Google. To use the smart sweep, turn on billing for the Google AI Studio project: Gemini 3+ models include 5,000 free web searches a month, which covers the sweep (about 80 a month); the AI's reading costs well under $1 a month at this size. Set a budget alert in Google Cloud billing. Without billing, the smart sweep stops at once and the rest keeps working.
+
 ## Adding sweep sources
 Edit [`scripts/sources.json`](scripts/sources.json) on GitHub, set `"on": true`, save. Supported:
 - `page`: a website that publishes schema.org Event data (many organiser and venue sites do)
