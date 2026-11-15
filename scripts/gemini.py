@@ -10,6 +10,7 @@ Small helper for Google's Gemini API, used by the smart sweep and the news leads
 """
 import json
 import os
+import socket
 import re
 import time
 import urllib.error
@@ -37,6 +38,10 @@ class QuotaError(GeminiError):
     pass
 
 
+class SlowError(GeminiError):
+    """The model didn't answer in time (or the connection failed)."""
+
+
 def _quota_info(raw):
     """Short description of which Google limit was hit, from the error body."""
     try:
@@ -52,13 +57,13 @@ def _quota_info(raw):
     return "; ".join(bits) or err.get("message", "")[:200]
 
 
-def _call(method, path, body=None, tries=3):
+def _call(method, path, body=None, tries=3, timeout=90):
     data = json.dumps(body).encode() if body is not None else None
     for n in range(tries):
         req = urllib.request.Request(API + path, data=data, method=method,
                                      headers={"x-goog-api-key": key(), "Content-Type": "application/json"})
         try:
-            with urllib.request.urlopen(req, timeout=120) as r:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
                 return json.load(r)
         except urllib.error.HTTPError as e:
             raw = e.read().decode("utf-8", "replace")
@@ -73,11 +78,11 @@ def _call(method, path, body=None, tries=3):
                 time.sleep(10 * (n + 1))
                 continue
             raise GeminiError(f"HTTP {e.code}: {raw[:300]}")
-        except urllib.error.URLError as e:
-            if n < tries - 1:
+        except (urllib.error.URLError, TimeoutError, socket.timeout, ConnectionError) as e:
+            if n < tries - 1 and not isinstance(e, (TimeoutError, socket.timeout)):
                 time.sleep(5)
                 continue
-            raise GeminiError(str(e))
+            raise SlowError(f"no answer: {e}")
 
 
 def _ver(name):
@@ -141,7 +146,7 @@ def ask(prompt, search=False, temperature=0.2):
         try:
             j = _call("POST", f"/{m}:generateContent", body)
             break
-        except QuotaError as ex:
+        except (QuotaError, SlowError) as ex:
             _dead.add(m)
             QUOTA_LOG.append(f"{m.split('/')[-1]}{' + Google Search' if search else ''}: {ex}")
             continue

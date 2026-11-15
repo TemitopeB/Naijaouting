@@ -132,6 +132,7 @@ def main():
         return
 
     if args.probe:
+        log("Models to try: " + ", ".join(m.split("/")[-1] for m in gemini.candidates()))
         for m in gemini.candidates():
             for srch in (False, True):
                 try:
@@ -139,7 +140,7 @@ def main():
                     body = {"contents": [{"role": "user", "parts": [{"text": "Reply with OK."}]}]}
                     if srch:
                         body["tools"] = [{"google_search": {}}]
-                    gemini._call("POST", f"/{m}:generateContent", body, tries=1)
+                    gemini._call("POST", f"/{m}:generateContent", body, tries=1, timeout=45)
                     log(f"  {m.split('/')[-1]:<28} {'with Google Search' if srch else 'plain':<20} OK")
                 except gemini.GeminiError as ex:
                     log(f"  {m.split('/')[-1]:<28} {'with Google Search' if srch else 'plain':<20} {type(ex).__name__}: {str(ex)[:160]}")
@@ -176,8 +177,8 @@ def main():
                                cats=", ".join(cats), allcats=" | ".join(CATS))
         try:
             text, srcs = gemini.ask(prompt, search=True)
-        except gemini.QuotaError as ex:
-            log(f"- {region} / {cats[0]}…: stopped, out of free quota: {ex}")
+        except (gemini.QuotaError, gemini.SlowError) as ex:
+            log(f"- {region} / {cats[0]}…: stopped, no model with free quota answered: {ex}")
             report.append(f"| {region} | {cats[0]}… | out of quota | 0 |")
             break  # nothing left to try today
         except gemini.GeminiError as ex:
