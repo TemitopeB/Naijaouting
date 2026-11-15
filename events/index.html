@@ -1587,6 +1587,17 @@ html.app .hr .btn.p{height:40px!important;min-height:40px}
  .lay button::after{content:"";position:absolute;inset:-4px -2px}
  .hr .btn.p{height:40px!important;min-height:40px}
 }
+/* Map, Near me, Tourism and Explore: map first (centre), details on the right. Phones keep the map on top. */
+@media (min-width:901px){
+ .mvb{grid-template-columns:1fr minmax(360px,420px)}
+ .split{grid-template-columns:1fr minmax(380px,440px)}
+ .mvb>.mapbox,.split>.mapbox{order:-1}
+ html.app .rp,html.app .split .lp{border-right:0;border-left:1px solid var(--ln)}
+}
+@media (min-width:901px) and (max-width:1100px){
+ .mvb{grid-template-columns:1fr minmax(320px,360px)}
+ .split{grid-template-columns:1fr minmax(330px,380px)}
+}
 </style>
 </head>
 <body>
