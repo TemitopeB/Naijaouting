@@ -123,11 +123,27 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--max-calls", type=int, default=int(os.environ.get("SMART_MAX_CALLS", "18")))
+    ap.add_argument("--probe", action="store_true", help="one tiny request per model, to see which ones have free quota")
     args = ap.parse_args()
 
     if not os.environ.get("GEMINI_API_KEY"):
         log("GEMINI_API_KEY is not set: smart sweep skipped.")
         summary("## Smart sweep\n\nSkipped: add the `GEMINI_API_KEY` secret to turn it on.")
+        return
+
+    if args.probe:
+        for m in gemini.candidates():
+            for srch in (False, True):
+                try:
+                    gemini._model = m
+                    body = {"contents": [{"role": "user", "parts": [{"text": "Reply with OK."}]}]}
+                    if srch:
+                        body["tools"] = [{"google_search": {}}]
+                    gemini._call("POST", f"/{m}:generateContent", body, tries=1)
+                    log(f"  {m.split('/')[-1]:<28} {'with Google Search' if srch else 'plain':<20} OK")
+                except gemini.GeminiError as ex:
+                    log(f"  {m.split('/')[-1]:<28} {'with Google Search' if srch else 'plain':<20} {type(ex).__name__}: {str(ex)[:160]}")
+                time.sleep(4)
         return
 
     db = None
@@ -151,7 +167,7 @@ def main():
         for it in waiting:
             known.add(key(it))
 
-    log(f"Model: {gemini.model()}")
+    log("Models to try: " + ", ".join(m.split("/")[-1] for m in gemini.candidates()))
     now_iso = dt.datetime.now(dt.timezone.utc).isoformat()
     jobs = [(r, t) for t in THEMES for r in REGIONS][:args.max_calls]
     items, reasons, report = [], {}, ["| Region | Themes | Found | Kept |", "|---|---|---|---|"]
@@ -160,6 +176,10 @@ def main():
                                cats=", ".join(cats), allcats=" | ".join(CATS))
         try:
             text, srcs = gemini.ask(prompt, search=True)
+        except gemini.QuotaError as ex:
+            log(f"- {region} / {cats[0]}…: stopped, out of free quota: {ex}")
+            report.append(f"| {region} | {cats[0]}… | out of quota | 0 |")
+            break  # nothing left to try today
         except gemini.GeminiError as ex:
             log(f"- {region} / {cats[0]}…: Gemini error: {ex}")
             report.append(f"| {region} | {cats[0]}… | error | 0 |")
@@ -182,11 +202,15 @@ def main():
         if i < len(jobs) - 1:
             time.sleep(7)  # stay under the free tier's per-minute limit
 
+    for q in gemini.QUOTA_LOG:
+        log(f"Quota: {q}")
+    log(f"Model used: {gemini.model() if not gemini.QUOTA_LOG or len(gemini._dead) < len(gemini.candidates()) else 'none'}")
     log(f"\n{len(items)} new events for review. Skipped: " + ", ".join(f"{v} {k}" for k, v in sorted(reasons.items(), key=lambda x: -x[1])))
     for it in items[:60]:
         log(f"  {it['s']}  {it['city']:<14} {it['cat']:<22} {it['name'][:70]}  [{it['about'].split('Source: ')[-1][:40]}]")
     summary("## Smart sweep (Gemini)\n\n" + "\n".join(report) + f"\n\n**{len(items)} new events** added to the Review queue."
-            + ("\n\nSkipped: " + ", ".join(f"{v} {k}" for k, v in reasons.items()) if reasons else ""))
+            + ("\n\nSkipped: " + ", ".join(f"{v} {k}" for k, v in reasons.items()) if reasons else "")
+            + ("\n\nQuota notes:\n" + "\n".join("- " + q for q in gemini.QUOTA_LOG) if gemini.QUOTA_LOG else ""))
     if db and items:
         keep = [w for w in waiting if (w.get("s") or "") >= TODAY.isoformat()]
         db.put("submissions", "sweep", {"items": (keep + items)[-MAX_WAITING:]})

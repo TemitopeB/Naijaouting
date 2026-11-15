@@ -385,7 +385,12 @@ def main():
                 and l.get("published", "") >= (TODAY - dt.timedelta(days=30)).isoformat()]
         ids = {l["id"] for l in keep} | set(dismissed)
         fresh = [ld for ld in leads if ld["id"] not in ids]
-        fresh, dropped = enrich(fresh)
+        older = [l for l in keep if not l.get("ai")][:15]  # waiting leads Gemini hasn't seen yet
+        done, dropped = enrich(fresh + older)
+        ok = {l["id"] for l in done}
+        older_ids = {l["id"] for l in older}
+        keep = [l for l in keep if l["id"] not in older_ids or l["id"] in ok]
+        fresh = [l for l in done if l["id"] not in older_ids]
         if dropped:
             log(f"Gemini set aside {dropped} articles that aren't upcoming events.")
         for ld in fresh:

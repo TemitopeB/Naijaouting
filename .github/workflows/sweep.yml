@@ -37,6 +37,11 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           EVENTBRITE_TOKEN: ${{ secrets.EVENTBRITE_TOKEN }}
         run: python scripts/sweep.py
+      - name: Check which Gemini models the key can use (only when the scripts change)
+        if: github.event_name == 'push'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/smart_sweep.py --probe
       - name: Smart sweep (Gemini web search)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
