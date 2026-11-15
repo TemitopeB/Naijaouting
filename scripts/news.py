@@ -39,6 +39,7 @@ TODAY = NOW.date()
 
 sys.path.insert(0, str(ROOT / "scripts"))
 from sweep import CATS, guess_city, norm  # same category names and city list as the sweep
+import gemini
 
 # ---------------- ticker categories ----------------
 TOPICS = [
@@ -69,6 +70,7 @@ AHEAD = re.compile(r"\b(to hold|will hold|set to|set for|slated|scheduled|return
 PAST = re.compile(r"\b(held|ended|wraps? up|wrapped|recap|highlights|photos from|pictures from|stole the show|thrilled|"
                   r"concluded|was held|closes? with|last (week|weekend|night)|yesterday|winners? (list|emerge)|"
                   r"won|wins|emerged|named|crowned|bags|clinches|honou?red|dies|died|death|arrested|court|obituary|tribute|tracks|album|ep\b|single|music video|new song|lyrics|stream)\b", re.I)
+TEXTS = {}  # lead id -> article summary (used for Gemini, never saved)
 RULES = 2  # bump when the lead rules change; older saved leads are dropped
 MONTHS = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
 DATE1 = re.compile(r"\b(\d{1,2})(?:st|nd|rd|th)?(?:\s*(?:-|–|to|&|and)\s*\d{1,2}(?:st|nd|rd|th)?)?\s+(?:of\s+)?"
@@ -232,6 +234,7 @@ def lead_of(x, known_names):
     score = (2 if AHEAD.search(title) else 1 if AHEAD.search(text[:400]) else 0) + (2 if d else 0)
     if score < 2:
         return None
+    TEXTS[hashlib.sha1(x["link"].encode()).hexdigest()[:16]] = text[:700]
     nt = norm(title)
     listed = next((n for n in known_names if len(n) >= 8 and n in nt), "")
     return {
@@ -240,6 +243,63 @@ def lead_of(x, known_names):
         "published": x["date"].date().isoformat(), "date": d.isoformat() if d else "",
         "city": guess_city(head), "cat": guess_cat(head), "listed": bool(listed),
     }
+
+
+SITE_CATS = ["Music", "Arts & Culture", "Business", "Tech", "Fashion", "Faith", "Civic", "Sports", "Comedy",
+             "Nightlife & Parties", "Food & Drink", "Festivals & Carnivals", "Film & Theatre", "Careers & Education",
+             "Kids & Family", "Health & Fitness", "Expos & Trade Fairs", "Workshops & Classes", "Markets & Pop-ups",
+             "Gaming & Esports", "Books & Literature", "Charity & Volunteering", "Agriculture"]
+
+
+def enrich(leads):
+    """One Gemini request: clean each lead into event details, and flag articles that aren't upcoming events."""
+    if not leads or not os.environ.get("GEMINI_API_KEY"):
+        return leads, 0
+    batch = [{"id": l["id"], "headline": l["title"], "summary": TEXTS.get(l["id"], "")[:600], "published": l["published"]} for l in leads[:25]]
+    prompt = ("Today is " + TODAY.isoformat() + " in Lagos, Nigeria. Below are Nigerian news articles (headline and summary). "
+              "For each, decide if it announces a specific upcoming public event in Nigeria (concert, festival, conference, show, "
+              "exhibition, match, etc.) that has not happened yet. Use only the text given; never invent details.\n"
+              "Return ONLY a JSON array with one object per article: "
+              '{"id":"", "is_event":true|false, "name":"the event\'s own name", "date":"YYYY-MM-DD or empty", "end":"YYYY-MM-DD or empty", '
+              '"time":"", "venue":"", "city":"", "category":"one of: ' + " | ".join(SITE_CATS) + '", "price":"", "about":"one plain sentence in your own words"}\n\n'
+              + json.dumps(batch, ensure_ascii=False))
+    try:
+        text, _ = gemini.ask(prompt, search=False, temperature=0.1)
+    except gemini.GeminiError as ex:
+        log(f"Gemini pre-fill skipped: {ex}")
+        return leads, 0
+    rows = gemini.parse_json(text)
+    if not isinstance(rows, list):
+        log("Gemini pre-fill: answer wasn't a list; leads kept as they are.")
+        return leads, 0
+    by = {str(r.get("id")): r for r in rows if isinstance(r, dict)}
+    out, dropped = [], 0
+    for l in leads:
+        r = by.get(l["id"])
+        if not r:
+            out.append(l)
+            continue
+        if r.get("is_event") is False:
+            dropped += 1
+            continue
+        d = str(r.get("date") or "")[:10]
+        try:
+            if d and dt.date.fromisoformat(d) < TODAY:
+                dropped += 1
+                continue
+        except ValueError:
+            d = ""
+        e = str(r.get("end") or "")[:10]
+        cat = str(r.get("category") or "")
+        l.update({
+            "name": str(r.get("name") or "")[:160], "date": d or l.get("date", ""), "end": e if re.match(r"^\d{4}-\d\d-\d\d$", e) else "",
+            "time": str(r.get("time") or "")[:30], "venue": str(r.get("venue") or "")[:160],
+            "city": guess_city(str(r.get("city") or ""), str(r.get("venue") or ""), fallback=str(r.get("city") or "")) or l.get("city", ""),
+            "cat": cat if cat in SITE_CATS else l.get("cat", ""), "price": str(r.get("price") or "")[:60],
+            "about": str(r.get("about") or "")[:300], "ai": True,
+        })
+        out.append(l)
+    return out, dropped
 
 
 # ---------------- Supabase ----------------
@@ -324,7 +384,11 @@ def main():
                 and (not l.get("date") or l["date"] >= TODAY.isoformat())
                 and l.get("published", "") >= (TODAY - dt.timedelta(days=30)).isoformat()]
         ids = {l["id"] for l in keep} | set(dismissed)
-        for ld in leads:
+        fresh = [ld for ld in leads if ld["id"] not in ids]
+        fresh, dropped = enrich(fresh)
+        if dropped:
+            log(f"Gemini set aside {dropped} articles that aren't upcoming events.")
+        for ld in fresh:
             if ld["id"] not in ids:
                 ld["found"] = TODAY.isoformat()
                 ld["v"] = RULES

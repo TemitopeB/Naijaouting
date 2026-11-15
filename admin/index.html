@@ -29,6 +29,7 @@ body.wide{place-items:start center}body.wide .card{max-width:760px}
 .lead a.t{display:block;color:var(--ink);font-weight:600;text-decoration:none;line-height:1.35}.lead a.t:hover{color:var(--g)}
 .lead .m{font-size:13px;color:var(--mu);margin-top:4px}.lead .m b{color:var(--ink);font-weight:600}
 .lead .tag{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 8px;margin-left:6px;background:#FCEFD9;color:#9A5B0C}
+.lead .tag.ai{background:#E3F1EA;color:#0B6B4C}
 .lead .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .lead .row a,.lead .row button{height:36px;padding:0 14px;border-radius:999px;font:600 13.5px/1 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;display:inline-flex;align-items:center;cursor:pointer;text-decoration:none}
 .lead .row .go{background:var(--g);color:#fff;border:0}.lead .row .rd{background:#fff;color:var(--ink);border:1px solid var(--ln)}
@@ -56,7 +57,7 @@ body.wide{place-items:start center}body.wide .card{max-width:760px}
     <p class="sm">On the site, press <b>Review</b> at the top to see waiting events, including the ones the Monday sweep collected.</p>
     <div class="leads" id="leads" hidden>
       <h2>Possible events from the news</h2>
-      <p class="sm" style="margin-top:0">Found every morning in Nigerian news feeds. Open the article, check the details, then add the event. Dismiss anything that isn’t a real upcoming event.</p>
+      <p class="sm" style="margin-top:0">Found every morning in Nigerian news feeds, with details pre-filled by AI. Open the article, check the details, then add the event (the form opens already filled in). Dismiss anything that isn’t a real upcoming event.</p>
       <div id="lst"></div>
     </div>
   </section>
@@ -79,10 +80,11 @@ body.wide{place-items:start center}body.wide .card{max-width:760px}
       var it=(LD.items||[]).filter(function(l){return (LD.dismissed||[]).indexOf(l.id)<0});
       if(!it.length){$("#lst").innerHTML='<p class="empty">Nothing waiting. New leads appear here after the morning news run.</p>';return}
       $("#lst").innerHTML=it.map(function(l){
-        var meta=[l.date?"Event date: <b>"+esc(nice(l.date))+"</b>":"No date found",l.city?esc(l.city):"",l.cat?esc(l.cat):"",esc(l.source)+" · "+esc(nice(l.published))].filter(Boolean).join(" · ");
+        var meta=[l.date?"Event date: <b>"+esc(nice(l.date))+(l.end&&l.end!==l.date?" – "+esc(nice(l.end)):"")+"</b>":"No date found",l.venue?esc(l.venue):"",l.city?esc(l.city):"",l.cat?esc(l.cat):"",esc(l.source)+" · "+esc(nice(l.published))].filter(Boolean).join(" · ");
+        var pf={name:l.name||l.title,category:l.cat||null,city:l.city||null,venue:l.venue||null,start_date:l.date||null,end_date:l.end||null,time:l.time||null,price:l.price||null,description:l.about||null};
         return '<div class="lead" data-id="'+esc(l.id)+'"><a class="t" href="'+esc(l.link)+'" target="_blank" rel="noopener">'+esc(l.title)+'</a>'+
-          '<div class="m">'+meta+(l.listed?'<span class="tag">Maybe already listed</span>':'')+'</div>'+
-          '<div class="row"><a class="rd" href="'+esc(l.link)+'" target="_blank" rel="noopener">Read article</a><a class="go" href="/events/#add=1" target="_blank" rel="noopener">Add as event</a><button class="x" type="button" data-x="'+esc(l.id)+'">Dismiss</button></div></div>'}).join("");
+          '<div class="m">'+meta+(l.listed?'<span class="tag">Maybe already listed</span>':'')+(l.ai?'<span class="tag ai">Pre-filled by AI · check it</span>':'')+'</div>'+(l.name&&l.name!==l.title?'<div class="m">Event: <b>'+esc(l.name)+'</b>'+(l.about?' · '+esc(l.about):'')+'</div>':'')+
+          '<div class="row"><a class="rd" href="'+esc(l.link)+'" target="_blank" rel="noopener">Read article</a><a class="go" href="/events/#add=1&pf='+encodeURIComponent(JSON.stringify(pf))+'" target="_blank" rel="noopener">Add as event</a><button class="x" type="button" data-x="'+esc(l.id)+'">Dismiss</button></div></div>'}).join("");
     });
   }
   document.addEventListener("click",function(e){

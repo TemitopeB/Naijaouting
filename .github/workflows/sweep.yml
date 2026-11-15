@@ -1,28 +1,45 @@
-# Every Monday morning: collect new events from the sources in scripts/sources.json
-# and put them in the Review queue on the site. Nothing goes live until an admin approves it.
-# Needs two repository secrets: SUPABASE_URL and SUPABASE_SERVICE_KEY.
+# Every Monday morning: collect new events into the Review queue on the site.
+#  1. scripts/sweep.py      - organiser sites, calendar feeds and Eventbrite organisers in scripts/sources.json
+#  2. scripts/smart_sweep.py - Google Gemini searches the web for upcoming Nigerian events
+# Nothing goes live until an admin approves it.
+# Secrets: SUPABASE_URL, SUPABASE_SERVICE_KEY, GEMINI_API_KEY (and optionally EVENTBRITE_TOKEN).
 name: Monday event sweep
 
 on:
   schedule:
     - cron: "37 6 * * 1"      # Mondays, 07:37 Lagos time
   workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - "scripts/smart_sweep.py"
+      - "scripts/gemini.py"
 
 permissions:
   contents: read
 
+concurrency:
+  group: sweep
+  cancel-in-progress: false
+
 jobs:
   sweep:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Collect events into the Review queue
+      - name: Sources list (sites, feeds, Eventbrite)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           EVENTBRITE_TOKEN: ${{ secrets.EVENTBRITE_TOKEN }}
         run: python scripts/sweep.py
+      - name: Smart sweep (Gemini web search)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/smart_sweep.py

@@ -3944,7 +3944,7 @@ function deepLink(){let P;try{P=new URLSearchParams(((location.hash||"").replace
  if(P.get("free")==="1"){S.free=1;hit=true}
  const D1=P.get("d1"),D2=P.get("d2"),RX=/^\d{4}-\d\d-\d\d$/;if(D1&&RX.test(D1)){S.d1=D1;S.d2=D2&&RX.test(D2)&&D2>=D1?D2:"";S.when="date";if(!vw)S.view="events";hit=true}
  const q=P.get("q");if(q){S.q=q.slice(0,80);const qi=document.getElementById("q");if(qi)qi.value=S.q;hit=true}
- if(P.get("add")==="1"){setTimeout(()=>{try{openForm(null);$("#modal").hidden=false}catch(x){}},400);hit=true}
+ if(P.get("add")==="1"){const pf=P.get("pf");setTimeout(()=>{try{openForm(null);$("#modal").hidden=false;if(pf){const o=JSON.parse(pf);if(o&&typeof o==="object")ffApply(o)}}catch(x){}},400);hit=true}
  const e=P.get("e");if(e){const v=evFind(e);if(v){S.open=v.id;S.sel=v.id;hit=true}}
  return hit}
 addEventListener("hashchange",()=>{if(deepLink())render()});
