@@ -1,0 +1,26 @@
+{
+  "name": "NaijaOuting · What’s on in Nigeria",
+  "short_name": "NaijaOuting",
+  "description": "Concerts, parties, comedy, food and culture across Nigeria, checked and linked to the official ticket seller.",
+  "id": "/events/",
+  "start_url": "/events/?source=app",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#FBF7F1",
+  "theme_color": "#0B6B4C",
+  "lang": "en-NG",
+  "categories": ["entertainment", "lifestyle", "travel", "events"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Events this weekend", "short_name": "This weekend", "url": "/events/?source=app#v=events&when=wk", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Map", "url": "/events/?source=app#v=map", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Near me", "url": "/events/?source=app#v=near", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Add event", "url": "/events/?source=app#add=1", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

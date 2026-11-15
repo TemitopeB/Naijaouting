@@ -7,7 +7,15 @@
 <meta name="description" content="Find concerts, parties, festivals, comedy and more across Nigeria, checked and linked to the official ticket seller.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Inter:wght@400;500;600;700;800&display=swap">
-<link rel="icon" href="data:,">
+<link rel="icon" href="/icons/favicon-32.png" sizes="32x32">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#0B6B4C">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="NaijaOuting">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<script src="/js/pwa.js" defer></script>
 <style>
 :root{--bg:#FBF7F1;--sand:#F4EADB;--ink:#1F1A16;--mu:#6B625A;--mu2:#8F857B;--ln:#EADFCF;--ln2:#DCCDB7;--g:#0B6B4C;--g2:#095A40;--gs:#E3F1EA;--amb:#E8A13A;--ambs:#FCEFD9;--cor:#E5603F;--cors:#FBE3DB;
  --f:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;--max:1200px}
@@ -212,6 +220,10 @@ body>footer{margin-top:112px}
  .app{grid-template-columns:1fr;padding:34px 22px 0;border-radius:28px;gap:10px}.sto{flex-direction:column;padding-bottom:4px}.sb2{justify-content:flex-start}.ph{width:210px;justify-self:center}.ph img{height:260px}
  footer{border-radius:26px 26px 0 0;margin-top:56px}.fg{grid-template-columns:1fr 1fr}
 }
+.inst{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 18px}.inst span{font-size:13.5px;color:#D7EDE3}
+.inst .btn{background:#fff;color:var(--g)}.inst .btn:hover{background:#F4EADB}
+html.installed [data-install]{display:none!important}
+@media (max-width:760px){.inst .btn{width:100%}}
 </style>
 </head>
 <body>
@@ -282,8 +294,9 @@ body>footer{margin-top:112px}
 </div></section>
 
 <section id="app"><div class="w"><div class="app">
- <div><span class="kick">The NaijaOuting app</span><h2>Every event, in your pocket</h2><p>The full map, Near me and your saved events, on your phone.</p>
+ <div><span class="kick">The NaijaOuting app</span><h2>Every event, in your pocket</h2><p>Put NaijaOuting on your Home Screen: the full map, Near me and your saved events, opening full screen like any app. Store versions are coming.</p>
   <ul><li>Near me</li><li>Save events</li><li>Directions in one tap</li></ul>
+  <div class="inst"><button class="btn amb" type="button" data-install data-install-always><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7M9 11l3 3 3-3"/></svg>Install the app, free</button><span>Works on Android and iPhone · no app store needed</span></div>
   <div class="sto"><span class="sb2" aria-label="App Store, coming soon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.8-3-.8C6.9 7.4 5.4 8.3 4.6 9.8c-1.7 2.9-.4 7.2 1.2 9.5.8 1.1 1.7 2.4 2.9 2.4s1.6-.8 3-.8 1.8.8 3 .7c1.3 0 2.1-1.2 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7 0 0-2.4-.9-2.4-4zM14.2 5.8c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.7-1.3z" fill="currentColor" stroke="none"/></svg><i><small>COMING SOON</small><b>App Store</b></i></span><span class="sb2" aria-label="Google Play, coming soon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 3.2v17.6c0 .4.4.6.7.4l15-8.8a.5.5 0 0 0 0-.8l-15-8.8c-.3-.2-.7 0-.7.4z"/></svg><i><small>COMING SOON</small><b>Google Play</b></i></span></div></div>
  <div class="ph"><img src="/img/app-map.jpg" alt="The NaijaOuting app showing the events map of Nigeria"></div>
 </div></div></section>

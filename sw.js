@@ -1,0 +1,48 @@
+/*
+ * NaijaOuting app helper (service worker).
+ * - Pages and data: always try the internet first, so people see the latest events;
+ *   fall back to the last saved copy when offline.
+ * - Pictures and libraries: saved after the first visit, so the app opens fast.
+ * - The database (Supabase) and other websites are never cached here.
+ * Change VERSION to make every phone refresh its saved copy.
+ */
+const VERSION = "v1";
+const SHELL = `shell-${VERSION}`, MEDIA = `media-${VERSION}`;
+const START = ["/", "/events/", "/js/supabase.js", "/js/config.js", "/js/shim.js", "/js/pwa.js",
+  "/data/landing.json", "/manifest.webmanifest", "/icons/icon-192.png"];
+
+self.addEventListener("install", e => {
+  e.waitUntil(caches.open(SHELL).then(c => c.addAll(START)).catch(() => {}).then(() => self.skipWaiting()));
+});
+self.addEventListener("activate", e => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => ![SHELL, MEDIA].includes(k)).map(k => caches.delete(k))))
+    .then(() => self.clients.claim()));
+});
+
+function networkFirst(req) {
+  return fetch(req).then(res => {
+    if (res && res.ok && res.type === "basic") { const copy = res.clone(); caches.open(SHELL).then(c => c.put(req, copy)); }
+    return res;
+  }).catch(() => caches.match(req, { ignoreSearch: true }).then(r => r ||
+    (req.mode === "navigate" ? caches.match("/events/") : Response.error())));
+}
+function cacheFirst(req) {
+  return caches.match(req).then(hit => hit || fetch(req).then(res => {
+    if (res && res.ok) { const copy = res.clone(); caches.open(MEDIA).then(c => c.put(req, copy)); }
+    return res;
+  }));
+}
+
+self.addEventListener("fetch", e => {
+  const req = e.request;
+  if (req.method !== "GET") return;
+  const url = new URL(req.url);
+  if (url.origin !== location.origin) {
+    // Google Fonts can be kept; everything else from other sites (database, maps, tickets) goes straight through
+    if (/fonts\.(googleapis|gstatic)\.com$/.test(url.hostname)) e.respondWith(cacheFirst(req));
+    return;
+  }
+  if (url.pathname.startsWith("/admin")) return;
+  if (/^\/(_blob|events\/flyers|img|covers|icons|events\/lib)\//.test(url.pathname)) { e.respondWith(cacheFirst(req)); return; }
+  e.respondWith(networkFirst(req));
+});
