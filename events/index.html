@@ -1607,6 +1607,8 @@ html.app .hr .btn.p{height:40px!important;min-height:40px}
  .split{grid-template-columns:1fr minmax(330px,380px)}
 }
 html.installed [data-install]{display:none!important}
+.revpill{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:9000;height:44px;padding:0 20px;border:0;border-radius:999px;background:#1F1A16;color:#fff;font:600 14px/1 Inter,system-ui,sans-serif;box-shadow:0 14px 30px -12px rgba(0,0,0,.5);cursor:pointer}
+.revpill:hover{background:#000}html.app .revpill{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 </style>
 </head>
 <body>
@@ -1642,7 +1644,7 @@ html.installed [data-install]{display:none!important}
 </div>
 <div id="scrim" class="scrim" hidden data-a="close"></div>
 <div id="drawer" class="dr" hidden role="dialog" aria-label="Event details"></div>
-<div id="rev" class="md" hidden role="dialog" aria-modal="true" aria-labelledby="revttl"><div class="box revbox"><div class="revhd"><h2 id="revttl">Review queue</h2><button class="btn g revx" type="button" data-a="closer" aria-label="Close review queue" title="Close">✕</button></div><div id="revlist" style="display:flex;flex-direction:column;gap:10px"></div><div class="act" style="margin:0"><button class="btn" data-a="closer">Close</button></div></div></div>
+<button id="revpill" class="revpill" type="button" data-a="revback" hidden>← Back to review</button><div id="rev" class="md" hidden role="dialog" aria-modal="true" aria-labelledby="revttl"><div class="box revbox"><div class="revhd"><h2 id="revttl">Review queue</h2><button class="btn g revx" type="button" data-a="closer" aria-label="Close review queue" title="Close">✕</button></div><div id="revlist" style="display:flex;flex-direction:column;gap:10px"></div><div class="act" style="margin:0"><button class="btn" data-a="closer">Close</button></div></div></div>
 <div id="modal" class="md" hidden><form class="box" id="form">
  <h2>Add event</h2><label class="hp" aria-hidden="true">Leave this empty<input name="hp_check" tabindex="-1" autocomplete="off"></label>
  <div class="ffill" id="ffw"><img class="ffthumb" id="ffthumb" alt="" hidden><div class="ffil"><b>Have a flyer?</b><span class="sm" id="ffst">Upload it and we’ll fill in the details for you. Check them before sending.</span></div><label class="btn p ffb"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Fill from flyer<input type="file" id="ffill" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden></label></div>
@@ -3210,7 +3212,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="mz"){S.mz=v;S.zg="";S.sel=null}
  else if(a==="zin"){const c=Object.keys(CITY).map(k=>[k,list().filter(x=>x.city===k).length]).sort((p,q)=>q[1]-p[1])[0];if(c&&c[1])S.city=c[0]}
  else if(a==="sel"){S.open=id;S.sel=id;const D=$("#drawer");if(D)D.scrollTop=0}
- else if(a==="unsel")S.sel=null;else if(a==="open")S.open=id;else if(a==="close"){S.open=null;S.place=null;S.sel=null}
+ else if(a==="unsel")S.sel=null;else if(a==="open")S.open=id;else if(a==="close"){S.open=null;S.place=null;S.sel=null;if(REVBACK)setTimeout(revBack,0)}
  else if(a==="mo"){if(S.calMode!=="month"){S.calMode="month";S.y=NOW.getFullYear();S.m=NOW.getMonth();if(+v<0)v=0}S.m+=+v;if(S.m<0){S.m=11;S.y--}if(S.m>11){S.m=0;S.y++}}else if(a==="mot"){S.calMode="weeks";S.y=NOW.getFullYear();S.m=NOW.getMonth();S.cd=TODAY}else if(a==="cday"){S.cd=v}else if(a==="catmore"){S.catOpen=S.catOpen?0:1}
  else if(a==="nc")S.nc=v;
  else if(a==="flv"){flvOpen(id);return}else if(a==="flvclose"){flvClose();return}else if(a==="flvbg"){if(e.target.id!=="flvimg")flvClose();return}else if(a==="flvzoom"){e.target.classList.toggle("z");return}else if(a==="flvsave"){flvSave();return}else if(a==="flvshare"){const i=FLV&&FLV.id;flvClose();if(i)setTimeout(()=>shOpen(i),60);return}
@@ -3234,22 +3236,23 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="pick"){const L=all();if(L.length){S.open=rnd(L).id}}
  else if(a==="wkall"){S.view="events";S.when="wk"}
  else if(a==="tkp"){tkGo(-1);return}else if(a==="tkn"){tkGo(1);return}else if(a==="tkpause"){tkPause(!TPAUSE);return}
- else if(a==="review"){$("#rev").hidden=false;renderRev();return}else if(a==="closer"){$("#rev").hidden=true;return}
+ else if(a==="review"){$("#rev").hidden=false;renderRev();return}else if(a==="closer"){$("#rev").hidden=true;REVBACK=false;$("#revpill").hidden=true;return}
+ else if(a==="revedit"){revEdit(id);return}else if(a==="revback"){S.open=null;S.place=null;REVEDIT=null;["#modal","#ff","#imp"].forEach(s=>$(s).hidden=true);render();revBack();return}
  else if(a==="approve"||a==="reject"||a==="dismiss"){moderate(a,id);return}else if(a==="mdone"){modMsg(id);return}
  else if(a==="submit"){openForm(null);return}
  else if(a==="slay"){SET.layout=v;saveSet();applyLayout();setView();render();return}
  else if(a==="aedit"){openForm(id);return}else if(a==="adel"){if(t.dataset.c){adminDel(id)}else{t.dataset.c=1;t.textContent="Tap again to remove";t.style.color="var(--hot)";t.style.borderColor="var(--hot)"}return}
  else if(a==="dupask"){DUPS.cf[v]=1;renderRev();return}else if(a==="dupcancel"){delete DUPS.cf[v];renderRev();return}else if(a==="dupkeep"){dupKeep(v);return}else if(a==="dupdiff"){dupDiff(v.split(","));return}
  else if(a==="arest"){if(DB)DB.doc("overrides/"+v).delete().then(()=>toast("Restored.")).catch(()=>toast("That didn’t work."));return}
- else if(a==="ffopen"){$("#rev").hidden=true;ffOpen();return}else if(a==="ffclose"){$("#ff").hidden=true;return}else if(a==="ffcopy"){ffCopy(v);return}else if(a==="ffsend"){ffSend();return}
+ else if(a==="ffopen"){revLeave();ffOpen();return}else if(a==="ffclose"){$("#ff").hidden=true;revBack();return}else if(a==="ffcopy"){ffCopy(v);return}else if(a==="ffsend"){ffSend();return}
  else if(a==="airun"){aiRun();return}else if(a==="aistop"){if(AI.ctl)AI.ctl.abort();return}
- else if(a==="impopen"){$("#rev").hidden=true;impOpen();return}else if(a==="impclose"){$("#imp").hidden=true;return}else if(a==="imppub"){impPublish();return}else if(a==="imptpl"){impTemplate();return}else if(a==="closem"){$("#modal").hidden=true;return}
+ else if(a==="impopen"){revLeave();impOpen();return}else if(a==="impclose"){$("#imp").hidden=true;revBack();return}else if(a==="imppub"){impPublish();return}else if(a==="imptpl"){impTemplate();return}else if(a==="closem"){$("#modal").hidden=true;REVEDIT=null;revBack();return}
  else if(a==="evlay"){EVLAY=v==="list"?"list":"grid";try{localStorage.setItem("ne_evlay",EVLAY)}catch(x){}}
  else if(a==="fsopen"){S.fs=1}else if(a==="fsclose"){S.fs=0}
  else if(a==="evshare"){shOpen(id);return}
  else if(a==="shclose"){shClose();return}else if(a==="shcopy"){shCopy();return}else if(a==="shpic"){shPic(v);return}else if(a==="shmore"){shMore();return}else if(a==="shqr"){shQr();return}else if(a==="shto"){setTimeout(shClose,400);return}
  else if(a==="trip"){togTrip(id)}else if(a==="rmtrip"){togTrip(id,1)}else if(a==="cleartrip"){TRIP=[];saveTrip()}else if(a==="tripshare"){tripShare();return}else if(a==="tripcsv"){tripCsv();return}
- else if(a==="exp"){S.st=v}else if(a==="corr"){openCorr(id);return}else if(a==="vsave"){vSave(id);return}else if(a==="vopen"){$("#rev").hidden=true;S.open=id;render();return}else if(a==="strep"){stReport(id,v);return}else if(a==="mchk"){markChecked(id);return}else if(a==="ast"){const vv=all().find(x=>x.id===id);if(vv){const n=$("#stnote");setStatusName(vv.name,v,n?n.value.trim():"")}return}else if(a==="stapply"){const c=CORR.find(x=>x.sid===id);if(c)setStatusName(c.name,c.st,"").then(ok=>{if(ok)moderate("dismiss",id)});return}else if(a==="closec"){$("#cm").hidden=true;return}
+ else if(a==="exp"){S.st=v}else if(a==="corr"){openCorr(id);return}else if(a==="vsave"){vSave(id);return}else if(a==="vopen"){revLeave();S.open=id;render();return}else if(a==="strep"){stReport(id,v);return}else if(a==="mchk"){markChecked(id);return}else if(a==="ast"){const vv=all().find(x=>x.id===id);if(vv){const n=$("#stnote");setStatusName(vv.name,v,n?n.value.trim():"")}return}else if(a==="stapply"){const c=CORR.find(x=>x.sid===id);if(c)setStatusName(c.name,c.st,"").then(ok=>{if(ok)moderate("dismiss",id)});return}else if(a==="closec"){$("#cm").hidden=true;return}
  else if(a==="qa"){qAns(+v)}else if(a==="qn"){qNext()}else if(a==="qr"){qStart(v)}else if(a==="qquit"){qQuit()}else if(a==="qshare"){qShare();return}
  else return;
  render()});
@@ -3288,7 +3291,7 @@ document.addEventListener("change",e=>{if(e.target.dataset.chk){const c=CHK[e.ta
  if(a==="shome"){SET.home=e.target.value;S.city=SET.home;saveSet();setView();render();return}else if(a==="narea"){const f=FLAT_A[+e.target.value];if(!f||e.target.value==="")return;setNear({name:f.name,lat:f.lat,lon:f.lon,src:"area"});N.chg=0;NQ=""}else if(a==="tbase"){T.base=e.target.value;try{localStorage.setItem("ne_base",T.base)}catch(x){}}else if(a==="tzone")T.zone=e.target.value;else if(a==="citysel"){S.city=e.target.value;S.sel=null}else if(a==="catsel")S.cat=e.target.value;else if(a==="whensel")S.when=e.target.value;else if(a==="d1"){S.d1=e.target.value;if(S.d1&&S.d2&&S.d2<S.d1)S.d2="";if(!S.d1&&S.d2){S.d1=S.d2;S.d2=""}S.when=S.d1?"date":"up";S.dpo=S.d1?S.dpo:1}else if(a==="d2"){S.d2=e.target.value;if(S.d2&&!S.d1)S.d1=S.d2<TODAY?S.d2:TODAY;S.when=S.d1?"date":"up"}else if(a==="statesel")S.st=e.target.value||null;else return;render()});
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.matches&&e.target.matches("input[data-vin]")){e.preventDefault();vSave(e.target.dataset.vin);return}if(S.view==="quiz"&&Q.list&&!Q.fin&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!(e.target.matches&&e.target.matches("input,textarea,select,[contenteditable]"))){const k="1234".indexOf(e.key)>-1?"1234".indexOf(e.key):"abcd".indexOf(String(e.key).toLowerCase());if(e.key.length===1&&k>-1&&Q.picks[Q.i]===undefined){e.preventDefault();qAns(k);render();return}if(e.key==="Enter"&&Q.picks[Q.i]!==undefined&&!(e.target.matches&&e.target.matches("button,a"))){e.preventDefault();qNext();render();return}}
 if((e.key==="Enter"||e.key===" ")&&e.target.matches("g[data-a],div[data-a]")){e.preventDefault();e.target.dispatchEvent(new MouseEvent("click",{bubbles:true}))}
- if(e.key==="Escape"){const dd=document.querySelector(".cdd.open");if(dd){dd.classList.remove("open");const b=dd.querySelector(".cddb");if(b){b.setAttribute("aria-expanded","false");b.focus()}return}S.open=null;S.place=null;["#modal","#cm","#rev","#setm","#moresh","#imp"].forEach(s=>$(s).hidden=true);render()}});
+ if(e.key==="Escape"){const dd=document.querySelector(".cdd.open");if(dd){dd.classList.remove("open");const b=dd.querySelector(".cddb");if(b){b.setAttribute("aria-expanded","false");b.focus()}return}const fromRev=REVBACK&&$("#rev").hidden;S.open=null;S.place=null;REVEDIT=null;["#modal","#cm","#rev","#setm","#moresh","#imp"].forEach(s=>$(s).hidden=true);render();if(fromRev)revBack();else{REVBACK=false;$("#revpill").hidden=true}}});
 let qT;$("#q").addEventListener("input",e=>{clearTimeout(qT);qT=setTimeout(()=>{S.q=e.target.value;if(S.q&&S.view!=="news"&&S.view!=="map"&&S.view!=="tour"&&S.view!=="near")S.view="events";render()},150)});
 /* desktop: the search pill lives inside the page's filter bar (map + events); the news ticker takes the top row */
 const QL=$("#q").closest(".search"),QH=QL.parentNode;
@@ -3319,12 +3322,13 @@ $("#form").addEventListener("submit",async e=>{e.preventDefault();const F=e.targ
   if(!eid&&!ADMIN&&!(await spamLeft("submissions"))){btn.disabled=false;return}
   let upImg="";if(file&&ASSETS){if(!rlLeft("up")){toast("You’ve uploaded a few flyers in the last hour. Sending without the picture.")}else{try{const u=await ASSETS.upload(await flyClean(file),{type:"image/jpeg"});rlHit("up");d.img=upImg="/_blob/"+u.id}catch(x){toast((x&&x.msg)||"The flyer didn’t upload. Sending without it.")}}}
   if(eid){await saveEdit(eid,d);toast("Saved. The change is live.")}
-  else if(ADMIN&&DB){d.rev=1;d.at=new Date().toISOString();await DB.collection("events").add(d);toast("Published. It is now on the map.")}
+  else if(ADMIN&&DB){d.rev=1;d.at=new Date().toISOString();await DB.collection("events").add(d);
+   if(REVEDIT){try{await revDrop(REVEDIT)}catch(x){}REVEDIT=null;toast("Approved and published. It is now on the map.")}else toast("Published. It is now on the map.")}
   else{const sent=await sendItem("submissions",Object.assign({},d));
    if(sent)toast("Sent for review. It will appear on the map once approved.");
    else if(sent===null){await blobDel(upImg);btn.disabled=false;return}
    else{const v=Object.assign({id:"l"+SUB.length,src:0,pend:1},d,{about:"Saved on this device. Waiting for review."});SUB.push(v);try{localStorage.setItem("ne_sub",JSON.stringify(SUB))}catch(x){}S.when="all";S.open=v.id;toast("Saved on this device as Pending review.")}}
-  F.reset();$("#modal").hidden=true;render()
+  F.reset();$("#modal").hidden=true;render();revBack()
  }catch(x){toast("That didn’t save. Check you have editor access and try again.")}finally{btn.disabled=false}});
 document.addEventListener("submit",async e=>{if(e.target.id!=="ctform")return;e.preventDefault();const f=new FormData(e.target),er=$("#ct-err");if(f.get("hp_check")){e.target.reset();toast("Message sent. We’ll reply as soon as we can.");return}
  const msg=(f.get("msg")||"").trim(),reply=(f.get("reply")||"").trim();
@@ -3338,9 +3342,17 @@ $("#cform").addEventListener("submit",async e=>{e.preventDefault();const f=new F
  if(ok===null)return;toast(ok?"Thanks. Your correction was sent for review.":"We couldn’t reach the review queue from here. Please tell the organiser directly.");e.target.reset();$("#cm").hidden=true});
 function revCount(){const b=$("#revbtn"),n=PEND.length+CORR.length+MSG.length+(ADMIN?siteDupGroups().length:0);b.hidden=false;b.setAttribute("aria-label","Review queue"+(n?", "+n+" waiting":""));b.title="Review queue";
  b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13h4l2 3h4l2-3h4"/><path d="M5.5 5h13L21 13v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-5z"/></svg><span class="rl">Review</span>'+(n?'<i class="rb">'+(n>99?"99+":n)+'</i>':"")}
+/* Review queue stays your home base: anything opened from it brings you back to it */
+let REVBACK=false,REVEDIT=null;
+function revLeave(){if(!$("#rev").hidden){REVBACK=true;const p=$("#revpill");if(p)p.hidden=false}$("#rev").hidden=true}
+function revBack(){const p=$("#revpill");if(p)p.hidden=true;if(REVBACK&&ADMIN){REVBACK=false;$("#rev").hidden=false;renderRev()}else REVBACK=false}
+async function revDrop(sid){const v=PEND.find(x=>x.sid===sid);if(!v||!DB)return;const ref=DB.doc("submissions/"+v.uid),sn=await ref.get(),it=(sn.exists&&sn.data().items||[]).filter(x=>x.iid!==v.iid);await ref.set({items:it})}
+function revEdit(sid){const v=PEND.find(x=>x.sid===sid);if(!v)return;revLeave();openForm(null);REVEDIT=sid;const E=$("#form").elements,set=(k,val)=>{if(E[k]&&val!=null&&val!=="")E[k].value=val};
+ set("name",v.name);if(CAT[v.cat])E.cat.value=v.cat;if(CITY[v.city])E.city.value=v.city;set("venue",v.venue);set("s",v.s);if(v.e&&v.e!==v.s)set("e",v.e);set("time",v.time);if(v.fee&&v.fee!==SEE)set("fee",v.fee);set("about",v.about);set("link",v.link);set("img",v.img);
+ $("#form h2").textContent="Check and approve";$("#fbtn").textContent="Approve and publish"}
 function renderRev(){const hid=Object.values(OVR).filter(o=>o.hide);$("#revlist").innerHTML='<div class="otools"><div><b>Add events</b><span class="sm">Publish straight to the site. Only you see these tools.</span></div><div class="act" style="margin:0"><button class="btn p" data-a="ffopen">Find flyers</button><button class="btn" data-a="impopen">Import events</button><button class="btn" data-a="submit">Add one event</button></div></div>'+dupSiteHtml()+
  (hid.length?'<div class="h3" style="margin:12px 0 0">Removed events</div>'+hid.map(o=>'<div class="rv"><b>'+esc(o.name)+'</b><div class="act" style="margin:6px 0 0"><button class="btn" data-a="arest" data-v="'+esc(o.oid)+'">Restore</button></div></div>').join(""):"")+
- '<div class="h3" style="margin:12px 0 0">Event submissions</div>'+(PEND.length?PEND.map(v=>'<div class="rv">'+(safeImg(v.img)?'<img class="rvimg" src="'+esc(safeImg(v.img))+'" alt="Submitted flyer" loading="lazy">':'')+'<b>'+esc(v.name)+'</b><span class="sm">'+esc(v.cat)+" · "+esc(v.city)+" · "+fd(v.s,v.e)+'</span><span class="sm">'+esc(v.venue||"No venue given")+(v.link?" · "+esc(v.link):"")+'</span><div class="act" style="margin:6px 0 0"><button class="btn p" data-a="approve" data-id="'+esc(v.sid)+'">Approve</button><button class="btn" data-a="reject" data-id="'+esc(v.sid)+'">Reject</button></div><span class="sm">Not public until you approve it.</span></div>').join(""):'<p class="sm">None waiting.</p>')+
+ '<div class="h3" style="margin:12px 0 0">Event submissions</div>'+(PEND.length?PEND.map(v=>'<div class="rv">'+(safeImg(v.img)?'<img class="rvimg" src="'+esc(safeImg(v.img))+'" alt="Submitted flyer" loading="lazy">':'')+'<b>'+esc(v.name)+'</b><span class="sm">'+esc(v.cat)+" · "+esc(v.city)+" · "+fd(v.s,v.e)+'</span><span class="sm">'+esc(v.venue||"No venue given")+(v.link?" · "+esc(v.link):"")+'</span><div class="act" style="margin:6px 0 0"><button class="btn p" data-a="approve" data-id="'+esc(v.sid)+'">Approve</button><button class="btn" data-a="revedit" data-id="'+esc(v.sid)+'">Edit first</button><button class="btn" data-a="reject" data-id="'+esc(v.sid)+'">Reject</button></div><span class="sm">Not public until you approve it.</span></div>').join(""):'<p class="sm">None waiting.</p>')+
  '<div class="h3" style="margin:12px 0 0">Corrections</div>'+(CORR.length?CORR.map(c=>'<div class="rv"><b>'+esc(c.name)+'</b><span class="sm">'+esc(c.note)+(c.kind==="status"?" · reported by a visitor, check before applying":"")+'</span><span class="sm">'+esc(c.contact||"No contact given")+'</span><div class="act" style="margin:6px 0 0">'+(c.kind==="status"&&STX[c.st]?'<button class="btn p" data-a="stapply" data-id="'+esc(c.sid)+'">Mark as '+STX[c.st][0].toLowerCase()+'</button>':"")+'<button class="btn" data-a="dismiss" data-id="'+esc(c.sid)+'">Mark done</button></div></div>').join(""):'<p class="sm">None waiting.</p>')}
 const _renderRev=renderRev;renderRev=function(){const keep={};document.querySelectorAll("#revlist [data-vin]").forEach(i=>{if(i.value)keep[i.dataset.vin]=i.value});_renderRev();
  const tbc=all().filter(v=>!v.venue&&/^[br]/.test(v.id)&&!v.pend).sort((a,b)=>a.s<b.s?-1:a.s>b.s?1:0);
@@ -3514,10 +3526,10 @@ async function moderate(a,id){const isC=a==="dismiss",v=(isC?CORR:PEND).find(x=>
 /* ---------- owner tools: add, edit, remove, bulk import ---------- */
 let ASSETS=null;const IMP={rows:[],files:{},busy:0};
 const fe=n=>$("#form").elements.namedItem(n);
-function openForm(id){const F=$("#form");F.reset();const v=id?all().find(x=>x.id===id):null;fe("eid").value=v?id:"";
+function openForm(id){const F=$("#form");F.reset();REVEDIT=null;const v=id?all().find(x=>x.id===id):null;fe("eid").value=v?id:"";
  if(v){fe("name").value=v.name;fe("cat").value=v.cat;if(CITY[v.city])fe("city").value=v.city;fe("venue").value=v.venue||"";fe("s").value=v.s;fe("e").value=v.e&&v.e!==v.s?v.e:"";fe("time").value=v.time||"";fe("fee").value=v.fee&&v.fee!==SEE?v.fee:"";fe("about").value=v.about||"";fe("link").value=v.link||"";fe("img").value=v.img||"";fe("ig").value=v.ig&&v.ig[1]||""}
  $("#form h2").textContent=v?"Edit event":ADMIN?"Add an event":"Add event";$("#fbtn").textContent=v?"Save changes":ADMIN&&DB?"Publish now":"Send for review";
- $("#form .fnote").hidden=!!(ADMIN&&DB);$("#ffw").hidden=!!v;$("#ffst").textContent=FFDEF;$("#ffthumb").hidden=true;F.querySelectorAll(".af").forEach(x=>x.classList.remove("af"));$("#form .fup").hidden=!ASSETS;$("#rev").hidden=true;$("#modal").hidden=false}
+ $("#form .fnote").hidden=!!(ADMIN&&DB);$("#ffw").hidden=!!v;$("#ffst").textContent=FFDEF;$("#ffthumb").hidden=true;F.querySelectorAll(".af").forEach(x=>x.classList.remove("af"));$("#form .fup").hidden=!ASSETS;revLeave();$("#modal").hidden=false}
 
 /* ---------- flyer auto-fill: read the flyer with Claude and fill the form ---------- */
 const FFDEF="Upload it and we’ll fill in the details for you. Check them before sending.";
