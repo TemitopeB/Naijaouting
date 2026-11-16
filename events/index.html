@@ -1621,6 +1621,15 @@ html.installed [data-install]{display:none!important}
 .dr .xbar .x{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(10,16,13,.72)}
 .dr{will-change:transform;contain:layout paint;overscroll-behavior:contain}
 .hero .fbg{will-change:transform;transform:translateZ(0)}
+/* speed: decorative animations that never stop now use only cheap effects (moving/scaling/fading), and stay still inside the details panel */
+.tk-bar{width:100%;transform-origin:0 50%;transform:scaleX(0)}
+@keyframes tb{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.onb::after{animation-name:lvs2}
+@keyframes lvs2{0%{transform:translateX(0)}55%,100%{transform:translateX(345%)}}
+.pulse{position:relative;box-shadow:none;animation:none}
+.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(255,255,255,.7);animation:lvr 1.8s cubic-bezier(.2,.6,.3,1) infinite}
+.dr .onb::after,.dr .onb i::before,.dr .onb i::after,.dr .lvd::after{animation:none}
+@media (prefers-reduced-motion:reduce){.onb::after,.onb i::before,.onb i::after,.lvd::after,.pulse::after,.tk-bar.run{animation:none}}
 </style>
 </head>
 <body>
