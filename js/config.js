@@ -7,5 +7,8 @@
  */
 window.NO_CONFIG = {
   supabaseUrl: "https://fcdebtyopthaikonnfsd.supabase.co",
-  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZjZGVidHlvcHRoYWlrb25uZnNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ1NDQyMDYsImV4cCI6MjExMDEyMDIwNn0.FASYXyzNWljlkuMo5T-DBZcx-jiR6Bv-fSi00x62SJQ"
+  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZjZGVidHlvcHRoYWlrb25uZnNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ1NDQyMDYsImV4cCI6MjExMDEyMDIwNn0.FASYXyzNWljlkuMo5T-DBZcx-jiR6Bv-fSi00x62SJQ",
+  /* Visitor sign-in. Leave false until the setup in README ("Visitor accounts") is done;
+     until then only admins see Sign in, so you can test it first. */
+  accounts: false
 };

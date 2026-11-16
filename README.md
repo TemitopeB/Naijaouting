@@ -65,11 +65,29 @@ Then **Actions** tab → enable workflows if asked. Test each with **Run workflo
 |---|---|---|
 | Every morning, 06:23 Lagos | **News and event leads** | Refreshes the news ticker (`data/news.json`) from Nigerian news feeds, and lists articles that look like upcoming event announcements on `/admin/` as leads. |
 | Every morning, 06:11 Lagos | **Refresh landing data** | Rebuilds `data/landing.json` from the site + database, so landing numbers stay current. |
+| Every morning, 07:41 Lagos | **Event reminders** | Emails signed-in visitors about saved events that start tomorrow (needs the email secrets). |
 | Mondays, 07:37 Lagos | **Monday event sweep** | Reads the sources in `scripts/sources.json`, then the **smart sweep** has Google Gemini search the web for upcoming Nigerian events (next 8 weeks, 6 regions × 3 themes). New events go to the **Review queue**; each shows where it was found. |
 | Any time | Visitors | "Add event" and corrections go to the Review queue. |
 | Any time | You | Approve, edit or hide events on the site after signing in at `/admin/`. Approved events go live instantly. |
 
 Nothing from the sweep or from visitors goes live until an admin approves it.
+
+## Visitor accounts (sign in with Google or an email code)
+Optional for visitors. Signing in gives them saved events, tourism list and trip on every device, an email reminder the day before a saved event, and **Your account → My submissions** (waiting / approved / not approved). Anything saved or sent in as a guest moves into the account. Code: `js/account.js`, rules: `supabase/accounts.sql`, reminders: `scripts/reminders.py`.
+
+Until it's switched on, only admins see **Sign in** (so you can test with your own email). Setup, once:
+
+1. **Database rules.** Supabase → SQL Editor → New query → paste [`supabase/accounts.sql`](supabase/accounts.sql) → Run.
+2. **Website address.** Supabase → Authentication → URL Configuration: Site URL `https://naijaouting-ng.vercel.app`; add Redirect URL `https://naijaouting-ng.vercel.app/**`.
+3. **Email service (needed for codes and reminders).** Supabase's built-in email only sends to your own team. Create a free account with an email service such as Brevo (300 emails a day free), verify the sender address, and copy its SMTP details.
+   - Supabase → Authentication → Emails → SMTP Settings → turn on custom SMTP and paste them.
+   - Supabase → Authentication → Emails → Templates: in **Magic Link** and **Confirm signup**, add the code line `Your NaijaOuting code is {{ .Token }}` so visitors get a 6-digit code.
+   - GitHub → Settings → Secrets → Actions: add `SMTP_HOST`, `SMTP_PORT` (usually 587), `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM` (e.g. `NaijaOuting <you@yourmail.com>`) for the reminder emails.
+4. **Google sign-in (optional but recommended).** Google Cloud Console → APIs & Services → OAuth consent screen (External, app name NaijaOuting) → Credentials → Create OAuth client ID (Web application) with Authorized redirect URI `https://fcdebtyopthaikonnfsd.supabase.co/auth/v1/callback`. Paste the Client ID and secret into Supabase → Authentication → Sign In / Providers → Google → Enable.
+5. **Test** on the site as admin: Sign in (top right) with another email, save an event, check Your account.
+6. **Switch on for everyone:** in [`js/config.js`](js/config.js) set `accounts: true`.
+
+The sign-in window only shows the methods that are switched on in Supabase. Reminder emails run every morning at 07:41 Lagos (**Event reminders** in the Actions tab); without the email secrets the job only counts.
 
 ## News feeds and event leads
 The feeds are listed in [`scripts/news_feeds.json`](scripts/news_feeds.json) (Premium Times, Vanguard, The Guardian Nigeria, Channels TV, Punch, TheCable, Daily Post, BusinessDay, BellaNaija, Notjustok, TechCabal). Set `"on": false` to stop using one.

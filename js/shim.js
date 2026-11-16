@@ -15,7 +15,7 @@
   var ready = !!(C.supabaseUrl && C.supabaseAnonKey && window.supabase && window.supabase.createClient);
   var sb = ready
     ? window.supabase.createClient(C.supabaseUrl, C.supabaseAnonKey, {
-        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: "pkce" }
       })
     : null;
   window.NO_SB = sb;
