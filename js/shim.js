@@ -100,8 +100,13 @@
     var set = subs[col];
     if (!set || !set.length) return;
     listCol(col).then(function (rows) {
+      var sig = JSON.stringify(rows);
       var snap = snapOf(rows);
-      set.slice().forEach(function (s) { try { s.fn(snap); } catch (e) { console.error(e); } });
+      set.slice().forEach(function (s) {
+        if (s.sig === sig) return; /* nothing changed: don't make the page rebuild */
+        s.sig = sig;
+        try { s.fn(snap); } catch (e) { console.error(e); }
+      });
     }).catch(function (e) { set.slice().forEach(function (s) { if (s.err) s.err(e); }); });
   }
   function bump(col) { clearTimeout(timers[col]); timers[col] = setTimeout(function () { refresh(col); }, 250); }

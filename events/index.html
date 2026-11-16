@@ -1609,6 +1609,10 @@ html.app .hr .btn.p{height:40px!important;min-height:40px}
 html.installed [data-install]{display:none!important}
 .revpill{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:9000;height:44px;padding:0 20px;border:0;border-radius:999px;background:#1F1A16;color:#fff;font:600 14px/1 Inter,system-ui,sans-serif;box-shadow:0 14px 30px -12px rgba(0,0,0,.5);cursor:pointer}
 .revpill:hover{background:#000}html.app .revpill{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+/* speed: the browser skips cards and rows that are far off-screen */
+.tgrid>.tc{content-visibility:auto;contain-intrinsic-size:auto 340px}
+#view .ev{content-visibility:auto;contain-intrinsic-size:auto 78px}
+@media (max-width:900px){.tgrid>.tc{contain-intrinsic-size:auto 270px}}
 </style>
 </head>
 <body>
@@ -2163,7 +2167,8 @@ function oneBadge(v){const st=stTag(v);if(st)return st;if(isLive(v))return '<spa
 function rngTxt(v){if(v.e<=v.s)return "";const a=v.s.split("-"),b=v.e.split("-");return (+a[2])+(a[1]===b[1]?"":" "+MON[+a[1]-1])+"–"+(+b[2])+" "+MON[+b[1]-1]}
 function evRow(v){const dt=NEAR?distTxt(v):"",rg=rngTxt(v),bd=oneBadge(v);
  return '<button class="ev'+((S.open===v.id||S.sel===v.id)?" on":"")+'" data-a="sel" data-id="'+v.id+'" aria-label="'+esc(v.name)+', '+fd(v.s,v.e)+', '+esc(v.city)+'">'+dtb(v)+'<div class="bd"><span class="nm">'+esc(v.name)+'</span><span class="meta rmeta"><i class="cdot" style="background:'+cc(v.cat)[0]+'" title="'+esc(v.cat)+'"></i><span class="vtx">'+esc(v.venue?v.venue+" · "+v.city:v.city)+'</span></span>'+((rg||bd||dt)?'<span class="tg">'+(rg?'<span class="rng">'+rg+'</span>':"")+bd+(dt?'<b class="dist">'+dt+'</b>':"")+'</span>':"")+'</div>'+CHEV+'</button>'}
-const COVER_IMG={};function coverImg(c){try{if(!COVER_IMG[c]&&COVERS[c])COVER_IMG[c]="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(COVERS[c])}catch(x){}return COVER_IMG[c]||""}
+/* one shared copy of each category picture (a short blob: link), instead of copying the whole picture into every card */
+const COVER_IMG={};function coverImg(c){try{if(!COVER_IMG[c]&&COVERS[c]){try{COVER_IMG[c]=URL.createObjectURL(new Blob([COVERS[c]],{type:"image/svg+xml"}))}catch(e){COVER_IMG[c]="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(COVERS[c])}}}catch(x){}return COVER_IMG[c]||""}
 const SHRSVG='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>';
 const FAVSVG=on=>'<svg width="16" height="16" viewBox="0 0 24 24" fill="'+(on?"currentColor":"none")+'" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>';
 const PINSVG='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
@@ -3164,6 +3169,13 @@ function mapTween(ovb){const sv=document.querySelector("#view .mapbox>svg");if(!
  const step=t=>{if(id!==mapTween.id||!sv.isConnected)return;let k=Math.min(1,(t-t0)/D);k=1-Math.pow(1-k,3);
   sv.setAttribute("viewBox",A.map((v,i)=>(v+(B[i]-v)*k).toFixed(3)).join(" "));if(k<1)requestAnimationFrame(step);else sv.setAttribute("viewBox",nvb)};
  requestAnimationFrame(step)}
+/* several database updates arriving together cause one rebuild, not one each */
+let RSOON=0;function renderSoon(){if(RSOON)return;RSOON=1;const go=()=>{if(!RSOON)return;RSOON=0;render()};requestAnimationFrame(go);setTimeout(go,120)}
+/* opening or closing an event's details only updates the details panel on list-style pages */
+const LIGHT=new Set(["events","saved","cal","daily","news","trip"]);
+function lightOpen(){drawer();document.querySelectorAll("#view .ev.on").forEach(e=>e.classList.remove("on"));
+ if(S.open){const e=document.querySelector('#view .ev[data-id="'+CSS.escape(S.open)+'"]');if(e)e.classList.add("on")}
+ if(typeof BK!=="undefined"&&!BK.busy)bkQueue()}
 function render(){side();const V=$("#view"),same=render._v===S.view,keep=[],sw=same?scrollY:null;
  if(same)V.querySelectorAll(".mv,.mvb,.page,.rp,.lp,.split,.hrs,.uch,.calwrap,.evp,.mapbox").forEach(e=>{if(e.scrollTop||e.scrollLeft)keep.push([skey(e),e.scrollTop,e.scrollLeft])});const vst=same?V.scrollTop:0;
  const osv=same?V.querySelector(".mapbox>svg"):null,ovb=osv?osv.getAttribute("viewBox"):null;
@@ -3255,6 +3267,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="exp"){S.st=v}else if(a==="corr"){openCorr(id);return}else if(a==="vsave"){vSave(id);return}else if(a==="vopen"){revLeave();S.open=id;render();return}else if(a==="strep"){stReport(id,v);return}else if(a==="mchk"){markChecked(id);return}else if(a==="ast"){const vv=all().find(x=>x.id===id);if(vv){const n=$("#stnote");setStatusName(vv.name,v,n?n.value.trim():"")}return}else if(a==="stapply"){const c=CORR.find(x=>x.sid===id);if(c)setStatusName(c.name,c.st,"").then(ok=>{if(ok)moderate("dismiss",id)});return}else if(a==="closec"){$("#cm").hidden=true;return}
  else if(a==="qa"){qAns(+v)}else if(a==="qn"){qNext()}else if(a==="qr"){qStart(v)}else if(a==="qquit"){qQuit()}else if(a==="qshare"){qShare();return}
  else return;
+ if((a==="open"||a==="close")&&LIGHT.has(S.view)&&!S.fs){lightOpen();return}
  render()});
 
 document.addEventListener("input",e=>{const t=e.target;
@@ -3422,7 +3435,7 @@ document.addEventListener("submit",async e=>{if(!e.target||e.target.id!=="scform
   if(ok&&DB&&UID){try{const ref=DB.doc("flags/"+UID),sn=await ref.get(),ids=(sn.exists&&sn.data().ids)||[];if(!ids.includes(id))await ref.set({ids:ids.concat([id]).slice(-30)})}catch(x){}}
   if(ok){let done={};try{done=JSON.parse(localStorage.getItem("ne_scam")||"{}")}catch(x){}done[id]=1;try{localStorage.setItem("ne_scam",JSON.stringify(done))}catch(x){}$("#scm").hidden=true;toast("Thanks for warning us. We’ll check it quickly.")}
   else toast("We couldn’t send this right now. Please use Contact us.")}finally{btn.disabled=false}});
-(function flagWatch(n){if(typeof DB!=="undefined"&&DB){try{DB.collection("flags").onSnapshot(sn=>{const f={};sn.docs.forEach(d=>{(((d.data()||{}).ids)||[]).slice(-30).forEach(id=>{(f[id]=f[id]||new Set()).add(d.id)})});FLAGS=f;render();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{})}catch(x){}return}if(n<40)setTimeout(()=>flagWatch(n+1),500)})(0);
+(function flagWatch(n){if(typeof DB!=="undefined"&&DB){try{DB.collection("flags").onSnapshot(sn=>{const f={};sn.docs.forEach(d=>{(((d.data()||{}).ids)||[]).slice(-30).forEach(id=>{(f[id]=f[id]||new Set()).add(d.id)})});FLAGS=f;renderSoon();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{})}catch(x){}return}if(n<40)setTimeout(()=>flagWatch(n+1),500)})(0);
 async function hideEv(id){const v=all().find(x=>x.id===id);if(!v||!DB)return;
  try{if(id[0]==="r")await DB.doc("events/"+id.slice(1)).update({hide:1});else{const n=origName(id)||v.name,o=OVR[n];await DB.doc("overrides/o"+hsh(n)).set(Object.assign({name:n},o&&o.patch?{patch:o.patch}:{},{hide:1}))}
   S.open=null;toast("Hidden from the site. You can restore it from Review.");render()}catch(x){toast("That didn’t work. Check you have editor access.")}}
@@ -3514,8 +3527,8 @@ async function moderate(a,id){const isC=a==="dismiss",v=(isC?CORR:PEND).find(x=>
 (async()=>{try{if(typeof claude==="undefined")return;const r=await Promise.all([claude.use("db"),claude.use("user")]);if(!r[0])return;DB=r[0];
  try{ADMIN=r[1]?await r[1].canEdit():false}catch(x){}try{UID=r[1]?await r[1].id():null}catch(x){}
  try{ASSETS=await claude.use("assets")}catch(x){ASSETS=null}
- DB.collection("overrides").onSnapshot(sn=>{OVR={};STS={};ND=new Set();sn.docs.forEach(d=>{const x=d.data();if(d.id==="notdup"){ND=new Set((x&&x.pairs)||[]);return}if(x&&x.status&&x.name){STS[x.name]=x.status;return}if(x&&x.name)OVR[x.name]=Object.assign({oid:d.id},x)});applyOvr();render();stAlerts();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
- DB.collection("events").onSnapshot(sn=>{const RA=sn.docs.map(d=>cleanEv(Object.assign({},d.data(),{id:"r"+d.id,src:0,pend:0,rev:1})));REMOTE=RA.filter(v=>!v.hide);RHID=RA.filter(v=>v.hide);render();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
+ DB.collection("overrides").onSnapshot(sn=>{OVR={};STS={};ND=new Set();sn.docs.forEach(d=>{const x=d.data();if(d.id==="notdup"){ND=new Set((x&&x.pairs)||[]);return}if(x&&x.status&&x.name){STS[x.name]=x.status;return}if(x&&x.name)OVR[x.name]=Object.assign({oid:d.id},x)});applyOvr();renderSoon();stAlerts();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
+ DB.collection("events").onSnapshot(sn=>{const RA=sn.docs.map(d=>cleanEv(Object.assign({},d.data(),{id:"r"+d.id,src:0,pend:0,rev:1})));REMOTE=RA.filter(v=>!v.hide);RHID=RA.filter(v=>v.hide);renderSoon();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
  if(ADMIN){const flat=sn=>[].concat(...sn.docs.map(d=>((d.data().items)||[]).slice(0,100).map(it=>cleanEv(Object.assign({},it,{uid:d.id,sid:d.id+"#"+it.iid})))));
   DB.collection("submissions").onSnapshot(sn=>{PEND=flat(sn);revCount();renderRev()},()=>{});
   DB.collection("corrections").onSnapshot(sn=>{CORR=flat(sn);revCount();renderRev()},()=>{});
@@ -4035,8 +4048,9 @@ function bkQueue(){if(!BK.q){BK.q=1;setTimeout(bkSync,0)}}
 function bkApply(t){BK.busy=1;
  document.querySelectorAll(".md:not([hidden])").forEach(m=>{if(!t.ov.includes(m.id))m.hidden=true});
  if(!t.ov.includes("shw")&&document.getElementById("shw"))shClose(1);
+ const onlyPanel=S.view===t.v&&LIGHT.has(t.v)&&(S.st||null)===t.st&&(S.mz||null)===t.mz&&(S.zg||null)===t.zg&&(S.fs?1:0)===t.fs&&(S.calMode||null)===t.cm;
  Object.assign(S,{view:t.v,open:t.o,place:t.p,st:t.st,mz:t.mz,zg:t.zg,fs:t.fs,calMode:t.cm});
- document.body.style.overflow="";render();
+ document.body.style.overflow="";if(onlyPanel)lightOpen();else render();
  setTimeout(()=>{BK.keys[BK.i]=bkKey(bkSnap());BK.busy=0},0)}
 addEventListener("popstate",e=>{const st=e.state;if(!st||st.bk==null)return;
  if(BK.skip){BK.skip--;BK.i=st.bk;return}
