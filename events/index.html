@@ -1613,6 +1613,14 @@ html.installed [data-install]{display:none!important}
 .tgrid>.tc{content-visibility:auto;contain-intrinsic-size:auto 340px}
 #view .ev{content-visibility:auto;contain-intrinsic-size:auto 78px}
 @media (max-width:900px){.tgrid>.tc{contain-intrinsic-size:auto 270px}}
+/* speed: blurs over the whole page or inside the scrolling details panel are redrawn constantly; solid tints look the same and stay smooth */
+.scrim{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(8,14,11,.56)}
+.md{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(8,14,11,.6)}
+.md.flv{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(6,9,7,.96)}
+.dbar{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--pn)}
+.dr .xbar .x{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(10,16,13,.72)}
+.dr{will-change:transform;contain:layout paint;overscroll-behavior:contain}
+.hero .fbg{will-change:transform;transform:translateZ(0)}
 </style>
 </head>
 <body>
