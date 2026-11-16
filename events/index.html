@@ -1631,6 +1631,32 @@ html.installed [data-install]{display:none!important}
 .pulse::after{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(255,255,255,.7);animation:lvr 1.8s cubic-bezier(.2,.6,.3,1) infinite}
 .dr .onb::after,.dr .onb i::before,.dr .onb i::after,.dr .lvd::after{animation:none}
 @media (prefers-reduced-motion:reduce){.onb::after,.onb i::before,.onb i::after,.lvd::after,.pulse::after,.tk-bar.run{animation:none}}
+
+/* Tourism panel: tidy layout */
+.tz-tph h1{margin:0;font-size:28px}.tz-tph p{margin:4px 0 0}
+.tz-tseg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin:16px 0 14px;border-radius:14px;background:var(--pn2,var(--bg2));border:1px solid var(--ln)}
+.tz-tseg button{height:38px;border:0;border-radius:10px;background:transparent;color:var(--mu);font:600 14px var(--fd,inherit);cursor:pointer}
+.tz-tseg button.on{background:var(--pn);color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.tz-tfl{border:1px solid var(--ln);border-radius:18px;padding:14px;background:var(--pn)}
+.tz-tsel{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tz-tsel .sel{width:100%;min-width:0;box-shadow:none}
+.tz-tlab{margin:14px 0 8px;font:700 11px var(--fb,inherit);letter-spacing:.08em;text-transform:uppercase;color:var(--mu2,var(--mu))}
+.tz-tcats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tz-tct{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:74px;padding:10px 6px 8px;border:1px solid var(--ln);border-radius:14px;background:var(--bg);color:var(--tx);cursor:pointer;text-align:center;transition:border-color .15s,background .15s}
+.tz-tct .tz-ti{color:var(--tc);display:flex}.tz-tct .tz-tl{font:600 12px/1.2 var(--fb,inherit)}
+.tz-tct .tz-tn{position:absolute;top:6px;right:8px;font:600 11px var(--fb,inherit);color:var(--mu2,var(--mu))}
+.tz-tct:hover{border-color:var(--tc)}
+.tz-tct.on{border-color:var(--tc);background:color-mix(in srgb,var(--tc) 12%,var(--pn));box-shadow:inset 0 0 0 1px var(--tc)}
+.tz-ttgs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tz-ttg{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;border:1px solid var(--ln);border-radius:12px;background:var(--bg);color:var(--tx);font:600 13px var(--fb,inherit);cursor:pointer;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tz-ttg .tz-tgi{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;flex:none;border-radius:50%;background:var(--pn2,var(--bg2));font-size:11px;color:var(--mu)}
+.tz-ttg.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}.tz-ttg.on .tz-tgi{background:rgba(255,255,255,.18);color:inherit}
+.tz-tcount{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 6px;font-size:14px;color:var(--mu)}.tz-tcount b{color:var(--tx)}
+.tz-tlist{display:flex;flex-direction:column}
+@media(max-width:420px){.tz-tsel{grid-template-columns:1fr}.tz-ttg{font-size:12.5px;padding:0 10px}}
+/* zoomable maps */
+.mapbox>svg.zm{touch-action:pan-y;cursor:default}.mapbox>svg.zm.zoomed{touch-action:none;cursor:grab}.mapbox>svg.zm.zoomed:active{cursor:grabbing}
+.zctl button:disabled{opacity:.35;cursor:default}.zctl button:disabled:hover{background:transparent}
+html.app .zctl{bottom:10px;right:10px}html.app .zctl button{width:34px;height:34px}
 </style>
 </head>
 <body>
@@ -2882,18 +2908,26 @@ function tmap(L){const b=L.map(p=>{const q=P(p.lon,p.lat),on=T.sel===p.id,c=tcc(
  return base("-40 -20 680 580",b+bs,"Map of tourist attractions in Nigeria")}
 function tourView(){
  const nb=Object.values(BL).filter(x=>x==="been").length,nw=Object.values(BL).filter(x=>x==="want").length;
- const head='<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><h1 class="hdf" style="margin:0;font-size:28px">Tourism</h1><p class="sm" style="margin:4px 0 0">'+PL.length+' places across Nigeria · visited&nbsp;'+nb+' · want&nbsp;to&nbsp;go&nbsp;'+nw+'</p></div></div>'+
- '<div class="chips" role="tablist" style="margin:14px 0 12px"><button class="chip'+(T.sub==="places"?" on":"")+'" data-a="tsub" data-v="places">Places</button><button class="chip'+(T.sub==="guide"?" on":"")+'" data-a="tsub" data-v="guide">Visitor guide</button></div>';
+ const head='<div class="tz-tph"><h1 class="hdf">Tourism</h1><p class="sm">'+PL.length+' places to visit across Nigeria</p></div>'+
+ '<div class="tz-tseg" role="tablist" aria-label="Tourism sections"><button role="tab" class="'+(T.sub==="places"?"on":"")+'" aria-selected="'+(T.sub==="places")+'" data-a="tsub" data-v="places">Places</button><button role="tab" class="'+(T.sub==="guide"?"on":"")+'" aria-selected="'+(T.sub==="guide")+'" data-a="tsub" data-v="guide">Visitor guide</button></div>';
  if(T.sub==="guide")return '<div class="page">'+head+guideView()+'</div>';
- const L=tlist(),zones=["All"].concat(Object.values(ZN));
+ const L=tlist(),zones=["All"].concat(Object.values(ZN)),cnt={};PL.forEach(p=>cnt[p.cat]=(cnt[p.cat]||0)+1);
+ const ALLI='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg>';
+ const tg=(a,v,on,ic,lab,full)=>'<button class="tz-ttg'+(on?" on":"")+'" data-a="'+a+'"'+(v?' data-v="'+v+'"':'')+' aria-pressed="'+!!on+'"'+(full?' title="'+full+'" aria-label="'+full+'"':'')+'><span class="tz-tgi" aria-hidden="true">'+ic+'</span>'+lab+'</button>';
+ const filt=T.cat!=="All"||T.zone!=="All"||T.unesco||T.hide||T.list!=="all";
  const left=head+
- '<div class="row2" style="margin-bottom:10px"><select class="sel" data-a="tbase" aria-label="Where are you staying?" style="box-shadow:none;width:100%"><option value="">Staying in… (sort by distance)</option>'+Object.keys(BASES).map(b=>'<option'+(T.base===b?" selected":"")+'>'+b+'</option>').join("")+'</select><select class="sel" data-a="tzone" aria-label="Region" style="box-shadow:none;width:100%">'+zones.map(z=>'<option value="'+z+'"'+(T.zone===z?" selected":"")+'>'+(z==="All"?"All regions":z)+'</option>').join("")+'</select></div>'+
- '<div class="chips" style="margin-bottom:8px">'+["All"].concat(Object.keys(TCAT)).map(c=>'<button class="chip'+(T.cat===c?" on":"")+'" data-a="tcat" data-v="'+esc(c)+'">'+(c==="All"?"All":'<i style="width:9px;height:9px;border-radius:50%;background:'+tcc(c)[0]+';display:inline-block"></i>'+esc(c))+'</button>').join("")+'</div>'+
- '<div class="chips" style="margin-bottom:14px"><button class="chip'+(T.unesco?" on":"")+'" data-a="tunesco">★ UNESCO only</button><button class="chip'+(T.hide?" on":"")+'" data-a="thide">Hide UK no-go and essential-only states</button><button class="chip'+(T.list==="want"?" on":"")+'" data-a="tlist" data-v="want">♥ Want to go</button><button class="chip'+(T.list==="been"?" on":"")+'" data-a="tlist" data-v="been">✓ Been there</button></div>'+
- '<div class="sm" style="margin-bottom:8px">'+L.length+' place'+(L.length===1?"":"s")+(T.base?' · nearest to '+T.base+' first (straight-line distance)':'')+(S.q?' · matching “'+esc(S.q)+'”':'')+'</div>'+
- (L.length?L.map(prow).join(""):'<div class="empty">No places match. Clear a filter to see more.</div>');
- const leg='<div class="legend">'+Object.keys(TCAT).map(k=>'<span><i style="background:'+tcc(k)[0]+'"></i>'+esc(k)+'</span>').join("")+'<span><i style="background:transparent;border:2px solid var(--gold)"></i>UNESCO</span></div>';
- return vseg(EXSEG)+'<div class="split"><div class="lp">'+left+'</div><div class="mapbox">'+tmap(L)+leg+'</div></div>'}
+ '<div class="tz-tfl">'+
+ '<div class="tz-tsel"><select class="sel" data-a="tbase" aria-label="Where are you staying?"><option value="">Staying in… (any city)</option>'+Object.keys(BASES).map(b=>'<option'+(T.base===b?" selected":"")+'>'+b+'</option>').join("")+'</select><select class="sel" data-a="tzone" aria-label="Region">'+zones.map(z=>'<option value="'+z+'"'+(T.zone===z?" selected":"")+'>'+(z==="All"?"All regions":z)+'</option>').join("")+'</select></div>'+
+ '<div class="tz-tlab">Type of place</div>'+
+ '<div class="tz-tcats" role="group" aria-label="Type of place">'+["All"].concat(Object.keys(TCAT)).map(c=>{const on=T.cat===c,col=c==="All"?"var(--tx)":tcc(c)[0];return '<button class="tz-tct'+(on?" on":"")+'" data-a="tcat" data-v="'+esc(c)+'" aria-pressed="'+on+'" style="--tc:'+col+'"><span class="tz-ti">'+(c==="All"?ALLI:tico(c,20))+'</span><span class="tz-tl">'+(c==="All"?"All places":esc(c))+'</span><span class="tz-tn">'+(c==="All"?PL.length:(cnt[c]||0))+'</span></button>'}).join("")+'</div>'+
+ '<div class="tz-tlab">Show only</div>'+
+ '<div class="tz-ttgs">'+tg("tunesco","",T.unesco,"★","UNESCO sites")+tg("tlist","want",T.list==="want","♥","Want to go"+(nw?" · "+nw:""))+tg("tlist","been",T.list==="been","✓","Been there"+(nb?" · "+nb:""))+tg("thide","",T.hide,"!","Hide no-go states","Hide states where the UK advises against all or all but essential travel")+'</div>'+
+ '</div>'+
+ '<div class="tz-tcount"><span><b>'+L.length+' place'+(L.length===1?"":"s")+'</b>'+(T.base?' · nearest to '+esc(T.base)+' first':'')+(S.q?' · matching “'+esc(S.q)+'”':'')+'</span>'+(filt?'<button class="lnk" data-a="tclear">Clear filters</button>':'')+'</div>'+
+ (L.length?'<div class="tz-tlist">'+L.map(prow).join("")+'</div>':'<div class="empty">No places match. Clear a filter to see more.</div>')+
+ (T.base?'<p class="sm" style="margin-top:12px">Distances are straight-line. Road journeys are longer.</p>':'');
+ const leg='<details class="lgd"'+(LGO?" open":"")+'><summary>Colour key</summary><div class="legend">'+Object.keys(TCAT).map(k=>'<span><i style="background:'+tcc(k)[0]+'"></i>'+esc(k)+'</span>').join("")+'<span><i style="background:transparent;border:2px solid var(--gold)"></i>UNESCO</span></div></details>';
+ return vseg(EXSEG)+'<div class="split tz-tsplit"><div class="lp">'+left+'</div><div class="mapbox">'+tmap(L)+leg+'</div></div>'}
 function placeDrawer(p){const d=dist(p),air=nearestAir(p),a=adv(p.state),ev=all().filter(v=>v.state===p.state).sort((x,y)=>x.s<y.s?-1:1),near=PL.filter(x=>x.id!==p.id).map(x=>[x,Math.round(km(p.lat,p.lon,x.lat,x.lon))]).sort((x,y)=>x[1]-y[1]).slice(0,4);
  const q=encodeURIComponent(p.name+" "+p.town+" "+p.state+" Nigeria");
  return ''+XBAR+plHero(p)+'<div class="in"><div>'+tbadges(p)+'</div><h2>'+esc(p.name)+'</h2><p style="color:var(--mu);margin:8px 0 14px">'+esc(p.about)+'</p>'+
@@ -3187,6 +3221,43 @@ function mapTween(ovb){const sv=document.querySelector("#view .mapbox>svg");if(!
  const step=t=>{if(id!==mapTween.id||!sv.isConnected)return;let k=Math.min(1,(t-t0)/D);k=1-Math.pow(1-k,3);
   sv.setAttribute("viewBox",A.map((v,i)=>(v+(B[i]-v)*k).toFixed(3)).join(" "));if(k<1)requestAnimationFrame(step);else sv.setAttribute("viewBox",nvb)};
  requestAnimationFrame(step)}
+/* ---------- zoom buttons (and drag, wheel, pinch) for the Tourism, Explore and Near me maps ---------- */
+const ZV=new Set(["tour","explore","near","trip"]),ZM={};let ZDRAG=false;
+const ZI={in:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',out:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg>',fit:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'};
+function zSvg(){return document.querySelector("#view .mapbox>svg.zm")}
+function zB(sv){return sv.dataset.vb0.split(/[ ,]+/).map(Number)}
+function zSetup(){if(!ZV.has(S.view))return;const sv=document.querySelector("#view .mapbox>svg");if(!sv)return;
+ sv.classList.add("zm");sv.dataset.vb0=sv.getAttribute("viewBox");const z=ZM[S.view];if(z&&z.vb0!==sv.dataset.vb0)delete ZM[S.view];
+ if(!sv.parentNode.querySelector(".zctl"))sv.parentNode.insertAdjacentHTML("beforeend",'<div class="ctl zctl"><button data-a="mzin" aria-label="Zoom in">'+ZI.in+'</button><button data-a="mzout" aria-label="Zoom out">'+ZI.out+'</button><button data-a="mzfit" aria-label="Show the whole map">'+ZI.fit+'</button></div>');
+ zApply(sv)}
+function zApply(sv){sv=sv||zSvg();if(!sv)return;const B=zB(sv),z=ZM[S.view],k=z?z.k:1;let vb=B;
+ if(k>1){const w=B[2]/k,h=B[3]/k;z.cx=Math.min(B[0]+B[2]-w/2,Math.max(B[0]+w/2,z.cx));z.cy=Math.min(B[1]+B[3]-h/2,Math.max(B[1]+h/2,z.cy));vb=[z.cx-w/2,z.cy-h/2,w,h]}
+ sv.setAttribute("viewBox",vb.map(n=>+n.toFixed(3)).join(" "));
+ const sc=k>1?Math.pow(k,-.72):1;
+ sv.querySelectorAll('g[role="button"]').forEach(g=>{if(!g.dataset.c){const c=g.querySelector(':scope>circle:not([fill="transparent"])');let x,y;if(c){x=+c.getAttribute("cx")||0;y=+c.getAttribute("cy")||0}else{try{const bb=g.getBBox();x=bb.x+bb.width/2;y=bb.y+bb.height/2}catch(e){return}}g.dataset.c=x.toFixed(3)+","+y.toFixed(3)}
+  const q=g.dataset.c.split(",");if(sc===1)g.removeAttribute("transform");else g.setAttribute("transform","translate("+q[0]+" "+q[1]+") scale("+sc.toFixed(4)+") translate("+(-q[0])+" "+(-q[1])+")")});
+ sv.classList.toggle("zoomed",k>1);
+ const m=sv.parentNode.querySelector(".zctl");if(m){m.querySelector('[data-a="mzin"]').disabled=k>=8;m.querySelector('[data-a="mzout"]').disabled=k<=1;m.querySelector('[data-a="mzfit"]').disabled=k<=1}}
+function zPt(sv,cx,cy){try{const p=sv.createSVGPoint();p.x=cx;p.y=cy;const r=p.matrixTransform(sv.getScreenCTM().inverse());return [r.x,r.y]}catch(e){return null}}
+function zTo(f,pt,smooth){const sv=zSvg();if(!sv)return;const B=zB(sv),cur=sv.getAttribute("viewBox").split(/[ ,]+/).map(Number);
+ const z=ZM[S.view]||(ZM[S.view]={k:1,cx:B[0]+B[2]/2,cy:B[1]+B[3]/2,vb0:sv.dataset.vb0});const nk=Math.max(1,Math.min(8,z.k*f));if(nk===z.k)return;
+ if(!pt)pt=[cur[0]+cur[2]/2,cur[1]+cur[3]/2];const fx=(pt[0]-cur[0])/cur[2],fy=(pt[1]-cur[1])/cur[3],w=B[2]/nk,h=B[3]/nk;
+ z.k=nk;z.cx=pt[0]-fx*w+w/2;z.cy=pt[1]-fy*h+h/2;if(nk===1){z.cx=B[0]+B[2]/2;z.cy=B[1]+B[3]/2}
+ const ovb=cur.join(" ");zApply(sv);if(smooth)mapTween(ovb)}
+function zFit(){const sv=zSvg();if(!sv)return;const ovb=sv.getAttribute("viewBox");delete ZM[S.view];zApply(sv);mapTween(ovb)}
+(function(){let P={},st=null;
+ document.addEventListener("pointerdown",e=>{const sv=e.target.closest&&e.target.closest("#view .mapbox>svg.zm");if(!sv)return;P[e.pointerId]=[e.clientX,e.clientY];const ids=Object.keys(P);
+  if(ids.length===2){const a=P[ids[0]],b=P[ids[1]];st={pinch:1,d:Math.hypot(a[0]-b[0],a[1]-b[1])||1,moved:true}}
+  else if(ids.length===1){const z=ZM[S.view];st=z&&z.k>1?{x:e.clientX,y:e.clientY,cx:z.cx,cy:z.cy,moved:false}:{x:e.clientX,y:e.clientY,moved:false,idle:1}}},true);
+ document.addEventListener("pointermove",e=>{if(!st||!P[e.pointerId])return;P[e.pointerId]=[e.clientX,e.clientY];const sv=zSvg();if(!sv)return;
+  if(st.pinch){const ids=Object.keys(P);if(ids.length<2)return;const a=P[ids[0]],b=P[ids[1]],d=Math.hypot(a[0]-b[0],a[1]-b[1])||1;const pt=zPt(sv,(a[0]+b[0])/2,(a[1]+b[1])/2);zTo(d/st.d,pt,false);st.d=d;ZDRAG=true;return}
+  if(st.idle)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!st.moved&&Math.hypot(dx,dy)<5)return;st.moved=true;ZDRAG=true;
+  const m=sv.getScreenCTM();if(!m)return;const z=ZM[S.view];if(!z)return;z.cx=st.cx-dx/m.a;z.cy=st.cy-dy/m.d;zApply(sv)},true);
+ const up=e=>{delete P[e.pointerId];if(!Object.keys(P).length){st=null;if(ZDRAG)setTimeout(()=>{ZDRAG=false},350)}else if(st&&st.pinch){st=null}};
+ document.addEventListener("pointerup",up,true);document.addEventListener("pointercancel",up,true);
+ document.addEventListener("click",e=>{if(ZDRAG&&e.target.closest&&e.target.closest("#view .mapbox>svg.zm")){e.stopPropagation();e.preventDefault();ZDRAG=false}},true);
+ document.addEventListener("wheel",e=>{if(APP)return;const sv=e.target.closest&&e.target.closest("#view .mapbox>svg.zm");if(!sv)return;e.preventDefault();
+  const f=Math.exp(-Math.max(-60,Math.min(60,e.deltaY))*(e.ctrlKey?.01:.003));zTo(f,zPt(sv,e.clientX,e.clientY),false)},{passive:false})})();
 /* several database updates arriving together cause one rebuild, not one each */
 let RSOON=0;function renderSoon(){if(RSOON)return;RSOON=1;const go=()=>{if(!RSOON)return;RSOON=0;render()};requestAnimationFrame(go);setTimeout(go,120)}
 /* opening or closing an event's details only updates the details panel on list-style pages */
@@ -3200,7 +3271,7 @@ function render(){side();const V=$("#view"),same=render._v===S.view,keep=[],sw=s
  V.innerHTML=S.view==="map"?mapView():S.view==="events"?eventsView():S.view==="cal"?calView():S.view==="news"?newsView():S.view==="trip"?tripView():S.view==="explore"?exploreView():S.view==="near"?nearView():S.view==="tour"?tourView():S.view==="saved"?savedView():S.view==="daily"?dailyView():S.view==="about"?aboutView():S.view==="help"?helpView():S.view==="contact"?contactView():S.view==="privacy"?privacyView():S.view==="organisers"?orgView():quizView();
  if(S.view!=="map"&&S.view!=="events")S.fs=0;if(S.fs)V.insertAdjacentHTML("beforeend",fsheet());
  const pg=V.querySelector(".page");if(pg&&!pg.querySelector(".foot"))pg.insertAdjacentHTML("beforeend",foot());else if(!pg){const L=V.querySelector(".rp,.lp");if(L)L.insertAdjacentHTML("beforeend",rfoot())}
- render._v=S.view;V.scrollTop=vst;keep.forEach(k=>{const e=V.querySelector(k[0]);if(e){e.scrollTop=k[1];e.scrollLeft=k[2]}});if(sw!=null&&scrollY!==sw)scrollTo(0,sw);if(ovb)mapTween(ovb);
+ render._v=S.view;V.scrollTop=vst;keep.forEach(k=>{const e=V.querySelector(k[0]);if(e){e.scrollTop=k[1];e.scrollLeft=k[2]}});if(sw!=null&&scrollY!==sw)scrollTo(0,sw);zSetup();if(ovb)mapTween(ovb);
  drawer()}
 
 /* ---------- ticker ---------- */
@@ -3252,7 +3323,8 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="nfocus"){N.focus=v||"";if(v)setTimeout(()=>{const h=document.querySelector(".split .lp .nsec.fo");if(h)h.scrollIntoView({block:"start",behavior:"smooth"})},30)}
  else if(a==="nr"){N.r=+v;N.focus="";try{localStorage.setItem("ne_nr",v)}catch(x){}}else if(a==="nw")N.when=v;else if(a==="ns")N.sort=v;else if(a==="nsort")S.nsort=S.nsort?0:1;
  else if(a==="tsub")T.sub=v;else if(a==="tcat")T.cat=v;else if(a==="tunesco")T.unesco=T.unesco?0:1;else if(a==="thide")T.hide=T.hide?0:1;
- else if(a==="tlist")T.list=T.list===v?"all":v;
+ else if(a==="mzin"){zTo(1.6,null,true);return}else if(a==="mzout"){zTo(1/1.6,null,true);return}else if(a==="mzfit"){zFit();return}
+ else if(a==="tlist")T.list=T.list===v?"all":v;else if(a==="tclear"){T.cat="All";T.zone="All";T.unesco=0;T.hide=0;T.list="all"}
  else if(a==="psel"||a==="popen"){T.sel=id;S.place=id;S.open=null;const D=$("#drawer");if(D)D.scrollTop=0}
  else if(a==="bl"){BL[id]=BL[id]===v?undefined:v;if(!BL[id])delete BL[id];saveBL()}
  else if(a==="fav")togFav(id);else if(a==="free")S.free=S.free?0:1;
