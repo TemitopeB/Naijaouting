@@ -1667,8 +1667,8 @@ html.app .zctl{bottom:10px;right:10px}html.app .zctl button{width:34px;height:34
 :root:root .tgrid .tct{left:10px!important;right:10px!important;top:10px!important}
 :root:root .tgrid .tct .shr{margin-left:auto!important}
 :root:root .tgrid .tct .shr~.fav{margin-left:0!important}
-/* show the whole flyer (title, date, prices) with its own blurred picture behind */
-:root:root .tgrid .tci .tfl{object-fit:contain!important;object-position:50% 50%!important;filter:drop-shadow(0 6px 16px rgba(0,0,0,.35))!important}
+/* the flyer fills the whole picture square; the top (where the event name usually is) is kept */
+:root:root .tgrid .tci .tfl{object-fit:cover!important;object-position:50% 22%!important;filter:none!important}
 :root:root .tgrid .tc:hover .tci .tfl{transform:scale(1.02)}
 :root:root .tgrid .tfd{left:10px!important;bottom:10px!important;flex-direction:row!important;align-items:baseline!important;gap:5px!important;min-width:0!important;padding:6px 10px!important;border-radius:999px!important;box-shadow:0 2px 10px rgba(0,0,0,.25)!important}
 :root:root .tgrid .tfd i{font:700 11px/1 var(--fm)!important;letter-spacing:.08em!important;opacity:.75}
