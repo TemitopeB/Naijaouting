@@ -2228,7 +2228,7 @@ function agoTxt(t){const d=Date.parse(t);if(isNaN(d))return "";const m=Math.roun
 function stTag(v){const x=stOf(v);return x?'<span class="tag '+STX[x.st][1]+'">'+STX[x.st][0]+'</span>':""}
 function stPill(v){const x=stOf(v);return x?'<span class="pl stp st-'+x.st+'">'+STX[x.st][0]+'</span>':""}
 function stBanner(v){const x=stOf(v);if(!x)return "";return '<div class="stb st-'+x.st+'" role="status"><b>'+STX[x.st][0].replace("✓ ","")+'</b><span>'+esc(STMSG[x.st]+(x.note?". "+x.note.replace(/\.$/,""):"")+".")+'</span><span class="sm">Updated '+agoTxt(x.at)+'</span></div>'}
-async function setStatusName(name,st,note){if(!DB||!name)return false;try{const ref=DB.doc("overrides/s"+hsh(name));if(!st)await ref.delete();else await ref.set({name,status:{st,note:note||"",at:new Date().toISOString()}});toast(st?"Status updated. Everyone sees it now.":"Status cleared.");return true}catch(x){toast("That didn’t work. Check you have editor access.");return false}}
+function setStatusName(name,st,note,quiet){if(!DB||!name)return Promise.resolve(false);const ref=DB.doc("overrides/s"+hsh(name)),job=!st?ref.delete():ref.set({name,status:{st,note:note||"",at:new Date().toISOString()}});if(!quiet)toast(st?"Status updated. Everyone sees it now.":"Status cleared.");return job.then(()=>true,()=>{toast("That didn’t save. Check your connection and try again.");return false})}
 function stAlerts(){let seen={};try{seen=JSON.parse(localStorage.getItem("ne_stseen")||"{}")}catch(x){}const ups=[];
  all().forEach(v=>{if(!FAV.includes(v.id))return;const x=stOf(v);if(x&&x.st!=="ok"&&seen[v.name]!==x.at)ups.push([v,x])});
  if(!ups.length)return;const [v,x]=ups[0];toast("Update on a saved event: "+v.name+" is "+STX[x.st][0].toLowerCase()+"."+(ups.length>1?" "+(ups.length-1)+" more in Saved.":""));
@@ -3426,7 +3426,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="slay"){SET.layout=v;saveSet();applyLayout();setView();render();return}
  else if(a==="aedit"){openForm(id);return}else if(a==="adel"){if(t.dataset.c){adminDel(id)}else{t.dataset.c=1;t.textContent="Tap again to remove";t.style.color="var(--hot)";t.style.borderColor="var(--hot)"}return}
  else if(a==="dupask"){DUPS.cf[v]=1;renderRev();return}else if(a==="dupcancel"){delete DUPS.cf[v];renderRev();return}else if(a==="dupkeep"){dupKeep(v);return}else if(a==="dupdiff"){dupDiff(v.split(","));return}
- else if(a==="arest"){if(DB)DB.doc("overrides/"+v).delete().then(()=>toast("Restored.")).catch(()=>toast("That didn’t work."));return}
+ else if(a==="arest"){if(DB){DB.doc("overrides/"+v).delete().catch(()=>toast("That didn’t save. Check your connection and try again."));toast("Restored.")}return}
  else if(a==="ffopen"){revLeave();ffOpen();return}else if(a==="ffclose"){$("#ff").hidden=true;revBack();return}else if(a==="ffcopy"){ffCopy(v);return}else if(a==="ffsend"){ffSend();return}
  else if(a==="airun"){aiRun();return}else if(a==="aistop"){if(AI.ctl)AI.ctl.abort();return}
  else if(a==="impopen"){revLeave();impOpen();return}else if(a==="impclose"){$("#imp").hidden=true;revBack();return}else if(a==="imppub"){impPublish();return}else if(a==="imptpl"){impTemplate();return}else if(a==="closem"){$("#modal").hidden=true;REVEDIT=null;revBack();return}
@@ -3435,7 +3435,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="evshare"){shOpen(id);return}
  else if(a==="shclose"){shClose();return}else if(a==="shcopy"){shCopy();return}else if(a==="shpic"){shPic(v);return}else if(a==="shmore"){shMore();return}else if(a==="shqr"){shQr();return}else if(a==="shto"){setTimeout(shClose,400);return}
  else if(a==="trip"){togTrip(id)}else if(a==="rmtrip"){togTrip(id,1)}else if(a==="cleartrip"){TRIP=[];saveTrip()}else if(a==="tripshare"){tripShare();return}else if(a==="tripcsv"){tripCsv();return}
- else if(a==="exp"){S.st=v}else if(a==="corr"){openCorr(id);return}else if(a==="vsave"){vSave(id);return}else if(a==="vopen"){revLeave();S.open=id;render();return}else if(a==="strep"){stReport(id,v);return}else if(a==="mchk"){markChecked(id);return}else if(a==="ast"){const vv=all().find(x=>x.id===id);if(vv){const n=$("#stnote");setStatusName(vv.name,v,n?n.value.trim():"")}return}else if(a==="stapply"){const c=CORR.find(x=>x.sid===id);if(c)setStatusName(c.name,c.st,"").then(ok=>{if(ok)moderate("dismiss",id)});return}else if(a==="closec"){$("#cm").hidden=true;return}
+ else if(a==="exp"){S.st=v}else if(a==="corr"){openCorr(id);return}else if(a==="vsave"){vSave(id);return}else if(a==="vopen"){revLeave();S.open=id;render();return}else if(a==="strep"){stReport(id,v);return}else if(a==="mchk"){markChecked(id);return}else if(a==="ast"){const vv=all().find(x=>x.id===id);if(vv){const n=$("#stnote");setStatusName(vv.name,v,n?n.value.trim():"")}return}else if(a==="stapply"){const c=CORR.find(x=>x.sid===id);if(c){setStatusName(c.name,c.st,"");moderate("dismiss",id)};return}else if(a==="closec"){$("#cm").hidden=true;return}
  else if(a==="qa"){qAns(+v)}else if(a==="qn"){qNext()}else if(a==="qr"){qStart(v)}else if(a==="qquit"){qQuit()}else if(a==="qshare"){qShare();return}
  else return;
  if((a==="open"||a==="close")&&LIGHT.has(S.view)&&!S.fs){lightOpen();return}
@@ -3506,16 +3506,17 @@ $("#form").addEventListener("submit",async e=>{e.preventDefault();const F=e.targ
  try{
   if(file){const bad=await flyCheck(file);if(bad){fuphSet(bad,true);toast(bad);btn.disabled=false;return}}
   if(!eid&&!ADMIN&&!(await spamLeft("submissions"))){btn.disabled=false;return}
-  let upImg="";if(file&&ASSETS){if(!rlLeft("up")){toast("You’ve uploaded a few flyers in the last hour. Sending without the picture.")}else{try{const u=await ASSETS.upload(await flyClean(file),{type:"image/jpeg"});rlHit("up");d.img=upImg="/_blob/"+u.id}catch(x){toast((x&&x.msg)||"The flyer didn’t upload. Sending without it.")}}}
-  if(eid){await saveEdit(eid,d);toast("Saved. The change is live.")}
-  else if(ADMIN&&DB){d.rev=1;d.at=new Date().toISOString();await DB.collection("events").add(d);
-   if(REVEDIT){try{await revDrop(REVEDIT)}catch(x){}REVEDIT=null;toast("Approved and published. It is now on the map.")}else toast("Published. It is now on the map.")}
+  let upImg="";if(file&&ASSETS){btn.dataset.t=btn.dataset.t||btn.textContent;btn.textContent="Uploading flyer…";if(!rlLeft("up")){toast("You’ve uploaded a few flyers in the last hour. Sending without the picture.")}else{try{const u=await ASSETS.upload(await flyClean(file),{type:"image/jpeg"});rlHit("up");d.img=upImg="/_blob/"+u.id}catch(x){toast((x&&x.msg)||"The flyer didn’t upload. Sending without it.")}}}
+  const oops=()=>toast("That didn’t save. Check your connection and try again.");
+  if(eid){saveEdit(eid,d).catch(oops);toast("Saved. The change is live.")}
+  else if(ADMIN&&DB){d.rev=1;d.at=new Date().toISOString();const rs=REVEDIT;REVEDIT=null;const add=DB.collection("events").add(d);add.catch(oops);
+   if(rs){revDrop(rs,add).catch(()=>{});toast("Approved and published. It is now on the map.")}else toast("Published. It is now on the map.")}
   else{const sent=await sendItem("submissions",Object.assign({},d));
    if(sent)toast("Sent for review. It will appear on the map once approved.");
    else if(sent===null){await blobDel(upImg);btn.disabled=false;return}
    else{const v=Object.assign({id:"l"+SUB.length,src:0,pend:1},d,{about:"Saved on this device. Waiting for review."});SUB.push(v);try{localStorage.setItem("ne_sub",JSON.stringify(SUB))}catch(x){}S.when="all";S.open=v.id;toast("Saved on this device as Pending review.")}}
   F.reset();$("#modal").hidden=true;render();revBack()
- }catch(x){toast("That didn’t save. Check you have editor access and try again.")}finally{btn.disabled=false}});
+ }catch(x){toast("That didn’t save. Check you have editor access and try again.")}finally{btn.disabled=false;if(btn.dataset.t){btn.textContent=btn.dataset.t;delete btn.dataset.t}}});
 document.addEventListener("submit",async e=>{if(e.target.id!=="ctform")return;e.preventDefault();const f=new FormData(e.target),er=$("#ct-err");if(f.get("hp_check")){e.target.reset();toast("Message sent. We’ll reply as soon as we can.");return}
  const msg=(f.get("msg")||"").trim(),reply=(f.get("reply")||"").trim();
  if(msg.length<5){er.textContent="Write a short message first.";er.hidden=false;$("#ct-msg").focus();return}
@@ -3533,8 +3534,8 @@ function revCount(){const b=$("#revbtn"),n=revN();document.querySelectorAll(".re
 let REVBACK=false,REVEDIT=null;
 function revLeave(){if(!$("#rev").hidden){REVBACK=true;const p=$("#revpill");if(p)p.hidden=false}$("#rev").hidden=true}
 function revBack(){const p=$("#revpill");if(p)p.hidden=true;if(REVBACK&&ADMIN){REVBACK=false;$("#rev").hidden=false;renderRev()}else REVBACK=false}
-async function outcome(uid,iid,name,st){try{const r=DB.doc("outcomes/"+uid),sn=await r.get(),it=(sn.exists&&sn.data().items||[]).filter(x=>x.iid!==iid).slice(-80);it.push({iid,n:name||"",st,at:new Date().toISOString()});await r.set({items:it})}catch(x){}}
-async function revDrop(sid){const v=PEND.find(x=>x.sid===sid);if(!v||!DB)return;outcome(v.uid,v.iid,v.name,"approved");const ref=DB.doc("submissions/"+v.uid),sn=await ref.get(),it=(sn.exists&&sn.data().items||[]).filter(x=>x.iid!==v.iid);await ref.set({items:it})}
+function outcome(uid,iid,name,st){return inOrder("outcomes/"+uid,async()=>{try{const r=DB.doc("outcomes/"+uid),sn=await r.get(),it=(sn.exists&&sn.data().items||[]).filter(x=>x.iid!==iid).slice(-80);it.push({iid,n:name||"",st,at:new Date().toISOString()});await r.set({items:it})}catch(x){}})}
+function revDrop(sid,saved){const v=PEND.find(x=>x.sid===sid);if(!v||!DB)return Promise.resolve();revHide(sid);return Promise.resolve(saved).then(()=>Promise.all([qDrop("submissions",v),outcome(v.uid,v.iid,v.name,"approved")])).catch(e=>{revUnhide(sid,"submissions");throw e})}
 function revEdit(sid){const v=PEND.find(x=>x.sid===sid);if(!v)return;revLeave();openForm(null);REVEDIT=sid;const E=$("#form").elements,set=(k,val)=>{if(E[k]&&val!=null&&val!=="")E[k].value=val};
  set("name",v.name);if(CAT[v.cat])E.cat.value=v.cat;if(CITY[v.city])E.city.value=v.city;set("venue",v.venue);set("s",v.s);if(v.e&&v.e!==v.s)set("e",v.e);set("time",v.time);if(v.fee&&v.fee!==SEE)set("fee",v.fee);set("about",v.about);set("link",v.link);set("img",v.img);
  $("#form h2").textContent="Check and approve";$("#fbtn").textContent="Approve and publish"}
@@ -3613,15 +3614,19 @@ document.addEventListener("submit",async e=>{if(!e.target||e.target.id!=="scform
   if(ok){let done={};try{done=JSON.parse(localStorage.getItem("ne_scam")||"{}")}catch(x){}done[id]=1;try{localStorage.setItem("ne_scam",JSON.stringify(done))}catch(x){}$("#scm").hidden=true;toast("Thanks for warning us. We’ll check it quickly.")}
   else toast("We couldn’t send this right now. Please use Contact us.")}finally{btn.disabled=false}});
 (function flagWatch(n){if(typeof DB!=="undefined"&&DB){try{DB.collection("flags").onSnapshot(sn=>{const f=Object.create(null);sn.docs.forEach(d=>{const ids=(d.data()||{}).ids;(Array.isArray(ids)?ids:[]).slice(-30).forEach(id=>{if(typeof id!=="string"||!/^[\w:.-]{1,80}$/.test(id))return;(f[id]=f[id]||new Set()).add(d.id)})});FLAGS=f;renderSoon();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{})}catch(x){}return}if(n<40)setTimeout(()=>flagWatch(n+1),500)})(0);
-async function hideEv(id){const v=all().find(x=>x.id===id);if(!v||!DB)return;
- try{if(id[0]==="r")await DB.doc("events/"+id.slice(1)).update({hide:1});else{const n=origName(id)||v.name,o=OVR[n];await DB.doc("overrides/o"+hsh(n)).set(Object.assign({name:n},o&&o.patch?{patch:o.patch}:{},{hide:1}))}
-  S.open=null;toast("Hidden from the site. You can restore it from Review.");render()}catch(x){toast("That didn’t work. Check you have editor access.")}}
-async function restoreRemote(id){if(!DB)return;try{await DB.doc("events/"+id.slice(1)).update({hide:0});toast("Restored. It’s back on the site.")}catch(x){toast("That didn’t work. Check you have editor access.")}}
-async function scamList(fn){const ref=DB.doc("overrides/scam"),sn=await ref.get(),ids=fn(((sn.exists&&sn.data().ids)||[]).filter(i=>typeof i==="string"));await ref.set({ids:[...new Set(ids)].slice(-200)})}
-async function scamWarn(id){if(!DB)return;try{await scamList(a=>a.concat([id]));toast("Warning is now showing to visitors, and its ticket button is off.")}catch(x){toast("That didn’t work. Check you have editor access.")}}
-async function scamClear(k){try{const v=all().find(x=>x.id===k||x.name===k);await scamList(a=>a.filter(i=>i!==k&&(!v||i!==v.id)))}catch(x){}const L=CORR.filter(c=>c.kind==="scam"&&(c.eid===k||c.name===k));for(const c of L){try{await moderate("dismiss",c.sid)}catch(x){}}
- const who=[...(FLAGS[k]||[])];for(const u of who){try{const ref=DB.doc("flags/"+u),sn=await ref.get(),ids=((sn.exists&&sn.data().ids)||[]).filter(x=>x!==k);await ref.set({ids})}catch(x){}}
- toast("Cleared. Ticket links work again for everyone.");if(!$("#rev").hidden)renderRev()}
+function hideEv(id){const v=all().find(x=>x.id===id);if(!v||!DB)return;const n=origName(id)||v.name,o=OVR[n];
+ const job=id[0]==="r"?DB.doc("events/"+id.slice(1)).update({hide:1}):DB.doc("overrides/o"+hsh(n)).set(Object.assign({name:n},o&&o.patch?{patch:o.patch}:{},{hide:1}));
+ S.open=null;toast("Hidden from the site. You can restore it from Review.");render();job.catch(()=>toast("That didn’t save. Check your connection and try again."))}
+function restoreRemote(id){if(!DB)return;DB.doc("events/"+id.slice(1)).update({hide:0}).catch(()=>toast("That didn’t save. Check your connection and try again."));toast("Restored. It’s back on the site.")}
+function scamList(fn){return inOrder("overrides/scam",async()=>{const ref=DB.doc("overrides/scam"),sn=await ref.get(),ids=fn(((sn.exists&&sn.data().ids)||[]).filter(i=>typeof i==="string"));await ref.set({ids:[...new Set(ids)].slice(-200)})})}
+function scamWarn(id){if(!DB)return;SCAMC=new Set(SCAMC).add(id);renderSoon();if(!$("#rev").hidden)renderRev();toast("Warning is now showing to visitors, and its ticket button is off.");
+ scamList(a=>a.concat([id])).catch(()=>{toast("That didn’t save. Check your connection and try again.");if(DB.refresh)DB.refresh("overrides")})}
+function scamClear(k){const v=all().find(x=>x.id===k||x.name===k);const sc=new Set(SCAMC);sc.delete(k);if(v)sc.delete(v.id);SCAMC=sc;
+ const who=[...(FLAGS[k]||[])];delete FLAGS[k];
+ CORR.filter(c=>c.kind==="scam"&&(c.eid===k||c.name===k)).forEach(c=>moderate("dismiss",c.sid));
+ renderSoon();if(!$("#rev").hidden)renderRev();toast("Cleared. Ticket links work again for everyone.");
+ scamList(a=>a.filter(i=>i!==k&&(!v||i!==v.id))).catch(()=>{if(DB.refresh)DB.refresh("overrides")});
+ who.forEach(u=>{const ref=DB.doc("flags/"+u);inOrder("flags/"+u,()=>ref.get().then(sn=>ref.set({ids:((sn.exists&&sn.data().ids)||[]).filter(x=>x!==k)}))).catch(()=>{})})}
 const _rr18=renderRev;renderRev=function(){_rr18();const g={};CORR.filter(c=>c.kind==="scam").forEach(c=>{const k=c.eid||c.name;(g[k]=g[k]||[]).push(c)});
  const keys=Object.keys(g).sort((a,b)=>g[b].length-g[a].length);
  const rows=keys.map(k=>{const L=g[k],v=all().find(x=>x.id===k)||all().find(x=>x.name===L[0].name),nf=FLAGS[k]?FLAGS[k].size:0;
@@ -3726,7 +3731,8 @@ function blockTerms(v){const out=[];try{if(v.link){const u=new URL(v.link),h=u.h
  ((v.about||"")+" "+(v.fee||"")).replace(/[^\d+ ]/g," ").split(/\s+/).filter(n=>n.replace(/\D/g,"").length>=10).forEach(n=>out.push(n.replace(/\D/g,"").slice(-10)));
  if(v.ig&&v.ig[0])out.push(String(v.ig[0]).toLowerCase());return [...new Set(out)].filter(x=>x.length>3)}
 async function blockOrg(sid){const v=PEND.find(x=>x.sid===sid);if(!v||!DB)return;const terms=blockTerms(v);if(!terms.length){toast("Nothing to block: this one has no link, phone number or Instagram handle.");return}
- try{const ref=DB.doc("overrides/block"),sn=await ref.get(),cur=((sn.exists&&sn.data().terms)||[]).filter(x=>typeof x==="string");await ref.set({terms:[...new Set(cur.concat(terms))].slice(-500)});toast("Blocked "+terms.join(", ")+". Future submissions from them are marked for rejection.")}catch(x){toast("That didn’t work. Check you have editor access.")}}
+ BLK=[...new Set(BLK.concat(terms.map(t=>String(t).toLowerCase())))];if(!$("#rev").hidden)renderRev();toast("Blocked "+terms.join(", ")+". Future submissions from them are marked for rejection.");
+ try{await inOrder("overrides/block",async()=>{const ref=DB.doc("overrides/block"),sn=await ref.get(),cur=((sn.exists&&sn.data().terms)||[]).filter(x=>typeof x==="string");await ref.set({terms:[...new Set(cur.concat(terms))].slice(-500)})})}catch(x){toast("The block didn’t save. Check your connection and try again.");if(DB.refresh)DB.refresh("overrides")}}
 function riskTags(v){const r=riskOf(v);return (r.blk?'<span class="rtag bad">Blocked organiser: reject</span>':"")+(r.rej?'<span class="rtag bad">Breaks the listing rules: reject</span>':"")+(r.fl.length?'<span class="rtag warn">Check carefully: '+esc(r.fl.join(", "))+'</span>':"")+(v.online?'<span class="rtag onl">Online · '+esc(v.plat||"Online")+'</span>':"")}
 /* Add event form: online switch hides city and venue, shows platform */
 function onlForm(){const F=$("#form");if(!F)return;const sel=$("#fplat");if(sel&&!sel.options.length)sel.innerHTML=PLATS.map(p=>'<option>'+p+'</option>').join("");const on=!!(fe("online")&&fe("online").checked);F.classList.toggle("isonl",on);
@@ -3741,21 +3747,32 @@ function evGrid(P){const a=P[0],b=P[1],c=P[2];return a.map(evCard).join("")+(b.l
 const CVV=[["0deg",1,1,"50% 50%"],["0deg",-1,1,"50% 50%"],["16deg",1,1.28,"0% 100%"],["-16deg",-1,1.28,"100% 0%"],["16deg",-1,1,"50% 50%"],["-16deg",1,1.28,"100% 100%"]];
 function cvVar(c){const i=CVN[c]=(CVN[c]||0)+1,v=CVV[(i-1)%CVV.length];return "--cvh:"+v[0]+";--cvf:"+v[1]+";--cvz:"+v[2]+";--cvo:"+v[3]}
 const _render25=render;render=function(){CVN={};_render25()};
-async function modMsg(id){const v=MSG.find(x=>x.sid===id);if(!v||!DB)return;try{const ref=DB.doc("messages/"+v.uid),sn=await ref.get(),it=(sn.exists&&sn.data().items||[]).filter(x=>x.iid!==v.iid);await ref.set({items:it});toast("Marked as done.")}catch(x){toast("That didn’t work. Check you have editor access.")}}
-async function moderate(a,id){const isC=a==="dismiss",v=(isC?CORR:PEND).find(x=>x.sid===id);if(!v||!DB)return;
- try{if(a==="approve"){const o={};["name","cat","s","e","venue","city","state","fee","about","link","img","time","ig","online","plat"].forEach(k=>{if(v[k]!=null&&v[k]!=="")o[k]=v[k]});Object.assign(o,cleanEv(o));if(!o.name||!/^\d{4}-\d{2}-\d{2}$/.test(o.s||"")){toast("This submission is missing a name or date, so it can’t be approved.");return}o.rev=1;o.at=new Date().toISOString();await DB.collection("events").add(o)}
-  if(a==="reject")await blobDel(v.img);
-  if(!isC&&(a==="approve"||a==="reject"))await outcome(v.uid,v.iid,v.name,a==="approve"?"approved":"rejected");
-  const ref=DB.doc((isC?"corrections/":"submissions/")+v.uid),sn=await ref.get(),it=(sn.exists&&sn.data().items||[]).filter(x=>x.iid!==v.iid);await ref.set({items:it});toast(a==="approve"?"Approved. It is now on the map.":a==="reject"?"Rejected and removed.":"Marked as done.")}catch(x){toast("That didn’t work. Check you have editor access.")}}
+/* Review actions are instant: the item leaves the list straight away and the saving happens in the background.
+   If saving fails, the item comes back and a message says so. */
+const GONE=new Set(),LOCKS={};
+/* changes to the same record are saved one after another, so quick clicks never overwrite each other */
+function inOrder(k,fn){const p=(LOCKS[k]||Promise.resolve()).catch(()=>{}).then(fn);LOCKS[k]=p;return p}
+function revHide(sid){GONE.add(sid);PEND=PEND.filter(x=>x.sid!==sid);CORR=CORR.filter(x=>x.sid!==sid);MSG=MSG.filter(x=>x.sid!==sid);revCount();if(!$("#rev").hidden)renderRev()}
+function revUnhide(sid,col){GONE.delete(sid);if(DB&&DB.refresh)DB.refresh(col)}
+function qDrop(col,v){return inOrder(col+"/"+v.uid,async()=>{const ref=DB.doc(col+"/"+v.uid),sn=await ref.get(),it=(sn.exists&&sn.data().items||[]).filter(x=>x.iid!==v.iid);await ref.set({items:it})})}
+function modMsg(id){const v=MSG.find(x=>x.sid===id);if(!v||!DB)return;revHide(id);toast("Marked as done.");
+ qDrop("messages",v).catch(()=>{revUnhide(id,"messages");toast("That didn’t save. Check your connection and try again.")})}
+function moderate(a,id){const isC=a==="dismiss",v=(isC?CORR:PEND).find(x=>x.sid===id);if(!v||!DB)return Promise.resolve();const col=isC?"corrections":"submissions";
+ let o=null;if(a==="approve"){o={};["name","cat","s","e","venue","city","state","fee","about","link","img","time","ig","online","plat"].forEach(k=>{if(v[k]!=null&&v[k]!=="")o[k]=v[k]});Object.assign(o,cleanEv(o));if(!o.name||!/^\d{4}-\d{2}-\d{2}$/.test(o.s||"")){toast("This submission is missing a name or date, so it can’t be approved.");return Promise.resolve()}o.rev=1;o.at=new Date().toISOString()}
+ revHide(id);toast(a==="approve"?"Approved. It is now on the map.":a==="reject"?"Rejected and removed.":"Marked as done.");
+ /* approve: the event is saved first; the submission is removed only once the event is safely saved */
+ const job=(o?DB.collection("events").add(o):Promise.resolve()).then(()=>Promise.all([qDrop(col,v),!isC&&(a==="approve"||a==="reject")?outcome(v.uid,v.iid,v.name,a==="approve"?"approved":"rejected"):null]));
+ if(a==="reject")job.then(()=>blobDel(v.img));
+ return job.catch(()=>{revUnhide(id,col);toast("That didn’t save. Check your connection and try again.")})}
 (async()=>{try{if(typeof claude==="undefined")return;const r=await Promise.all([claude.use("db"),claude.use("user")]);if(!r[0])return;DB=r[0];
  try{ADMIN=r[1]?await r[1].canEdit():false}catch(x){}try{UID=r[1]?await r[1].id():null}catch(x){}
  try{ASSETS=await claude.use("assets")}catch(x){ASSETS=null}
  DB.collection("overrides").onSnapshot(sn=>{OVR={};STS={};ND=new Set();let sc=new Set(),bl=[];sn.docs.forEach(d=>{const x=d.data();if(d.id==="block"){bl=((x&&x.terms)||[]).filter(i=>typeof i==="string").map(i=>i.toLowerCase());return}if(d.id==="scam"){sc=new Set(((x&&x.ids)||[]).filter(i=>typeof i==="string"));return}if(d.id==="notdup"){ND=new Set((x&&x.pairs)||[]);return}if(x&&x.status&&x.name){STS[x.name]=x.status;return}if(x&&x.name)OVR[x.name]=Object.assign({oid:d.id},x)});SCAMC=sc;BLK=bl;applyOvr();renderSoon();stAlerts();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
  DB.collection("events").onSnapshot(sn=>{const RA=sn.docs.map(d=>cleanEv(Object.assign({},d.data(),{id:"r"+d.id,src:0,pend:0,rev:1})));REMOTE=RA.filter(v=>!v.hide);RHID=RA.filter(v=>v.hide);REMLOADED=true;if(PENDLINK){const k=PENDLINK,v=evFind(k);if(v){PENDLINK=null;S.open=v.id;S.sel=v.id;render()}else endedLookup(k)}renderSoon();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
  if(ADMIN){const flat=sn=>[].concat(...sn.docs.map(d=>((d.data().items)||[]).slice(0,100).map(it=>cleanEv(Object.assign({},it,{uid:d.id,sid:d.id+"#"+it.iid})))));
-  DB.collection("submissions").onSnapshot(sn=>{PEND=flat(sn);revCount();renderRev()},()=>{});
-  DB.collection("corrections").onSnapshot(sn=>{CORR=flat(sn);revCount();renderRev()},()=>{});
-  DB.collection("messages").onSnapshot(sn=>{MSG=flat(sn);revCount();renderRev()},()=>{})}
+  DB.collection("submissions").onSnapshot(sn=>{PEND=flat(sn).filter(x=>!GONE.has(x.sid));revCount();renderRev()},()=>{});
+  DB.collection("corrections").onSnapshot(sn=>{CORR=flat(sn).filter(x=>!GONE.has(x.sid));revCount();renderRev()},()=>{});
+  DB.collection("messages").onSnapshot(sn=>{MSG=flat(sn).filter(x=>!GONE.has(x.sid));revCount();renderRev()},()=>{})}
 }catch(x){}})();
 
 
@@ -3800,9 +3817,9 @@ $("#form").addEventListener("change",e=>{if(e.target.classList&&e.target.id!=="f
 const BASE_CHECKED="2026-10-30T12:00:00Z";
 function chkAt(v){if(!v)return 0;const x=stOf(v),t=[x&&x.at,v.at,v.ck,(String(v.id)[0]==="b"&&v.src)?BASE_CHECKED:""].filter(Boolean).map(z=>Date.parse(z)).filter(z=>!isNaN(z));return t.length?Math.max.apply(null,t):0}
 function chkTxt(t){if(!t)return "";const d=Math.floor((Date.now()-t)/864e5);return d<1?"today":d===1?"yesterday":d<14?d+" days ago":"on "+new Date(t).toLocaleDateString("en-GB",{day:"numeric",month:"short"})}
-async function markChecked(id){const v=all().find(x=>x.id===id);if(!v||!DB)return;const x=stOf(v);
- const ok=await setStatusName(v.name,x?x.st:"ok",x?(x.note||""):"");if(!ok)return;
- const reps=CORR.filter(c=>c.kind==="status"&&(c.eid===id||c.name===v.name));for(const c of reps){try{await moderate("dismiss",c.sid)}catch(e){}}
+function markChecked(id){const v=all().find(x=>x.id===id);if(!v||!DB)return;const x=stOf(v);
+ setStatusName(v.name,x?x.st:"ok",x?(x.note||""):"",1);
+ const reps=CORR.filter(c=>c.kind==="status"&&(c.eid===id||c.name===v.name));reps.forEach(c=>{const cv=c;revHide(cv.sid);qDrop("corrections",cv).catch(()=>revUnhide(cv.sid,"corrections"))});
  toast("Marked as checked"+(reps.length?". Cleared "+reps.length+" visitor report"+(reps.length===1?"":"s"):"")+".");if(!$("#rev").hidden)renderRev();else render()}
 
 /* ---------- safe flyer uploads: type, size, signature and decode checks, then a clean re-encode ---------- */
@@ -3836,11 +3853,11 @@ async function saveEdit(id,d){const v=all().find(x=>x.id===id);if(!v||!DB)throw 
  if(id[0]==="r")await DB.doc("events/"+id.slice(1)).update(d);
  else{const n=origName(id);await DB.doc("overrides/o"+hsh(n)).set({name:n,patch:d})}}
 async function saveVenue(id,venue){const v=all().find(x=>x.id===id);venue=String(venue||"").trim();if(!v||!DB)return false;if(!venue){toast("Type the venue first.");return false}
- try{if(id[0]==="r")await DB.doc("events/"+id.slice(1)).update({venue});else{const n=origName(id),o=OVR[n];await DB.doc("overrides/o"+hsh(n)).set({name:n,patch:Object.assign({},o&&o.patch||{},{venue})})}
-  toast("Venue saved for "+v.name+". Everyone sees it now.");return true}catch(x){toast("That didn’t work. Check you have editor access.");return false}}
+ const n=origName(id),o=OVR[n],job=id[0]==="r"?DB.doc("events/"+id.slice(1)).update({venue}):DB.doc("overrides/o"+hsh(n)).set({name:n,patch:Object.assign({},o&&o.patch||{},{venue})});
+ toast("Venue saved for "+v.name+". Everyone sees it now.");job.catch(()=>toast("That venue didn’t save. Check your connection and try again."));return true}
 function vSave(id){const i=document.querySelector('[data-vin="'+id+'"]');if(!i)return;const b=i.nextElementSibling;if(b)b.disabled=true;saveVenue(id,i.value).then(ok=>{if(!ok&&b)b.disabled=false;else if(ok){i.value="";i.disabled=true}})}
-async function adminDel(id){if(!DB)return;try{if(id[0]==="r")await DB.doc("events/"+id.slice(1)).delete();else{const n=origName(id);await DB.doc("overrides/o"+hsh(n)).set({name:n,hide:1})}
- S.open=null;toast(id[0]==="r"?"Removed from the site.":"Removed. You can restore it from the Review panel.");render()}catch(x){toast("That didn’t work. Check you have editor access.")}}
+function adminDel(id){if(!DB)return;const job=id[0]==="r"?DB.doc("events/"+id.slice(1)).delete():DB.doc("overrides/o"+hsh(origName(id))).set({name:origName(id),hide:1});
+ S.open=null;toast(id[0]==="r"?"Removed from the site.":"Removed. You can restore it from the Review panel.");render();job.catch(()=>toast("That didn’t save. Check your connection and try again."))}
 function shrink(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),im=new Image();im.onload=()=>{const k=Math.min(1,1200/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement("canvas");c.width=Math.round(im.naturalWidth*k);c.height=Math.round(im.naturalHeight*k);const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(b=>b?res(b):rej(new Error("encode")),"image/jpeg",.84)};im.onerror=()=>{URL.revokeObjectURL(u);rej(new Error("decode"))};im.src=u})}
 /* spreadsheet reading */
 function parseCSV(t){t=t.replace(/^﻿/,"");const first=t.split(/\r?\n/)[0]||"",dl=first.split("\t").length>first.split(",").length?"\t":first.split(";").length>first.split(",").length?";":",";const rows=[];let row=[],f="",q=false;

@@ -52,15 +52,24 @@
       return sb.from("docs").select("data").eq("col", col).eq("id", id).maybeSingle();
     }).then(function (r) { if (r.error) fail(r.error); return r.data ? r.data.data : null; });
   }
+  /* Writes show on the page at once (the local copy changes first), then are saved.
+     If saving fails, the next refresh puts the page back to what the database has. */
+  function saving(col, job) {
+    pending[col] = (pending[col] || 0) + 1;
+    function done() { pending[col]--; bump(col); }
+    return job.then(function (r) { done(); return r; }, function (e) { done(); throw e; });
+  }
   function putDoc(col, id, obj) {
-    return session().then(function () {
+    localSet(col, id, obj || {});
+    return saving(col, session().then(function () {
       return sb.from("docs").upsert({ col: col, id: id, data: clone(obj) || {} }, { onConflict: "col,id" });
-    }).then(function (r) { if (r.error) fail(r.error); bump(col); });
+    }).then(function (r) { if (r.error) fail(r.error); }));
   }
   function delDoc(col, id) {
-    return session().then(function () {
+    localSet(col, id, null);
+    return saving(col, session().then(function () {
       return sb.from("docs").delete().eq("col", col).eq("id", id);
-    }).then(function (r) { if (r.error) fail(r.error); bump(col); });
+    }).then(function (r) { if (r.error) fail(r.error); }));
   }
   /* Events that have ended aren't downloaded: the site only shows upcoming ones.
      An old link to an ended event fetches it separately (see endedLookup in the events page). */
@@ -73,11 +82,13 @@
       return q.range(from, from + 999).then(function (r) {
         if (r.error) fail(r.error);
         out = out.concat(r.data || []);
-        return (r.data || []).length < 1000 ? out : page(from + 1000);
+        return (r.data || []).length < 1000 ? out.sort(byId) : page(from + 1000);
       });
     }
     return session().then(function () { return page(0); });
   }
+
+  function byId(a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; }
 
   function docRef(path) {
     var p = split(path), col = p.col, id = p.id;
@@ -86,6 +97,8 @@
       get: function () { return getDoc(col, id).then(function (d) { return { exists: d != null, id: id, data: function () { return clone(d); } }; }); },
       set: function (obj) { return putDoc(col, id, obj); },
       update: function (obj) {
+        var c = (cache[col] || []).find(function (r) { return r.id === id; });
+        if (c) localSet(col, id, Object.assign({}, c.data, clone(obj)));
         return getDoc(col, id).then(function (cur) {
           if (cur == null) fail({ message: "That item no longer exists." });
           return putDoc(col, id, Object.assign({}, cur, clone(obj)));
@@ -96,7 +109,7 @@
   }
 
   /* ---------- live listeners: realtime when enabled, plus a slow safety refresh ---------- */
-  var subs = {}, timers = {}, chan = null, poll = null;
+  var subs = {}, timers = {}, chan = null, poll = null, cache = {}, pending = {};
   function snapOf(rows) {
     var docs = rows.map(function (r) { return { id: r.id, exists: true, data: function () { return clone(r.data); } }; });
     return { docs: docs, size: docs.length, empty: !docs.length };
@@ -105,14 +118,33 @@
     var set = subs[col];
     if (!set || !set.length) return;
     listCol(col).then(function (rows) {
-      var sig = JSON.stringify(rows);
-      var snap = snapOf(rows);
-      set.slice().forEach(function (s) {
-        if (s.sig === sig) return; /* nothing changed: don't make the page rebuild */
-        s.sig = sig;
-        try { s.fn(snap); } catch (e) { console.error(e); }
-      });
+      if (pending[col]) return; /* a change is still being saved: its own refresh follows */
+      cache[col] = rows;
+      emit(col, rows);
     }).catch(function (e) { set.slice().forEach(function (s) { if (s.err) s.err(e); }); });
+  }
+  function emit(col, rows) {
+    var set = subs[col];
+    if (!set || !set.length) return;
+    var sig = sigOf(rows), snap = snapOf(rows);
+    set.slice().forEach(function (s) {
+      if (s.sig === sig) return; /* nothing changed: don't make the page rebuild */
+      s.sig = sig;
+      try { s.fn(snap); } catch (e) { console.error(e); }
+    });
+  }
+  /* same data in a fixed key order (the database may return keys in another order) */
+  function sigOf(v) {
+    if (v === null || typeof v !== "object") return JSON.stringify(v);
+    if (Array.isArray(v)) return "[" + v.map(sigOf).join(",") + "]";
+    return "{" + Object.keys(v).sort().filter(function (k) { return v[k] !== undefined; }).map(function (k) { return JSON.stringify(k) + ":" + sigOf(v[k]); }).join(",") + "}";
+  }
+  function localSet(col, id, data) {
+    if (!cache[col]) return;
+    var rows = cache[col].filter(function (r) { return r.id !== id; });
+    if (data != null) { rows.push({ id: id, data: clone(data) }); rows.sort(byId); }
+    cache[col] = rows;
+    emit(col, rows);
   }
   function bump(col) { clearTimeout(timers[col]); timers[col] = setTimeout(function () { refresh(col); }, 250); }
   function ensureLive() {
@@ -140,7 +172,7 @@
       }
     };
   }
-  var db = { collection: collection, doc: docRef };
+  var db = { collection: collection, doc: docRef, refresh: function (col) { (subs[col] || []).forEach(function (x) { x.sig = null; }); bump(col); } }; /* reload from the database and redraw */
 
   /* ---------- who is viewing ---------- */
   var adminP = null;
