@@ -1,0 +1,28 @@
+# Sends events in data/inbox/*.json (found by hand or by Claude) to the site's Review queue.
+# Runs when a file in data/inbox changes, or from the Actions tab (Run workflow).
+name: Inbox to Review
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/inbox/**"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  inbox:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Send to Review
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python scripts/inbox.py

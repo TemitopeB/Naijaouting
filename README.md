@@ -99,6 +99,9 @@ Online events sit inside Events with an **Online** badge (sidebar → **Online**
 - **Block organiser** (button in Review) saves the link, phone numbers and Instagram handle; future submissions from them are tagged "Blocked organiser: reject".
 - When in doubt, leave it out.
 
+### Inbox (events found by hand or by Claude)
+Put a JSON file in `data/inbox/` (see `scripts/inbox.py` for the fields). On save, **Inbox to Review** adds the events to the Review queue, skipping anything already listed, already waiting, sent before, past, or against the listing rules. The run summary shows what happened to each event.
+
 ## News feeds and event leads
 The feeds are listed in [`scripts/news_feeds.json`](scripts/news_feeds.json) (Premium Times, Vanguard, The Guardian Nigeria, Channels TV, Punch, TheCable, Daily Post, BusinessDay, BellaNaija, Notjustok, TechCabal). Set `"on": false` to stop using one.
 Only headlines and links are used, always credited to the outlet. Leads appear on `/admin/` after you sign in: read the article, then **Add as event** or **Dismiss**.

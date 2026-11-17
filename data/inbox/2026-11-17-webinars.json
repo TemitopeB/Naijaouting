@@ -1,0 +1,56 @@
+{
+  "found_by": "Claude",
+  "found_on": "2026-11-17",
+  "note": "Webinar scan. Each was checked on the organiser's or platform's page. Check again before approving.",
+  "items": [
+    {
+      "name": "Process Intelligence Webinar (UNILAG Faculty of Computing and Informatics)",
+      "cat": "Tech", "s": "2026-11-18", "e": "2026-11-18", "time": "12pm WAT",
+      "online": 1, "plat": "Zoom", "fee": "See organiser",
+      "about": "How organisations can use process intelligence and AI to improve decisions and efficiency. Moderated by Dr Babatunde Sawyerr, with Dr Niyi Ogunbiyi and Phiwi Ntsada. Source: unilag.edu.ng (event page lists the Zoom meeting ID and passcode).",
+      "link": "https://unilag.edu.ng/event/faculty-of-computing-and-informatics-holds-process-intelligence-webinar-nov-18/"
+    },
+    {
+      "name": "Igbo in the Digital Age (Virtual Roundtable)",
+      "cat": "Arts & Culture", "s": "2026-11-21", "e": "2026-11-21", "time": "6pm WAT",
+      "online": 1, "plat": "Online", "fee": "Registration required",
+      "about": "A two-hour virtual roundtable by the nonprofit TokataHQ on how Igbo is left out of everyday technology and what could change that, featuring Pete Edochie and Ugoccie. Price not stated; registration required. Source: luma.com event page.",
+      "link": "https://luma.com/l738ftoy"
+    },
+    {
+      "name": "Nkata Igbo Panel Discussion, Edition 3: Religion and Igbo Culture",
+      "cat": "Arts & Culture", "s": "2026-11-22", "e": "2026-11-22", "time": "5pm to 6:30pm WAT",
+      "online": 1, "plat": "Google Meet", "fee": "See organiser",
+      "about": "Panel on how Igbo people can keep their faith while preserving their cultural heritage, hosted by Nkata Igbo (Dr Chigozie Nweke-Eze). Price not stated. Source: luma.com event page.",
+      "link": "https://luma.com/1wazt552"
+    },
+    {
+      "name": "ICAN Webinar: Audit, Investigation and Forensic Accounting",
+      "cat": "Careers & Education", "s": "2026-11-26", "e": "2026-11-26",
+      "online": 1, "plat": "Online", "fee": "₦10,000 (ICAN members)",
+      "about": "Paid virtual webinar from the Institute of Chartered Accountants of Nigeria faculty training calendar, registered through the ICAN members' portal. Time not stated. Source: icanig.org faculty training calendar.",
+      "link": "https://icanig.org/ican/faculties/upcomingTrain.php"
+    },
+    {
+      "name": "ICAN One-Day Tax Webinar: Taxation and Fiscal Policy",
+      "cat": "Careers & Education", "s": "2026-12-01", "e": "2026-12-01",
+      "online": 1, "plat": "Online", "fee": "₦10,000 (ICAN members)",
+      "about": "Paid virtual webinar from the Institute of Chartered Accountants of Nigeria faculty training calendar, registered through the ICAN members' portal. Time not stated. Source: icanig.org faculty training calendar.",
+      "link": "https://icanig.org/ican/faculties/upcomingTrain.php"
+    },
+    {
+      "name": "ICAN Webinar: Corporate Re-engineering and Insolvency",
+      "cat": "Careers & Education", "s": "2026-12-03", "e": "2026-12-03",
+      "online": 1, "plat": "Online", "fee": "₦10,000 (ICAN members)",
+      "about": "Paid virtual webinar from the Institute of Chartered Accountants of Nigeria faculty training calendar, registered through the ICAN members' portal. Time not stated. Source: icanig.org faculty training calendar.",
+      "link": "https://icanig.org/ican/faculties/upcomingTrain.php"
+    },
+    {
+      "name": "ICAN Corporate Financial Management Webinar",
+      "cat": "Careers & Education", "s": "2026-12-15", "e": "2026-12-15",
+      "online": 1, "plat": "Online", "fee": "₦10,000 (ICAN members)",
+      "about": "Paid virtual webinar from the Institute of Chartered Accountants of Nigeria faculty training calendar, registered through the ICAN members' portal. Time not stated. Source: icanig.org faculty training calendar.",
+      "link": "https://icanig.org/ican/faculties/upcomingTrain.php"
+    }
+  ]
+}
