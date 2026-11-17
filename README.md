@@ -90,6 +90,15 @@ Until it's switched on, only admins see **Sign in** (so you can test with your o
 
 The sign-in window only shows the methods that are switched on in Supabase. Reminder emails run every morning at 07:41 Lagos (**Event reminders** in the Actions tab); without the email secrets the job only counts.
 
+## Online events and webinars
+Online events sit inside Events with an **Online** badge (sidebar → **Online**, or the **Online and webinars** filter). They show the platform and Lagos time, a **Register** button to the official page and a safety note, and are left out of Map and Near me. In **Add event**, tick "Online event or webinar" and pick the platform. The smart sweep also searches for webinars by Nigerian organisers (next 4 weeks).
+
+### Webinar and listing rules
+- **Never listed** (visitors can't send them; the sweep drops them): "earn ₦X daily", guaranteed returns, double your money, trading or crypto signals and account management, network marketing (downlines, "refer 2 people"), fees to receive a grant or loan, guaranteed visas or jobs abroad, miracle cures, betting tips, anything asking for BVN, card details or passwords.
+- **Check carefully** (red or amber tag in Review): money talk (forex, crypto, investment, side hustle…), grants, loans, scholarships or travel, pressure tactics ("limited slots", "DM to register"), weak registration links (WhatsApp, Telegram, link shorteners, Google Forms), big claims, masterclasses, and paid webinars (list only known organisers).
+- **Block organiser** (button in Review) saves the link, phone numbers and Instagram handle; future submissions from them are tagged "Blocked organiser: reject".
+- When in doubt, leave it out.
+
 ## News feeds and event leads
 The feeds are listed in [`scripts/news_feeds.json`](scripts/news_feeds.json) (Premium Times, Vanguard, The Guardian Nigeria, Channels TV, Punch, TheCable, Daily Post, BusinessDay, BellaNaija, Notjustok, TechCabal). Set `"on": false` to stop using one.
 Only headlines and links are used, always credited to the outlet. Leads appear on `/admin/` after you sign in: read the article, then **Add as event** or **Dismiss**.

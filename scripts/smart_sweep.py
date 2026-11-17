@@ -20,6 +20,7 @@ import json
 import os
 import pathlib
 import random
+import re
 import sys
 import time
 
@@ -43,6 +44,28 @@ THEMES = [
     ["Business", "Tech", "Careers & Education", "Expos & Trade Fairs", "Workshops & Classes"],
     ["Arts & Culture", "Fashion", "Food & Drink", "Books & Literature", "Sports", "Faith", "Kids & Family", "Markets & Pop-ups"],
 ]
+# Online events and webinars by Nigerian organisers (searched once each, nationwide)
+WEB_THEMES = [
+    ["Business", "Tech", "Careers & Education"],
+    ["Health & Fitness", "Arts & Culture", "Books & Literature", "Workshops & Classes", "Faith"],
+]
+PLATS = ["Zoom", "Google Meet", "Microsoft Teams", "YouTube Live", "LinkedIn Live", "X Spaces", "Instagram Live", "Online"]
+# Listing rules (README, "Webinar and listing rules"): anything matching these is never sent to Review.
+RISK_REJECT = [re.compile(p, re.I) for p in (
+    r"\bearn\s*(₦|n|#)?\s*[\d,.]+\s*k?\s*(daily|weekly|per day|a day|every day|per week)\b",
+    r"\bguaranteed\s+(returns?|profits?|income|visa|jobs?\s+abroad|employment)\b",
+    r"\bdouble\s+your\s+(money|investment|capital)\b",
+    r"\b(forex|crypto|binary\s+options?)\s+(signals?|account\s+management)\b",
+    r"\btrading\s+signals?\b", r"\bcopy\s+(my\s+)?trades?\b",
+    r"\b(100|99)\s*%\s*(win|profit|accuracy|guaranteed)\b", r"\bdownlines?\b",
+    r"\brefer\s+\d+\s+(people|persons|friends)\b",
+    r"\b(registration|processing|activation)\s+fee\b[^.]{0,40}\b(grant|loan)\b",
+    r"\bpay\b[^.]{0,30}\bto\s+(receive|get|access)\s+(the\s+|your\s+)?(grant|loan|funds?)\b",
+    r"\b(cures?|reverses?)\s+(diabetes|hiv|aids|infertility|cancer|hypertension|stroke)\b",
+    r"\b(sure\s+odds|fixed\s+matches?|betting\s+tips?)\b", r"\b(bvn|card\s+details|account\s+password|atm\s+pin)\b",
+    r"\b(forex|crypto|bitcoin|trading)\b.*\bmasterclass\b|\bmasterclass\b.*\b(forex|crypto|bitcoin|trading)\b",
+)]
+
 # Official ticket sellers: a source on these sites can be used as the event's ticket link.
 SELLERS = ("tix.africa", "nairabox.com", "dottix.com", "dottix.ng", "cene.ng", "cene.africa", "eventbrite.com",
            "eventbrite.co.uk", "eventskona.com", "shows.ng", "selar.com", "selar.co", "jetronticket.com",
@@ -65,7 +88,29 @@ Answer with ONLY a JSON array (no other text), up to 12 items, each:
 {{"name":"","category":"one of: {allcats}","start":"YYYY-MM-DD","end":"YYYY-MM-DD","time":"","venue":"","city":"","state":"","price":"","about":"","source":""}}"""
 
 
-def clean_item(e, srcs, known, now_iso):
+WEB_PROMPT = """Today is {today} in Lagos, Nigeria.
+Use Google Search to find specific public ONLINE events and webinars (Zoom, Google Meet, Microsoft Teams, YouTube Live,
+LinkedIn Live and similar) hosted by Nigerian organisers or for a Nigerian audience, taking place between {today} and {end}.
+Topics to look for: {cats}.
+
+Rules:
+- Only webinars whose date and time were published by the organiser or an official event platform (Eventbrite, Luma, LinkedIn events, the organiser's own site).
+- Prefer FREE webinars from companies, banks, universities, NGOs, tech hubs, government agencies and professional bodies.
+- Never include: trading or crypto signals, "earn money daily", investment schemes, network marketing, paid grants or loans, visa or job-abroad offers, miracle health cures, betting.
+- No past events. If you are not sure of a field, leave it as an empty string. Never guess a price or a time.
+- "time" is in Lagos time (WAT). "platform" is one of: {plats}.
+- "about" is one or two plain sentences in your own words. "source" is the web address where you confirmed the date.
+
+Answer with ONLY a JSON array (no other text), up to 10 items, each:
+{{"name":"","category":"one of: {allcats}","start":"YYYY-MM-DD","end":"YYYY-MM-DD","time":"","platform":"","organiser":"","price":"","about":"","source":""}}"""
+
+
+def risky(*texts):
+    t = " ".join(str(x or "") for x in texts)
+    return any(r.search(t) for r in RISK_REJECT)
+
+
+def clean_item(e, srcs, known, now_iso, online=False):
     """Validate one event from Gemini. Returns a Review-queue item, or (None, reason)."""
     if not isinstance(e, dict):
         return None, "not an object"
@@ -85,10 +130,15 @@ def clean_item(e, srcs, known, now_iso):
         return None, "no name"
     if sd < TODAY or sd > END:
         return None, "outside the 8-week window"
-    city = str(e.get("city", "")).strip()
-    city = guess_city(city, str(e.get("venue", "")), str(e.get("state", "")), fallback=city)[:60]
-    if not city:
-        return None, "no city"
+    if risky(name, e.get("about"), e.get("price"), e.get("organiser")):
+        return None, "breaks the listing rules"
+    if online:
+        city = "Online"
+    else:
+        city = str(e.get("city", "")).strip()
+        city = guess_city(city, str(e.get("venue", "")), str(e.get("state", "")), fallback=city)[:60]
+        if not city:
+            return None, "no city"
     k = key({"name": name, "s": s})
     nk = norm(name)
     if k in known or any(len(n) >= 10 and (n in nk or nk in n) for n, d in known if d == s):
@@ -107,6 +157,9 @@ def clean_item(e, srcs, known, now_iso):
         cat = next((c for c in CATS if c.lower() in cat.lower()), "Festivals & Carnivals")
     price = str(e.get("price", "")).strip()[:60] or "See organiser"
     about = str(e.get("about", "")).strip()[:500]
+    org = str(e.get("organiser", "")).strip()[:80]
+    if online and org:
+        about = (about + " " if about else "") + f"Hosted by {org}."
     official = any(dom == sdom or dom.endswith("." + sdom) for sdom in SELLERS)
     src_note = f"Source: {dom}" + (f" ({url})" if url and not official else "") + ". Check the details there before approving."
     known.add(k)
@@ -115,14 +168,16 @@ def clean_item(e, srcs, known, now_iso):
         "name": name, "cat": cat, "s": s, "e": ed.isoformat(), "time": str(e.get("time", "")).strip()[:30],
         "venue": str(e.get("venue", "")).strip()[:160], "city": city, "state": str(e.get("state", "")).strip()[:40],
         "fee": price, "about": (about + " " if about else "") + src_note,
-        "link": url if official else "", "img": "", "src": "smart-sweep", "at": now_iso,
+        "link": url if (official or online) else "", "img": "", "src": "smart-sweep", "at": now_iso,
+        **({"online": 1, "plat": next((p for p in PLATS if p.lower() == str(e.get("platform", "")).strip().lower()), "Online"),
+            "venue": ""} if online else {}),
     }, "ok"
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--max-calls", type=int, default=int(os.environ.get("SMART_MAX_CALLS", "18")))
+    ap.add_argument("--max-calls", type=int, default=int(os.environ.get("SMART_MAX_CALLS", "20")))
     ap.add_argument("--probe", action="store_true", help="one tiny request per model, to see which ones have free quota")
     args = ap.parse_args()
 
@@ -170,11 +225,16 @@ def main():
 
     log("Models to try: " + ", ".join(m.split("/")[-1] for m in gemini.candidates()))
     now_iso = dt.datetime.now(dt.timezone.utc).isoformat()
-    jobs = [(r, t) for t in THEMES for r in REGIONS][:args.max_calls]
+    jobs = ([("Online", t) for t in WEB_THEMES] + [(r, t) for t in THEMES for r in REGIONS])[:args.max_calls]
     items, reasons, report = [], {}, ["| Region | Themes | Found | Kept |", "|---|---|---|---|"]
     for i, (region, cats) in enumerate(jobs):
-        prompt = PROMPT.format(today=TODAY.isoformat(), end=END.isoformat(), region=region,
-                               cats=", ".join(cats), allcats=" | ".join(CATS))
+        online = region == "Online"
+        if online:
+            prompt = WEB_PROMPT.format(today=TODAY.isoformat(), end=(TODAY + dt.timedelta(days=28)).isoformat(),
+                                       cats=", ".join(cats), plats=", ".join(PLATS), allcats=" | ".join(CATS))
+        else:
+            prompt = PROMPT.format(today=TODAY.isoformat(), end=END.isoformat(), region=region,
+                                   cats=", ".join(cats), allcats=" | ".join(CATS))
         try:
             text, srcs = gemini.ask(prompt, search=True)
         except (gemini.QuotaError, gemini.SlowError) as ex:
@@ -197,7 +257,7 @@ def main():
             found = found.get("events") or [found]
         kept = 0
         for e in found:
-            it, why = clean_item(e, srcs, known, now_iso)
+            it, why = clean_item(e, srcs, known, now_iso, online=online)
             if it:
                 items.append(it)
                 kept += 1
