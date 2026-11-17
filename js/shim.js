@@ -62,10 +62,15 @@
       return sb.from("docs").delete().eq("col", col).eq("id", id);
     }).then(function (r) { if (r.error) fail(r.error); bump(col); });
   }
+  /* Events that have ended aren't downloaded: the site only shows upcoming ones.
+     An old link to an ended event fetches it separately (see endedLookup in the events page). */
+  function lagosYesterday() { return new Date(Date.now() + 3600e3 - 864e5).toISOString().slice(0, 10); }
   function listCol(col) {
     var out = [];
     function page(from) {
-      return sb.from("docs").select("id,data").eq("col", col).range(from, from + 999).then(function (r) {
+      var q = sb.from("docs").select("id,data").eq("col", col);
+      if (col === "events") q = q.or("data->>e.gte." + lagosYesterday() + ",data->>e.is.null");
+      return q.range(from, from + 999).then(function (r) {
         if (r.error) fail(r.error);
         out = out.concat(r.data || []);
         return (r.data || []).length < 1000 ? out : page(from + 1000);

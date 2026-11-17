@@ -1717,6 +1717,21 @@ html.app .zctl{bottom:10px;right:10px}html.app .zctl button{width:34px;height:34
 #form label.fonl input{flex:none;width:20px;height:20px;margin:0;accent-color:var(--ac)}
 #form label.fonl>span{display:flex;flex-direction:column;gap:2px}#form label.fonl b{font-size:15px}
 #form .fplatl{display:none}#form.isonl .fplatl{display:flex}#form.isonl .fcityl,#form.isonl .fvenl{display:none}
+
+/* ===== "This event has ended" page ===== */
+.endp{max-width:1100px}
+.endban{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:14px;background:color-mix(in srgb,#EF9F27 16%,var(--pn));color:var(--tx);font-size:15px;margin:4px 0 16px}
+.endban svg{flex:none;color:#BA7517}
+.endcard{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:22px;align-items:start;padding:10px;border:1px solid var(--ln);border-radius:24px;background:var(--pn)}
+.endart{position:relative;aspect-ratio:1/1;border-radius:17px;overflow:hidden}
+.endart .tpc,.endart .tbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.endart .tbg{filter:blur(18px) brightness(.8);transform:scale(1.15)}
+.endart .tfl{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:grayscale(.35)}
+.endtag{position:absolute;left:10px;top:10px;padding:5px 11px;border-radius:999px;background:#2C2C2A;color:#fff;font:700 12px var(--fb,inherit)}
+.endtx{padding:8px 8px 8px 0}.endtx h1{margin:4px 0 8px;font-size:clamp(22px,3vw,30px);line-height:1.2}
+.endmeta{margin:0 0 10px;color:var(--mu);font-size:15px;line-height:1.5}.endmeta b{color:var(--tx)}
+.endab{margin:0 0 14px;font-size:15px;line-height:1.55}
+.endsim{margin-top:28px}.endsim .tgrid{display:grid}.endsim h2{margin:0 0 14px;font-size:22px}
+@media (max-width:700px){.endcard{grid-template-columns:minmax(0,1fr)}.endtx{padding:4px 6px 8px}}
 </style>
 </head>
 <body>
@@ -1880,15 +1895,15 @@ const CITY={"Lagos":[3.4,6.5],"Abuja":[7.49,9.06],"Port Harcourt":[7.01,4.82],"C
 const CITYC={"Lagos":"#F0388F","Abuja":"#3B82F6","Port Harcourt":"#F59E0B","Calabar":"#84CC16","Enugu":"#8B5CF6","Ibadan":"#14B8A6","Kaduna":"#EAB308","Kano":"#F97316","Owerri":"#06B6D4","Asaba":"#A3E635","Uyo":"#10B981","Jos":"#65A30D","Umuahia":"#E11D48","Benin City":"#DC2626","Maiduguri":"#D97706","Mowe":"#7C3AED","Ota":"#0EA5E9","Ojodu-Abiodun":"#DB2777","Abeokuta":"#9333EA","Karu":"#0891B2","Lokoja":"#CA8A04","Yenagoa":"#BE123C","Keffi":"#15803D","Warri":"#4F46E5","Ikorodu":"#C2410C","Sagamu":"#0D9488"};
 const SEE="See organiser",TBC="Details to be confirmed with the organiser.";
 const RAW=[
-["Lagos Fashion Week 2026","Fashion","2026-10-28","2026-11-01","LagosFW Tents, Federal Palace Hotel, Victoria Island","Lagos","Lagos",1,"No public ticket sale announced","Annual showcase of Nigerian and African designers. Runway shows 29–31 Oct, 5–9pm; off-site presentations on 28 Oct and 1 Nov. Some events are invitation-only."],
-["AFRIFF 15 Film Festival","Film & Theatre","2026-11-01","2026-11-07","Filmhouse Landmark (Victoria Island), Twinwaters and The Palms (Lekki)","Lagos","Lagos",1,SEE,"The Africa International Film Festival: 130 screenings across three Filmhouse cinemas, masterclasses and a film market at Twinwaters, Lekki (2–5 Nov). Closing night and the Globe Awards are on 7 Nov."],
-["Lagos Fringe Festival","Film & Theatre","2026-11-03","2026-11-08","J. Randle Centre, Onikan","Lagos","Lagos",1,"Free to ₦30,000 per show","Theatre and performance festival, with one show at the Freedom Park amphitheatre."],
-["ART X Lagos","Arts & Culture","2026-11-05","2026-11-08","Federal Palace Hotel, Victoria Island","Lagos","Lagos",1,"Ticketed. Tickets via ART X Lagos","11th edition of the contemporary art fair, “A New Chapter, A New Decade”, with exhibiting galleries, special projects and ART X Talks."],
-["CANEX WKND","Business","2026-11-05","2026-11-08","Wole Soyinka Centre, National Theatre, Iganmu","Lagos","Lagos",1,SEE,"Afreximbank’s Creative Africa Nexus weekend for film, music, fashion, gaming and the creative economy."],
-["Lagos International Trade Fair (40th edition)","Expos & Trade Fairs","2026-11-06","2026-11-15","Tafawa Balewa Square, Onikan","Lagos","Lagos",1,"Free entry announced","Ten-day trade exhibition for exhibitors, investors and the public, run by the Lagos Chamber of Commerce and Industry."],
-["NECLive 2026","Business","2026-11-12","2026-11-12","Alliance Française, Ikoyi","Lagos","Lagos",1,"₦5,000 (student) to ₦15,000; duo pass ₦25,000","Business conference in Ikoyi, from 8am. Theme: Home Advantage."],
-["DevFest Lagos","Tech","2026-11-13","2026-11-14","","Lagos","Lagos",0,"₦8,000 per day; ₦16,000 both days","Community-led developer conference. Venue to be confirmed."],
-["Lagos International Theatre Festival","Film & Theatre","2026-11-14","2026-11-15","MUSON Centre, Onikan","Lagos","Lagos",0,SEE,"Theatre festival at the MUSON Centre."],
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
 ["Entertainment Week Africa","Music","2026-11-17","2026-11-22","","Lagos","Lagos",0,SEE,"A week of music, film and entertainment-industry events."],
 ["Lagos State Employment Summit","Careers & Education","2026-11-19","2026-11-19","Landmark Event Centre, Victoria Island","Lagos","Lagos",0,"Registration required","Jobs and skills summit. A career fair runs on 16 Nov."],
 ["Beauty West Africa","Fashion","2026-11-24","2026-11-26","Landmark Centre, Victoria Island","Lagos","Lagos",0,SEE,"Beauty-industry trade show."],
@@ -1902,19 +1917,19 @@ const RAW=[
 ["AfBC Africa Business Conference and Awards","Business","2026-11-18","2026-11-18","Abuja Continental Hotel","Abuja","FCT",0,SEE,"Business conference and awards."],
 ["Abuja Tech Week","Tech","2026-11-24","2026-11-26","","Abuja","FCT",0,SEE,"Technology week in the capital. Venue to be confirmed."],
 ["Wizkid: Live Out Loud Festival","Music","2026-12-13","2026-12-13","Eagle Square","Abuja","FCT",1,"Standard ₦50,000 (Tix Africa)","Open-air concert at Eagle Square. Gates open 4pm."],
-["Opera Gala Concert","Music","2026-11-01","2026-11-01","ASUU Auditorium, Delta Park, UNIPORT","Port Harcourt","Rivers",0,"₦2,000","Classical and opera gala at the University of Port Harcourt."],
-["Laughter comedy concert","Comedy","2026-11-01","2026-11-01","The Azny Place","Port Harcourt","Rivers",0,SEE,"Comedy night with Popelawz, 5–9pm."],
-["J-Squad Festival: Kingdom of Rhythm","Music","2026-11-15","2026-11-15","AZNY Car Park","Port Harcourt","Rivers",0,"Free (listed)","Music festival in Port Harcourt."],
+0,
+0,
+0,
 ["Funtime Festival Africa","Music","2026-12-12","2026-12-13","","Port Harcourt","Rivers",0,SEE,"Two-day festival in Port Harcourt."],
-["042 Festival","Festivals & Carnivals","2026-11-01","2026-11-01","Michael Okpara Square","Enugu","Enugu",0,SEE,"Festival of culture, food and attire."],
-["Just Worship 2026","Faith","2026-11-13","2026-11-14","Ngwo Park","Enugu","Enugu",0,SEE,"Two-night worship gathering."],
+0,
+0,
 ["Calabar Christmas Tree Lighting","Festivals & Carnivals","2026-11-30","2026-11-30","Millennium Park","Calabar","Cross River",1,"Free to watch","Opens the Calabar Carnival season."],
 ["Calabar Carnival: Parade of Bands","Festivals & Carnivals","2026-12-28","2026-12-28","Carnival route","Calabar","Cross River",1,"Free to watch","Street parade of the December carnival, often called Africa’s biggest street party."],
 ["Davido at Calabar Carnival","Music","2026-12-29","2026-12-29","U.J. Esuene Stadium","Calabar","Cross River",1,SEE,"Headline concert during carnival week."],
 ["Teejay: WRLD DAY","Music","2026-12-11","2026-12-11","Eko Hotels & Suites","Lagos","Lagos",0,SEE,"Concert at Eko Hotels and Suites, listed on Bandsintown."],
 ["STEP-UP JAZZ 5.0: Family & Christmas","Music","2026-12-13","2026-12-13","Celebr8 Event Center","Port Harcourt","Rivers",0,"₦5,000 (listed)","Christmas jazz concert for families, listed on EventsKona."],
 ["Exploits Tribe Live Recording","Music","2026-11-17","2026-11-17","","Port Harcourt","Rivers",0,"Free (listed)","Live recording session, listed on EventsKona. Venue to be confirmed."],
-["The Picnic Experience: Love Feast","Food & Drink","2026-11-08","2026-11-08","The Verde Gardens, Rumuola","Port Harcourt","Rivers",0,SEE,"Afternoon picnic, 2–6pm."],
+0,
 ["OY to the World Carnival (Season 3)","Kids & Family","2026-12-05","2026-12-05","Town School, Oyigbo","Port Harcourt","Rivers",0,SEE,"Community carnival in Oyigbo, 5–9pm."],
 ["Bass ’N Bounce Port Harcourt","Nightlife & Parties","2026-12-05","2026-12-05","","Port Harcourt","Rivers",0,"Early bird ₦4,000","Evening rave by Rave Experience PH, 7–11pm. Venue to be confirmed. Early bird tickets are on sale on the organiser’s website."],
 ["Tropical December: Denim Splash Pool Party","Nightlife & Parties","2026-12-12","2026-12-12","Oak Park and Garden, Rumuola","Port Harcourt","Rivers",0,SEE,"Pool party, 7–11pm."],
@@ -1923,14 +1938,14 @@ const RAW=[
 ["Vibes with DJ Kaydee: All White Party","Nightlife & Parties","2026-12-18","2026-12-18","The Grove School, GRA Phase 2","Port Harcourt","Rivers",0,SEE,"All-white party, 7–11pm."],
 ["Port Harcourt Christmas Fiesta","Kids & Family","2026-12-26","2026-12-26","The Verde Gardens, Rumuola","Port Harcourt","Rivers",0,SEE,"Boxing Day festive gathering, 2–6pm."],
 ["Finest Worship 2026","Faith","2026-11-20","2026-11-20","GLT Campground, Ijebu-Ode Road, off Lagos–Ibadan Expressway","Ibadan","Oyo",0,SEE,"All-night worship from 10pm, listed on Shows.ng."],
-["DOTTi the Deity live","Music","2026-10-31","2026-10-31","The Cocoa XP","Ibadan","Oyo",0,SEE,"Evening show in Ibadan, listed on Bandsintown."],
+0,
 ["Gospel Force with Pastor Olumide Iyun","Faith","2026-12-14","2026-12-14","","Ibadan","Oyo",0,SEE,"Ministration evening in Ibadan. Venue to be confirmed."],
-["Lagos Business Network","Business","2026-11-04","2026-11-06","Sky Mall","Lagos","Lagos",0,SEE,"Business networking event, listed on Eventbrite."],
-["Lagos Youth Digital Empowerment Summit","Workshops & Classes","2026-11-07","2026-11-07","","Lagos","Lagos",0,"Free","Free digital-skills summit for young people, 10am–2pm. Venue to be confirmed."],
-["GTCO Fashion Weekend 2026","Fashion","2026-11-07","2026-11-08","","Lagos","Lagos",1,"Free (listed)","Guaranty Trust’s two-day fashion and enterprise weekend: runway shows, masterclasses and a retail exhibition. Venue to be confirmed."],
-["National MSME Conference 2026","Business","2026-11-08","2026-11-08","Ecobank Pan African Centre","Lagos","Lagos",0,"Free (listed)","Conference for small and medium businesses."],
-["Kaduna to Lagos Experience with Gy-Rae","Music","2026-11-01","2026-11-01","Lekki Phase 1","Lagos","Lagos",0,SEE,"Evening music show, 10pm."],
-["Creators Mesh 2026","Tech","2026-11-14","2026-11-14","Potters Transformation Christian Centre","Lagos","Lagos",0,SEE,"Gathering for content creators, 9am."],
+0,
+0,
+0,
+0,
+0,
+0,
 ["iFXShow Lagos 2026","Business","2026-11-17","2026-11-17","Landmark Centre Annex, Victoria Island","Lagos","Lagos",0,SEE,"Forex and trading show. The listing says Friday 17 Nov, but 17 Nov 2026 is a Tuesday, so confirm the date."],
 ["Techfeast 2026","Tech","2026-11-28","2026-11-28","Lagos Oriental Hotel","Lagos","Lagos",0,SEE,"Technology festival, 10am–8pm."],
 ["CONNEXA 2026: The Opportunity Playground","Careers & Education","2026-11-28","2026-11-28","University of Lagos","Lagos","Lagos",0,SEE,"Careers and opportunities fair."],
@@ -1939,42 +1954,42 @@ const RAW=[
 ["Coca-Cola Rhythm Unplugged 2026","Music","2026-12-21","2026-12-21","Eko Convention Centre, Victoria Island","Lagos","Lagos",1,SEE,"Flytime’s annual concert, headlined by Lil Baby and Kehlani."],
 ["Flytime Circle","Music","2026-12-25","2026-12-25","Eko Convention Centre, Victoria Island","Lagos","Lagos",1,SEE,"Christmas Day event closing Flytime’s December programme."],
 ["Crossover into 2027: Lagos New Year’s Eve","Nightlife & Parties","2026-12-31","2026-12-31","Landmark Centre Annex, Victoria Island","Lagos","Lagos",0,SEE,"New Year’s Eve celebration from 8pm."],
-["FESTMiNT 2026: Made in Nigeria Textile Festival","Fashion","2026-11-02","2026-11-06","Exhibition Pavilion","Abuja","FCT",0,SEE,"Festival of Nigerian-made textiles and accessories."],
-["African SDGs Film Festival 2026","Film & Theatre","2026-11-04","2026-11-04","Silverbird Cinemas","Abuja","FCT",0,SEE,"Film festival on the Sustainable Development Goals."],
-["Motherhood & Me Conference 2026","Kids & Family","2026-11-07","2026-11-07","The Aretean Place","Abuja","FCT",0,SEE,"Conference for mothers, 9am."],
-["Investors Summit Nigeria 2026","Business","2026-11-10","2026-11-10","Abuja Continental Hotel","Abuja","FCT",0,SEE,"Investment summit, 9am."],
-["National Advertising Conference 2026","Business","2026-11-11","2026-11-13","Abuja Continental Hotel","Abuja","FCT",1,SEE,"Annual conference of Nigeria’s advertising industry."],
-["Abuja Real Estate Fest 2026","Expos & Trade Fairs","2026-11-12","2026-11-12","Shehu Musa Yar’Adua Centre","Abuja","FCT",0,SEE,"Property and real-estate fair."],
-["iBELIEVE Carnival 2026","Festivals & Carnivals","2026-11-12","2026-11-12","Jabi Lake Mall","Abuja","FCT",0,SEE,"Carnival at Jabi Lake Mall."],
+0,
+0,
+0,
+0,
+0,
+0,
+0,
 ["Abuja International Afrojazz Festival","Music","2026-11-16","2026-11-21","","Abuja","FCT",1,"From ₦5,000 (sources differ)","Masterclasses 16–20 Nov, showcase concert 20 Nov, main concert 21 Nov. Venue to be announced."],
 ["AHFIS Summit Expo 2026","Business","2026-11-17","2026-11-18","Shehu Musa Yar’Adua Centre","Abuja","FCT",0,SEE,"Health-financing summit and expo."],
 ["Africa Space Economy, Innovation and Communication Conference","Tech","2026-11-24","2026-11-24","Obasanjo Space Centre","Abuja","FCT",0,SEE,"Conference on Africa’s space economy."],
 ["Made in Nigeria Shoe Expo (MINSE 2026)","Fashion","2026-11-27","2026-11-28","Arts and Culture Exhibition Pavilion","Abuja","FCT",0,SEE,"8th expo of Nigerian-made shoes."],
 ["African Youth in Tech Summit 2026","Tech","2026-11-28","2026-11-28","Cherryfield Nursery and Primary School","Abuja","FCT",0,SEE,"Tech summit for young people."],
 ["NAFEST 2026","Festivals & Carnivals","2026-11-21","2026-11-28","","Enugu","Enugu",1,SEE,"National Festival for Arts and Culture: eight days of competitions between states. Venue to be announced."],
-["Igbo Amaka Festival","Festivals & Carnivals","2026-11-15","2026-11-15","","Calabar","Cross River",1,SEE,"Part of the Carnival Calabar 2026 calendar."],
+0,
 ["Calabar Cultural Carnival and Night of Kings and Queens","Festivals & Carnivals","2026-12-26","2026-12-26","","Calabar","Cross River",1,SEE,"Carnival Calabar 2026 programme."],
 ["Calabar Junior Carnival","Kids & Family","2026-12-27","2026-12-27","","Calabar","Cross River",1,SEE,"Children’s carnival, part of Carnival Calabar 2026."],
 ["Calabar Bikers Carnival","Festivals & Carnivals","2026-12-29","2026-12-29","","Calabar","Cross River",1,SEE,"Motorbike parade, part of Carnival Calabar 2026."],
 ["Calabar Street Party and Colour Run","Festivals & Carnivals","2026-12-30","2026-12-30","","Calabar","Cross River",1,SEE,"Closing street party of Carnival Calabar 2026."],
-["DevFest Kaduna 2026","Tech","2026-10-31","2026-10-31","Arewa House","Kaduna","Kaduna",1,"Free to ₦5,000","Google developer community conference."],
+0,
 ["Hymnals Concert","Faith","2026-11-22","2026-11-22","","Kaduna","Kaduna",0,SEE,"Hymn concert, 3pm."],
-["Praise in the Park","Faith","2026-11-08","2026-11-08","Nitel Training Centre","Kano","Kano",0,"Free (listed)","Outdoor praise gathering."],
+0,
 ["47th Kano International Trade Fair","Expos & Trade Fairs","2026-11-27","2026-12-11","Trade Fair Complex, Zoo Road","Kano","Kano",0,SEE,"Annual international trade fair in Kano."],
-["Owerri City Fest","Festivals & Carnivals","2026-11-07","2026-11-07","Heroes Square","Owerri","Imo",0,"Free (listed)","City festival in Owerri."],
-["Delta Creators & Influencers Hangout 2.0","Tech","2026-11-05","2026-11-05","","Asaba","Delta",0,"Free (listed)","Meet-up for creators and influencers in Delta State."],
-["Laffmattazz 2026 Grand Finale","Comedy","2026-11-15","2026-11-15","Balmoral Convention Centre, Federal Palace Hotel, Victoria Island","Lagos","Lagos",1,SEE,"Gbenga Adeyinka and friends close the Laffmattazz comedy tour, billed as “Lagos Gets the Last Laugh”."],
-["Shades of Senior Man","Comedy","2026-11-15","2026-11-15","3Js Hotel, Jabi","Abuja","FCT",1,SEE,"Stand-up show by Abuja comedian Senior Man, from 6pm."],
-["Opera in Concert Lagos 2026","Music","2026-11-07","2026-11-07","Agip Recital Hall, MUSON Centre, Onikan","Lagos","Lagos",1,SEE,"An evening of opera and classical vocal music."],
+0,
+0,
+0,
+0,
+0,
 ["Festival of African Cuisine: Lagos Edition","Food & Drink","2026-12-20","2026-12-20","MUSON Centre, Onikan","Lagos","Lagos",1,"Free entry","Afternoon food festival, 1–8pm, with stalls serving dishes from across Africa."],
 ["The Country’s Biggest Food Festival","Food & Drink","2026-12-14","2026-12-14","Muri Okunola Park, Victoria Island","Lagos","Lagos",0,"Free (listed)","Open-air food festival listed on EventsKona. Confirm details with the organiser."],
 ["Aké Arts and Book Festival 2026","Books & Literature","2026-11-19","2026-11-21","Silkwood Hotel, Ikeja GRA","Lagos","Lagos",1,"₦20,000 online; ₦25,000 at the door","14th edition, themed “Native Intelligence”: panels, book talks, poetry and music, run by the Book Buzz Foundation."],
 ["Lagos Book and Art Festival (LABAF) 2026","Books & Literature","2026-11-16","2026-11-22","Freedom Park, Onikan","Lagos","Lagos",1,SEE,"A week of books, art, readings and performances at Freedom Park and the Museum of Yoruba History."],
-["AfCFTA Esports & Gaming Pavilion at CANEX WKND","Gaming & Esports","2026-11-05","2026-11-08","Wole Soyinka Centre, National Theatre, Iganmu","Lagos","Lagos",1,SEE,"First dedicated esports pavilion at CANEX: game showcases, pro competitions and studio meetings, with the Esports Federation of Nigeria."],
-["Gamathon 2026: Industry Day","Gaming & Esports","2026-10-31","2026-10-31","The Zone","Lagos","Lagos",1,SEE,"Closing day of Africacomicade’s games and animation convention: panels, exhibitions, a gaming tournament and an after-party."],
-["3rd Abuja City International Half Marathon","Health & Fitness","2026-11-14","2026-11-14","","Abuja","FCT",1,SEE,"21km road race past Abuja’s landmarks for elite, recreational and corporate runners. Registration at the Old Parade Ground."],
+0,
+0,
+0,
 ["The Wellness Expo Abuja 2026","Health & Fitness","2026-11-27","2026-11-28","","Abuja","FCT",1,"Tickets on Tix Africa","Two days of health talks, a wellness experience zone and an innovation showcase, from 8am."],
-["Walk Away Cancer 12.0","Charity & Volunteering","2026-10-31","2026-10-31","Monoliza Park, R.B. Dikko Road, Area II, Garki","Abuja","FCT",1,SEE,"Annual walk by Medicaid Cancer Foundation for cancer screening, with on-site health checks. Starts 7am."],
+0,
 ["Abuja Xmas Fair 2026","Markets & Pop-ups","2026-11-27","2026-12-03","Old Parade Ground, Area 10","Abuja","FCT",1,"Free for shoppers","Seven-day Christmas fair of crafts, local products and small businesses, with live auctions and skills demonstrations."],
 ["Arewa Festival Abuja 2026","Markets & Pop-ups","2026-11-21","2026-11-22","Arena 21, Arts & Crafts Village","Abuja","FCT",1,"VIP ₦50,000; general tickets not yet priced","Market and culture fair where northern Nigerian makers sell food, fashion and crafts."],
 ["CEA Nigeria: Controlled Environment Agriculture Expo","Agriculture","2026-11-17","2026-11-19","","Abuja","FCT",1,SEE,"Trade expo on greenhouse and climate-smart farming technology for year-round food production."],
@@ -1989,47 +2004,47 @@ const RAW=[
 ["The Experience 21: Jesus the Rock", "Faith", "2026-12-04", "2026-12-04", "Tafawa Balewa Square (TBS)", "Lagos", "Lagos", 1, "Free entry. No tickets or registration", "21st edition of the annual night of worship, 7pm till dawn, with worship leaders from Nigeria, across Africa and beyond. Also broadcast live."],
 ["Everyday Contradictions: Gopal Dagnogo", "Arts & Culture", "2026-11-07", "2026-11-28", "Alliance Française de Lagos / Mike Adenuga Centre, 9 Osborne Road, Ikoyi", "Lagos", "Lagos", 1, SEE, "First Lagos solo show by the Franco-Ivorian painter. Opening cocktail Sat 7 Nov, 3pm. Visiting hours Mon–Fri 9am–5pm, Sat 10am–2pm."],
 ["Tropical Christmas Wonderland: Season of the Golden Star", "Kids & Family", "2026-12-22", "2027-01-02", "Eko Hotels & Suites, Victoria Island", "Lagos", "Lagos", 1, "Packages on sale. Reserve on 0907 103 4800, 0807 131 6002 or 0803 792 8290", "Family Christmas programme: theatre shows, comedy, sing-alongs, the Golden North Street Carnival Parade, theme-park rides, Santa’s Grotto and festive dining."],
-["The Plot Farmers’ Market", "Markets & Pop-ups", "2026-10-31", "2026-10-31", "The Conservatory Garden, Lekki Phase 1", "Lagos", "Lagos", 1, "Free entry", "Farmers’ and makers’ market, 8am–6pm: fresh produce, food, garden finds and workshops."],
-["Improv Circle: Ghosted", "Comedy", "2026-10-31", "2026-10-31", "The Laughter Cave, Ikoyi", "Lagos", "Lagos", 1, "From ₦7,500", "Halloween improv comedy show, 6pm. Costumes encouraged, with a prize for the best. A round-trip bus ticket from the mainland (Improv Xpress) is also sold."],
+0,
+0,
 ["Fire & Sand: Capital Edition", "Nightlife & Parties", "2026-12-19", "2026-12-19", "Bali, City Park, Wuse 2", "Abuja", "FCT", 1, "Early bird ₦7,000; ₦15,000 at the gate", "Bonfire party by The Party Company, 7pm–3am."],
-["Movie in the Park: Halloween Edition", "Film & Theatre", "2026-10-31", "2026-10-31", "Bali, Wuse 2", "Abuja", "FCT", 1, SEE, "Outdoor movie night from 5pm with food, drinks, games, prizes and an after-party. Come in costume."],
+0,
 ["Movie in the Park: Ibadan Edition", "Film & Theatre", "2026-11-21", "2026-11-21", "Lead City International School", "Ibadan", "Oyo", 1, SEE, "Outdoor movie night on the national tour, with food, drinks, networking, an after-party and cash prizes."],
 ["LABAF Open Mic Competition", "Books & Literature", "2026-11-17", "2026-11-17", "Freedom Park, Lagos Island", "Lagos", "Lagos", 1, "Free to enter. Register by 9 Nov", "Open stage for poets, spoken-word artists, dancers, actors, rappers and musicians at the Lagos Book & Art Festival, 4pm. Prizes: ₦250,000, ₦150,000 and ₦100,000."],
 ["Kayode Aderinokun Poetry Prize 3.0 (KAPP)", "Books & Literature", "2026-11-18", "2026-11-19", "Freedom Park, Lagos Island", "Lagos", "Lagos", 1, "Free to enter. Register by 9 Nov", "Two days of spoken-word contests at LABAF, 4pm. Grand prize ₦1,000,000."],
 ["TechUnwind UNILAG", "Tech", "2026-11-26", "2026-11-26", "UNILAG Sports Centre, Akoka", "Lagos", "Lagos", 1, "Early bird ₦3,000 (till 7 Nov); ₦5,000 regular; group tickets", "Campus mixer for techies, creatives and students, 3pm: games, music and exhibitors."],
 ["The Abuja Wedding Party 3.0", "Nightlife & Parties", "2026-11-29", "2026-11-29", "Jabi Lake Mall", "Abuja", "FCT", 1, SEE, "“Owambe-type” lifestyle party with fashion, music, food and an after-party. Red carpet 12pm, main event 1pm. Dress code: wedding vibes."],
-["Sippa Social: A Strange Night in Abuja", "Nightlife & Parties", "2026-10-31", "2026-10-31", "The Mason by Trovardig, 418 Biodun Akin-Aina Crescent, Katampe", "Abuja", "FCT", 1, SEE, "Halloween cocktail and social night, 7pm. First Abuja edition."],
-["Blak Dave & Friends x Bad Romans: Halloween", "Nightlife & Parties", "2026-10-31", "2026-10-31", "District 69", "Abuja", "FCT", 1, SEE, "Halloween electronic night with DJs from Lagos and Abuja."],
-["GWM Drift Championship 2026", "Sports", "2026-10-31", "2026-10-31", "Eagle Square Car Park", "Abuja", "FCT", 1, SEE, "Car drifting championship, from 12pm."],
+0,
+0,
+0,
 ["ICONIQ Fest 2026", "Music", "2026-12-19", "2026-12-21", "Lekki Coliseum", "Lagos", "Lagos", 0, SEE, "Three-day festival: BNXN (19 Dec), FOLA (20 Dec) and Oxlade (21 Dec). Tickets on the festival’s website."],
-["La Roche-Posay Living Lab Nigeria", "Health & Fitness", "2026-11-05", "2026-11-06", "Plot 8 & 9, Ligali Ayorinde Street, Victoria Island", "Lagos", "Lagos", 0, "Free. Registration required", "Interactive skin-science rooms with dermatologists on hand."],
-["Love in the Boulevard: Thriller", "Music", "2026-10-31", "2026-10-31", "Praia Lagos, Victoria Island", "Lagos", "Lagos", 0, "₦10,000", "R&B Halloween night, 7pm."],
-["PM2AM: After Dark", "Nightlife & Parties", "2026-10-31", "2026-10-31", "Casa 45, Victoria Island", "Lagos", "Lagos", 0, "₦15,000", "Halloween party, 9pm."],
-["Rest Where You Are Rooted: Mobolaji Ogunrosoye", "Arts & Culture", "2026-10-31", "2026-10-31", "O’DA Art, Victoria Island", "Lagos", "Lagos", 0, "Free entry", "Exhibition opening, 1pm."],
-["Good Evening, Good Evening Street: Tonia Nneji", "Arts & Culture", "2026-10-31", "2026-10-31", "Rele Gallery, Ikoyi", "Lagos", "Lagos", 0, "Free entry", "Exhibition, from 2pm."],
-["Where Our Stories Begin", "Arts & Culture", "2026-10-31", "2026-10-31", "Sachs Gallery, Lekki Phase 1", "Lagos", "Lagos", 0, "Free entry", "Group exhibition."],
-["Cyanotype Workshop by andCo Collective", "Workshops & Classes", "2026-10-31", "2026-10-31", "26 Animashaun Street, Surulere", "Lagos", "Lagos", 0, "₦25,000", "Hands-on sun-printing workshop, 1pm."],
-["DayBreeze: Halloween in Lagos", "Nightlife & Parties", "2026-11-01", "2026-11-01", "EbonyLife Place, Victoria Island", "Lagos", "Lagos", 0, "Free with RSVP", "Daytime Halloween party, 2pm."],
-["Indie At The Park", "Music", "2026-11-01", "2026-11-01", "Baywater Park Event Center, Lekki", "Lagos", "Lagos", 0, "₦10,000", "Picnic-style live music, 3pm."],
-["MUSON Orchestra Concert", "Music", "2026-11-01", "2026-11-01", "MUSON Centre, Onikan", "Lagos", "Lagos", 0, "Regular ₦10,000", "Classical concert, 6pm."],
-["Akwa Ibom Tech Week 2026", "Tech", "2026-11-02", "2026-11-07", "Ibom LED Centre, Uyo and Four Points by Sheraton, Ikot Ekpene", "Uyo", "Akwa Ibom", 1, "₦20,000–₦950,000", "A week-long tech festival with a startup pitch final, a career fair, a main conference day in Ikot Ekpene and ecosystem tours."],
-["Akwa Ibom Tech Week Career Fair", "Careers & Education", "2026-11-04", "2026-11-04", "", "Uyo", "Akwa Ibom", 1, SEE, "Job seekers and employers meet during Akwa Ibom Tech Week. Venue and time are sent after you register interest."],
-["Nigeria Blockchain & AI Week 2026", "Tech", "2026-11-06", "2026-11-07", "Landmark Event Centre, Victoria Island", "Lagos", "Lagos", 1, "Free (gala night paid)", "A two-day conference on blockchain, AI and fintech. The day programme is free; the evening gala and awards night is paid."],
-["Word Conference: Freedom in Christ", "Faith", "2026-11-06", "2026-11-08", "The Hall, 16 Musa Yar'Adua Street, Victoria Island", "Lagos", "Lagos", 1, "Free", "Ecclesia Hills' yearly three days of Bible teaching, worship and prayer."],
-["XRevive 2.0", "Gaming & Esports", "2026-11-07", "2026-11-07", "Rubels and Angels, 27 Oba Akran, Ikeja", "Lagos", "Lagos", 1, "₦5,000 per player", "Console tournament across EA FC 27, F1 25, Mortal Kombat 1 and NBA 2K27, with ₦50,000 for each winner."],
-["NAPE Annual International Conference & Exhibition 2026", "Business", "2026-11-08", "2026-11-12", "Eko Hotel & Suites, Victoria Island", "Lagos", "Lagos", 1, "₦50,000–₦180,000", "The yearly conference and exhibition of the Nigerian Association of Petroleum Explorationists for oil and gas professionals."],
-["Martini Candle Making Class", "Workshops & Classes", "2026-11-08", "2026-11-08", "Alali Studio, 32 Musa Yar'Adua Street, Victoria Island", "Lagos", "Lagos", 1, SEE, "A three-hour class where you pour, scent and decorate a candle in a martini glass to take home."],
-["Chika Okeke-Agulu: Freedom Bird (opening)", "Arts & Culture", "2026-11-08", "2026-11-08", "Yemisi Shyllon Museum of Art, Pan-Atlantic University, Lekki-Epe Expressway", "Lagos", "Lagos", 1, SEE, "Brunch opening of the artist's retrospective, with a conversation and a tour led by the artist."],
-["TRACE in the City Abuja: Shoday & Friends", "Music", "2026-11-10", "2026-11-10", "Convocation Ground, University of Abuja", "Abuja", "FCT", 1, "Free (registration)", "Free open-air TRACE show headlined by Shoday, with Falz and others on the bill."],
-["Super Eagles vs Tanzania (AFCON 2027 qualifier)", "Sports", "2026-11-11", "2026-11-11", "Godswill Akpabio International Stadium", "Uyo", "Akwa Ibom", 1, SEE, "Nigeria host Tanzania in Group L of AFCON 2027 qualifying. Kick-off 6pm WAT."],
-["Bruce Onobrakpeya: Celebrating a Nigerian Icon", "Arts & Culture", "2026-11-12", "2026-11-13", "8a Modupe Alakija Crescent, Ikoyi", "Lagos", "Lagos", 1, SEE, "A two-day tribute to the printmaker: an exhibition, then a celebration evening."],
-["The Sage Transformational Leadership Masterclass", "Workshops & Classes", "2026-11-13", "2026-11-13", "Elsie Femi Pearse Street, Victoria Island", "Lagos", "Lagos", 1, SEE, "A six-hour in-person masterclass for senior executives on transformative leadership."],
-["Port Harcourt Apostolic and Prophetic Summit 2026", "Faith", "2026-11-13", "2026-11-14", "Church of God Mission, Elipokwu-Odu, Rukpokwu", "Port Harcourt", "Rivers", 1, SEE, "Two evenings of prayer running into the night, hosted by Pastor Shola Olowokere."],
-["Capital Block Party: BNXN, Still In Charge", "Music", "2026-11-14", "2026-11-15", "", "Abuja", "FCT", 1, SEE, "Abuja edition of the Mainland Block Party series, headlined by BNXN, 8pm to 2am."],
-["Port Harcourt International Half Marathon 2026", "Health & Fitness", "2026-11-14", "2026-11-14", "", "Port Harcourt", "Rivers", 1, SEE, "A 21km road race through Port Harcourt for elite and amateur runners."],
-["Race to Zion 5km Run", "Health & Fitness", "2026-11-14", "2026-11-14", "Mount Zion National Headquarters, 9/11 Pearse Street", "Lagos", "Lagos", 1, "Free", "A free community 5km run with a ₦300,000 prize pool for the top finishers."],
-["Every Step Counts: Diabetes Awareness Walk 2026", "Charity & Volunteering", "2026-11-14", "2026-11-14", "", "Jos", "Plateau", 1, "Free", "A World Diabetes Day community walk by the Victor Dielat Memorial Foundation, starting 7am."],
-["Write with Music Festival 2026", "Books & Literature", "2026-11-14", "2026-11-14", "Bloomgrey Event Centre, 1 Nwabuo Brown Street, Gbagada", "Lagos", "Lagos", 1, SEE, "A day of panels, a creative writing workshop, an editing masterclass and author signings."],
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
 ["AfrICANDO 2026: African Diaspora Conference and Expo", "Business", "2026-11-17", "2026-11-19", "International Conference Centre, Umuahia", "Umuahia", "Abia", 1, "From $250", "A diaspora investment conference and expo with seminars, an exhibition and a gala dinner."],
 ["Jokes 'n' Jollof", "Comedy", "2026-11-18", "2026-11-18", "Livespot Entertarium", "Lagos", "Lagos", 1, "Free", "A comedy night of roasts and Naija humour during Entertainment Week Africa."],
 ["The Runway Coterie", "Fashion", "2026-11-19", "2026-11-19", "Livespot Entertarium", "Lagos", "Lagos", 1, "Free", "A runway evening of African design during Entertainment Week Africa."],
@@ -2080,9 +2095,9 @@ const RAW=[
 ["December Hangout with Adunni Connect", "Kids & Family", "2026-12-28", "2026-12-28", "Ndubuisi Kanu Park, Ikeja", "Lagos", "Lagos", 1, "Kids ₦15,000 · Adults ₦20,000", "A daytime family hangout in the park with games for all ages."]
 ,
 /* from promoters' Instagram posts, 2 Nov 2026 */
-["Abuja Medical Fest 4.0", "Health & Fitness", "2026-11-07", "2026-11-07", "Tobix Garden, Kado", "Abuja", "FCT", 1, "Health checks from ₦10,999. Register on Funz", "A day of affordable health checks: consultations, lab tests, eye care, cervical cancer screening and vaccinations. An extended screening package costs ₦35,999."],
-["DJ Playground", "Nightlife & Parties", "2026-11-08", "2026-11-08", "Blake Resort, 1346 Ahmadu Bello Way, Garki 2", "Abuja", "FCT", 1, SEE, "Sunday night DJ party from 7pm with DJ Nanya, DJ Achiki Jimmy, DJ Icemo and DJ G-Funk."],
-["FIP World Polo Championship: Zone E Playoffs", "Sports", "2026-11-09", "2026-11-16", "Abuja Guards Polo Club", "Abuja", "FCT", 1, SEE, "International polo playoffs with teams from Nigeria, Iran, Pakistan and India."],
+0,
+0,
+0,
 ["Okpa Festival 2026", "Festivals & Carnivals", "2026-12-06", "2026-12-06", "Amadeo Event Center", "Enugu", "Enugu", 1, "Ticketed. Tickets on Funz", "“Okpa Eze Nwe Obodo”: a celebration of Enugu’s favourite snack and Eastern Nigerian food, culture, music and games, from 11am. Okpa village vendor spaces are free."],
 ["Elite Festival 2026", "Music", "2026-12-21", "2026-12-21", "Balmoral Convention Centre, Victoria Island", "Lagos", "Lagos", 1, SEE, "Detty December concert with Blaqbonez headlining, plus three headliners and ten supporting acts."],
 ["Waje: The Unexpected Christmas", "Music", "2026-12-20", "2026-12-20", "National Theatre (Wole Soyinka Centre), Iganmu", "Lagos", "Lagos", 1, SEE, "Singer Waje stages a Christmas-season concert titled The Unexpected Christmas at the National Theatre."],
@@ -2106,8 +2121,8 @@ const RAW=[
 ["ITORO! The Musical", "Film & Theatre", "2026-12-26", "2027-01-10", "Terra Kulture Arena, Victoria Island", "Lagos", "Lagos", 1, "From ₦20,000", "A holiday-season musical about a 41-year-old fashion designer who falls for a much younger rising musician. Shows are at 3pm and 7pm on most days."],
 ["Cook for Peace Festival 3.0", "Food & Drink", "2026-12-18", "2026-12-18", "The Stable, 41 Bode Thomas Street, Surulere", "Lagos", "Lagos", 1, SEE, "The third edition of a one-day cooking festival built around the theme of peace, running 9am to 6pm."],
 ["Drunch in the City: Lagos Edition", "Food & Drink", "2026-12-28", "2026-12-28", "The Leisure Park Event Center, Lekki", "Lagos", "Lagos", 1, SEE, "A Detty December dinner-brunch with a three-course meal, DJs, African fashion and panel talks. The listed start time is 2pm."],
-["26th Abuja International Motor Fair", "Expos & Trade Fairs", "2026-11-10", "2026-11-13", "Eagle Square", "Abuja", "FCT", 1, SEE, "Four-day automotive fair organised by BKG Exhibitions with the NADDC, with a three-day conference, test drives, an exotic car display and an awards night."],
-["SME Conference 2026", "Business", "2026-11-14", "2026-11-14", "Work and Connect, 50 Ebitu Ukiwe Street, Jabi", "Abuja", "FCT", 1, SEE, "A short in-person session by Gatewood Consulting offering practical insights and networking for small business owners."],
+0,
+0,
 ["National Agricultural Show 2026", "Agriculture", "2026-11-16", "2026-11-20", "National Agricultural Showground, Km 28 Keffi–Abuja Expressway, Tudun Wada", "Karu", "Nasarawa", 1, SEE, "The National Agricultural Foundation of Nigeria's annual five-day show where farmers, agencies and agribusinesses exhibit produce, livestock and farm technology."],
 ["Nexus 2026", "Tech", "2026-11-18", "2026-11-18", "Balmoral Convention Centre, Federal Palace Hotel, Victoria Island", "Lagos", "Lagos", 1, SEE, "A one-day gathering hosted by Qore where industry leaders discuss automation in financial services and where it is heading."],
 ["GEW Nigeria 2026: Youth Entrepreneurship Dialogue", "Business", "2026-11-18", "2026-11-18", "Lagos Business School (Honeywell Auditorium), Lekki-Epe Expressway, Ajah", "Lagos", "Lagos", 1, SEE, "Enterprise Development Centre's Global Entrepreneurship Week forum for about 1,000 young people, with talks from founders and investors and a pitch session awarding seed money."],
@@ -2133,7 +2148,7 @@ const RAW=[
 ["DevFest Yenagoa 2026", "Tech", "2026-12-18", "2026-12-18", "Olotu Square, 2nd Floor, Flora Plaza, Opolo Market Road", "Yenagoa", "Bayelsa", 1, SEE, "GDG Yenagoa's annual developer festival with sessions on Google technologies and AI."],
 ["Lagos Biennial 2026: The Museum of Things Unseen", "Arts & Culture", "2026-11-14", "2026-12-06", "Eko Atlantic City, Victoria Island", "Lagos", "Lagos", 1, SEE, "The fifth Lagos Biennial brings more than 70 Nigerian and international artists to Eko Atlantic, with installations, films, performances, talks and international pavilions. The public programme runs 14 to 17 November and the exhibition continues on selected dates until 6 December."],
 ["Open Door: Group Exhibition by GBLagos Art Gallery", "Arts & Culture", "2026-11-24", "2026-11-28", "MÌLÍKÌ, 7B Etim Inyang Crescent, Victoria Island", "Lagos", "Lagos", 1, "Free", "A group show pairing masters such as Bruce Onobrakpeya, Jimoh Buraimoh and Tola Wewe with contemporary artists across painting, printmaking and mixed media. It is open 3pm to 9pm, Tuesday to Saturday."],
-["Fashion Essence 2026", "Fashion", "2026-11-13", "2026-11-15", "The Podium, Lekki (awards night)", "Lagos", "Lagos", 1, SEE, "A three-day fashion programme that ends with an awards ceremony at The Podium in Lekki on 15 November."],
+0,
 ["Fashion Rave", "Fashion", "2026-11-27", "2026-11-27", "Muri Okunola Park, Victoria Island", "Lagos", "Lagos", 1, SEE, "A one-day fashion party and showcase at Muri Okunola Park. Check access details with the organisers before you go."],
 ["Bare Fashion Evening", "Fashion", "2026-11-29", "2026-11-29", "Balmoral Convention Centre, Federal Palace Hotel, Victoria Island", "Lagos", "Lagos", 1, SEE, "An evening runway event at the Federal Palace Hotel. Organisers are expected to release ticket and vendor details."],
 ["Africa Fashion Week Nigeria 2026 (12th Edition)", "Fashion", "2026-12-12", "2026-12-13", "J. Randle Centre for Yoruba Culture and History, Onikan", "Lagos", "Lagos", 1, SEE, "The 12th edition of Africa Fashion Week Nigeria runs over two days, with runway shows and showcases from African designers."],
@@ -2159,7 +2174,7 @@ const RAW=[
 ["Ogudu Run Rave", "Health & Fitness", "2026-12-19", "2026-12-19", "Fish Farm Lagos, 1-3 Ogudu Road, Ogudu", "Lagos", "Lagos", 1, SEE, "A morning run followed by a rave-style after-party, hosted by Ogudu Run Club and open to all ages. Doors open at 6am."],
 ["Asili Clarity of Self: Detty Wellness", "Health & Fitness", "2026-12-19", "2026-12-19", "Victoria Island (meeting point to be confirmed)", "Lagos", "Lagos", 1, SEE, "A yacht-based wellness morning for women, with yoga or Pilates, breathwork, sound bath, spa treatments and lunch. Each experience is capped at 30 guests."],
 ["Padels & Pilates: Softlife Wellness Morning", "Health & Fitness", "2026-12-30", "2026-12-30", "23AA Cooper Road, Ikoyi", "Lagos", "Lagos", 1, SEE, "A four-hour wellness morning for adults (18+) with padel and Pilates sessions, massages, breakfast and networking."],
-["Silent Book Club Mainland: Free Reading Hangout", "Books & Literature", "2026-11-14", "2026-11-14", "The Atrium Lagos, 1a Agoro Street, Omole Phase 1, Ikeja", "Lagos", "Lagos", 1, "Free", "A relaxed reading meet-up on the mainland. You bring your own book, read quietly alongside other book lovers, then stay to chat if you like."],
+0,
 ["Book Launch: Traces of Ecstasy by KJ Abudu", "Books & Literature", "2026-11-17", "2026-11-17", "G.A.S. Foundation, 9 Hakeem Dickson Drive", "Lagos", "Lagos", 1, SEE, "The Lagos launch of curator KJ Abudu's new book on decolonisation and pan-African futures. It includes a presentation and a conversation with some of the book's contributors."],
 ["Silent Book Club VI: Victoria Island (Nov Edition)", "Books & Literature", "2026-11-28", "2026-11-28", "Alali, 32 Musa Yar'Adua Street, Victoria Island", "Lagos", "Lagos", 1, "Free", "The monthly Victoria Island quiet-reading session. An hour of silent reading with your own book is followed by an optional social hour with board and card games."],
 ["Official Book Launch: Skills to Gold", "Books & Literature", "2026-11-28", "2026-11-28", "Novare Mall, Wuse Zone 5", "Abuja", "FCT", 1, SEE, "An afternoon launch of the book Skills to Gold, which is about turning your skills into success."],
@@ -2173,9 +2188,10 @@ const RAW=[
 ["World Diabetes Day 2026: Diabetes Education & Free Screening", "Charity & Volunteering", "2026-11-18", "2026-11-18", "", "Sagamu", "Ogun", 1, "Free", "A community outreach by the Endocrinology Unit and Diabetes Association of Nigeria at OOUTH Sagamu, offering free type 2 diabetes screening and diet and lifestyle education."],
 ];
 
-const BASE=RAW.map((a,i)=>({id:"b"+i,name:a[0],cat:a[1],s:a[2],e:a[3],venue:a[4],city:a[5],state:a[6],src:a[7],fee:a[8],about:a[9]}));
+/* ended built-in events are replaced by 0 each month (scripts/tidy_past.py) so every id stays the same; their details move to data/past-events.json */
+const BASE=RAW.map((a,i)=>a?({id:"b"+i,name:a[0],cat:a[1],s:a[2],e:a[3],venue:a[4],city:a[5],state:a[6],src:a[7],fee:a[8],about:a[9]}):null).filter(Boolean);
 /* flyers and source posts collected from promoters' Instagram accounts */
-const FLY={"The Experience 21: Jesus the Rock": {"ig": ["theexperiencelagos", "https://www.instagram.com/p/DfOnHw1BUeJ/"], "img": "flyers/theexperiencelagos-18129569365862690.jpg"}, "Everyday Contradictions: Gopal Dagnogo": {"ig": ["af.lagos", "https://www.instagram.com/p/De9sbqdqL0N/"], "img": "flyers/af-lagos-18135013090663779.jpg"}, "Tropical Christmas Wonderland: Season of the Golden Star": {"ig": ["ekohotels", "https://www.instagram.com/p/DeZmLaosl0a/"], "img": "flyers/ekohotels-18098490257564224.jpg"}, "The Plot Farmers’ Market": {"ig": ["lagoslife", "https://www.instagram.com/p/DfFgQzgjGs9/"], "img": "flyers/lagoslife-18073153655785678.jpg"}, "Improv Circle: Ghosted": {"ig": ["improvcircle", "https://www.instagram.com/p/DfC94AkjThr/"], "img": "flyers/improvcircle-18122328023487080.jpg"}, "Fire & Sand: Capital Edition": {"ig": ["partycompanyng", "https://www.instagram.com/p/Dew7Ab3jRZA/"], "img": "flyers/partycompanyng-18089515016272882.jpg"}, "Movie in the Park: Halloween Edition": {"ig": ["mipexperience", "https://www.instagram.com/p/DfANUURDevs/"], "img": "flyers/mipexperience-18120739586055199.jpg"}, "Movie in the Park: Ibadan Edition": {"ig": ["mipexperience", "https://www.instagram.com/p/DesCQykNJO4/"], "img": "flyers/mipexperience-17898712896608116.jpg"}, "LABAF Open Mic Competition": {"ig": ["labaf1", "https://www.instagram.com/p/DebhBSqMn-8/"], "img": "flyers/labaf1-18631745647038605.jpg"}, "Kayode Aderinokun Poetry Prize 3.0 (KAPP)": {"ig": ["labaf1", "https://www.instagram.com/p/DeT5MV2sYvs/"], "img": "flyers/labaf1-18639669466009859.jpg"}, "TechUnwind UNILAG": {"ig": ["techunwindng", "https://www.instagram.com/p/DfClBYHNeUE/"], "img": "flyers/techunwindng-18131494798874364.jpg"}, "The Abuja Wedding Party 3.0": {"ig": ["abujakulture", "https://www.instagram.com/p/De7WeSVMV5O/"], "img": "flyers/abujakulture-18386594824236850.jpg"}, "Sippa Social: A Strange Night in Abuja": {"ig": ["abujakulture", "https://www.instagram.com/p/DfC6HTMsk2t/"], "img": "flyers/abujakulture-18211619128366412.jpg"}, "Blak Dave & Friends x Bad Romans: Halloween": {"ig": ["abuja.pr", "https://www.instagram.com/p/DfJC5a0iE0w/"], "img": "flyers/abujakulture-18127396507894921.jpg"}, "GWM Drift Championship 2026": {"ig": ["abuja.pr", "https://www.instagram.com/p/DfJBNDjoFzi/"], "img": "flyers/abuja-pr-18027307271919873.jpg"}, "ICONIQ Fest 2026": {"ig": ["lagos_events", "https://www.instagram.com/p/De4KFXvDKCm/"]}, "La Roche-Posay Living Lab Nigeria": {"ig": ["awelagos", "https://www.instagram.com/p/DeT2b0KDF24/"]}, "Love in the Boulevard: Thriller": {"ig": ["awelagos", "https://www.instagram.com/p/DfGJ5qljK1T/"]}, "PM2AM: After Dark": {"ig": ["awelagos", "https://www.instagram.com/p/DfGJ5qljK1T/"]}, "Rest Where You Are Rooted: Mobolaji Ogunrosoye": {"ig": ["awelagos", "https://www.instagram.com/p/DfGJ5qljK1T/"]}, "Good Evening, Good Evening Street: Tonia Nneji": {"ig": ["awelagos", "https://www.instagram.com/p/DfGJ5qljK1T/"]}, "Where Our Stories Begin": {"ig": ["awelagos", "https://www.instagram.com/p/DfGJ5qljK1T/"]}, "Cyanotype Workshop by andCo Collective": {"ig": ["awelagos", "https://www.instagram.com/p/DfGJ5qljK1T/"]}, "DayBreeze: Halloween in Lagos": {"ig": ["awelagos", "https://www.instagram.com/p/DfGJ5qljK1T/"]}, "Indie At The Park": {"ig": ["awelagos", "https://www.instagram.com/p/DfGJ5qljK1T/"]}, "MUSON Orchestra Concert": {"ig": ["awelagos", "https://www.instagram.com/p/DfGJ5qljK1T/"]}, "Lagos Fashion Week 2026": {"img": "flyers/lagosfashionweekofficial-18027139581112551.jpg", "ig": ["lagosfashionweekofficial", "https://www.instagram.com/p/DfJ5YQuKOc2/"]}, "ART X Lagos": {"img": "flyers/artxlagos-18029812697864879.jpg", "ig": ["artxlagos", "https://www.instagram.com/p/De9h61eIVah/"]}, "Lagos Book and Art Festival (LABAF) 2026": {"img": "flyers/labaf1-18110586155627478.jpg", "ig": ["labaf1", "https://www.instagram.com/p/DfJy-zdM2TE/"]}, "Abuja Medical Fest 4.0": {"img": "flyers/abujakulture-18045445736834189-1.jpg", "ig": ["abujakulture", "https://www.instagram.com/p/DfNYci4DL65/"]}, "DJ Playground": {"img": "flyers/abuja-pr-18143544358721172-0.jpg", "ig": ["abuja.pr", "https://www.instagram.com/p/DfNmpEiDv5_/"]}, "FIP World Polo Championship: Zone E Playoffs": {"img": "flyers/abuja-pr-18133181683818052-2.jpg", "ig": ["abuja.pr", "https://www.instagram.com/p/DfMInN-jgwG/"]}, "Okpa Festival 2026": {"img": "flyers/okpa_festival-17990966372860911-0.jpg", "ig": ["okpa_festival", "https://www.instagram.com/p/DemJ4k7sp3d/"]}, "Elite Festival 2026": {"img": "flyers/lagos_events-18000847109820612-2.jpg", "ig": ["lagos_events", "https://www.instagram.com/p/DfKuc4OjEZc/"]}, "Bass ’N Bounce Port Harcourt": {"ig": ["portharcourtravers", "https://www.instagram.com/p/DfNW-F2IiyW/"]}};
+const FLY={"The Experience 21: Jesus the Rock": {"ig": ["theexperiencelagos", "https://www.instagram.com/p/DfOnHw1BUeJ/"], "img": "flyers/theexperiencelagos-18129569365862690.jpg"}, "Everyday Contradictions: Gopal Dagnogo": {"ig": ["af.lagos", "https://www.instagram.com/p/De9sbqdqL0N/"], "img": "flyers/af-lagos-18135013090663779.jpg"}, "Tropical Christmas Wonderland: Season of the Golden Star": {"ig": ["ekohotels", "https://www.instagram.com/p/DeZmLaosl0a/"], "img": "flyers/ekohotels-18098490257564224.jpg"}, "Fire & Sand: Capital Edition": {"ig": ["partycompanyng", "https://www.instagram.com/p/Dew7Ab3jRZA/"], "img": "flyers/partycompanyng-18089515016272882.jpg"}, "Movie in the Park: Ibadan Edition": {"ig": ["mipexperience", "https://www.instagram.com/p/DesCQykNJO4/"], "img": "flyers/mipexperience-17898712896608116.jpg"}, "LABAF Open Mic Competition": {"ig": ["labaf1", "https://www.instagram.com/p/DebhBSqMn-8/"], "img": "flyers/labaf1-18631745647038605.jpg"}, "Kayode Aderinokun Poetry Prize 3.0 (KAPP)": {"ig": ["labaf1", "https://www.instagram.com/p/DeT5MV2sYvs/"], "img": "flyers/labaf1-18639669466009859.jpg"}, "TechUnwind UNILAG": {"ig": ["techunwindng", "https://www.instagram.com/p/DfClBYHNeUE/"], "img": "flyers/techunwindng-18131494798874364.jpg"}, "The Abuja Wedding Party 3.0": {"ig": ["abujakulture", "https://www.instagram.com/p/De7WeSVMV5O/"], "img": "flyers/abujakulture-18386594824236850.jpg"}, "ICONIQ Fest 2026": {"ig": ["lagos_events", "https://www.instagram.com/p/De4KFXvDKCm/"]}, "Lagos Book and Art Festival (LABAF) 2026": {"img": "flyers/labaf1-18110586155627478.jpg", "ig": ["labaf1", "https://www.instagram.com/p/DfJy-zdM2TE/"]}, "Okpa Festival 2026": {"img": "flyers/okpa_festival-17990966372860911-0.jpg", "ig": ["okpa_festival", "https://www.instagram.com/p/DemJ4k7sp3d/"]}, "Elite Festival 2026": {"img": "flyers/lagos_events-18000847109820612-2.jpg", "ig": ["lagos_events", "https://www.instagram.com/p/DfKuc4OjEZc/"]}, "Bass ’N Bounce Port Harcourt": {"ig": ["portharcourtravers", "https://www.instagram.com/p/DfNW-F2IiyW/"]}};
 BASE.forEach(v=>{const f=FLY[v.name];if(f){if(f.img)v.img=f.img;v.ig=f.ig}});
 const WX={"Lagos":{ond:["24–31°C","Warm and humid. Showers are still possible in early November and ease later."],dj:["24–32°C","Mostly dry and hot. Hazy mornings are common when the harmattan blows."]},"Abuja":{ond:["19–33°C","Dry season begins: hot days, cooler nights."],dj:["15–33°C","Dry, dusty and hazy under the harmattan. Nights can feel cool."]},"Port Harcourt":{ond:["23–31°C","Humid, with frequent showers."],dj:["23–32°C","Drier but still humid."]},"Calabar":{ond:["23–31°C","Humid, with showers tapering off."],dj:["22–32°C","Mostly dry and warm."]},"Enugu":{ond:["20–32°C","Rains easing, warm days."],dj:["17–33°C","Dry and hazy, with cooler nights."]}};
 const PLACES={"Lagos":[["National Museum Lagos","Museum","Onikan"],["Freedom Park","Arts and leisure","Lagos Island"],["Terra Kulture","Arts and dining","Victoria Island"],["Nike Art Gallery","Gallery","Lekki"],["Lekki Conservation Centre","Nature","Lekki"],["National Theatre","Landmark","Iganmu"]],"Abuja":[["Millennium Park","Park",""],["Nigerian National Mosque","Landmark",""],["National Christian Centre","Landmark",""],["Jabi Lake","Leisure",""]],"Port Harcourt":[["Isaac Boro Park","Park",""],["Port Harcourt Pleasure Park","Leisure",""]],"Calabar":[["Calabar Museum","Museum",""],["Marina Resort","Leisure",""],["Drill Ranch","Wildlife",""],["Kwa Falls","Nature (day trip)",""]],"Enugu":[["Nike Lake Resort","Leisure",""],["Ngwo Pine Forest and Cave","Nature",""],["Michael Okpara Square","Landmark",""]]};
@@ -3332,7 +3348,7 @@ function lightOpen(){drawer();document.querySelectorAll("#view .ev.on").forEach(
 function render(){side();const V=$("#view"),same=render._v===S.view,keep=[],sw=same?scrollY:null;
  if(same)V.querySelectorAll(".mv,.mvb,.page,.rp,.lp,.split,.hrs,.uch,.calwrap,.evp,.mapbox").forEach(e=>{if(e.scrollTop||e.scrollLeft)keep.push([skey(e),e.scrollTop,e.scrollLeft])});const vst=same?V.scrollTop:0;
  const osv=same?V.querySelector(".mapbox>svg"):null,ovb=osv?osv.getAttribute("viewBox"):null;
- V.innerHTML=S.view==="map"?mapView():S.view==="events"?eventsView():S.view==="cal"?calView():S.view==="news"?newsView():S.view==="trip"?tripView():S.view==="explore"?exploreView():S.view==="near"?nearView():S.view==="tour"?tourView():S.view==="saved"?savedView():S.view==="daily"?dailyView():S.view==="about"?aboutView():S.view==="help"?helpView():S.view==="contact"?contactView():S.view==="privacy"?privacyView():S.view==="organisers"?orgView():S.view==="account"?(window.ACCT?ACCT.view():""):quizView();
+ V.innerHTML=S.view==="map"?mapView():S.view==="events"?eventsView():S.view==="cal"?calView():S.view==="news"?newsView():S.view==="trip"?tripView():S.view==="explore"?exploreView():S.view==="near"?nearView():S.view==="tour"?tourView():S.view==="saved"?savedView():S.view==="daily"?dailyView():S.view==="about"?aboutView():S.view==="help"?helpView():S.view==="contact"?contactView():S.view==="privacy"?privacyView():S.view==="organisers"?orgView():S.view==="ended"?endedView():S.view==="account"?(window.ACCT?ACCT.view():""):quizView();
  if(S.view!=="map"&&S.view!=="events")S.fs=0;if(S.fs)V.insertAdjacentHTML("beforeend",fsheet());
  const pg=V.querySelector(".page");if(pg&&!pg.querySelector(".foot"))pg.insertAdjacentHTML("beforeend",foot());else if(!pg){const L=V.querySelector(".rp,.lp");if(L)L.insertAdjacentHTML("beforeend",rfoot())}
  render._v=S.view;V.scrollTop=vst;keep.forEach(k=>{const e=V.querySelector(k[0]);if(e){e.scrollTop=k[1];e.scrollLeft=k[2]}});if(sw!=null&&scrollY!==sw)scrollTo(0,sw);zSetup();if(ovb)mapTween(ovb);
@@ -3674,6 +3690,26 @@ function drawerHTML(v,q,d1,d2){
   '<div class="dxft"><button class="dxcr" data-a="corr" data-id="'+v.id+'">'+(v.online?"Report this webinar":"Report a correction")+'</button><p>Dates and venues can change. Check with the organiser before you travel.</p></div></div>'+dbar(v,q)}
 
 
+
+/* ---------- events that have ended: old shared links ---------- */
+let PENDLINK=null,REMLOADED=false,PASTC=null;
+async function pastEvents(){if(PASTC)return PASTC;let out=[];
+ try{const r=await fetch("/data/past-events.json",{cache:"no-cache"});if(r.ok){const j=await r.json();out=out.concat((j.events||[]).map(x=>Object.assign({},x)))}}catch(x){}
+ try{if(window.NO_SB){const q=await NO_SB.from("docs").select("id,data").eq("col","events").lt("data->>e",TODAY).limit(2000);(q.data||[]).forEach(d=>{const v=cleanEv(Object.assign({},d.data,{id:"r"+d.id,src:0,pend:0,rev:1}));if(!v.hide)out.push(v)})}}catch(x){}
+ return PASTC=out}
+async function endedLookup(k){if(!k)return;const key=decodeURIComponent(k),L=await pastEvents(),v=L.find(x=>evSlug(x)===key)||L.find(x=>x.id===key);if(PENDLINK!==k)return;PENDLINK=null;
+ if(v&&(v.e||v.s)<TODAY){S.ended=v;S.view="ended";S.open=null;render();scrollTo(0,0);const w=$("#view");if(w)w.scrollTop=0}
+ else toast("That event link is no longer available. Here’s what’s on now.")}
+function endedView(){const v=S.ended;if(!v)return eventsView();const img=safeImg(v.img),cv=coverImg(v.cat),c=cc(v.cat);
+ const sim=all().map(x=>[x,(x.cat===v.cat?2:0)+(x.city===v.city||(v.online&&x.online)?1:0)]).filter(z=>z[1]>0).sort((a,b)=>b[1]-a[1]||(a[0].s<b[0].s?-1:1)).slice(0,6).map(z=>z[0]);
+ const more=sim.length<3?all().filter(x=>!sim.includes(x)).sort((a,b)=>a.s<b.s?-1:1).slice(0,6-sim.length):[];
+ const place=v.online?"Online · "+(v.plat||"Webinar"):(v.venue?v.venue+", ":"")+(v.city||"");
+ return '<div class="page endp"><div class="endban" role="status"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>This event has ended.</b> It took place on '+esc(fd(v.s,v.e))+'.</span></div>'+
+  '<div class="endcard" style="--c:'+c[0]+';--c2:'+c[1]+'"><div class="endart" style="background:'+grad(v.cat)+'">'+(img?'<img class="tbg" src="'+esc(img)+'" alt="" aria-hidden="true" onerror="this.remove()"><img class="tfl" src="'+esc(img)+'" alt="Flyer: '+esc(v.name)+'" onerror="this.remove()">':cv?'<img class="tpc" src="'+esc(cv)+'" alt="" aria-hidden="true" style="'+cvVar(v.cat)+'">':"")+'<span class="endtag">Ended</span></div>'+
+  '<div class="endtx"><span class="tec">'+esc(v.cat||"Event")+'</span><h1>'+esc(v.name)+'</h1><p class="endmeta"><b>'+esc(fd(v.s,v.e))+'</b>'+(v.time?' · '+esc(v.time):"")+'<br>'+esc(place)+'</p>'+(v.about?'<p class="endab">'+esc(v.about)+'</p>':"")+
+  (safeUrl(v.link)?'<a class="btn" target="_blank" rel="noopener" href="'+esc(safeUrl(v.link))+'">Organiser’s page '+SV.ext+'</a>':"")+'<p class="sm" style="margin:12px 0 0">If it happens again next year, it’ll be listed here once it’s announced.</p></div></div>'+
+  '<div class="endsim"><h2>'+(sim.length?"Similar events coming up":"Coming up soon")+'</h2><div class="tgrid">'+sim.concat(more).map(evCard).join("")+'</div>'+
+  '<div class="act" style="justify-content:center;margin-top:18px"><button class="btn p" data-a="go" data-v="events">See all upcoming events</button></div></div></div>'}
 /* ---------- online events and webinars ---------- */
 const PLATS=["Zoom","Google Meet","Microsoft Teams","YouTube Live","LinkedIn Live","X Spaces","Instagram Live","Online"];
 const ONLSVG='<svg class="olsv" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M10 8.5v5l4-2.5z"/></svg>';
@@ -3715,7 +3751,7 @@ async function moderate(a,id){const isC=a==="dismiss",v=(isC?CORR:PEND).find(x=>
  try{ADMIN=r[1]?await r[1].canEdit():false}catch(x){}try{UID=r[1]?await r[1].id():null}catch(x){}
  try{ASSETS=await claude.use("assets")}catch(x){ASSETS=null}
  DB.collection("overrides").onSnapshot(sn=>{OVR={};STS={};ND=new Set();let sc=new Set(),bl=[];sn.docs.forEach(d=>{const x=d.data();if(d.id==="block"){bl=((x&&x.terms)||[]).filter(i=>typeof i==="string").map(i=>i.toLowerCase());return}if(d.id==="scam"){sc=new Set(((x&&x.ids)||[]).filter(i=>typeof i==="string"));return}if(d.id==="notdup"){ND=new Set((x&&x.pairs)||[]);return}if(x&&x.status&&x.name){STS[x.name]=x.status;return}if(x&&x.name)OVR[x.name]=Object.assign({oid:d.id},x)});SCAMC=sc;BLK=bl;applyOvr();renderSoon();stAlerts();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
- DB.collection("events").onSnapshot(sn=>{const RA=sn.docs.map(d=>cleanEv(Object.assign({},d.data(),{id:"r"+d.id,src:0,pend:0,rev:1})));REMOTE=RA.filter(v=>!v.hide);RHID=RA.filter(v=>v.hide);renderSoon();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
+ DB.collection("events").onSnapshot(sn=>{const RA=sn.docs.map(d=>cleanEv(Object.assign({},d.data(),{id:"r"+d.id,src:0,pend:0,rev:1})));REMOTE=RA.filter(v=>!v.hide);RHID=RA.filter(v=>v.hide);REMLOADED=true;if(PENDLINK){const k=PENDLINK,v=evFind(k);if(v){PENDLINK=null;S.open=v.id;S.sel=v.id;render()}else endedLookup(k)}renderSoon();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
  if(ADMIN){const flat=sn=>[].concat(...sn.docs.map(d=>((d.data().items)||[]).slice(0,100).map(it=>cleanEv(Object.assign({},it,{uid:d.id,sid:d.id+"#"+it.iid})))));
   DB.collection("submissions").onSnapshot(sn=>{PEND=flat(sn);revCount();renderRev()},()=>{});
   DB.collection("corrections").onSnapshot(sn=>{CORR=flat(sn);revCount();renderRev()},()=>{});
@@ -4158,7 +4194,7 @@ function deepLink(){let P;try{P=new URLSearchParams(((location.hash||"").replace
  const D1=P.get("d1"),D2=P.get("d2"),RX=/^\d{4}-\d\d-\d\d$/;if(D1&&RX.test(D1)){S.d1=D1;S.d2=D2&&RX.test(D2)&&D2>=D1?D2:"";S.when="date";if(!vw)S.view="events";hit=true}
  const q=P.get("q");if(q){S.q=q.slice(0,80);const qi=document.getElementById("q");if(qi)qi.value=S.q;hit=true}
  if(P.get("add")==="1"){const pf=P.get("pf");setTimeout(()=>{try{openForm(null);$("#modal").hidden=false;if(pf){const o=JSON.parse(pf);if(o&&typeof o==="object")ffApply(o)}}catch(x){}},400);hit=true}
- const e=P.get("e");if(e){const v=evFind(e);if(v){S.open=v.id;S.sel=v.id;hit=true}}
+ const e=P.get("e");if(e){const v=evFind(e);if(v){S.open=v.id;S.sel=v.id;PENDLINK=null;hit=true}else{PENDLINK=e;if(REMLOADED)endedLookup(e);else setTimeout(()=>{if(PENDLINK===e)endedLookup(e)},6000)}}
  return hit}
 addEventListener("hashchange",()=>{if(deepLink())render()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#shw")){e.stopPropagation();shClose()}},true);

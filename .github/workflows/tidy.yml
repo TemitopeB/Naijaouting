@@ -1,0 +1,43 @@
+# Monthly tidy-up (1st of each month, 05:17 Lagos):
+# 1. moves ended built-in events out of the page into data/past-events.json (ids stay the same)
+# 2. 12-month clean-up, PERMANENT: deletes events that ended more than 12 months ago,
+#    their unused flyer pictures, and old Review items. The run summary lists what was deleted.
+name: Monthly tidy-up
+
+on:
+  schedule:
+    - cron: "17 4 1 * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
+jobs:
+  tidy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Move ended built-in events out of the page
+        run: python scripts/tidy_past.py
+      - name: Save if changed
+        run: |
+          if git diff --quiet; then echo "Nothing to move."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add events/index.html data/past-events.json
+          git commit -m "Monthly tidy-up: move ended events out of the page"
+          git pull --rebase origin main
+          git push
+      - name: 12-month clean-up (database and flyers)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python scripts/cleanup_old.py

@@ -67,6 +67,7 @@ Then **Actions** tab → enable workflows if asked. Test each with **Run workflo
 | Every morning, 06:23 Lagos | **News and event leads** | Refreshes the news ticker (`data/news.json`) from Nigerian news feeds, and lists articles that look like upcoming event announcements on `/admin/` as leads. |
 | Every morning, 06:11 Lagos | **Refresh landing data** | Rebuilds `data/landing.json` from the site + database, so landing numbers stay current. |
 | Every morning, 07:41 Lagos | **Event reminders** | Emails signed-in visitors about saved events that start tomorrow (needs the email secrets). |
+| 1st of each month, 05:17 Lagos | **Monthly tidy-up** | Moves ended built-in events out of the page into `data/past-events.json` (ids stay the same), then the **12-month clean-up**: permanently deletes events that ended more than 12 months ago, their unused flyer pictures and old Review items. The run summary lists what was deleted. |
 | Mondays, 07:37 Lagos | **Monday event sweep** | Reads the sources in `scripts/sources.json`, then the **smart sweep** has Google Gemini search the web for upcoming Nigerian events (next 8 weeks, 6 regions × 3 themes). New events go to the **Review queue**; each shows where it was found. |
 | Any time | Visitors | "Add event" and corrections go to the Review queue. |
 | Any time | You | Approve, edit or hide events on the site after signing in at `/admin/`. Approved events go live instantly. |
@@ -101,6 +102,12 @@ Online events sit inside Events with an **Online** badge (sidebar → **Online**
 
 ### Inbox (events found by hand or by Claude)
 Put a JSON file in `data/inbox/` (see `scripts/inbox.py` for the fields). On save, **Inbox to Review** adds the events to the Review queue, skipping anything already listed, already waiting, sent before, past, or against the listing rules. The run summary shows what happened to each event.
+
+## Events that have ended
+- They disappear from the site the day after they end, but stay stored for 12 months.
+- An old shared link (`#e=...`) shows **"This event has ended"** with the event's details and similar upcoming events.
+- Visitors only download upcoming events; ended ones are fetched only when someone opens an old link.
+- After 12 months they're deleted for good by the monthly tidy-up (see the table above).
 
 ## News feeds and event leads
 The feeds are listed in [`scripts/news_feeds.json`](scripts/news_feeds.json) (Premium Times, Vanguard, The Guardian Nigeria, Channels TV, Punch, TheCable, Daily Post, BusinessDay, BellaNaija, Notjustok, TechCabal). Set `"on": false` to stop using one.
