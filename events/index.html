@@ -3153,7 +3153,7 @@ function entryBox(v){const a=access(v),L=a.l||[],safe=u=>/^https:\/\//.test(u||"
  const ic=a.t==="free"?"✓":a.t==="reg"?"✎":a.t==="paid"||a.t==="mixed"?"₦":"i";
  let h='<div class="entry e-'+a.t+'"><div class="eh"><span class="ei" aria-hidden="true">'+ic+'</span><div><b>'+lab+'</b>'+(a.p?'<span>'+esc(a.p)+'</span>':"")+'</div></div>';
  const btn=L.filter(x=>safe(x[1]));
- const hot=scamHot(v.id);if(hot)h+='<div class="scamb">⚠ Several people reported this as a possible scam. We’re checking it. Don’t pay anyone until it’s cleared.</div>';
+ const hot=scamHot(v.id);if(hot)h+='<div class="scamb">⚠ This event was reported as a possible scam and we’re checking it. Don’t pay anyone until it’s cleared.</div>';
  if(btn.length)h+='<div class="eb">'+btn.map((x,i)=>{const lb=esc(i===0&&a.t==="reg"&&!/^register/i.test(x[0])?"Register: "+x[0]:i===0&&(a.t==="paid"||a.t==="mixed")&&!/^(buy|pay)/i.test(x[0])?"Buy on "+x[0]:x[0]);
   return hot?'<span class="btn'+(i===0?" p":"")+' dis" aria-disabled="true">'+lb+'</span>':'<a class="btn'+(i===0?" p":"")+'" target="_blank" rel="noopener" href="'+esc(x[1])+'"'+(sellOf(v,x[1])==="check"?' data-unv="1"':'')+'>'+lb+' '+SV.ext+'</a>'}).join("")+'</div>'+(hot?'':'<div class="sells">'+btn.map(x=>sellTag(v,x[1])).join("")+'</div>');
  if(!hot&&(btn.length||["paid","mixed","reg","soon"].includes(a.t)))h+='<p class="scamw"><b>We don’t sell tickets.</b> Only buy from the official seller linked here. Never pay into a personal bank account or a stranger’s DM.</p>';
@@ -3416,7 +3416,7 @@ const SPAM={submissions:[5,30],corrections:[8,30],messages:[4,20]};  /* per hour
 async function sendItem(col,d){if(!(DB&&UID))return false;d=cleanEv(d);for(const k in d)if(typeof d[k]==="string"&&d[k].length>3000)d[k]=d[k].slice(0,3000);
  try{const ref=DB.doc(col+"/"+UID),sn=await ref.get(),old=sn.exists&&sn.data().items?sn.data().items:[];
   const lim=SPAM[col]||[5,30],hr=Date.now()-36e5,recent=old.filter(x=>+String(x.iid||"").split("-")[0]>hr).length;
-  if(recent>=lim[0]||old.length>=lim[1]){toast(old.length>=lim[1]?"You have a lot waiting for review already. Please wait until we’ve checked them.":"You’ve sent a few in a short time. Please try again in an hour.");return null}d.iid=Date.now()+"-"+Math.random().toString(36).slice(2,7);await ref.set({items:old.concat([d])});if(col==="submissions"&&window.ACCT)try{ACCT.logSub(d)}catch(x){}return true}catch(x){return false}}
+  if(recent>=lim[0]||old.length>=lim[1]){toast(old.length>=lim[1]?"You have a lot waiting for review already. Please wait until we’ve checked them.":"You’ve sent a few in a short time. Please try again in an hour.");return null}d.iid=Date.now()+"-"+Math.random().toString(36).slice(2,7);await ref.set({items:old.concat([d])});if(col==="submissions"&&window.ACCT)try{ACCT.logSub(d)}catch(x){}return true}catch(x){const m=String(x&&x.message||"");if(/wait a few seconds|Too much at once|lot of messages|Invalid (data|report)/.test(m)){toast(m);return null}return false}}
 $("#form").addEventListener("submit",async e=>{e.preventDefault();const F=e.target,f=new FormData(F),eid=f.get("eid")||"",btn=$("#fbtn");if(f.get("hp_check")){F.reset();$("#modal").hidden=true;toast("Sent for review.");return}
  const d={name:(f.get("name")||"").trim(),cat:f.get("cat"),s:f.get("s"),e:f.get("e")||f.get("s"),venue:(f.get("venue")||"").trim(),city:f.get("city"),state:"",fee:(f.get("fee")||"").trim()||SEE,about:(f.get("about")||"").trim()||(eid||ADMIN?"":"Submitted by the organiser."),link:/^https:\/\//i.test(f.get("link")||"")?f.get("link"):"",img:safeImg((f.get("img")||"").trim()),time:(f.get("time")||"").trim()};
  if(d.e<d.s){toast("The end date is before the start date.");return}
@@ -3498,12 +3498,13 @@ function statsHtml(){const from=add(TODAY,-29),tot={},ppl={};let users=0;
 const _rr17=renderRev;renderRev=function(){_rr17();statsWatch();$("#revlist").insertAdjacentHTML("beforeend",'<div class="h3" style="margin:14px 0 0">What people use</div>'+statsHtml())};
 
 /* ---------- ticket safety: seller labels, one-time check, scam reports ---------- */
-var FLAGS={},RHID=[];
+var FLAGS={},RHID=[],SCAMC=new Set();/* SCAMC: events an admin confirmed as a possible scam (overrides/scam) */
 const KNOWNSELL=/(^|\.)(tix\.africa|eventbrite\.[a-z.]+|nairabox\.com|shows\.ng|dice\.fm|ticketmaster\.[a-z.]+)$/i;
 function hostOf(u){try{return new URL(u).hostname.replace(/^www\./,"")}catch(x){return ""}}
 function sellOf(v,u){const T=TICKETS[v.name];if(T&&(T.l||[]).some(x=>x[1]===u))return "ok";const h=hostOf(u);if(KNOWNSELL.test(h))return "known";if(/(^|\.)instagram\.com$/i.test(h))return "ig";return "check"}
 function sellTag(v,u){const s=sellOf(v,u),h=esc(hostOf(u));return s==="ok"?'<span class="sell ok">✓ Official seller · '+h+'</span>':s==="known"?'<span class="sell kn">Known ticket site · '+h+'</span>':s==="ig"?'<span class="sell kn">Organiser’s Instagram post</span>':'<span class="sell ck">⚠ Check this link · '+h+'</span>'}
-function scamHot(id){const f=FLAGS[id];return !!f&&f.size>=3}
+/* the public warning shows only after an admin confirms it, so fake reports can’t switch an event off */
+function scamHot(id){return SCAMC.has(id)}
 const _tags18=tags;tags=function(v){const h=_tags18(v);return scamHot(v.id)?h.replace(/<span class="tag ok">✓ (Verified|Checked)<\/span>/g,""):h};
 const SCAMW={fake:"The event isn’t real",link:"Fake or unofficial ticket link",pay:"Asked to pay into a personal account",other:"Something else"};
 FAQ.splice(1,0,["How do I avoid ticket scams?","NaijaOuting never sells tickets. Buy only from the seller linked on the event: a green <b>Official seller</b> label means we checked it; <b>Check this link</b> means we haven’t. Never pay into a personal bank account or through a stranger’s DM. Prices far below normal are a red flag. Real sellers send an e-ticket or QR code. If something looks wrong, tap <b>Looks like a scam</b> on the event and we’ll check it quickly."]);
@@ -3517,6 +3518,7 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
  if(t.closest("#scx")){$("#scm").hidden=true;return}
  const sh=t.closest("[data-scamhide]");if(sh){hideEv(sh.dataset.scamhide);return}
  const so=t.closest("[data-scamok]");if(so){scamClear(so.dataset.scamok);return}
+ const sw=t.closest("[data-scamwarn]");if(sw){scamWarn(sw.dataset.scamwarn);return}
  const rr=t.closest("[data-rrest]");if(rr){restoreRemote(rr.dataset.rrest);return}});
 function scamOpen(id){const v=all().find(x=>x.id===id);if(!v)return;let done={};try{done=JSON.parse(localStorage.getItem("ne_scam")||"{}")}catch(x){}
  if(done[id]){toast("Thanks, you already reported this. We’re checking it.");return}
@@ -3529,22 +3531,24 @@ document.addEventListener("submit",async e=>{if(!e.target||e.target.id!=="scform
   if(ok&&DB&&UID){try{const ref=DB.doc("flags/"+UID),sn=await ref.get(),ids=(sn.exists&&sn.data().ids)||[];if(!ids.includes(id))await ref.set({ids:ids.concat([id]).slice(-30)})}catch(x){}}
   if(ok){let done={};try{done=JSON.parse(localStorage.getItem("ne_scam")||"{}")}catch(x){}done[id]=1;try{localStorage.setItem("ne_scam",JSON.stringify(done))}catch(x){}$("#scm").hidden=true;toast("Thanks for warning us. We’ll check it quickly.")}
   else toast("We couldn’t send this right now. Please use Contact us.")}finally{btn.disabled=false}});
-(function flagWatch(n){if(typeof DB!=="undefined"&&DB){try{DB.collection("flags").onSnapshot(sn=>{const f={};sn.docs.forEach(d=>{(((d.data()||{}).ids)||[]).slice(-30).forEach(id=>{(f[id]=f[id]||new Set()).add(d.id)})});FLAGS=f;renderSoon();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{})}catch(x){}return}if(n<40)setTimeout(()=>flagWatch(n+1),500)})(0);
+(function flagWatch(n){if(typeof DB!=="undefined"&&DB){try{DB.collection("flags").onSnapshot(sn=>{const f=Object.create(null);sn.docs.forEach(d=>{const ids=(d.data()||{}).ids;(Array.isArray(ids)?ids:[]).slice(-30).forEach(id=>{if(typeof id!=="string"||!/^[\w:.-]{1,80}$/.test(id))return;(f[id]=f[id]||new Set()).add(d.id)})});FLAGS=f;renderSoon();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{})}catch(x){}return}if(n<40)setTimeout(()=>flagWatch(n+1),500)})(0);
 async function hideEv(id){const v=all().find(x=>x.id===id);if(!v||!DB)return;
  try{if(id[0]==="r")await DB.doc("events/"+id.slice(1)).update({hide:1});else{const n=origName(id)||v.name,o=OVR[n];await DB.doc("overrides/o"+hsh(n)).set(Object.assign({name:n},o&&o.patch?{patch:o.patch}:{},{hide:1}))}
   S.open=null;toast("Hidden from the site. You can restore it from Review.");render()}catch(x){toast("That didn’t work. Check you have editor access.")}}
 async function restoreRemote(id){if(!DB)return;try{await DB.doc("events/"+id.slice(1)).update({hide:0});toast("Restored. It’s back on the site.")}catch(x){toast("That didn’t work. Check you have editor access.")}}
-async function scamClear(k){const L=CORR.filter(c=>c.kind==="scam"&&(c.eid===k||c.name===k));for(const c of L){try{await moderate("dismiss",c.sid)}catch(x){}}
+async function scamList(fn){const ref=DB.doc("overrides/scam"),sn=await ref.get(),ids=fn(((sn.exists&&sn.data().ids)||[]).filter(i=>typeof i==="string"));await ref.set({ids:[...new Set(ids)].slice(-200)})}
+async function scamWarn(id){if(!DB)return;try{await scamList(a=>a.concat([id]));toast("Warning is now showing to visitors, and its ticket button is off.")}catch(x){toast("That didn’t work. Check you have editor access.")}}
+async function scamClear(k){try{const v=all().find(x=>x.id===k||x.name===k);await scamList(a=>a.filter(i=>i!==k&&(!v||i!==v.id)))}catch(x){}const L=CORR.filter(c=>c.kind==="scam"&&(c.eid===k||c.name===k));for(const c of L){try{await moderate("dismiss",c.sid)}catch(x){}}
  const who=[...(FLAGS[k]||[])];for(const u of who){try{const ref=DB.doc("flags/"+u),sn=await ref.get(),ids=((sn.exists&&sn.data().ids)||[]).filter(x=>x!==k);await ref.set({ids})}catch(x){}}
  toast("Cleared. Ticket links work again for everyone.");if(!$("#rev").hidden)renderRev()}
 const _rr18=renderRev;renderRev=function(){_rr18();const g={};CORR.filter(c=>c.kind==="scam").forEach(c=>{const k=c.eid||c.name;(g[k]=g[k]||[]).push(c)});
  const keys=Object.keys(g).sort((a,b)=>g[b].length-g[a].length);
  const rows=keys.map(k=>{const L=g[k],v=all().find(x=>x.id===k)||all().find(x=>x.name===L[0].name),nf=FLAGS[k]?FLAGS[k].size:0;
-  return '<div class="rv scamrow"><b>'+esc(L[0].name)+'</b><span class="sm">'+L.length+' report'+(L.length===1?"":"s")+(nf>=3?' · ticket links are switched off for visitors until you decide':'')+'</span>'+
+  return '<div class="rv scamrow"><b>'+esc(L[0].name)+'</b><span class="sm">'+L.length+' report'+(L.length===1?"":"s")+(nf?' · '+nf+' '+(nf===1?'person':'people'):'')+(v&&SCAMC.has(v.id)?' · <b>warning is showing to visitors</b>':' · visitors don’t see anything until you choose Show warning')+'</span>'+
    L.slice(0,6).map(c=>'<span class="sm">• '+esc(SCAMW[c.why]||"Something else")+(c.acct?' · '+esc(c.acct):'')+(String(c.note||"").indexOf(" — ")>0?' · “'+esc(String(c.note).split(" — ").slice(1).join(" — "))+'”':'')+(c.contact?' · contact: '+esc(c.contact):'')+'</span>').join("")+
-   '<div class="act" style="margin:6px 0 0">'+(v?'<button class="btn bad" type="button" data-scamhide="'+v.id+'">Hide now</button>':'')+'<button class="btn" type="button" data-scamok="'+esc(k)+'">Not a scam</button>'+(v?'<button class="btn" data-a="vopen" data-id="'+v.id+'">Open</button>':'')+'</div></div>'}).join("");
+   '<div class="act" style="margin:6px 0 0">'+(v?'<button class="btn bad" type="button" data-scamhide="'+v.id+'">Hide now</button>':'')+(v&&!SCAMC.has(v.id)?'<button class="btn" type="button" data-scamwarn="'+v.id+'">Show warning</button>':'')+'<button class="btn" type="button" data-scamok="'+esc(k)+'">Not a scam</button>'+(v?'<button class="btn" data-a="vopen" data-id="'+v.id+'">Open</button>':'')+'</div></div>'}).join("");
  const hidR=RHID.length?'<div class="h3" style="margin:10px 0 0;font-size:14px">Hidden events you added</div>'+RHID.map(v=>'<div class="rv"><b>'+esc(v.name)+'</b><div class="act" style="margin:6px 0 0"><button class="btn" type="button" data-rrest="'+v.id+'">Restore</button></div></div>').join(""):"";
- const html='<div class="scamwrap"><div class="h3" style="margin:12px 0 0;color:#B3261E">Scam reports'+(keys.length?" ("+keys.length+")":"")+'</div>'+(keys.length?'<p class="sm" style="margin:0 0 8px">Check these first. “Hide now” takes the event off the site at once; you can restore it later. “Not a scam” clears the reports and switches its ticket links back on.</p>'+rows:'<p class="sm">No scam reports.</p>')+hidR+'</div>';
+ const html='<div class="scamwrap"><div class="h3" style="margin:12px 0 0;color:#B3261E">Scam reports'+(keys.length?" ("+keys.length+")":"")+'</div>'+(keys.length?'<p class="sm" style="margin:0 0 8px">Check these first. “Hide now” takes the event off the site at once; you can restore it later. “Show warning” keeps it listed but warns visitors and switches its ticket button off. “Not a scam” clears the reports and any warning.</p>'+rows:'<p class="sm">No scam reports.</p>')+hidR+'</div>';
  const ot=$("#revlist .otools");if(ot)ot.insertAdjacentHTML("afterend",html)};
 
 /* ---------- time ranges: "On now" only when a printed time range covers the current time ---------- */
@@ -3622,7 +3626,7 @@ async function moderate(a,id){const isC=a==="dismiss",v=(isC?CORR:PEND).find(x=>
 (async()=>{try{if(typeof claude==="undefined")return;const r=await Promise.all([claude.use("db"),claude.use("user")]);if(!r[0])return;DB=r[0];
  try{ADMIN=r[1]?await r[1].canEdit():false}catch(x){}try{UID=r[1]?await r[1].id():null}catch(x){}
  try{ASSETS=await claude.use("assets")}catch(x){ASSETS=null}
- DB.collection("overrides").onSnapshot(sn=>{OVR={};STS={};ND=new Set();sn.docs.forEach(d=>{const x=d.data();if(d.id==="notdup"){ND=new Set((x&&x.pairs)||[]);return}if(x&&x.status&&x.name){STS[x.name]=x.status;return}if(x&&x.name)OVR[x.name]=Object.assign({oid:d.id},x)});applyOvr();renderSoon();stAlerts();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
+ DB.collection("overrides").onSnapshot(sn=>{OVR={};STS={};ND=new Set();let sc=new Set();sn.docs.forEach(d=>{const x=d.data();if(d.id==="scam"){sc=new Set(((x&&x.ids)||[]).filter(i=>typeof i==="string"));return}if(d.id==="notdup"){ND=new Set((x&&x.pairs)||[]);return}if(x&&x.status&&x.name){STS[x.name]=x.status;return}if(x&&x.name)OVR[x.name]=Object.assign({oid:d.id},x)});SCAMC=sc;applyOvr();renderSoon();stAlerts();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
  DB.collection("events").onSnapshot(sn=>{const RA=sn.docs.map(d=>cleanEv(Object.assign({},d.data(),{id:"r"+d.id,src:0,pend:0,rev:1})));REMOTE=RA.filter(v=>!v.hide);RHID=RA.filter(v=>v.hide);renderSoon();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
  if(ADMIN){const flat=sn=>[].concat(...sn.docs.map(d=>((d.data().items)||[]).slice(0,100).map(it=>cleanEv(Object.assign({},it,{uid:d.id,sid:d.id+"#"+it.iid})))));
   DB.collection("submissions").onSnapshot(sn=>{PEND=flat(sn);revCount();renderRev()},()=>{});

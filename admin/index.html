@@ -80,6 +80,7 @@ body.wide{place-items:start center}body.wide .card{max-width:760px}
       var it=(LD.items||[]).filter(function(l){return (LD.dismissed||[]).indexOf(l.id)<0});
       if(!it.length){$("#lst").innerHTML='<p class="empty">Nothing waiting. New leads appear here after the morning news run.</p>';return}
       $("#lst").innerHTML=it.map(function(l){
+        l=Object.assign({},l,{link:/^https?:\/\/[^\s"'<>]+$/i.test(String(l.link||""))?l.link:"#"});  /* only normal web links */
         var meta=[l.date?"Event date: <b>"+esc(nice(l.date))+(l.end&&l.end!==l.date?" – "+esc(nice(l.end)):"")+"</b>":"No date found",l.venue?esc(l.venue):"",l.city?esc(l.city):"",l.cat?esc(l.cat):"",esc(l.source)+" · "+esc(nice(l.published))].filter(Boolean).join(" · ");
         var pf={name:l.name||l.title,category:l.cat||null,city:l.city||null,venue:l.venue||null,start_date:l.date||null,end_date:l.end||null,time:l.time||null,price:l.price||null,description:l.about||null};
         return '<div class="lead" data-id="'+esc(l.id)+'"><a class="t" href="'+esc(l.link)+'" target="_blank" rel="noopener">'+esc(l.title)+'</a>'+

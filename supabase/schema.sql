@@ -41,11 +41,11 @@ create policy "admins see themselves" on public.admins
 
 drop policy if exists "anyone reads public collections" on public.docs;
 create policy "anyone reads public collections" on public.docs
-  for select using (col in ('events', 'overrides', 'flags'));
+  for select using (col in ('events', 'overrides'));
 
 drop policy if exists "people read their own documents" on public.docs;
 create policy "people read their own documents" on public.docs
-  for select using (col in ('submissions', 'corrections', 'messages', 'stats') and id = auth.uid()::text);
+  for select using (col in ('submissions', 'corrections', 'messages', 'stats', 'flags') and id = auth.uid()::text);
 
 drop policy if exists "people create their own documents" on public.docs;
 create policy "people create their own documents" on public.docs

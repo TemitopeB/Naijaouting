@@ -1,0 +1,6 @@
+# Files that belong in GitHub but shouldn't be downloadable from the website
+.github
+scripts
+supabase
+README.md
+.gitignore

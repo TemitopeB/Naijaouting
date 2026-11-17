@@ -1,0 +1,47 @@
+# One-off (and on demand): replace the spreadsheet library used by Import with the
+# fixed official version from SheetJS. Their site isn't on npm, so this downloads it here.
+name: Update spreadsheet library
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/update-xlsx.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
+env:
+  XLSX_VERSION: "0.20.3"
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download SheetJS ${{ env.XLSX_VERSION }}
+        run: |
+          curl -fsSL "https://cdn.sheetjs.com/xlsx-${XLSX_VERSION}/package/dist/xlsx.full.min.js" -o /tmp/xlsx.full.min.js
+          size=$(wc -c < /tmp/xlsx.full.min.js)
+          echo "Downloaded $size bytes"
+          # must be the real library, the right version, and a sensible size
+          grep -q "version=\"${XLSX_VERSION}\"" /tmp/xlsx.full.min.js
+          grep -q "sheet_to_json" /tmp/xlsx.full.min.js
+          [ "$size" -gt 500000 ] && [ "$size" -lt 3000000 ]
+          sha256sum /tmp/xlsx.full.min.js | tee -a "$GITHUB_STEP_SUMMARY"
+          cp /tmp/xlsx.full.min.js events/lib/xlsx.full.min.js
+      - name: Save if changed
+        run: |
+          if git diff --quiet -- events/lib/xlsx.full.min.js; then echo "Already up to date."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add events/lib/xlsx.full.min.js
+          git commit -m "Update spreadsheet library to SheetJS ${XLSX_VERSION} (security fixes)"
+          git pull --rebase origin main
+          git push

@@ -17,6 +17,7 @@ Hosting: **Vercel** (free). Database, logins and flyer uploads: **Supabase** (fr
    Name: `naijaouting`. Region: **West EU (London)** or the closest one offered. Save the database password somewhere safe.
 2. When it's ready, open **SQL Editor → New query**, paste everything from [`supabase/schema.sql`](supabase/schema.sql), press **Run**.
 3. New query again: paste [`supabase/import.sql`](supabase/import.sql) and press **Run**. This copies your current events and fixes.
+4. New query again: paste [`supabase/security.sql`](supabase/security.sql) and press **Run**. This adds anti-spam limits (size and count limits for visitors, a cap on daily flyer uploads) and keeps scam reports private.
 
 ### 2. Allow visitors to submit without an account
 **Authentication → Sign In / Providers** (may be called "Auth Providers") → turn on **Allow anonymous sign-ins** → Save.
@@ -106,6 +107,12 @@ Edit [`scripts/sources.json`](scripts/sources.json) on GitHub, set `"on": true`,
 
 Only add sources whose terms allow automated reading. The sweep respects robots.txt and waits between requests.
 Each run's summary (Actions tab → the run) shows how many events each source gave.
+
+## Security notes
+- Secrets (service key, Gemini key, email password) live only in GitHub secrets, never in site files. The anon key in `js/config.js` is public by design.
+- Scam reports never switch an event off by themselves: in Review, choose **Show warning** to warn visitors, **Hide now**, or **Not a scam**.
+- Security headers are set in `vercel.json`; `.vercelignore` keeps scripts and SQL off the website.
+- Turn on two-step verification for GitHub, Vercel, Supabase and Google, and use a strong unique admin password.
 
 ## Notes
 - Reading flyers automatically with AI isn't available on this version; type details in, or add an AI service later.
