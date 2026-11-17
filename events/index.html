@@ -1657,6 +1657,50 @@ html.installed [data-install]{display:none!important}
 .mapbox>svg.zm{touch-action:pan-y;cursor:default}.mapbox>svg.zm.zoomed{touch-action:none;cursor:grab}.mapbox>svg.zm.zoomed:active{cursor:grabbing}
 .zctl button:disabled{opacity:.35;cursor:default}.zctl button:disabled:hover{background:transparent}
 html.app .zctl{bottom:10px;right:10px}html.app .zctl button{width:34px;height:34px}
+
+/* ===== Event cards: picture first (Nov 2026) =====
+   Flyers are mostly portrait, so a square picture shows them almost whole.
+   Fewer, wider columns; a one-line date label so overlays cover less of the picture. */
+:root:root .tgrid{grid-template-columns:repeat(auto-fill,minmax(264px,1fr))!important;gap:20px!important}
+:root:root .tgrid .tc{padding:8px!important;border-radius:24px!important}
+:root:root .tgrid .tci{aspect-ratio:1/1!important;border-radius:17px!important}
+:root:root .tgrid .tct{left:10px!important;right:10px!important;top:10px!important}
+:root:root .tgrid .tct .shr{margin-left:auto!important}
+:root:root .tgrid .tct .shr~.fav{margin-left:0!important}
+/* show the whole flyer (title, date, prices) with its own blurred picture behind */
+:root:root .tgrid .tci .tfl{object-fit:contain!important;object-position:50% 50%!important;filter:drop-shadow(0 6px 16px rgba(0,0,0,.35))!important}
+:root:root .tgrid .tc:hover .tci .tfl{transform:scale(1.02)}
+:root:root .tgrid .tfd{left:10px!important;bottom:10px!important;flex-direction:row!important;align-items:baseline!important;gap:5px!important;min-width:0!important;padding:6px 10px!important;border-radius:999px!important;box-shadow:0 2px 10px rgba(0,0,0,.25)!important}
+:root:root .tgrid .tfd i{font:700 11px/1 var(--fm)!important;letter-spacing:.08em!important;opacity:.75}
+:root:root .tgrid .tfd b{font:800 15px/1 var(--fd)!important;margin:0!important}
+:root:root .tgrid .tcx{padding:12px 8px 6px!important;gap:3px!important}
+:root:root .tgrid .tcx .nm{font-size:17px!important;line-height:1.28!important}
+:root:root .tgrid .tcx .tdl{font-size:13.5px!important}
+@media (hover:hover) and (pointer:fine){
+ :root:root .tgrid .tc{transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+ :root:root .tgrid .tc:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.18)}
+}
+/* tablets: two big columns */
+@media (min-width:601px) and (max-width:900px){.tgrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important}}
+/* phones (and the app layout): one large card per row, like event apps; List view stays for quick scanning */
+@media (max-width:600px){
+ :root:root .tgrid{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}
+}
+:root:root.app .tgrid{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}
+:root:root.app .tgrid .tc,:root:root .tgrid .tc{min-width:0}
+@media (max-width:600px){
+ :root:root .tgrid .tc{padding:7px!important;border-radius:22px!important}
+ :root:root .tgrid .tci{border-radius:16px!important}
+ :root:root .tgrid .tc .shr{display:grid!important}
+ :root:root .tgrid .onb{font-size:12.5px!important;height:28px!important;padding:0 11px!important}
+ :root:root .tgrid .tcx .nm{font-size:18px!important}
+ :root:root .tgrid .tcx .tdl{font-size:14px!important}
+ :root:root .tgrid .tmt{font-size:13px!important}
+}
+:root:root.app .tgrid .tc .shr{display:grid!important}
+:root:root.app .tgrid .tcx .nm{font-size:18px!important}
+/* very wide screens: keep cards from getting too big */
+@media (min-width:1700px){.tgrid{grid-template-columns:repeat(auto-fill,minmax(290px,1fr))!important}}
 </style>
 </head>
 <body>
