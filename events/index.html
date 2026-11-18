@@ -1773,6 +1773,10 @@ html.app .zctl{bottom:10px;right:10px}html.app .zctl button{width:34px;height:34
 .hero .cover{object-fit:cover;object-position:50% 45%}
 .tph .tpc{opacity:1!important;mix-blend-mode:normal!important}
 .tc:not(.cx) .tci .tpc{filter:none}
+/* covers sit a little darker on computers, like flyers; hovering (or tabbing to the card) shows the true colours */
+@media (hover:hover) and (pointer:fine){
+:root:root .tgrid .tc:not(.cx) .tci .tpc{filter:brightness(.68) saturate(.92)!important;transition:filter .28s ease!important}
+:root:root .tgrid .tc:not(.cx):hover .tci .tpc,:root:root .tgrid .tc:not(.cx):focus-within .tci .tpc{filter:none!important}}
 </style>
 </head>
 <body>
