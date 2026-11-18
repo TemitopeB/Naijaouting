@@ -292,6 +292,15 @@ h2{font-size:clamp(32px,3.4vw,64px);font-weight:600;line-height:1.04;letter-spac
 .top nav{font-size:14px}.top nav a{font-weight:500}
 .chips a,.cats a,.seg button{font-weight:500}
 footer{font-size:14px}footer h4{font-weight:600}
+
+/* ===== edge to edge (18 Nov 2026): big panels run to the screen edges with square corners; small cards stay rounded ===== */
+.hero>.w,#cities>.w,#decS>.w,#organisers>.w,#app>.w{padding:0}
+.hp,.cityp,.dec,.og1,.og2,.app,footer{border-radius:0!important}
+.cityp,.dec,.app{padding-left:var(--gut)!important;padding-right:var(--gut)!important;border:0!important;box-shadow:none!important}
+.org{gap:0!important}
+.og1,.og2{padding-left:var(--gut)!important;padding-right:var(--gut)!important}
+.og2{border:0!important;background:#fff}
+.sld{left:calc(var(--gut) - 6px)}
 </style>
 </head>
 <body>
