@@ -85,7 +85,7 @@
       "on": true,
       "name": "Notjustok",
       "url": "https://notjustok.com/feed/",
-      "ticker": false,
+      "ticker": true,
       "leads": true,
       "default": "Entertainment"
     },
@@ -93,7 +93,7 @@
       "on": true,
       "name": "Vanguard Entertainment",
       "url": "https://www.vanguardngr.com/category/entertainment/feed/",
-      "ticker": false,
+      "ticker": true,
       "leads": true,
       "default": "Entertainment"
     },

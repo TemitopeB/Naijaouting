@@ -55,6 +55,8 @@ TOPICS = [
                  r"airline|business|bank\b|banks\b|fintech|merger|acquisition|ipo|oil and gas|nnpc|refinery"),
     ("Entertainment", r"music|album|single|song|nollywood|movie|film|actor|actress|singer|rapper|afrobeats|concert|"
                       r"bbnaija|big brother|celebrity|award|grammy|headies|amvca|festival|fashion|comedian|skit|box office"),
+    ("Lifestyle", r"tourism|tourist|travel|holiday|detty december|restaurant|food fair|cuisine|exhibition|gallery|museum|"
+                  r"art fair|book fair|carnival|nightlife|beach|resort|lifestyle|culture|cultural"),
     ("Politics", r"\bapc\b|\bpdp\b|labour party|\badc\b|tinubu|shettima|senate|senator|governor|election|\binec\b|"
                  r"party|president|minister|house of reps|lawmakers|assembly|2027|campaign|impeach|politic"),
 ]
@@ -175,6 +177,9 @@ def topic(it, default):
     return default
 
 
+OUTING = {"Entertainment", "Lifestyle", "Sports"}
+
+
 def build_ticker(all_items):
     fresh = [x for x in all_items if x["feed"].get("ticker") and x.get("date") and NOW - x["date"] <= dt.timedelta(days=3)]
     fresh.sort(key=lambda x: x["date"], reverse=True)
@@ -182,14 +187,15 @@ def build_ticker(all_items):
     for x in fresh:
         c = topic(x, x["feed"].get("default", "Politics"))
         k = norm(x["title"])
-        if k in seen or per_cat.get(c, 0) >= 5 or per_src.get(x["feed"]["name"], 0) >= 6:
+        cap = 10 if c in OUTING else 5  # the site's top ticker only shows outing-related topics
+        if k in seen or per_cat.get(c, 0) >= cap or per_src.get(x["feed"]["name"], 0) >= 8:
             continue
         seen.add(k)
         per_cat[c] = per_cat.get(c, 0) + 1
         per_src[x["feed"]["name"]] = per_src.get(x["feed"]["name"], 0) + 1
         title = x["title"] if len(x["title"]) <= 140 else x["title"][:137].rsplit(" ", 1)[0] + "…"
         out.append({"c": c, "t": title, "s": x["feed"]["name"], "d": x["date"].date().isoformat(), "u": x["link"]})
-        if len(out) >= 24:
+        if len(out) >= 40:
             break
     return out
 
