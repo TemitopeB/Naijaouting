@@ -4,3 +4,4 @@ scripts
 supabase
 README.md
 .gitignore
+.claude
