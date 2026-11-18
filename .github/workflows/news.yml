@@ -46,6 +46,6 @@ jobs:
             echo "No new headlines."
           else
             git commit -m "Refresh news headlines"
-            git pull --rebase origin main
+            git pull --rebase -X theirs origin main  # generated file: the freshly built copy wins a clash
             git push
           fi
