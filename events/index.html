@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@600;700&display=swap">
 <style>
 /* Layout: one-screen app. Ink ticker, white masthead with grouped section tabs, then each section fills the rest.
    Map = list on the left, map on the right (listings-site pattern). Pages = centred column, max 1240px. */
@@ -35,7 +35,7 @@
  /* map */
  --land:#E2ECE1;--land2:#D6E6D7;--lnd:#9DBFA6;--wt:#DCE6EA;--wt2:#E9F0F1;--road:#A9C2D2;
  --sh:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(0,0,0,.07);--r:18px;
- --fd:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+ --fd:'Inter Tight','Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
  --fb:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
  --fm:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
  --pb:#141414;--pbt:#FFFFFF;--edge:transparent;--sh0:0 1px 2px rgba(20,20,18,.05),0 8px 24px -6px rgba(20,20,18,.13);--shs:0 2px 6px rgba(20,20,18,.04),0 14px 36px -10px rgba(20,20,18,.16);--raise:linear-gradient(180deg,#FFFFFF,#F4F4F1);--raiseb:0 1px 2px rgba(20,20,18,.07),0 5px 14px -4px rgba(20,20,18,.14),inset 0 0 0 1px rgba(20,20,18,.045);--pbg:linear-gradient(180deg,#2E2E2C,#0E0E0E);--pbsh:0 1px 2px rgba(0,0,0,.25),0 8px 18px -8px rgba(0,0,0,.5),0 10px 22px -12px rgba(240,83,45,.55);
@@ -1777,6 +1777,50 @@ html.app .zctl{bottom:10px;right:10px}html.app .zctl button{width:34px;height:34
 @media (hover:hover) and (pointer:fine){
 :root:root .tgrid .tc:not(.cx) .tci .tpc{filter:brightness(.68) saturate(.92)!important;transition:filter .28s ease!important}
 :root:root .tgrid .tc:not(.cx):hover .tci .tpc,:root:root .tgrid .tc:not(.cx):focus-within .tci .tpc{filter:none!important}}
+
+/* ===== events app v2 (18 Nov 2026): faster to browse, easier to compare ===== */
+/* headings in Inter Tight, like the landing page */
+.dxh h2,.eh h1,.ph h1{font-family:var(--fd);letter-spacing:-.02em}
+/* cards: one facts line (until · time · price) and the venue, no repeated date */
+.tcx .tdl{display:flex;flex-wrap:wrap;align-items:center;gap:0 6px;opacity:1!important;color:var(--tx2,var(--tx))}
+.tcx .tdl .dot{font-style:normal;color:var(--mu2,var(--mu))}
+.tcx .tdl .pr{font-weight:700;color:var(--tx)}
+.tcx .tdl .pr.ok{color:var(--ac)}
+.tcx .tdl.mu{font-weight:500;color:var(--mu)}
+.tmt .vn{min-width:0;flex:1}
+.tmt .vn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* phones: shorter picture so about two events fit on a screen */
+:root:root.app .tgrid .tci{aspect-ratio:4/3!important}
+:root:root.app .tgrid{gap:14px!important}
+/* computers: four columns from about 1280px */
+:root:root:not(.app) .tgrid{grid-template-columns:repeat(auto-fill,minmax(228px,1fr))!important}
+:root:root:not(.app) .tgrid .tcx .nm{font-size:16px!important}
+/* phone header: search first, Add event smaller */
+.sbtn .sbt{display:none}
+html.app header .hr .sbtn{flex:1 1 auto;width:auto!important;max-width:none;justify-content:flex-start;gap:9px;height:42px;padding:0 14px!important;margin-right:10px!important;border-radius:999px;background:var(--pn)!important;border:1px solid var(--ln2);box-shadow:var(--sh0);color:var(--mu)}
+html.app header .hr .sbtn .sbt{display:inline;font:500 15px var(--fb);color:var(--mu)}
+html.app.sopen header .hr .sbtn{color:var(--ac);border-color:var(--ac)}
+html.app header .hr .btn.p{background:transparent!important;color:var(--ac)!important;border:1.5px solid currentColor!important;box-shadow:none!important;height:42px!important;min-height:42px!important;padding:0 14px 0 11px!important;flex:none}
+html.app.dark header .hr .btn.p,html.dark header .hr .btn.p{color:var(--ac)!important}
+/* phone date chips: clearer fade so the row reads as scrollable */
+:root .ubar .uch{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent)!important;mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent)!important;padding-right:44px!important}
+/* computer filters: one row, extra filters in a sheet, sort as a small menu */
+html:not(.app) .evpan .fbar{flex-wrap:wrap!important;overflow:visible!important}
+.fbar .fmore{height:38px;box-shadow:none}
+.fbar .fmore.on{border-color:var(--ac);color:var(--ac)}
+.fbar .fmore b{min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--ac);color:#fff;font:700 11px/18px var(--fb);text-align:center}
+.fbar .ssort{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--mu)}
+.fbar .ssort .sel{height:38px}
+/* news strip: quieter, so events lead */
+:root .tk-lab{background:transparent!important;color:var(--tx)!important;border:1px solid var(--ln2);box-shadow:none}
+:root .tk-lab .pulse{background:var(--hot)!important;box-shadow:none}
+:root.app .tk-lab{border:0}
+/* sidebar: Settings is a plain link, not a second big button */
+html:not(.app) .sbrow .sbo:not(.sq){height:36px;background:none!important;box-shadow:none!important;justify-content:flex-start;gap:11px;padding:0 14px;border-radius:12px;font-size:15px;font-weight:400;color:var(--mu)}
+html:not(.app) .sbrow .sbo:not(.sq) svg{color:var(--mu2)}
+html:not(.app) .sbrow .sbo:not(.sq):hover{background:var(--pn2)!important;color:var(--tx);filter:none}
+/* cover variety: mirror around the centre, then zoom and nudge (max ±6%, inside the 9% zoom margin) */
+:root .tc:not(.cx) .tci .tpc{transform:scaleX(var(--cvf,1)) scale(var(--cvz,1))!important;transform-origin:50% 50%!important;translate:var(--cvo,0 0)}
 </style>
 </head>
 <body>
@@ -1798,12 +1842,12 @@ html.app .zctl{bottom:10px;right:10px}html.app .zctl button{width:34px;height:34
   </a>
   <label class="search"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Search events" aria-label="Search events, venues, cities or headlines"></label>
   <div class="hr">
-   <button class="btn g sbtn" data-a="sopen" aria-label="Search" aria-expanded="false"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+   <button class="btn g sbtn" data-a="sopen" aria-label="Search events" aria-expanded="false"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span class="sbt" aria-hidden="true">Search events</span></button>
    <button class="btn g" data-a="settings" aria-label="Settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
    <button class="btn g" data-a="theme" id="themeBtn" aria-label="Switch between light and dark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
    <button class="btn g" id="acctbtn" data-a="acct" aria-label="Sign in" title="Sign in" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="lg">Sign in</span></button>
    <button class="btn" id="revbtn" data-a="review" hidden>Review</button>
-   <button class="btn p" data-a="submit" aria-label="Add event"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="lg">Add event</span><span class="shl">Add event</span></button>
+   <button class="btn p" data-a="submit" aria-label="Add event"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="lg">Add event</span><span class="shl">Add</span></button>
   </div>
  </header>
  <nav class="tabs" id="side" aria-label="Sections"></nav>
@@ -2328,7 +2372,7 @@ function inWhen(v){const w=S.when;if(w==="all")return true;if(w==="date"){const 
  if(w==="wk"){const dow=NOW.getDay();const ws=dow===0?add(TODAY,-1):add(TODAY,6-dow);return v.s<=add(ws,1)&&v.e>=ws}
  const ms=NOW.getFullYear()+"-"+pad(NOW.getMonth()+1);return v.s.slice(0,7)<=ms&&v.e.slice(0,7)>=ms}
 function list(opt){opt=opt||{};const q=S.q.toLowerCase();return all().filter(v=>(opt.anyDate||inWhen(v))&&(S.cat==="All"||v.cat===S.cat)&&(opt.anyCity||S.city==="All"||v.city===S.city)&&(!S.src||v.src||v.rev)&&(!S.free||isFree(v))&&(!S.onl||(S.view!=="events"&&S.view!=="cal")||v.online)&&(!q||(v.name+" "+v.venue+" "+v.city+" "+v.state+" "+v.cat+(v.online?" online webinar "+(v.plat||""):"")).toLowerCase().includes(q))).sort((a,b)=>a.s<b.s?-1:a.s>b.s?1:a.name<b.name?-1:1)}
-function tags(v){return (scamHot(v.id)?'<span class="tag bad">⚠ Under review</span>':'')+stTag(v)+(FAV.includes(v.id)?'<span class="tag fv">♥ Saved</span>':'')+(isLive(v)?'<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="tag td">Today</span>':'')+(v.rev?'<span class="tag ok">✓ Verified</span>':v.src?'<span class="tag ok">✓ Checked</span>':'<span class="tag n">Listed</span>')+(v.pend?'<span class="tag wn">Pending review</span>':"")+(v.online?'<span class="tag n">'+ONLSVG+' Online</span>':!v.venue?'<span class="tag wn">Venue TBC</span>':"")}
+function tags(v){return (scamHot(v.id)?'<span class="tag bad">⚠ Under review</span>':'')+stTag(v)+(FAV.includes(v.id)?'<span class="tag fv">♥ Saved</span>':'')+(isLive(v)?'<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="tag td">Today</span>':'')+(v.rev?'<span class="tag ok">✓ Verified</span>':v.src?'<span class="tag ok">✓ Checked</span>':'<span class="tag n" title="Found on a listing site, not yet confirmed. Check with the organiser.">From a listing site</span>')+(v.pend?'<span class="tag wn">Pending review</span>':"")+(v.online?'<span class="tag n">'+ONLSVG+' Online</span>':!v.venue?'<span class="tag wn">Venue TBC</span>':"")}
 function catTag(c){return '<span class="tag" style="background:'+cc(c)[0]+'22;color:'+cc(c)[0]+'">'+ico(c,11)+esc(c)+'</span>'}
 function dtb(v){const d=new Date(v.s+"T00:00:00"),p=v.s.split("-");return '<div class="dt" style="border-top:3px solid '+cc(v.cat)[0]+'"><span>'+DOW[d.getDay()]+'</span><b>'+(+p[2])+'</b><i>'+MON[+p[1]-1].toUpperCase()+'</i></div>'}
 const CHEV='<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
@@ -2352,12 +2396,16 @@ function entLabel(v){const a=access(v),p=a.p||"";if(a.t==="free")return ["Free",
 function evBtns(v,cls){const fav=FAV.includes(v.id);return '<button class="'+cls+' shr" data-a="evshare" data-id="'+v.id+'" aria-label="Share '+esc(v.name)+'" aria-haspopup="dialog">'+SHRSVG+'</button><button class="'+cls+(fav?" on":"")+'" data-a="fav" data-id="'+v.id+'" aria-pressed="'+fav+'" aria-label="'+(fav?"Remove "+esc(v.name)+" from saved":"Save "+esc(v.name))+'">'+FAVSVG(fav)+'</button>'}
 function bigDate(v){const on=v.s<TODAY&&v.e>=TODAY,d=new Date((on?v.e:v.s)+"T00:00:00");return [on?"UNTIL":DOW[d.getDay()],d.getDate(),MON[d.getMonth()].toUpperCase()]}
 function evCard(v){const img=safeImg(v.img),c=cc(v.cat),now=isLive(v),en=entLabel(v),dt=NEAR?distTxt(v):"",st=stPill(v),d=new Date(v.s+"T00:00:00"),cv=coverImg(v.cat);
- const bd=bigDate(v),art='<span class="tph" style="background:'+grad(v.cat)+'">'+(cv?'<img class="tpc" src="'+esc(cv)+'" alt="" aria-hidden="true" loading="lazy" style="'+cvVar(v.cat)+'">':"")+'<span class="tpd"><i>'+bd[0]+'</i><b>'+bd[1]+'</b><i>'+bd[2]+'</i></span></span>'+
+ const bd=bigDate(v),F=cardFacts(v,en),art='<span class="tph" style="background:'+grad(v.cat)+'">'+(cv?'<img class="tpc" src="'+esc(cv)+'" alt="" aria-hidden="true" loading="lazy" style="'+cvVar(v.cat)+'">':"")+'<span class="tpd"><i>'+bd[0]+'</i><b>'+bd[1]+'</b><i>'+bd[2]+'</i></span></span>'+
   (img?'<img class="tbg" src="'+esc(img)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()"><img class="tfl" src="'+esc(img)+'" alt="Flyer: '+esc(v.name)+'" loading="lazy" onerror="this.remove()">':"")+'<span class="tfd" aria-hidden="true"><i>'+bd[0]+'</i><b>'+bd[1]+'</b><i>'+bd[2]+'</i>'+(v.online&&v.time?'<i class="tft">· '+esc(String(v.time).toUpperCase().replace(/\s*WAT$/,""))+'</i>':"")+'</span>';
  return '<div class="tc'+(isCx(v)?" cx":"")+(v.online?" onl":"")+'" data-a="open" data-id="'+v.id+'" style="--c:'+c[0]+';--c2:'+c[1]+'">'+
   '<div class="tci">'+art+'<div class="tct">'+(st||(now?'<span class="onb"><i aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="onb td">Today</span>':""))+(v.online?'<span class="onb olb">'+ONLSVG+'Online</span>':"")+evBtns(v,"fav")+'</div></div>'+
-  '<div class="tcx"><span class="tec">'+esc(v.cat)+(v.online?" · Online":"")+'</span><a class="nm" href="#e='+evSlug(v)+'" data-a="open" data-id="'+v.id+'">'+esc(v.name)+'</a><span class="tdl">'+esc(dLine(v))+'</span>'+
-  '<div class="tmt"><span class="vn">'+(v.online?ONLSVG+'<span>'+esc(v.plat||"Online")+'</span>':PINSVG+'<span>'+esc(v.city)+'</span>')+'</span>'+(dt?'<b class="dist">'+dt+'</b>':en[0]?'<span class="en'+(en[1]?" ok":"")+'">'+en[0]+'</span>':"")+'</div></div></div>'}
+  '<div class="tcx"><span class="tec">'+esc(v.cat)+(v.online?" · Online":"")+'</span><a class="nm" href="#e='+evSlug(v)+'" data-a="open" data-id="'+v.id+'">'+esc(v.name)+'</a><span class="tdl'+(F.length?"":" mu")+'">'+(F.length?F.join('<i class="dot" aria-hidden="true">·</i>'):"Entry details: see organiser")+'</span>'+
+  '<div class="tmt"><span class="vn">'+(v.online?ONLSVG+'<span>'+esc(v.plat||"Online")+'</span>':PINSVG+'<span>'+esc(vShort(v))+'</span>')+'</span>'+(dt?'<b class="dist">'+dt+'</b>':"")+'</div></div></div>'}
+/* card facts: dates beyond the badge, a short time and the entry price, so people can compare at a glance */
+function tShort(t){t=String(t||"").replace(/\s*\(?WAT\)?/ig,"").trim();if(!t)return "";const lc=x=>x.replace(/\s*(am|pm)\b/ig,(m,a)=>a.toLowerCase());if(t.length<=14&&/\d/.test(t))return lc(t);const m=t.match(/\b\d{1,2}(?:[:.]\d{2})?\s?(?:am|pm)\b/i);return m?lc(m[0]):""}
+function cardFacts(v,en){const p=[];if(v.e>v.s){const e=new Date(v.e+"T00:00:00");p.push("Until "+(v.e===TODAY?"today":e.getDate()+" "+MON[e.getMonth()]))}const t=tShort(v.time);if(t)p.push(esc(t));if(en[0])p.push('<b class="pr'+(en[1]?" ok":"")+'">'+esc(en[0])+'</b>');return p}
+function vShort(v){const x=String(v.venue||"").split(/,|\(| – | - /)[0].trim();return x&&x.length<=30&&x.toLowerCase()!==String(v.city).toLowerCase()?x+", "+v.city:v.city}
 function evLine(v){const img=safeImg(v.img),now=isLive(v),en=entLabel(v),dt=NEAR?distTxt(v):"",st=stTag(v),d=new Date(v.s+"T00:00:00");
  const tags=(st||(now?'<span class="tag on onw"><i class="lvd" aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="tag td onw">Today</span>':""))+(en[0]?'<span class="tag en2 '+(en[1]?"ok":"n")+'">'+en[0]+'</span>':"");
  return '<div class="el'+(isCx(v)?" cx":"")+(now?" now":"")+'" data-a="open" data-id="'+v.id+'">'+
@@ -2537,6 +2585,7 @@ function dlab(){const f=x=>{const d=new Date(x+"T00:00:00");return d.getDate()+"
 function drow(n){if(!(S.dpo||S.when==="date"))return "";
  return '<div class="drow" role="group" aria-label="Search by date"><span class="dl">Dates</span><label>From<input type="date" data-a="d1" value="'+(S.d1||"")+'" aria-label="From date"></label><span class="dsep">to</span><label>To (optional)<input type="date" data-a="d2" value="'+(S.d2||"")+'" min="'+(S.d1||"")+'" aria-label="To date"></label>'+
  '<span class="dn">'+(S.when==="date"?'<span><b>'+n+'</b> event'+(n===1?"":"s")+' on '+dlab()+'</span><button class="lnk" data-a="dclr">Clear dates</button>':'<span>Pick a day, or a start and end date.</span>')+'</span></div>'}
+const FSVG='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
 function ubar(){const W=[["up","Upcoming"],["today","Today"],["wk","Weekend"],["n7","Next 7 days"],["mo","This month"]],n=(S.cat!=="All")+(S.city!=="All")+(!!S.src)+(!!S.free)+(!!S.onl);
  return '<div class="ubar"><div class="uch" role="group" aria-label="Dates">'+'<button class="chip dpc'+(S.when==="date"?" on":"")+'" data-a="dpick" aria-expanded="'+!!(S.dpo||S.when==="date")+'">'+DPIC+(S.when==="date"?dlab():"Pick date")+'</button>'+W.map(w=>'<button class="chip'+(S.when===w[0]?" on":"")+'" data-a="when" data-v="'+w[0]+'" aria-pressed="'+(S.when===w[0])+'">'+w[1]+'</button>').join("")+'</div><button class="ufb'+(n?" on":"")+'" data-a="fsopen" aria-haspopup="dialog">'+'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>'+'<span class="ufl">Filters</span>'+(n?'<b>'+n+'</b>':'')+'</button></div>'}
 function fsheet(){const A=all(),cnt={};A.forEach(v=>cnt[v.cat]=(cnt[v.cat]||0)+1);const n=list().length,cats=["All"].concat(Object.keys(CAT));
@@ -2553,8 +2602,8 @@ function eventsView(){let L=list();const so=S.sort||"soon",SP=so==="soon"?evSpli
  return '<div class="page evp"><div class="evtop"><div class="evpan">'+vseg(EVSEG)+'<div class="eh"><div class="ehl"><h1 title="'+(S.city!=="All"?"In "+esc(S.city)+". ":"Across Nigeria. ")+'Open any event for directions, tickets and a budget planner."><span class="hc">'+L.length+'</span> '+(S.onl?(S.cat==="All"?"Online events":esc(S.cat)+" online"):S.cat==="All"?"Events":esc(S.cat))+(S.city!=="All"?' <span class="hcity">in '+esc(S.city)+'</span>':'')+(S.when==="date"?' <span class="hcity">· '+dlab()+'</span>':'')+'</h1>'+layTog()+'</div>'+
   '<div class="seg" role="group" aria-label="Dates">'+W.map(w=>'<button class="'+(S.when===w[0]?"on":"")+'" data-a="when" data-v="'+w[0]+'" aria-pressed="'+(S.when===w[0])+'">'+w[1]+'</button>').join("")+'<button class="dpb'+(S.when==="date"?" on":"")+'" data-a="dpick" aria-expanded="'+!!(S.dpo||S.when==="date")+'">'+DPIC+(S.when==="date"?dlab():"Pick dates")+'</button></div></div>'+
   ubar()+drow(L.length)+'<div class="fbar">'+catRail()+'<select class="sel" data-a="citysel" aria-label="City"><option value="All">All cities</option>'+Object.keys(CITY).map(c=>'<option'+(S.city===c?" selected":"")+'>'+c+'</option>').join("")+'</select>'+
-  '<button class="chip'+(S.onl?" on":"")+'" data-a="onl" aria-pressed="'+!!S.onl+'">'+ONLSVG+'Online and webinars</button>'+'<button class="chip'+(S.free?" on":"")+'" data-a="free" aria-pressed="'+!!S.free+'">Free entry</button><button class="chip'+(S.src?" on":"")+'" data-a="src" aria-pressed="'+!!S.src+'">Verified only</button>'+(filt?'<button class="lnk" data-a="clear">Clear</button>':"")+
-  '<div class="seg sm" role="group" aria-label="Sort"><span class="sl">Sort</span>'+[["soon","Soonest"],["near","Nearest"],["az","A–Z"]].map(x=>'<button class="'+(so===x[0]?"on":"")+'" data-a="sort" data-v="'+x[0]+'" aria-pressed="'+(so===x[0])+'">'+x[1]+'</button>').join("")+'</div></div></div></div>'+
+  (nX=>'<button class="ufb fmore'+(nX?" on":"")+'" data-a="fsopen" aria-haspopup="dialog">'+FSVG+'<span class="ufl">More filters</span>'+(nX?'<b>'+nX+'</b>':'')+'</button>')((!!S.onl)+(!!S.free)+(!!S.src))+(filt?'<button class="lnk" data-a="clear">Clear</button>':"")+
+  '<label class="ssort"><span>Sort</span><select class="sel" data-a="sortsel" aria-label="Sort events">'+[["soon","Soonest"],["near","Nearest"],["az","A–Z"]].map(x=>'<option value="'+x[0]+'"'+(so===x[0]?" selected":"")+'>'+x[1]+'</option>').join("")+'</select></label></div></div></div>'+
   (L.length?(EVLAY==="list"?evList(L,so):'<div class="grid tgrid">'+(SP?evGrid(SP):L.map(evCard).join(""))+'</div>'):S.onl?'<div class="empty"><b style="color:var(--tx)">No webinars listed for these dates yet</b><p class="sm" style="margin:6px 0 0">Online events and webinars by Nigerian organisers show up here once they’re checked. Hosting one?</p><div class="act" style="justify-content:center;margin-top:12px"><button class="btn p" data-a="submit">Add a webinar</button><button class="btn" data-a="clear">See all events</button></div></div>':'<div class="empty"><b style="color:var(--tx)">No events match these filters</b><div class="act" style="justify-content:center;margin-top:12px"><button class="btn" data-a="clear">Clear filters</button></div></div>')+'</div>'}
 function calView(){const L=list({anyDate:true}),wk=S.calMode!=="month";let days=[],title,lead=0;
  if(wk){const st=add(TODAY,-NOW.getDay());for(let i=0;i<35;i++)days.push(add(st,i));const a=new Date(days[0]+"T00:00:00"),z=new Date(days[34]+"T00:00:00");title="Next 5 weeks";var sub=a.getDate()+" "+MON[a.getMonth()]+" – "+z.getDate()+" "+MON[z.getMonth()]+" "+z.getFullYear();if(!S.cd||S.cd<days[0]||S.cd>days[34])S.cd=TODAY}
@@ -3270,7 +3319,7 @@ const safeImg=u=>/^(https:\/\/[^\s"'<>]+|\/_blob\/[0-9a-zA-Z_-]+|flyers\/[a-z0-9
 function evHero(v){const a=v.s.split("-"),b=v.e.split("-"),one=v.s===v.e,d=new Date(v.s+"T00:00:00"),now=isLive(v),img=safeImg(v.img);
  const nd=Math.round((new Date(v.e+"T00:00:00")-new Date(v.s+"T00:00:00"))/864e5)+1,sm=a[1]===b[1];const stamp=one?'<div class="stamp"><b>'+(+a[2])+'</b><span>'+MON[+a[1]-1].toUpperCase()+'</span><i>'+DOW[d.getDay()]+'</i></div>':'<div class="stamp rng"><b>'+(+a[2])+'–'+(+b[2])+'</b><span>'+(sm?MON[+a[1]-1].toUpperCase():MON[+a[1]-1].toUpperCase()+'–'+MON[+b[1]-1].toUpperCase())+'</span><i>'+nd+' DAYS</i></div>';
  return '<div class="hero poster'+(img?" flyer":"")+'" style="background:'+grad(v.cat)+'">'+(COVERS[v.cat]?'<img class="cover" src="'+COVERS[v.cat]+'" alt="" aria-hidden="true" decoding="async">':art(v.name,v.cat,cc(v.cat)[0])+'<div class="bigico">'+ico(v.cat,120)+'</div>')+(img?'<img class="fbg" src="'+esc(img)+'" alt=""><img class="fl" src="'+esc(img)+'" alt="Flyer for '+esc(v.name)+'">':'')+
-  '<div class="htop">'+catTag(v.cat).replace(/background:[^;]+;color:[^"]+/,"background:rgba(0,0,0,.35);color:#fff")+(now?'<span class="onb"><i aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="onb td">Today</span>':"")+'</div>'+
+  '<div class="htop">'+catTag(v.cat).replace(/background:[^;]+;color:[^"]+/,"background:rgba(0,0,0,.35);color:#fff")+(now?'<span class="onb"><i aria-hidden="true"></i>On now</span>':"")+'</div>'+
   '<div class="hbot">'+stamp+'<div class="hwhere"><b>'+esc(v.city.toUpperCase())+'</b><span>'+esc(v.venue||"Venue to be confirmed")+'</span></div>'+(img?'<button class="vfl" type="button" data-a="flv" data-id="'+v.id+'">View flyer</button>':"")+'</div></div>'}
 function plHero(p){return '<div class="hero poster" style="background:'+tgrad(p.cat)+'">'+art(p.name,"place",tcc(p.cat)[0])+'<div class="bigico" style="color:#fff">'+tico(p.cat,120)+'</div><div class="htop"><span class="tag" style="background:rgba(0,0,0,.35);color:#fff">'+tico(p.cat,11)+esc(p.cat)+'</span></div><div class="hbot"><div class="hwhere"><b>'+esc(p.town.toUpperCase())+'</b><span>'+esc(dn(p.state))+' State</span></div></div></div>'}
 document.addEventListener("error",e=>{const t=e.target;if(t&&t.tagName==="IMG"&&(t.classList.contains("fl")||t.classList.contains("fbg"))){const h=t.closest(".hero");if(h){h.classList.remove("flyer");h.querySelectorAll("img.fl,img.fbg,.vfl").forEach(x=>x.remove())}}},true);
@@ -3309,7 +3358,7 @@ const phead=(eyb,t,p)=>'<div class="ph"><div><div class="eyb">'+eyb+'</div><h1 s
 function aboutView(){return '<div class="page">'+phead("About us","About NaijaOuting","An independent guide to what’s on across Nigeria, from big December concerts to free community events.")+
  '<div class="prose"><h2 style="margin-top:0">What we do</h2><p>NaijaOuting puts events, places to visit and practical tools for going out on one map. You can find what’s on near you, plan a trip, check the weather and the naira rate, and see whether an event is free, needs registration or is ticketed.</p>'+
  '<h2>Where listings come from</h2><ul><li>Organisers’ own websites and official ticket sellers such as Tix Africa, DOT TIX and Eventbrite.</li><li>Nigerian news sites, city guides and event listing sites.</li><li>Events submitted by organisers, which we check before they go on the map.</li></ul><p>We check for new events and updates every Monday. Past events drop off the map automatically.</p>'+
- '<h2>What the labels mean</h2><div class="lbl"><span><span class="tag ok">✓ Checked</span></span><span>A published source, usually the organiser or ticket seller, gives the date and place.</span><span><span class="tag ok">✓ Reviewed</span></span><span>Submitted by the organiser and approved by NaijaOuting.</span><span><span class="tag n">Listed</span></span><span>Found on a listing site but not yet confirmed. Check with the organiser.</span><span><span class="tag wn">Venue TBC</span></span><span>The organiser hasn’t announced the venue yet.</span></div>'+
+ '<h2>What the labels mean</h2><div class="lbl"><span><span class="tag ok">✓ Checked</span></span><span>A published source, usually the organiser or ticket seller, gives the date and place.</span><span><span class="tag ok">✓ Reviewed</span></span><span>Submitted by the organiser and approved by NaijaOuting.</span><span><span class="tag n">From a listing site</span></span><span>Found on a listing site but not yet confirmed. Check with the organiser.</span><span><span class="tag wn">Venue TBC</span></span><span>The organiser hasn’t announced the venue yet.</span></div>'+
  '<h2>What we don’t do</h2><p>We don’t sell tickets or take payments. When you buy a ticket, you pay the organiser’s official seller directly. We link only to sellers the organiser names.</p>'+
  '<div class="act"><button class="btn p" data-a="submit">Add event</button><button class="btn" data-a="contact">Contact us</button></div></div>'+foot()+'</div>'}
 const FAQ=[["Are the events on NaijaOuting confirmed?","Events marked Sourced come from the organiser, their ticket seller or a published report. Events marked Listed were found on a listing site and haven’t been confirmed yet. Dates and venues can change, so check with the organiser before you travel."],
@@ -3528,7 +3577,7 @@ function setView(){const m=SET.mode;const cities=["All"].concat(Object.keys(CITY
 function openSet(){CLR=0;setView();$("#setm").hidden=false}
 function setChange(){saveSet();applySet();setView();render()}
 document.addEventListener("change",e=>{if(e.target.dataset.chk){const c=CHK[e.target.dataset.id]||(CHK[e.target.dataset.id]={});c[e.target.dataset.chk]=e.target.checked;return}const a=e.target.dataset.a;if(!a)return;
- if(a==="shome"){SET.home=e.target.value;S.city=SET.home;saveSet();setView();render();return}else if(a==="narea"){const f=FLAT_A[+e.target.value];if(!f||e.target.value==="")return;setNear({name:f.name,lat:f.lat,lon:f.lon,src:"area"});N.chg=0;NQ=""}else if(a==="tbase"){T.base=e.target.value;try{localStorage.setItem("ne_base",T.base)}catch(x){}}else if(a==="tzone")T.zone=e.target.value;else if(a==="citysel"){S.city=e.target.value;S.sel=null}else if(a==="catsel")S.cat=e.target.value;else if(a==="whensel")S.when=e.target.value;else if(a==="d1"){S.d1=e.target.value;if(S.d1&&S.d2&&S.d2<S.d1)S.d2="";if(!S.d1&&S.d2){S.d1=S.d2;S.d2=""}S.when=S.d1?"date":"up";S.dpo=S.d1?S.dpo:1}else if(a==="d2"){S.d2=e.target.value;if(S.d2&&!S.d1)S.d1=S.d2<TODAY?S.d2:TODAY;S.when=S.d1?"date":"up"}else if(a==="statesel")S.st=e.target.value||null;else return;render()});
+ if(a==="shome"){SET.home=e.target.value;S.city=SET.home;saveSet();setView();render();return}else if(a==="narea"){const f=FLAT_A[+e.target.value];if(!f||e.target.value==="")return;setNear({name:f.name,lat:f.lat,lon:f.lon,src:"area"});N.chg=0;NQ=""}else if(a==="tbase"){T.base=e.target.value;try{localStorage.setItem("ne_base",T.base)}catch(x){}}else if(a==="tzone")T.zone=e.target.value;else if(a==="citysel"){S.city=e.target.value;S.sel=null}else if(a==="sortsel"){const sv=e.target.value;if(sv==="near"&&!NEAR){e.target.value=S.sort||"soon";toast("Set your location in Near me first, then sort by distance.");return}S.sort=sv;S.nsort=sv==="near"?1:0}else if(a==="catsel")S.cat=e.target.value;else if(a==="whensel")S.when=e.target.value;else if(a==="d1"){S.d1=e.target.value;if(S.d1&&S.d2&&S.d2<S.d1)S.d2="";if(!S.d1&&S.d2){S.d1=S.d2;S.d2=""}S.when=S.d1?"date":"up";S.dpo=S.d1?S.dpo:1}else if(a==="d2"){S.d2=e.target.value;if(S.d2&&!S.d1)S.d1=S.d2<TODAY?S.d2:TODAY;S.when=S.d1?"date":"up"}else if(a==="statesel")S.st=e.target.value||null;else return;render()});
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.matches&&e.target.matches("input[data-vin]")){e.preventDefault();vSave(e.target.dataset.vin);return}if(S.view==="quiz"&&Q.list&&!Q.fin&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!(e.target.matches&&e.target.matches("input,textarea,select,[contenteditable]"))){const k="1234".indexOf(e.key)>-1?"1234".indexOf(e.key):"abcd".indexOf(String(e.key).toLowerCase());if(e.key.length===1&&k>-1&&Q.picks[Q.i]===undefined){e.preventDefault();qAns(k);render();return}if(e.key==="Enter"&&Q.picks[Q.i]!==undefined&&!(e.target.matches&&e.target.matches("button,a"))){e.preventDefault();qNext();render();return}}
 if((e.key==="Enter"||e.key===" ")&&e.target.matches("g[data-a],div[data-a]")){e.preventDefault();e.target.dispatchEvent(new MouseEvent("click",{bubbles:true}))}
  if(e.key==="Escape"){const dd=document.querySelector(".cdd.open");if(dd){dd.classList.remove("open");const b=dd.querySelector(".cddb");if(b){b.setAttribute("aria-expanded","false");b.focus()}return}const fromRev=REVBACK&&$("#rev").hidden;S.open=null;S.place=null;REVEDIT=null;["#modal","#cm","#rev","#setm","#moresh","#imp"].forEach(s=>$(s).hidden=true);render();if(fromRev)revBack();else{REVBACK=false;$("#revpill").hidden=true}}});
@@ -3805,7 +3854,7 @@ document.addEventListener("toggle",e=>{const d=e.target;if(d&&d.classList&&d.cla
 function evSplit(L){const w7=add(TODAY,7);return [L.filter(v=>v.s>=TODAY&&v.s<=w7),L.filter(v=>v.s<TODAY).sort((a,b)=>a.e<b.e?-1:a.e>b.e?1:a.name<b.name?-1:1),L.filter(v=>v.s>w7)]}
 function evSep(t,n,h){return '<h2 class="tsep">'+t+' <span>'+n+'</span>'+(h?'<small>'+h+'</small>':"")+'</h2>'}
 function evGrid(P){const a=P[0],b=P[1],c=P[2];return a.map(evCard).join("")+(b.length&&(a.length||c.length)?evSep("Still running",b.length,"Started earlier, still on"):"")+b.map(evCard).join("")+(c.length&&(a.length||b.length)?evSep("Coming later",c.length,""):"")+c.map(evCard).join("")}
-const CVV=[["0deg",1,1,"50% 50%"],["0deg",-1,1,"50% 50%"]];
+const CVV=[["0deg",1,1,"0 0"],["0deg",-1,1.18,"-6% 3%"],["0deg",1,1.18,"6% -3%"],["0deg",-1,1,"0 0"]];
 function cvVar(c){const i=CVN[c]=(CVN[c]||0)+1,v=CVV[(i-1)%CVV.length];return "--cvh:"+v[0]+";--cvf:"+v[1]+";--cvz:"+v[2]+";--cvo:"+v[3]}
 const _render25=render;render=function(){CVN={};_render25()};
 /* Review actions are instant: the item leaves the list straight away and the saving happens in the background.

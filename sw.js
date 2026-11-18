@@ -6,7 +6,7 @@
  * - The database (Supabase) and other websites are never cached here.
  * Change VERSION to make every phone refresh its saved copy.
  */
-const VERSION = "v30";
+const VERSION = "v31";
 const SHELL = `shell-${VERSION}`, MEDIA = `media-${VERSION}`;
 const START = ["/", "/events/", "/js/supabase.js", "/js/config.js", "/js/shim.js", "/js/account.js", "/js/pwa.js",
   "/data/landing.json", "/manifest.webmanifest", "/icons/icon-192.png"];

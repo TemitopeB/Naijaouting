@@ -250,3 +250,13 @@ A tall flyer header with the countdown date block, a "Checked" badge, title, sta
 - **Don't** show invented counts, testimonials, ratings or partner logos.
 - **Don't** box the landing page into a narrow centred column; it runs full width with slim gutters.
 - **Do** keep landing page containers white with a visible edge (#CFCDC4) and a layered shadow, on beige (#EEEDE8) or deeper beige (#E3E1D9) bands, never white on white. Marigold (#E9A21B) is the one bold band, for Detty December.
+
+## Events app v2 (18 Nov 2026)
+
+- Headings use Inter Tight (`--fd`), body stays Inter, matching the landing page.
+- Event cards: picture badge carries the start date; the line under the title carries only what the badge can't: "Until <end>" for multi-day events, a short start time, and the entry price (green when free). No price known: "Entry details: see organiser". The pin line shows "Venue, City" when the venue name is short.
+- Phones: 4:3 card pictures; search is a full search bar in the header, "+ Add" is a small outline button.
+- Computers: four columns from about 1280px; filters in one row (search, category, city, "More filters" sheet, Sort menu).
+- Category covers repeat less: four variants per category (as is, mirrored, and two zoomed crops, nudged at most 6%).
+- News strip label is neutral with a small red dot; events lead the page.
+- Sidebar Settings is a plain link. Source badge reads "From a listing site" instead of "Listed".
