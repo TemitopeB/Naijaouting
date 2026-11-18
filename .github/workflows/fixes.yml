@@ -1,0 +1,56 @@
+# Event fixes: corrections to live events (see scripts/fixes.py).
+# - Push a file to data/fixes/ and only that file's corrections are applied.
+# - "Run workflow" with mode "export" saves all approved events and overrides as a download.
+name: Event fixes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/fixes/**"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "export, or apply"
+        default: "export"
+      file:
+        description: "for apply: the file in data/fixes to apply"
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  fixes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Export
+        if: github.event_name == 'workflow_dispatch' && inputs.mode == 'export'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python scripts/fixes.py export
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'workflow_dispatch' && inputs.mode == 'export'
+        with:
+          name: export
+          path: data/_export.json
+          retention-days: 1
+      - name: Apply
+        if: github.event_name == 'push' || inputs.mode == 'apply'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          FILE: ${{ inputs.file }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ -n "$FILE" ]; then files="$FILE"; else files=$(git diff --name-only --diff-filter=AM "$BEFORE" HEAD -- data/fixes/ 2>/dev/null || git diff --name-only --diff-filter=AM HEAD~1 HEAD -- data/fixes/); fi
+          echo "Files: $files"
+          python scripts/fixes.py apply $files
