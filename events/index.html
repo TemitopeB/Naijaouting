@@ -1759,6 +1759,15 @@ html.app .zctl{bottom:10px;right:10px}html.app .zctl button{width:34px;height:34
 /* map: city name and count sit beside the back button (no longer drawn inside the map) */
 .mtop .mcity{display:inline-flex;align-items:baseline;gap:6px;height:36px;padding:0 14px;border-radius:999px;background:var(--pn);color:var(--mu);font-size:13px;font-weight:600;line-height:36px;pointer-events:none}
 .mtop .mcity b{color:var(--tx);font-size:14px;font-weight:700}
+
+/* ===== phone layout pass (18 Nov 2026): visible card edges, balanced header, chip row fades instead of cutting words ===== */
+@media (max-width:760px){
+ .hr{flex:1 1 auto!important;justify-content:flex-end}
+ .hr .sbtn{margin-right:auto!important}
+ :root:root .tgrid .tc{box-shadow:0 0 0 1px var(--ln2),0 1px 2px rgba(24,28,26,.05),0 10px 24px -16px rgba(24,28,26,.22)!important}
+ .rlist>*,.lrow,.erow{border-color:var(--ln2)}
+ .ubar .uch{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent);padding-right:28px}
+}
 </style>
 </head>
 <body>

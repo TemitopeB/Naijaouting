@@ -324,6 +324,46 @@ body{background:var(--bg)}
 .steps li{background:#fff!important;border:1px solid var(--edge)}
 .og2 .up,.ct{border-color:#C9D5CD!important}
 .empty{border-color:var(--edge)}
+
+/* ===== phone layout pass (18 Nov 2026): one gutter, compact hero, tidy rhythm; computers unchanged ===== */
+@media (max-width:760px){
+ :root{--gut:20px}
+ .top .w{height:60px}
+ /* hero: shorter, the flyer stack sits right under the buttons */
+ .hp{padding:28px var(--gut) 56px!important;gap:22px}
+ .hp h1{font-size:clamp(36px,10.6vw,44px);margin:16px 0 14px;line-height:1.02}
+ .hp p.s{font-size:16.5px;line-height:1.55;font-weight:400}
+ .srch{margin-top:22px}
+ .chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+ .chips a{justify-content:center;height:42px;padding:0 10px}
+ .stack{height:262px!important;max-width:380px;margin:0 auto;width:100%}
+ .fc{width:132px!important}
+ .fc.a{top:24px;left:0}.fc.b{left:calc(50% - 66px)!important;top:0}.fc.c{top:32px;right:0}
+ .mini{bottom:0;padding:10px 14px 10px 10px}.mini img{width:42px;height:42px}.mini b{font-size:18px}
+ .sld{bottom:18px}
+ /* sections: even spacing, readable headings */
+ section{padding:48px 0}
+ h2{font-size:clamp(28px,8.2vw,34px);line-height:1.08;margin-bottom:6px}
+ .kick{font-size:13.5px}
+ .intro{gap:10px}.intro p,.cityp p,.og1 p,.app p{font-size:16px;line-height:1.6}
+ /* top picks */
+ .picks{gap:10px}.pk{padding:6px}.pkb{padding:10px 6px 6px}.pkb h3{font-size:14.5px;line-height:1.3}.pkm{font-size:12.5px}
+ /* cities, why, organisers, app: same inner padding as everything else */
+ .cityp{padding-top:40px!important;padding-bottom:40px!important;gap:18px!important}
+ .ctg{gap:10px}
+ .bento{gap:12px;margin-top:22px}.bx{padding:20px!important}
+ .dec{padding:24px var(--gut)!important;gap:14px}
+ .og1,.og2{padding:40px var(--gut)!important}
+ .steps li{padding:12px 14px}
+ .app{padding:40px var(--gut) 0!important}
+ .app ul{margin-bottom:20px}
+ .sto{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .sb2{width:100%;padding:0 12px;height:52px;justify-content:center}
+ .sb2 b{font-size:15px}
+ footer{padding:44px 0 24px!important;margin-top:0!important}
+}
+@media (max-width:760px){.top .r{margin-left:0;flex:1;justify-content:space-between}.top .r .ib{order:-1;display:grid}}
+@media (max-width:360px){.chips a{font-size:13px;padding:0 6px}.sto{grid-template-columns:1fr}.hp h1{font-size:34px}}
 </style>
 </head>
 <body>
