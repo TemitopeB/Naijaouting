@@ -5,7 +5,7 @@ Two jobs, run by .github/workflows/fixes.yml:
 
   python scripts/fixes.py export
       Saves every approved event and every override to data/_export.json so the
-      list can be checked. The workflow keeps it as a download (not committed).
+      list can be checked. The workflow saves it to the data-export branch (never deployed).
 
   python scripts/fixes.py apply data/fixes/2026-11-18.json [...]
       Applies the corrections in the given files. A file looks like:

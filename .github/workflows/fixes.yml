@@ -1,6 +1,6 @@
 # Event fixes: corrections to live events (see scripts/fixes.py).
 # - Push a file to data/fixes/ and only that file's corrections are applied.
-# - "Run workflow" with mode "export" saves all approved events and overrides as a download.
+# - "Run workflow" with mode "export" saves all approved events and overrides to the data-export branch.
 name: Event fixes
 
 on:
@@ -18,7 +18,7 @@ on:
         default: ""
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   fixes:
@@ -37,12 +37,18 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python scripts/fixes.py export
-      - uses: actions/upload-artifact@v4
+      - name: Save export to the data-export branch (not deployed)
         if: github.event_name == 'workflow_dispatch' && inputs.mode == 'export'
-        with:
-          name: export
-          path: data/_export.json
-          retention-days: 1
+        run: |
+          cp data/_export.json /tmp/_export.json
+          git config user.name "naijaouting-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git checkout --orphan data-export
+          git rm -rq --cached .
+          cp /tmp/_export.json export.json
+          git add export.json
+          git commit -qm "Event export"
+          git push -fq origin data-export
       - name: Apply
         if: github.event_name == 'push' || inputs.mode == 'apply'
         env:
