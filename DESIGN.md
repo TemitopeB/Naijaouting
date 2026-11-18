@@ -127,7 +127,7 @@ NaijaOuting looks like a calm, well-kept guidebook laid over a busy city. The ch
 
 The system is an **Operate** interface first: a browsing and planning tool used mostly on phones, on mobile data, often opened from a WhatsApp link. Density is medium. Cards are large and picture-first; controls are rounded pills that are easy to hit with a thumb. Trust signals ("Checked", "Official seller", scam warnings, "Venue to be confirmed") are part of the visual language, not footnotes.
 
-The landing page (`/`) currently speaks a different dialect: a warm cream page, a serif display face (Fraunces) and a full-bleed crowd photo. The app (`/events/`) is cooler and sans-serif. Treat the app as the reference system below; the landing page is a known divergence (see Do's and Don'ts).
+The landing page (`/`) shares the app's palette, shapes and shadows but has its own editorial voice, modelled on awwwards.com: a full-width layout with slim side gutters (`clamp(16px, 3.4vw, 56px)`), a near edge-to-edge hero panel, **Inter Tight** at semi-bold (600) for very large display headings (hero up to 120px, sections up to 64px), light (300) lead text on large screens, and plain sentence-case labels above headings.
 
 **Key Characteristics:**
 - Picture-first event cards: a square flyer or category illustration, then category label, title, date, place.
@@ -168,6 +168,7 @@ A restrained neutral base with one green action colour and two signal colours, m
 
 **Display Font:** Inter (with system-ui fallback)
 **Body Font:** Inter
+**Landing page font:** Inter Tight (display 600, leads 300–400), see Overview
 **Wordmark Font:** Bricolage Grotesque (reserved for the NaijaOuting wordmark, which is currently hidden by the owner's choice)
 
 **Character:** One workmanlike sans for everything, carried by weight and size rather than by contrast between families. Tight negative tracking on headlines, open tracking on small uppercase labels.
@@ -247,4 +248,4 @@ A tall flyer header with the countdown date block, a "Checked" badge, title, sta
 - **Don't** introduce new font families inside the app.
 - **Don't** show the NaijaOuting logo or wordmark until the owner asks for it back, and don't use third-party logos from the internet.
 - **Don't** show invented counts, testimonials, ratings or partner logos.
-- **Don't** let the landing page drift further from the app; bring the two dialects together when either is redesigned.
+- **Don't** box the landing page into a narrow centred column; it runs full width with slim gutters.

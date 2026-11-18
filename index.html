@@ -6,7 +6,7 @@
 <title>NaijaOuting · What’s on in Nigeria</title>
 <meta name="description" content="Find concerts, parties, festivals, comedy and more across Nigeria, checked and linked to the official ticket seller.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&display=swap">
 <link rel="icon" href="/icons/favicon-32.png" sizes="32x32">
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#0B6B4C">
@@ -269,6 +269,29 @@ h2{font-size:clamp(30px,3.6vw,64px);line-height:1.04;letter-spacing:-.035em}
 
 /* menu links jump to a section without hiding its heading under the sticky header */
 [id]{scroll-margin-top:88px}
+
+/* ===== typography after awwwards.com (18 Nov 2026): Inter Tight, big semi-bold display, light airy body ===== */
+:root{--f:'Inter Tight','Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;--fd:var(--f)}
+body{font:400 16px/1.7 var(--f)}
+@media (min-width:1001px){.intro p,.cityp p,.og1 p,.app p,.hp p.s{font-weight:300}}
+/* display */
+.hp h1{font-size:clamp(40px,6vw,120px);font-weight:600;line-height:.98;letter-spacing:-.025em}
+.hp h1 u{font-weight:600}
+h2{font-size:clamp(32px,3.4vw,64px);font-weight:600;line-height:1.04;letter-spacing:-.025em}
+.bx h3,.og2 h3{font-size:clamp(19px,1.4vw,24px);font-weight:600;letter-spacing:-.01em}
+.dec b{font-size:clamp(19px,1.5vw,26px);font-weight:600;letter-spacing:-.015em}
+.num b,.mini b{font-weight:600;letter-spacing:-.02em}.num b{font-size:clamp(28px,2.4vw,40px)}
+.pkb h3{font-size:16px;font-weight:600;letter-spacing:-.005em}
+.dt b{font-weight:600}
+/* leads and labels */
+.hp p.s,.intro p,.cityp p{font-size:clamp(17px,1.3vw,21px);line-height:1.55}
+.kick{font-size:14px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--mu)}
+.hp .kick{color:#CFCFC9}
+/* controls */
+.btn{font-size:14.5px;font-weight:600;letter-spacing:-.005em}
+.top nav{font-size:14px}.top nav a{font-weight:500}
+.chips a,.cats a,.seg button{font-weight:500}
+footer{font-size:14px}footer h4{font-weight:600}
 </style>
 </head>
 <body>
