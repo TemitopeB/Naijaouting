@@ -1,0 +1,223 @@
+{
+ "schemaVersion": 2,
+ "generatedAt": "2026-11-18T12:01:41.150046Z",
+ "title": "Design System: NaijaOuting",
+ "extensions": {
+  "colorMeta": {
+   "naija-green": {
+    "role": "primary",
+    "displayName": "Naija Green",
+    "canonical": "#0B6B4C",
+    "tonalRamp": [
+     "#03251A",
+     "#06402D",
+     "#08573D",
+     "#0B6B4C",
+     "#2E8A68",
+     "#5FAA8C",
+     "#A3D1BE",
+     "#E3F2EC"
+    ]
+   },
+   "marigold": {
+    "role": "secondary",
+    "displayName": "Marigold",
+    "canonical": "#E9A21B",
+    "tonalRamp": [
+     "#3A2705",
+     "#664409",
+     "#946300",
+     "#C4870F",
+     "#E9A21B",
+     "#F2BE5A",
+     "#F8DA9E",
+     "#FDF3DE"
+    ]
+   },
+   "signal-red": {
+    "role": "tertiary",
+    "displayName": "Signal Red",
+    "canonical": "#D7303B",
+    "tonalRamp": [
+     "#3B0A0E",
+     "#6A1219",
+     "#9C1D26",
+     "#D7303B",
+     "#E5636B",
+     "#EF9399",
+     "#F7C6C9",
+     "#FDEDEE"
+    ]
+   },
+   "limestone": {
+    "role": "neutral",
+    "displayName": "Limestone",
+    "canonical": "#F4F3EF",
+    "tonalRamp": [
+     "#141614",
+     "#2B2D2A",
+     "#5C5E58",
+     "#8E908A",
+     "#DAD8D1",
+     "#E8E6E0",
+     "#F4F3EF",
+     "#FAF9F6"
+    ]
+   },
+   "ink": {
+    "role": "neutral",
+    "displayName": "Ink",
+    "canonical": "#141614"
+   }
+  },
+  "typographyMeta": {
+   "headline": {
+    "displayName": "Headline",
+    "purpose": "Page headings such as '200 Events'."
+   },
+   "title": {
+    "displayName": "Title",
+    "purpose": "Event card titles and list rows."
+   },
+   "label": {
+    "displayName": "Label",
+    "purpose": "Uppercase category labels and sidebar groups."
+   },
+   "date-numeral": {
+    "displayName": "Date numeral",
+    "purpose": "Day number in the card date pill."
+   }
+  },
+  "shadows": [
+   {
+    "name": "resting-card",
+    "value": "0 1px 2px rgba(24,28,26,.04), 0 6px 18px -8px rgba(24,28,26,.12)",
+    "purpose": "Event cards and panels."
+   },
+   {
+    "name": "floating-shell",
+    "value": "0 2px 6px rgba(24,28,26,.05), 0 18px 40px -16px rgba(24,28,26,.20)",
+    "purpose": "Sidebar and drawers."
+   },
+   {
+    "name": "pressable",
+    "value": "0 1px 2px rgba(24,28,26,.06), 0 4px 12px -4px rgba(24,28,26,.10), inset 0 0 0 1px rgba(24,28,26,.05)",
+    "purpose": "Buttons and nav items."
+   },
+   {
+    "name": "primary-lift",
+    "value": "0 1px 2px rgba(6,40,28,.22), 0 8px 20px -10px rgba(11,107,76,.65)",
+    "purpose": "Green primary button (light mode)."
+   }
+  ],
+  "motion": [
+   {
+    "name": "flyer-reveal",
+    "value": "filter .28s ease, transform .35s ease",
+    "purpose": "Card flyer brightens and scales slightly on hover."
+   }
+  ],
+  "breakpoints": [
+   {
+    "name": "tiny",
+    "value": "380px"
+   },
+   {
+    "name": "phone",
+    "value": "600px"
+   },
+   {
+    "name": "tablet",
+    "value": "760px"
+   },
+   {
+    "name": "split",
+    "value": "900px"
+   },
+   {
+    "name": "wide",
+    "value": "1100px"
+   }
+  ]
+ },
+ "components": [
+  {
+   "name": "Primary Button",
+   "kind": "button",
+   "refersTo": "button-primary",
+   "description": "Add event, Directions, Approve.",
+   "html": "<button class=\"ds-btn-primary\">Add event</button>",
+   "css": ".ds-btn-primary{background:#0B6B4C;color:#fff;border:0;border-radius:999px;height:40px;padding:0 16px;font:600 13px Inter,system-ui,sans-serif;box-shadow:0 1px 2px rgba(6,40,28,.22),0 8px 20px -10px rgba(11,107,76,.65);cursor:pointer;transition:background .2s}.ds-btn-primary:hover{background:#08573D}.ds-btn-primary:focus-visible{outline:2px solid #0B6B4C;outline-offset:2px}"
+  },
+  {
+   "name": "Secondary Button",
+   "kind": "button",
+   "refersTo": "button-secondary",
+   "description": "Save, Share, Open, Edit first.",
+   "html": "<button class=\"ds-btn\">Save</button>",
+   "css": ".ds-btn{background:#fff;color:#5C5E58;border:0;border-radius:999px;height:40px;padding:0 14px;font:600 13px Inter,system-ui,sans-serif;box-shadow:0 1px 2px rgba(24,28,26,.06),0 4px 12px -4px rgba(24,28,26,.10),inset 0 0 0 1px rgba(24,28,26,.05);cursor:pointer}.ds-btn:hover{color:#141614}.ds-btn:focus-visible{outline:2px solid #0B6B4C;outline-offset:2px}"
+  },
+  {
+   "name": "Filter Chip",
+   "kind": "chip",
+   "refersTo": "chip",
+   "description": "Filters such as Free entry, Verified only; selected inverts to ink.",
+   "html": "<span class=\"ds-chip\">Free entry</span> <span class=\"ds-chip ds-on\">Upcoming</span>",
+   "css": ".ds-chip{display:inline-flex;align-items:center;height:34px;padding:0 13px;border-radius:999px;border:1px solid #E8E6E0;background:#fff;color:#141614;font:500 13px Inter,system-ui,sans-serif;cursor:pointer}.ds-chip:hover{border-color:#DAD8D1}.ds-chip.ds-on{background:#141614;color:#F4F3EF;border-color:#141614;font-weight:600}"
+  },
+  {
+   "name": "Event Card",
+   "kind": "card",
+   "refersTo": "event-card",
+   "description": "Picture-first card in the Events grid.",
+   "html": "<article class=\"ds-card\"><div class=\"ds-media\"><span class=\"ds-tag\">Today</span><span class=\"ds-date\"><i>WED</i><b>18</b><i>NOV</i></span></div><p class=\"ds-cat\">BUSINESS</p><h3 class=\"ds-title\">Africa Business Conference</h3><p class=\"ds-meta\">Today \u00b7 Abuja</p></article>",
+   "css": ".ds-card{width:264px;background:#fff;border-radius:24px;padding:8px;box-shadow:0 1px 2px rgba(24,28,26,.04),0 6px 18px -8px rgba(24,28,26,.12);font-family:Inter,system-ui,sans-serif;color:#141614}.ds-media{position:relative;aspect-ratio:1/1;border-radius:17px;background:linear-gradient(135deg,#1E3A8A,#4F46E5)}.ds-tag{position:absolute;left:10px;top:10px;background:#fff;border-radius:999px;padding:3px 9px;font:600 12px Inter,sans-serif}.ds-date{position:absolute;left:10px;bottom:10px;display:flex;gap:5px;align-items:baseline;background:#fff;border-radius:999px;padding:6px 10px}.ds-date i{font:700 11px Inter,sans-serif;letter-spacing:.08em;opacity:.75;font-style:normal}.ds-date b{font:800 15px Inter,sans-serif}.ds-cat{margin:12px 6px 2px;font:600 12px Inter,sans-serif;letter-spacing:.06em;color:#5C5E58}.ds-title{margin:0 6px;font:700 15px/1.3 Inter,sans-serif}.ds-meta{margin:4px 6px 8px;color:#5C5E58;font:400 13px Inter,sans-serif}.ds-card:hover{box-shadow:0 2px 6px rgba(24,28,26,.05),0 18px 40px -16px rgba(24,28,26,.2)}"
+  }
+ ],
+ "narrative": {
+  "northStar": "The Honest City Guide",
+  "overview": "NaijaOuting looks like a calm, well-kept guidebook laid over a busy city. The chrome stays quiet so the event flyers can carry the energy. One confident Naija green marks every action, marigold marks dates and time, and signal red is kept for live and warnings.",
+  "keyCharacteristics": [
+   "Picture-first event cards",
+   "One action colour (Naija Green)",
+   "Pills everywhere",
+   "Soft, short shadows on white over limestone",
+   "Light, dark, Ankara, Lagoon and High contrast modes"
+  ],
+  "rules": [
+   {
+    "name": "The One Action Colour Rule",
+    "body": "Only Naija Green says 'do this'. Marigold is for time, red is for danger or live.",
+    "section": "colors"
+   },
+   {
+    "name": "The Flyer Is Loudest Rule",
+    "body": "The interface around flyers stays neutral so they never compete.",
+    "section": "colors"
+   },
+   {
+    "name": "The Weight Not Family Rule",
+    "body": "Hierarchy comes from weight and size inside Inter.",
+    "section": "typography"
+   },
+   {
+    "name": "The Short Shadow Rule",
+    "body": "Shadows lift paper off stone, never glow.",
+    "section": "elevation"
+   }
+  ],
+  "dos": [
+   "Do keep Naija Green as the only action colour and give each screen one clear primary action.",
+   "Do show unknown details honestly ('Venue to be confirmed', 'See organiser') in Muted Ink rather than hiding the field.",
+   "Do keep flyers in square frames and let them be the most colourful thing on the screen.",
+   "Do check every change in light mode, dark mode and on a 390px-wide phone."
+  ],
+  "donts": [
+   "Don't add coloured glow shadows; use the neutral shadow vocabulary.",
+   "Don't introduce new font families inside the app.",
+   "Don't show the NaijaOuting logo or wordmark until the owner asks for it back, and don't use third-party logos from the internet.",
+   "Don't show invented counts, testimonials, ratings or partner logos.",
+   "Don't let the landing page drift further from the app; bring the two dialects together when either is redesigned."
+  ]
+ }
+}
