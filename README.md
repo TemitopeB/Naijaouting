@@ -103,6 +103,19 @@ Online events sit inside Events with an **Online** badge (sidebar → **Online**
 ### Inbox (events found by hand or by Claude)
 Put a JSON file in `data/inbox/` (see `scripts/inbox.py` for the fields). On save, **Inbox to Review** adds the events to the Review queue, skipping anything already listed, already waiting, sent before, past, or against the listing rules. The run summary shows what happened to each event.
 
+## Venues: dig before listing
+
+Many posts and listings don't name the venue. Before an event found on the internet is sent to Review
+(data/inbox/), search for the venue: the organiser's website and socials, the ticket page (Tix, Eventbrite,
+Paystack/Selar pages), news write-ups and city guides. Only use a venue a source actually states, and say
+where it came from at the end of "about" ("Source: <page>").
+
+For events already on the site that show "Venue to be confirmed", put found venues in
+`data/venue-suggestions.json` (name, venue, src, optional note). The Review panel shows them first in
+"Venues to confirm", pre-filled with the source link; nothing changes until an admin presses Save.
+Remove entries once they are saved. If no source names a venue, leave it as "to be confirmed": many organisers
+only reveal it later or to ticket buyers.
+
 ## Events that have ended
 - They disappear from the site the day after they end, but stay stored for 12 months.
 - An old shared link (`#e=...`) shows **"This event has ended"** with the event's details and similar upcoming events.

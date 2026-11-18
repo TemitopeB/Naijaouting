@@ -1,0 +1,18 @@
+{
+  "note": "Venues found by searching the web for events that show 'Venue to be confirmed'. The Review panel pre-fills these in 'Venues to confirm'; nothing changes on the site until an admin presses Save. Remove an entry once it is saved or wrong.",
+  "updated": "2026-11-18",
+  "items": [
+    {
+      "name": "The Wellness Expo Abuja 2026",
+      "venue": "A Class Event Centre, Kashim Ibrahim Way, Maitama",
+      "src": "https://www.visitabuja.org/event/the-wellness-expo-abuja/",
+      "note": "The organiser's own page (HCA Consults) only says Abuja."
+    },
+    {
+      "name": "TechUnwind UNILAG",
+      "venue": "UNILAG Sports Center, Akoka",
+      "src": "https://nairametrics.com/2026/11/06/beyond-the-screens-techunwind-is-bringing-a-much-needed-breather-to-unilag/",
+      "note": "This source gives Thursday 26 Nov at 3pm; the listing says 25 Nov. Open the event to fix the date."
+    }
+  ]
+}
