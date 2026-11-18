@@ -370,6 +370,26 @@ body{background:var(--bg)}
 .rv.rl{--rx:-48px;--ry:0}.rv.rr{--rx:48px;--ry:0}
 .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none!important}}
+
+/* ===== containers v3 (18 Nov 2026): white containers with strong shadows on beige bands; marigold December ===== */
+:root{--card-edge:#CFCDC4;--card-sh:0 1px 2px rgba(20,22,20,.08),0 4px 10px -2px rgba(20,22,20,.08),0 18px 36px -14px rgba(20,22,20,.30);--band2:#E3E1D9}
+/* every white container: visible edge + real shadow */
+.pk,.bx,.ct,.steps li,.og2 .up,.top nav,.seg,.btn.ln,.btn.ink{background:#fff!important;border:1px solid var(--card-edge)!important;box-shadow:var(--card-sh)!important}
+.pk:hover,.ct:hover{box-shadow:0 2px 4px rgba(20,22,20,.10),0 26px 48px -16px rgba(20,22,20,.38)!important;transform:translateY(-3px)}
+/* bands: beige and a deeper beige, never white, so the white cards always contrast */
+.cityp{background:var(--band2)!important}
+.ctb{background:#E4E2DA!important}
+.og1{background:var(--band2)!important}
+.og2{background:var(--band2)!important}
+#organisers .w{background:var(--band2)}
+/* Detty December: one bold marigold moment */
+.dec{background:#E9A21B!important;padding:44px var(--gut)!important;align-items:center}
+.dec b{font-size:clamp(28px,3vw,48px)!important;color:#141614;letter-spacing:-.03em}
+.dec span span{color:#3B2A06!important;font-size:17px!important}
+.dec .btn{background:#141614!important;color:#fff!important}
+/* bigger flyer demo so the organiser right side isn't empty */
+.og2 .up{max-width:440px!important;grid-template-columns:120px 1fr!important;padding:20px!important}
+.og2 .up img{width:120px!important;height:150px!important}
 </style>
 </head>
 <body>

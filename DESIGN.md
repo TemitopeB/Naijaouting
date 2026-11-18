@@ -249,3 +249,4 @@ A tall flyer header with the countdown date block, a "Checked" badge, title, sta
 - **Don't** show the NaijaOuting logo or wordmark until the owner asks for it back, and don't use third-party logos from the internet.
 - **Don't** show invented counts, testimonials, ratings or partner logos.
 - **Don't** box the landing page into a narrow centred column; it runs full width with slim gutters.
+- **Do** keep landing page containers white with a visible edge (#CFCDC4) and a layered shadow, on beige (#EEEDE8) or deeper beige (#E3E1D9) bands, never white on white. Marigold (#E9A21B) is the one bold band, for Detty December.
