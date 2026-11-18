@@ -248,6 +248,24 @@ footer{border-radius:30px 30px 0 0}
 .bx>h3{grid-column:2;grid-row:1;align-self:center;margin:0}
 .bx>*:not(.ic):not(h3){grid-column:1/-1}
 @media (max-width:760px){.hp{border-radius:24px}.cityp,.og1,.og2,.app{border-radius:24px}footer{border-radius:24px 24px 0 0}}
+
+/* ===== full-width layout (18 Nov 2026): no boxed 1200px column; slim side gutters like awwwards.com ===== */
+:root{--gut:clamp(16px,3.4vw,56px)}
+.w{max-width:none;padding:0 var(--gut)}
+/* hero: a showcase panel that runs nearly edge to edge (10px inset) */
+.hero>.w{padding:0 10px}
+.hp{--gx:var(--gut);border-radius:24px;min-height:min(760px,calc(100vh - 86px))}
+.sld{left:calc(var(--gx) - 6px)}
+.hp h1{font-size:clamp(40px,5vw,96px);line-height:1.02;max-width:15ch;text-wrap:balance}
+h2{text-wrap:balance}
+.hp p.s{font-size:clamp(17px,1.25vw,21px);max-width:560px}
+.stack{height:clamp(440px,36vw,600px)}
+@media (min-width:1500px){.fc{width:clamp(210px,15vw,280px)}}
+/* section headings scale with the screen */
+h2{font-size:clamp(30px,3.6vw,64px);line-height:1.04;letter-spacing:-.035em}
+/* more room between sections now that they're wider */
+@media (min-width:1001px){.intro{gap:clamp(48px,6vw,120px)}.cityp{padding:clamp(44px,3.6vw,72px)}.og1,.og2{padding:clamp(36px,3.4vw,64px)}}
+@media (max-width:760px){.hero>.w{padding:0}.hp{border-radius:0;min-height:0}.hp h1{max-width:none}}
 </style>
 </head>
 <body>
