@@ -311,6 +311,19 @@ footer{font-size:14px}footer h4{font-weight:600}
 .og2{background:#E3EFE9!important}
 .og2 .up{background:#fff!important;border-color:#D5DED8!important}
 .seg{border-color:#DAD8D1}
+
+/* ===== clearer containers, round 2 (18 Nov 2026): white surfaces get a visible edge everywhere, background a step deeper ===== */
+:root{--edge:#D2D0C8;--bg:#EEEDE8;--sand:#E4E2DA}
+body{background:var(--bg)}
+.top{background:rgba(238,237,232,.9)}
+.top nav,.btn.ln,.btn.ink,.seg,.cats a,.ib{border:1px solid var(--edge)!important;box-shadow:0 1px 2px rgba(24,28,26,.06)}
+.pk,.bx{border:1px solid var(--edge)!important;box-shadow:0 1px 2px rgba(24,28,26,.06),0 12px 28px -18px rgba(24,28,26,.28)!important}
+.pk:hover{border-color:#B9B7AE!important}
+.bx .num,.bx .tick{border-top-color:var(--edge)!important}
+.og1{background:var(--sand)!important}
+.steps li{background:#fff!important;border:1px solid var(--edge)}
+.og2 .up,.ct{border-color:#C9D5CD!important}
+.empty{border-color:var(--edge)}
 </style>
 </head>
 <body>
