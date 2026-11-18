@@ -17,6 +17,8 @@ Two jobs, run by .github/workflows/fixes.yml:
       override the admin "Edit" button writes (col "overrides", id "o" + hash of the name),
       keeping anything already in that override.
       A built-in event the admin has removed stays removed.
+      "hide": true hides an event (built-in: the admin "Remove" override; approved: "hide": 1),
+      which the admin can undo from the site.
 
 Needs SUPABASE_URL and SUPABASE_SERVICE_KEY (GitHub secrets).
 """
@@ -29,7 +31,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from sweep import DB, log, summary  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-FIELDS = {"name", "cat", "s", "e", "time", "venue", "city", "state", "fee", "about", "link", "img", "online", "plat", "ig", "cx"}
+FIELDS = {"name", "cat", "s", "e", "time", "venue", "city", "state", "fee", "about", "link", "img", "online", "plat", "ig", "cx", "hide"}
 
 
 def hsh(s):
@@ -80,6 +82,11 @@ def apply(db, files):
             cur = db.get("overrides", oid) or {}
             if cur.get("hide"):
                 lines.append(f"- skipped {name}: removed by the admin")
+                continue
+            if ch.get("hide"):
+                db.put("overrides", oid, {"name": name, "hide": 1})
+                n += 1
+                lines.append(f"- {name}: hidden ({ch.get('why', 'duplicate')})")
                 continue
             patch = dict(cur.get("patch") or {})
             patch.update(clean_set(ch.get("set") or {}))

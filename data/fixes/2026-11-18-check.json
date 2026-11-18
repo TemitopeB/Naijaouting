@@ -1,0 +1,241 @@
+{
+ "checked_by": "Claude",
+ "checked_on": "2026-11-18",
+ "builtin": {
+  "Abuja International Afrojazz Festival": {
+   "set": {
+    "venue": "BALI City Park, Wuse 2 (main concert)",
+    "time": "Main concert Sat 21 Nov, 6pm",
+    "fee": "Early bird ₦5,000; VIP ₦15,000 (organiser's site)",
+    "about": "Masterclasses 16–20 Nov. Industry market 19–20 Nov at SV Chrome Hotel, Jabi. Showcase concerts 19–20 Nov at The Nordic Hotel, Jabi. Main concert Sat 21 Nov at BALI City Park, Wuse 2."
+   },
+   "why": "venue details and time from the festival programme; removed 'venue to be announced'"
+  },
+  "DevFest Lokoja 2026": {
+   "set": {
+    "s": "2026-12-12",
+    "e": "2026-12-12",
+    "time": "10am–2pm",
+    "link": "https://gdg.community.dev/events/details/google-gdg-lokoja-presents-devfest-lokoja-2026/"
+   },
+   "why": "date was wrong: GDG Lokoja lists Sat 12 Dec, 10am–2pm"
+  },
+  "DevFest Asaba 2026": {
+   "set": {
+    "venue": "",
+    "time": "9am",
+    "link": "https://gdg.community.dev/e/mpjvwq/"
+   },
+   "why": "removed placeholder venue; added time and official page"
+  },
+  "DevFest Kano 2026": {
+   "set": {
+    "venue": "",
+    "about": "GDG Kano's annual developer festival with sessions on Google technologies, AI and software development. Venue to be announced."
+   },
+   "why": "venue was the 2024 edition's; 2026 venue not announced"
+  },
+  "DevFest Enugu 2026": {
+   "set": {
+    "time": "4 Dec: sessions in Enugu and Nsukka · 5 Dec: main event in Enugu, 8am",
+    "link": "https://gdg.community.dev/events/details/google-gdg-enugu-presents-devfest-enugu-2026/"
+   },
+   "why": "added programme and official page"
+  },
+  "DevFest Ibadan 2026": {
+   "set": {
+    "fee": "₦5,000 standard; ₦12,000 for a group of 3; ₦10,000 late",
+    "venue": "Kakanfo Inn & Conference Centre, Ring Road",
+    "link": "https://devfestibadan.com/"
+   },
+   "why": "prices from the official site"
+  },
+  "DevFest Uyo 2026": {
+   "set": {
+    "venue": "Jacksville Events Place, Unit E, Plot 1, Ewet Housing Estate",
+    "link": "https://gdg.community.dev/events/details/google-gdg-uyo-presents-devfest-uyo-2026/"
+   },
+   "why": "added official page"
+  },
+  "DevFest Port Harcourt 2026": {
+   "set": {
+    "time": "9am–4:30pm",
+    "fee": "See organiser",
+    "link": "https://gdg.community.dev/events/details/google-gdg-port-harcourt-presents-devfest-port-harcourt-2026/"
+   },
+   "why": "added time and official page; 'Free' could not be confirmed"
+  },
+  "DevFest Benin 2026": {
+   "set": {
+    "time": "10am–4pm",
+    "link": "https://gdg.community.dev/events/details/google-gdg-benin-presents-devfest-benin-2026-connect-learn-innovate/"
+   },
+   "why": "added time and official page"
+  },
+  "TechUnwind UNILAG": {
+   "hide": true,
+   "why": "duplicate of the flyer listing, which now carries the confirmed 26 Nov date"
+  },
+  "Zuma International Film Festival": {
+   "set": {
+    "venue": "",
+    "about": "The Nigerian Film Corporation's international film festival in Abuja. Venue to be confirmed."
+   },
+   "why": "venue field held broken text; 2026 venue not announced"
+  },
+  "Bass ’N Bounce Port Harcourt": {
+   "set": {
+    "venue": "Model Secondary School GRA (beside the Polo Club), Tombia, GRA",
+    "about": "Evening rave by Rave Experience PH, 7–11pm. Early bird tickets are on sale on the organiser’s website."
+   },
+   "why": "venue field held broken text; removed outdated 'venue to be confirmed'"
+  },
+  "Shallipopi Live in Abuja": {
+   "set": {
+    "time": "7pm–10pm"
+   },
+   "why": "added time"
+  },
+  "Elite Festival 2026": {
+   "set": {
+    "time": "From 4pm",
+    "about": "Detty December concert at the Balmoral Convention Centre, Federal Palace Hotel, with BNXN as a confirmed headliner."
+   },
+   "why": "headliner and start time updated from the latest line-up news"
+  },
+  "ICONIQ Fest 2026": {
+   "set": {
+    "e": "2026-12-23",
+    "about": "Five nights: BNXN (19 Dec), FOLA (20 Dec), Oxlade (21 Dec), Ruger (22 Dec) and Mr P (23 Dec). Tickets on the festival’s website."
+   },
+   "why": "festival now runs five nights (19–23 Dec)"
+  },
+  "Coca-Cola Rhythm Unplugged 2026": {
+   "set": {
+    "about": "Flytime’s annual concert, headlined by Lil Baby, Kehlani and Yung Miami."
+   },
+   "why": "line-up updated"
+  },
+  "Flytime Fest": {
+   "set": {
+    "about": "Three-day Flytime festival. Latto, A Boogie wit da Hoodie and Sexyy Red open on 22 Dec; more acts to come. Tickets are sold on cene.xyz."
+   },
+   "why": "line-up updated"
+  },
+  "Detty December Fest": {
+   "set": {
+    "venue": "Ilubirin, Lagos Island"
+   },
+   "why": "tidied venue"
+  },
+  "Davido: ORIADÉ, The Residency": {
+   "set": {
+    "fee": "See organiser",
+    "venue": "Wole Soyinka Centre (National Theatre), Iganmu"
+   },
+   "why": "'Nearly sold out' was an old status, not a price"
+  },
+  "Davido at Calabar Carnival": {
+   "set": {
+    "venue": "U.J. Esuene Stadium (main bowl)"
+   },
+   "why": "confirmed by the Cross River State Ministry of Information"
+  },
+  "Calabar Street Party and Colour Run": {
+   "set": {
+    "state": "Cross River",
+    "venue": "Carnival route, Calabar"
+   },
+   "why": "added missing state; tidied venue"
+  },
+  "CAF Awards 2026": {
+   "set": {
+    "state": "Lagos",
+    "time": "7pm",
+    "link": "https://www.cafonline.com/news/caf-awards-2026-to-take-place-on-wednesday-night-2-december-2026-in-lagos/"
+   },
+   "why": "added state, time and CAF's announcement"
+  },
+  "Funtime Festival Africa": {
+   "set": {
+    "state": "Rivers"
+   },
+   "why": "added missing state"
+  },
+  "Wizkid: Live Out Loud Festival": {
+   "set": {
+    "time": "Gates 4pm; Wizkid on stage 10pm",
+    "link": "https://wizkid.tix.africa/"
+   },
+   "why": "added stage time and official ticket seller"
+  },
+  "Adekunle Gold: The Greatest Showman": {
+   "set": {
+    "time": "6pm–11pm"
+   },
+   "why": "added time"
+  },
+  "ÀLÓ: Once Upon a Song": {
+   "set": {
+    "time": "7pm"
+   },
+   "why": "added time"
+  },
+  "AB Con 2026 – African Boardgames Convention (10th Anniversary)": {
+   "set": {
+    "link": "https://theabcon.com"
+   },
+   "why": "added official site"
+  },
+  "Quantum Africa 2026": {
+   "set": {
+    "link": "https://summit.quantumafricaai.com"
+   },
+   "why": "added official site"
+  },
+  "Citizens Agenda Summit 2026": {
+   "set": {
+    "about": "iLEAD Africa's accountability summit, shaping a citizens' manifesto ahead of the 2027 elections. In person in Abuja and online."
+   },
+   "why": "added format"
+  }
+ },
+ "events": {
+  "rsx2e5i4kuhe0y8ixbgm": {
+   "set": {
+    "s": "2026-11-26",
+    "e": "2026-11-26",
+    "time": "3pm",
+    "venue": "UNILAG Sports Centre, Akoka",
+    "fee": "₦5,000 regular; squad (group) tickets available",
+    "link": "https://nestuge.com/techunwindunilag",
+    "about": "Campus mixer for techies, creatives and students, with games, music and exhibitors. Squad tickets let groups attend together."
+   },
+   "why": "date was wrong (25 Nov): organiser and Nairametrics give Thu 26 Nov, 3pm; added ticket link"
+  },
+  "i0b38vjtj9h7i1yngks8": {
+   "set": {
+    "hide": 1
+   },
+   "why": "duplicate of The Experience 21: Jesus the Rock (same night, same venue)"
+  },
+  "s2760url82gwlgkcfhn1": {
+   "set": {
+    "hide": 1
+   },
+   "why": "vendor call for Tropical December: Denim Splash Pool Party, which is already listed"
+  },
+  "4v90o7s5j912zma39gru": {
+   "set": {
+    "state": "FCT"
+   },
+   "why": "added missing state"
+  },
+  "0svyg5pustwq36wjdbo4": {
+   "set": {
+    "link": "https://spektrum.live/nights"
+   },
+   "why": "added the promoter's tickets page"
+  }
+ }
+}
