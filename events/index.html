@@ -1871,6 +1871,16 @@ html:not(.app) .fsw:not(.fyw) .fs{width:min(760px,94vw);max-height:88vh}
 
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--acs:rgba(61,178,125,.14);--acb:rgba(61,178,125,.34)}
  :root:not([data-theme="light"]) .chip.fyc.on{background:#F2F2EE!important;border-color:#F2F2EE!important;color:#141414!important}}
+
+/* filter sheets: header with a close button stays put while scrolling; no slide-in on redraw */
+.fs .fstop{position:sticky;top:-10px;z-index:3;background:var(--pn);margin:-10px -18px 0;padding:10px 18px 8px;border-bottom:1px solid transparent}
+.fs.still{animation:none!important}
+.fsha{display:flex;align-items:center;gap:12px}
+.fsx{width:38px;height:38px;border-radius:999px;border:1px solid var(--ln2);background:var(--pn2);color:var(--tx);display:grid;place-items:center;flex:none;cursor:pointer}
+.fsx:hover{background:var(--ln)}
+.fyhd{align-items:flex-start;gap:12px}
+.fyhd .fyh{margin:2px 0 0!important}
+.fs .fsgo{position:sticky;bottom:0;z-index:3;box-shadow:0 -10px 0 8px var(--pn),0 34px 0 10px var(--pn),0 -26px 20px 4px var(--pn)}
 </style>
 </head>
 <body>
@@ -2492,8 +2502,8 @@ function fyChip(cls){return '<button class="chip fyc'+(S.fy?" on":"")+(cls||"")+
 function fyStrip(){if(!S.fy||!meN())return "";return '<div class="fys"><span class="fysl">For you:</span>'+ME.p.map(k=>["p",k]).concat(ME.h.map(k=>["h",k])).map(x=>'<button class="chip sm fyp" data-a="fyrm" data-v="'+x[0]+":"+x[1]+'" aria-label="Remove '+esc(LBN[x[0]+":"+x[1]][1])+'">'+esc(LBN[x[0]+":"+x[1]][1])+' <span aria-hidden="true">✕</span></button>').join("")+'<button class="chip sm" data-a="fyedit">Edit</button></div>'}
 function fyPick(){const D=S.fyd||{p:ME.p.slice(),h:ME.h.slice()};S.fyd=D;
  const grp=(g,title,hint)=>'<div class="fsl fyl">'+title+(hint?'<i>'+hint+'</i>':"")+'</div><div class="fsc">'+LB[g].map(x=>{const on=D[g].includes(x[0]);return '<button class="chip'+(on?" on":"")+'" data-a="fyt" data-v="'+g+":"+x[0]+'" aria-pressed="'+on+'">'+esc(x[1])+'</button>'}).join("")+'</div>';
- return '<div class="fsw fyw"><div class="fscrim" data-a="fyskip"></div><div class="fs fypk" role="dialog" aria-modal="true" aria-label="What you do and enjoy"><div class="fgrab"></div>'+
-  '<h3 class="fyh">What do you do, and what do you enjoy?</h3><p class="fysub">We’ll show matching events first. Saved on this device only, no account needed.</p>'+
+ return '<div class="fsw fyw"><div class="fscrim" data-a="fyskip"></div><div class="fs fypk" role="dialog" aria-modal="true" aria-label="What you do and enjoy"><div class="fstop"><div class="fgrab"></div><div class="fsh fyhd"><h3 class="fyh">What do you do, and what do you enjoy?</h3><button class="fsx" data-a="fyskip" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div>'+
+  '<p class="fysub">We’ll show matching events first. Saved on this device only, no account needed.</p>'+
   grp("p","I work in or study","Pick any")+grp("h","I enjoy","")+
   '<div class="fyft"><button class="btn" data-a="fyskip">'+(meN()?"Cancel":"Skip")+'</button><button class="btn p" data-a="fysave"'+((D.p.length+D.h.length)?"":" disabled")+'>Show my events</button></div></div></div>'}
 function fyBands(L){const seen=new Set();let h="";
@@ -2737,7 +2747,7 @@ const FSVG='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="
 function ubar(){const W=[["up","Upcoming"],["today","Today"],["wk","Weekend"],["n7","Next 7 days"],["mo","This month"]],n=(S.cat!=="All")+(S.city!=="All")+(!!S.src)+(!!S.free)+(!!S.onl)+(S.ft||[]).length;
  return '<div class="ubar"><div class="uch" role="group" aria-label="Dates">'+(S.view==="events"?fyChip():"")+'<button class="chip dpc'+(S.when==="date"?" on":"")+'" data-a="dpick" aria-expanded="'+!!(S.dpo||S.when==="date")+'">'+DPIC+(S.when==="date"?dlab():"Pick date")+'</button>'+W.map(w=>'<button class="chip'+(S.when===w[0]?" on":"")+'" data-a="when" data-v="'+w[0]+'" aria-pressed="'+(S.when===w[0])+'">'+w[1]+'</button>').join("")+'</div><button class="ufb'+(n?" on":"")+'" data-a="fsopen" aria-haspopup="dialog">'+'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>'+'<span class="ufl">Filters</span>'+(n?'<b>'+n+'</b>':'')+'</button></div>'}
 function fsheet(){const A=all(),cnt={};A.forEach(v=>cnt[v.cat]=(cnt[v.cat]||0)+1);const n=list().length,cats=["All"].concat(Object.keys(CAT));
- return '<div class="fsw"><div class="fscrim" data-a="fsclose"></div><div class="fs" role="dialog" aria-modal="true" aria-label="Filters"><div class="fgrab"></div><div class="fsh"><h3>Filters</h3><button class="lnk" data-a="clear">Clear all</button></div>'+
+ return '<div class="fsw"><div class="fscrim" data-a="fsclose"></div><div class="fs" role="dialog" aria-modal="true" aria-label="Filters"><div class="fstop"><div class="fgrab"></div><div class="fsh"><h3>Filters</h3><span class="fsha"><button class="lnk" data-a="clear">Clear all</button><button class="fsx" data-a="fsclose" aria-label="Close filters"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></span></div></div>'+
  '<div class="fsl">Category</div><div class="fsc">'+cats.map(c=>'<button class="chip'+(S.cat===c?" on":"")+'" data-a="cat" data-v="'+esc(c)+'">'+(c==="All"?"All events":'<i class="fdot" style="background:'+cc(c)[0]+'"></i>'+esc(c))+'<span class="n">'+(c==="All"?A.length:(cnt[c]||0))+'</span></button>').join("")+'</div>'+
  '<div class="fsl">City</div><select class="sel" data-a="citysel" aria-label="City" style="width:100%;box-shadow:none"><option value="All">All cities</option>'+Object.keys(CITY).sort().map(c=>'<option'+(S.city===c?" selected":"")+'>'+c+'</option>').join("")+'</select>'+
  '<div class="fsg">'+["p","h","w","b","t","s"].map(ftChips).join("")+'</div>'+'<div class="fsl">Entry and source</div><div class="fsc">'+(S.view==="map"||S.view==="near"?"":'<button class="chip'+(S.onl?" on":"")+'" data-a="onl" aria-pressed="'+!!S.onl+'">'+ONLSVG+'Online and webinars</button>')+'<button class="chip'+(S.free?" on":"")+'" data-a="free" aria-pressed="'+!!S.free+'">Free entry</button><button class="chip'+(S.src?" on":"")+'" data-a="src" aria-pressed="'+!!S.src+'">Verified only</button></div>'+
@@ -3599,11 +3609,11 @@ const LIGHT=new Set(["events","saved","cal","daily","news","trip"]);
 function lightOpen(){drawer();document.querySelectorAll("#view .ev.on").forEach(e=>e.classList.remove("on"));
  if(S.open){const e=document.querySelector('#view .ev[data-id="'+CSS.escape(S.open)+'"]');if(e)e.classList.add("on")}
  if(typeof BK!=="undefined"&&!BK.busy)bkQueue()}
-function render(){side();const V=$("#view"),same=render._v===S.view,keep=[],sw=same?scrollY:null;
+function render(){side();const V=$("#view"),same=render._v===S.view,keep=[],sw=same?scrollY:null,oFs=document.querySelector(".fsw .fs"),fsY=oFs?oFs.scrollTop:0,fsK=oFs?(oFs.classList.contains("fypk")?"fy":"fs"):"";
  if(same)V.querySelectorAll(".mv,.mvb,.page,.rp,.lp,.split,.hrs,.uch,.calwrap,.evp,.mapbox").forEach(e=>{if(e.scrollTop||e.scrollLeft)keep.push([skey(e),e.scrollTop,e.scrollLeft])});const vst=same?V.scrollTop:0;
  const osv=same?V.querySelector(".mapbox>svg"):null,ovb=osv?osv.getAttribute("viewBox"):null;
  V.innerHTML=S.view==="map"?mapView():S.view==="events"?eventsView():S.view==="cal"?calView():S.view==="news"?newsView():S.view==="trip"?tripView():S.view==="explore"?exploreView():S.view==="near"?nearView():S.view==="tour"?tourView():S.view==="saved"?savedView():S.view==="daily"?dailyView():S.view==="about"?aboutView():S.view==="help"?helpView():S.view==="contact"?contactView():S.view==="privacy"?privacyView():S.view==="organisers"?orgView():S.view==="ended"?endedView():S.view==="account"?(window.ACCT?ACCT.view():""):quizView();
- if(S.view!=="map"&&S.view!=="events")S.fs=0;if(S.fs)V.insertAdjacentHTML("beforeend",fsheet());if(S.fyp)V.insertAdjacentHTML("beforeend",fyPick());
+ if(S.view!=="map"&&S.view!=="events")S.fs=0;if(S.fs)V.insertAdjacentHTML("beforeend",fsheet());if(S.fyp)V.insertAdjacentHTML("beforeend",fyPick());{const nFs=document.querySelector(".fsw .fs");if(nFs&&fsK===(nFs.classList.contains("fypk")?"fy":"fs")){nFs.classList.add("still");nFs.scrollTop=fsY}}
  const pg=V.querySelector(".page");if(pg&&!pg.querySelector(".foot"))pg.insertAdjacentHTML("beforeend",foot());else if(!pg){const L=V.querySelector(".rp,.lp");if(L)L.insertAdjacentHTML("beforeend",rfoot())}
  render._v=S.view;V.scrollTop=vst;keep.forEach(k=>{const e=V.querySelector(k[0]);if(e){e.scrollTop=k[1];e.scrollLeft=k[2]}});if(sw!=null&&scrollY!==sw)scrollTo(0,sw);zSetup();if(ovb)mapTween(ovb);
  drawer()}
