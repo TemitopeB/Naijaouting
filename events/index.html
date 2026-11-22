@@ -1801,7 +1801,6 @@ html.app header .hr .sbtn{flex:1 1 auto;width:auto!important;max-width:none;just
 html.app header .hr .sbtn .sbt{display:inline;font:500 15px var(--fb);color:var(--mu)}
 html.app.sopen header .hr .sbtn{color:var(--ac);border-color:var(--ac)}
 html.app header .hr .btn.p{background:transparent!important;color:var(--ac)!important;border:1.5px solid currentColor!important;box-shadow:none!important;height:42px!important;min-height:42px!important;padding:0 14px 0 11px!important;flex:none}
-html.app.dark header .hr .btn.p,html.dark header .hr .btn.p{color:var(--ac)!important}
 /* phone date chips: clearer fade so the row reads as scrollable */
 :root .ubar .uch{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent)!important;mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent)!important;padding-right:44px!important}
 /* computer filters: one row, extra filters in a sheet, sort as a small menu */
@@ -1825,6 +1824,53 @@ html:not(.app) .sbrow .sbo:not(.sq):hover{background:var(--pn2)!important;color:
 /* full width on big screens: lists and grids use the whole window; text views keep a readable measure */
 :root .page>*{max-width:none}
 :root .page>.ph p,:root .page .prose,:root .page .helpw,:root .page .legal{max-width:760px}
+
+/* ===== who it's for (22 Nov 2026): For you, labels, filters by profession and hobby ===== */
+:root{--acs:rgba(11,107,76,.10);--acb:rgba(11,107,76,.28)}
+[data-theme="dark"]{--acs:rgba(61,178,125,.14);--acb:rgba(61,178,125,.34)}
+.fyc{gap:6px}
+.fyc svg{color:#E9A21B}
+.chip.fyc.on{background:#141414!important;border-color:#141414!important;color:#fff!important}
+[data-theme="dark"] .chip.fyc.on{background:#F2F2EE!important;border-color:#F2F2EE!important;color:#141414!important}
+.fbar .fyd{height:38px;flex:none}
+.fys{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+html.app .fys{margin:10px 0 0;padding:0 2px}
+.fysl{font-size:13px;color:var(--mu);font-weight:600}
+.chip.fyp{background:var(--acs)!important;border-color:var(--acb)!important;color:var(--ac)!important;font-weight:600}
+.chip.fyp span{opacity:.7;margin-left:2px}
+.chip.soft{background:var(--acs);border-color:var(--acb);color:var(--ac);font-weight:600}
+.fys.syn .fysl{font-weight:500}
+.fyb{margin:0 0 28px}
+.fybh{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:6px 4px 12px}
+.fybh h2{font:700 21px/1.15 var(--fd);letter-spacing:-.02em;margin:0;color:var(--tx)}
+.fybh p{font-size:13px;color:var(--mu);margin:3px 0 0}
+.fybh .lnk{white-space:nowrap;font-weight:600}
+.fyn{margin:0 4px}
+html.app .fyr{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px!important;margin:0 -16px;padding:0 16px 8px;scrollbar-width:none}
+html.app .fyr::-webkit-scrollbar{display:none}
+html.app .fyr>.tc{flex:0 0 80%;scroll-snap-align:start}
+.tcx .gf{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.tcx .gf span{font:600 11.5px/1 var(--fb);color:var(--ac);background:var(--acs);padding:5px 9px;border-radius:999px}
+.dxgf{margin:16px 0 6px}
+.dxgf .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.lbed{margin:12px 0;padding:10px 14px;border:1px dashed var(--ln2);border-radius:14px}
+.lbed summary{cursor:pointer;font-weight:600;font-size:14px;display:flex;gap:8px;align-items:center}
+.lbed .fsl{margin:14px 0 8px}
+.lbed .lnk{margin-top:12px;display:inline-block}
+.fypk .fyh{font:700 22px/1.15 var(--fd);letter-spacing:-.02em;margin:6px 0 6px;color:var(--tx)}
+.fysub{font-size:14px;color:var(--mu);margin:0 0 4px;line-height:1.45}
+.fyl{display:flex;justify-content:space-between;align-items:baseline}
+.fyl i{font-style:normal;color:var(--ac);text-transform:none;letter-spacing:0;font-weight:500;font-size:13px}
+.fyft{position:sticky;bottom:calc(-18px - env(safe-area-inset-bottom,0px));display:flex;gap:10px;padding:16px 0 6px;background:linear-gradient(rgba(0,0,0,0),var(--pn) 32%);margin-top:12px}
+.fyft .btn{height:48px;flex:none;padding:0 20px;justify-content:center}
+.fyft .btn.p{flex:1}
+.fyft .btn[disabled]{opacity:.45;pointer-events:none}
+html:not(.app) .fs.fypk{width:min(620px,92vw);max-height:88vh}
+html:not(.app) .fsw:not(.fyw) .fs{width:min(760px,94vw);max-height:88vh}
+.fsg{border-bottom:1px solid var(--ln);padding-bottom:14px}
+
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--acs:rgba(61,178,125,.14);--acb:rgba(61,178,125,.34)}
+ :root:not([data-theme="light"]) .chip.fyc.on{background:#F2F2EE!important;border-color:#F2F2EE!important;color:#141414!important}}
 </style>
 </head>
 <body>
@@ -2369,13 +2415,111 @@ const grad=c=>"linear-gradient(135deg,"+cc(c)[1]+" 0%,"+cc(c)[0]+" 100%)";
 function fd(s,e){const a=s.split("-"),b=(e||s).split("-");const d1=+a[2],d2=+b[2];return (s===(e||s)?d1+" "+MON[+a[1]-1]:(a[1]===b[1]?d1+"–"+d2+" "+MON[+a[1]-1]:d1+" "+MON[+a[1]-1]+" – "+d2+" "+MON[+b[1]-1]))+" "+b[0]}
 const ago=d=>{const n=Math.round((new Date(TODAY)-new Date(d))/864e5);return n<=0?"Today":n===1?"Yesterday":n+" days ago"};
 const SV={pin:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',cal:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',ext:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>'};
-let S={view:"events",q:"",cat:"All",city:"All",when:"up",src:0,sel:null,y:NOW.getFullYear(),m:NOW.getMonth(),nc:"All",st:null,free:0};
+let S={view:"events",q:"",cat:"All",city:"All",when:"up",src:0,sel:null,y:NOW.getFullYear(),m:NOW.getMonth(),nc:"All",st:null,free:0,ft:[],fy:0};
+
+/* ---------- who it's for: labels, "For you", filters by profession, hobby and more ----------
+   Labels are worked out from each event's category, name, description and venue. The admin can
+   replace them per event (field "lb", saved like a venue fix). Budget and time of day come from the
+   listed price and time; an event with no price or time simply doesn't match those filters. */
+const LB={
+ p:[["tech","Tech & software","Tech people",["Tech"],/\b(tech\b(?! house)|techies?|developer|devfest|gdg|software|coding|(?<!dress[ -])code\b|ai\b|artificial intelligence|machine learning|data\b|data science|cyber|cloud|startup|hackathon|product design|ux\b|blockchain|web3|digital skills|programming|app develop)/],
+  ["fin","Finance & accounting","Accountants",[],/\b(ican\b|accountan|accounting|audit|forensic|finance|financial|fintech|banking|banker|tax\b|taxation|insurance|capital market|stock exchange|treasury|cfo)/],
+  ["health","Health & medicine","Health workers",[],/\b(medical (conference|summit|association|students?|professionals?)|medics?\b|medicine|doctor|nurs(e|es|ing)\b|pharma|health clinic|medical clinic|hospital|health ?care|public health|diabetes|mental health|dental|nutrition|surgeon|patient)/],
+  ["law","Law","Lawyers",[],/\b(law\b|lawyer|legal|bar association|arbitration|justice|court\b|attorney|barrister|human rights)/],
+  ["media","Media & creative","Creatives",["Film & Theatre"],/\b(media|journalis|film ?mak|photograph|content creat|creator|graphic design|broadcast|marketing|advertis|creative|animation|storytell|influencer|podcast)/],
+  ["eng","Engineering","Engineers",[],/\b(engineer|construction|architect|geo-?spatial|geo-innovation|space economy|satellite|robotics|manufactur|built environment|surveyor)/],
+  ["teach","Teaching","Teachers",[],/\b(teacher|teaching|educator|edtech|education summit|pedagog|lecturer|school leaders)/],
+  ["biz","Business & sales","Business people",["Business","Expos & Trade Fairs"],/\b(business|entrepreneur|sme|msme|founder|sales\b|trade fair|investor|leadership|chamber of commerce|networking|showroom|commerce|retail|brand)/],
+  ["agri","Agriculture","Farmers and agri people",["Agriculture"],/\b(agric|farm|agro|food security|livestock|poultry|fishery|rice)/],
+  ["fashion","Fashion & beauty","Fashion and beauty people",["Fashion"],/\b(fashion|beauty|make-?up|hair|stylist|runway|cosmetic|skincare|textile|nigeriatex|shoe|apparel)/],
+  ["energy","Energy","Energy people",[],/\b(energy|oil and gas|oil & gas|petroleum|power sector|solar|renewable|electricity)/],
+  ["student","Student","Students",["Careers & Education"],/\b(student|unilag|campus|university|undergrad|graduate|scholarship|youth|exam|delf|career fair|internship|nysc|corper|school)/]],
+ h:[["music","Live music","Music lovers",["Music"],/\b(concert|live music|jazz|afrobeat|amapiano|unplugged|orchestra|choir|hymn|praise concert|band\b|gig\b|music festival)/],
+  ["dance","Dancing","Dancers",["Nightlife & Parties"],/\b(dance|dancing|rave|party|amapiano|salsa|owambe|dj\b|club night)/],
+  ["read","Reading","Readers",["Books & Literature"],/\b(book|reading|poetry|literature|author|writers|spoken word|literary)/],
+  ["football","Football","Football fans",[],/\b(football|soccer|super eagles|super falcons|caf\b|npfl|five-a-side|5-a-side)/],
+  ["photo","Photography","Photographers",[],/\b(photo|photography|camera|photowalk)/],
+  ["gaming","Gaming","Gamers",["Gaming & Esports"],/\b(gaming|gamer|esports|game night|playstation|fifa\b|board ?game|chess|scrabble)/],
+  ["fit","Running & fitness","Runners and fitness fans",["Health & Fitness"],/\b(fun run|run rave|running club|road race|marathon|fitness|yoga|workout|gym\b|wellness|pilates|cycling|5k\b|10k\b|jog|hike|hiking)/],
+  ["food","Food","Foodies",["Food & Drink"],/\b(food|jollof|cook|chef|wine|cocktail|brunch|tasting|bbq|barbecue|suya|picnic|dinner)/],
+  ["art","Art & painting","Art lovers",["Arts & Culture"],/\b((?<!of[- ]the[- ])art\b|arts\b|paint|art exhibition|gallery|crafts\b|handcraft|pottery|sculpt|museum)/],
+  ["comedy","Comedy","Comedy fans",["Comedy"],/\b(comedy|comedian|stand-?up|laugh)/],
+  ["film","Film","Film lovers",["Film & Theatre"],/\b(film|movie|cinema|screening|stage play|drama|stage show)/],
+  ["worship","Worship","Worshippers",["Faith"],/\b(worship|praise|church|gospel|prayer|crusade|mosque|islamic|tafsir|holy ghost|revival)/]],
+ w:[["solo","Just me","",["Workshops & Classes","Books & Literature","Careers & Education","Tech","Faith","Health & Fitness"],/\b(workshop|class|masterclass|book club|silent book|webinar|bootcamp|training|course|marathon)/],
+  ["friends","Friends","",["Nightlife & Parties","Music","Festivals & Carnivals","Comedy","Sports","Gaming & Esports","Food & Drink"],/\b(party|fest\b|festival|concert|hangout|game night|rave)/],
+  ["date","Date night","",["Comedy","Film & Theatre","Food & Drink","Arts & Culture"],/\b(jazz|dinner|wine|unplugged|acoustic|sip ?(&|and) ?paint|cinema|brunch|cocktail|valentine)/],
+  ["kids","Kids","",["Kids & Family"],/\b(kids|children|child|family|funfair|fun fair|amusement|christmas village|wonderland|santa|teens?\b)/],
+  ["net","Networking","",["Business","Tech","Careers & Education","Expos & Trade Fairs"],/\b(summit|conference|networking|mixer|meetup|meet-up|expo\b|forum|dialogue|awards|career fair)/]],
+ s:[["in","Indoor","",[],/\b(hotel|hall|centre|center|auditorium|theatre|theater|cinema|gallery|caf[eé]|lounge|club|church|mall|studio|hub|conference cent|event cent|arena|plaza|showroom|bookshop|library|office)/],
+  ["out","Outdoor","",[],/\b(park|beach|garden|stadium|field|open[- ]air|pool|poolside|rooftop|lawn|square|lake|resort|wonderland|amusement|street|carnival|farm|velodrome|bar beach|tarkwa)/],
+  ["onl","Online","",[],null]],
+ b:[["free","Free"],["u5","Under ₦5,000"],["m","₦5,000–₦20,000"],["h","₦20,000+"]],
+ t:[["mo","Morning"],["af","Afternoon"],["ev","Evening"],["ln","Late night"]]};
+const LBG={p:"Your work or studies",h:"Hobbies",w:"Going with",b:"Budget",t:"Time of day",s:"Setting"};
+const LBN={};for(const g in LB)LB[g].forEach(x=>LBN[g+":"+x[0]]=x);
+const LBK=new Set(Object.keys(LBN).filter(k=>/^[phws]:/.test(k)));
+/* search words that mean a group of people */
+const LBSYN=[["p:tech",/\b(developers?|programmers?|coders?|software|techies?|tech people|data scientists?)\b/],["p:health",/\b(nurses?|doctors?|pharmacists?|medics?|health workers?|physicians?|dentists?|medical)\b/],
+ ["p:law",/\b(lawyers?|attorneys?|barristers?|legal)\b/],["p:fin",/\b(accountants?|bankers?|auditors?|finance people|investors?)\b/],["p:media",/\b(journalists?|creatives?|designers?|film ?makers?|content creators?|influencers?)\b/],
+ ["p:eng",/\b(engineers?|architects?|surveyors?)\b/],["p:teach",/\b(teachers?|lecturers?|educators?)\b/],["p:biz",/\b(entrepreneurs?|founders?|business (people|owners?)|marketers?|sales people)\b/],
+ ["p:agri",/\b(farmers?|agric)\b/],["p:fashion",/\b(stylists?|make-?up artists?|fashion designers?|models?)\b/],["p:energy",/\b(oil and gas|energy people)\b/],["p:student",/\b(students?|undergrads?|graduates?|corpers?|nysc)\b/],
+ ["h:read",/\b(readers?|book lovers?|bookworms?)\b/],["h:fit",/\b(runners?|joggers?|fitness)\b/],["h:gaming",/\b(gamers?)\b/],["h:food",/\b(foodies?|chefs?)\b/],["h:dance",/\b(dancers?)\b/],
+ ["h:football",/\b(football fans?|soccer)\b/],["h:photo",/\b(photographers?)\b/],["h:art",/\b(artists?|painters?)\b/],["h:music",/\b(music lovers?)\b/],["h:comedy",/\b(comedy fans?)\b/],["h:film",/\b(film lovers?|movie lovers?)\b/]];
+const LBC=new Map();
+function autoLb(v){const t=(v.name+" · "+(v.about||"")).toLowerCase(),o=[];  /* the venue name is left out: "National Theatre" doesn't make a concert a play */
+ ["p","h","w"].forEach(g=>LB[g].forEach(x=>{if(x[3].includes(v.cat)||(x[4]&&x[4].test(t)))o.push(g+":"+x[0])}));
+ if(o.includes("w:kids"))["w:date"].forEach(k=>{const i=o.indexOf(k);if(i>=0)o.splice(i,1)});
+ const vt=((v.venue||"")+" "+v.name).toLowerCase();if(LB.s[1][4].test(vt))o.push("s:out");else if(LB.s[0][4].test(vt))o.push("s:in");return o}
+function budOf(v){const a=access(v);if(a.t==="free")return "free";const m=String(v.fee||"").replace(/,/g,"").match(/(?:₦|\bN|NGN\s?)\s?(\d{3,7})|\b(\d{1,3})k\b/gi);if(!m)return a.t==="reg"&&/free/i.test(a.p||v.fee||"")?"free":"";
+ const n=Math.min(...m.map(x=>{const k=x.match(/(\d+)k/i);return k?+k[1]*1000:+x.replace(/\D/g,"")}).filter(x=>x>0));if(!isFinite(n))return "";return n<5000?"u5":n<=20000?"m":"h"}
+function todOf(v){const t=String(v.time||"").toLowerCase();if(!t)return "";if(/late night|till dawn|all night|\b[1-5]\s?am\b/.test(t)&&!/\b([6-9]|1[01])\s?am\b/.test(t))return "ln";const m=t.match(/\b(\d{1,2})(?:[:.](\d{2}))?\s?(am|pm)\b/);if(!m)return "";let h=+m[1]%12+(m[3]==="pm"?12:0);return h<12?"mo":h<17?"af":h<22?"ev":"ln"}
+function lbOf(v){const key=v.id+"|"+(v.rev||"")+"|"+(v.lb?v.lb.join(","):"")+"|"+v.fee+"|"+v.time+"|"+v.name;let c=LBC.get(v.id);if(c&&c.k===key)return c.l;
+ const base=Array.isArray(v.lb)?v.lb.slice():autoLb(v);if(v.online&&!base.includes("s:onl"))base.push("s:onl");const b=budOf(v),t=todOf(v);if(b)base.push("b:"+b);if(t)base.push("t:"+t);
+ const l=new Set(base);LBC.set(v.id,{k:key,l});return l}
+function ftOK(v){const F=S.ft||[];if(!F.length)return true;const L=lbOf(v),g={};F.forEach(k=>{(g[k[0]]=g[k[0]]||[]).push(k)});for(const p in g)if(!g[p].some(k=>L.has(k)))return false;return true}
+function synOf(q){q=String(q||"").toLowerCase();const o=[];LBSYN.forEach(x=>{if(x[1].test(q))o.push(x[0])});return o}
+function qClean(q){return q.replace(/^\s*(events?\s+)?(for|by)\s+/i,"").trim()}
+/* the visitor's picks, kept on this device only */
+let ME={p:[],h:[]};try{const x=JSON.parse(localStorage.getItem("ne_me")||"null");if(x&&Array.isArray(x.p)&&Array.isArray(x.h))ME={p:x.p.filter(k=>LBN["p:"+k]),h:x.h.filter(k=>LBN["h:"+k])}}catch(e){}
+function saveMe(){try{localStorage.setItem("ne_me",JSON.stringify(ME))}catch(e){}}
+function saveFyOn(){try{localStorage.setItem("ne_fyon",S.fy?"1":"0")}catch(e){}}
+const lcf=t=>t.charAt(0).toLowerCase()+t.slice(1);
+const meN=()=>ME.p.length+ME.h.length;
+try{if(localStorage.getItem("ne_fyon")==="1"&&meN())S.fy=1}catch(e){}
+const FYSVG='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 6.9L21 11l-6.6 2.1L12 20l-2.4-6.9L3 11l6.6-2.1z"/></svg>';
+function fyChip(cls){return '<button class="chip fyc'+(S.fy?" on":"")+(cls||"")+'" data-a="fy" aria-pressed="'+!!S.fy+'">'+FYSVG+'For you</button>'}
+function fyStrip(){if(!S.fy||!meN())return "";return '<div class="fys"><span class="fysl">For you:</span>'+ME.p.map(k=>["p",k]).concat(ME.h.map(k=>["h",k])).map(x=>'<button class="chip sm fyp" data-a="fyrm" data-v="'+x[0]+":"+x[1]+'" aria-label="Remove '+esc(LBN[x[0]+":"+x[1]][1])+'">'+esc(LBN[x[0]+":"+x[1]][1])+' <span aria-hidden="true">✕</span></button>').join("")+'<button class="chip sm" data-a="fyedit">Edit</button></div>'}
+function fyPick(){const D=S.fyd||{p:ME.p.slice(),h:ME.h.slice()};S.fyd=D;
+ const grp=(g,title,hint)=>'<div class="fsl fyl">'+title+(hint?'<i>'+hint+'</i>':"")+'</div><div class="fsc">'+LB[g].map(x=>{const on=D[g].includes(x[0]);return '<button class="chip'+(on?" on":"")+'" data-a="fyt" data-v="'+g+":"+x[0]+'" aria-pressed="'+on+'">'+esc(x[1])+'</button>'}).join("")+'</div>';
+ return '<div class="fsw fyw"><div class="fscrim" data-a="fyskip"></div><div class="fs fypk" role="dialog" aria-modal="true" aria-label="What you do and enjoy"><div class="fgrab"></div>'+
+  '<h3 class="fyh">What do you do, and what do you enjoy?</h3><p class="fysub">We’ll show matching events first. Saved on this device only, no account needed.</p>'+
+  grp("p","I work in or study","Pick any")+grp("h","I enjoy","")+
+  '<div class="fyft"><button class="btn" data-a="fyskip">'+(meN()?"Cancel":"Skip")+'</button><button class="btn p" data-a="fysave"'+((D.p.length+D.h.length)?"":" disabled")+'>Show my events</button></div></div></div>'}
+function fyBands(L){const seen=new Set();let h="";
+ const picks=ME.p.map(k=>"p:"+k).concat(ME.h.map(k=>"h:"+k)).map((k,i)=>[k,i,L.some(v=>lbOf(v).has(k))]).sort((a,b)=>(b[2]-a[2])||(a[1]-b[1])).map(x=>x[0]);
+ picks.forEach(k=>{const x=LBN[k],E=L.filter(v=>lbOf(v).has(k));E.forEach(v=>seen.add(v.id));
+  h+='<section class="fyb"><div class="fybh"><div><h2>For '+esc(lcf(x[2]))+'</h2><p>Because you picked '+esc(x[1])+'</p></div>'+(E.length>4?'<button class="lnk" data-a="fyall" data-v="'+k+'">See all '+E.length+'</button>':"")+'</div>'+
+  (E.length?'<div class="grid tgrid fyr">'+E.slice(0,8).map(evCard).join("")+'</div>':'<p class="sm fyn">Nothing for '+esc(lcf(x[2]))+' in these dates yet.</p>')+'</section>'});
+ return {html:h,n:seen.size}}
+function gfLine(v){const want=new Set((S.ft||[]).filter(k=>/^[ph]:/.test(k)).concat(S.fy?ME.p.map(k=>"p:"+k).concat(ME.h.map(k=>"h:"+k)):[]));if(!want.size)return "";const L=lbOf(v),m=[...want].filter(k=>L.has(k)).slice(0,2);
+ return m.length?'<span class="gf">'+m.map(k=>'<span>'+esc(LBN[k][2])+'</span>').join("")+'</span>':""}
+function gfBlock(v){const L=lbOf(v),who=[...L].filter(k=>/^[ph]:/.test(k)),wth=[...L].filter(k=>/^w:/.test(k));
+ let h=(who.length||wth.length)?'<div class="dxgf"><div class="eyb">Good for</div><div class="chips">'+who.map(k=>'<button class="chip sm" data-a="fyall" data-v="'+k+'">'+esc(LBN[k][2])+'</button>').join("")+wth.map(k=>'<span class="chip sm soft">'+esc(LBN[k][1])+'</span>').join("")+'</div></div>':"";
+ if(ADMIN&&DB){const man=Array.isArray(v.lb);h+='<details class="lbed"><summary>Edit labels'+(man?' <span class="tag n">set by you</span>':' <span class="tag n">automatic</span>')+'</summary>'+["p","h","w","s"].map(g=>'<div class="fsl">'+LBG[g]+'</div><div class="fsc">'+LB[g].filter(x=>!(g==="s"&&x[0]==="onl")).map(x=>{const k=g+":"+x[0],on=L.has(k);return '<button class="chip sm'+(on?" on":"")+'" data-a="lbt" data-id="'+v.id+'" data-v="'+k+'" aria-pressed="'+on+'">'+esc(x[1])+'</button>'}).join("")+'</div>').join("")+
+  (man?'<button class="lnk" data-a="lbauto" data-id="'+v.id+'">Go back to automatic labels</button>':"")+'</details>'}
+ return h}
+async function saveLabels(id,lb){const v=all().find(x=>x.id===id);if(!v||!DB)return;const n=origName(id),o=OVR[n];
+ const job=id[0]==="r"?DB.doc("events/"+id.slice(1)).update({lb:lb}):DB.doc("overrides/o"+hsh(n)).set({name:n,patch:(p=>{if(lb===null)delete p.lb;else p.lb=lb;return p})(Object.assign({},o&&o.patch||{}))});
+ v.lb=lb===null?undefined:lb;LBC.delete(id);job.then(()=>toast(lb===null?"Labels are automatic again.":"Labels saved. Everyone sees them now.")).catch(()=>toast("Those labels didn’t save. Check your connection and try again."))}
+function ftChips(g){return '<div class="fsl">'+LBG[g]+'</div><div class="fsc">'+LB[g].map(x=>{const k=g+":"+x[0],on=(S.ft||[]).includes(k);return '<button class="chip'+(on?" on":"")+'" data-a="ftg" data-v="'+k+'" aria-pressed="'+on+'">'+esc(x[1])+'</button>'}).join("")+'</div>'}
+
 
 /* ---------- filtering ---------- */
 function inWhen(v){const w=S.when;if(w==="all")return true;if(w==="date"){const a=S.d1||TODAY,b=S.d2&&S.d2>=a?S.d2:a;return v.s<=b&&v.e>=a}if(w==="up")return v.e>=TODAY;if(w==="today")return v.s<=TODAY&&v.e>=TODAY;if(w==="n7")return v.s<=add(TODAY,7)&&v.e>=TODAY;
  if(w==="wk"){const dow=NOW.getDay();const ws=dow===0?add(TODAY,-1):add(TODAY,6-dow);return v.s<=add(ws,1)&&v.e>=ws}
  const ms=NOW.getFullYear()+"-"+pad(NOW.getMonth()+1);return v.s.slice(0,7)<=ms&&v.e.slice(0,7)>=ms}
-function list(opt){opt=opt||{};const q=S.q.toLowerCase();return all().filter(v=>(opt.anyDate||inWhen(v))&&(S.cat==="All"||v.cat===S.cat)&&(opt.anyCity||S.city==="All"||v.city===S.city)&&(!S.src||v.src||v.rev)&&(!S.free||isFree(v))&&(!S.onl||(S.view!=="events"&&S.view!=="cal")||v.online)&&(!q||(v.name+" "+v.venue+" "+v.city+" "+v.state+" "+v.cat+(v.online?" online webinar "+(v.plat||""):"")).toLowerCase().includes(q))).sort((a,b)=>a.s<b.s?-1:a.s>b.s?1:a.name<b.name?-1:1)}
+function list(opt){opt=opt||{};const q=S.q.toLowerCase(),qq=qClean(q),syn=q?synOf(q):[];return all().filter(v=>(opt.anyDate||inWhen(v))&&(S.cat==="All"||v.cat===S.cat)&&(opt.anyCity||S.city==="All"||v.city===S.city)&&(!S.src||v.src||v.rev)&&(!S.free||isFree(v))&&(!S.onl||(S.view!=="events"&&S.view!=="cal")||v.online)&&ftOK(v)&&(!q||(t=>t.includes(q)||(qq&&t.includes(qq)))((v.name+" "+v.venue+" "+v.city+" "+v.state+" "+v.cat+(v.online?" online webinar "+(v.plat||""):"")).toLowerCase())||(syn.length&&syn.some(k=>lbOf(v).has(k))))).sort((a,b)=>a.s<b.s?-1:a.s>b.s?1:a.name<b.name?-1:1)}
 function tags(v){return (scamHot(v.id)?'<span class="tag bad">⚠ Under review</span>':'')+stTag(v)+(FAV.includes(v.id)?'<span class="tag fv">♥ Saved</span>':'')+(isLive(v)?'<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="tag td">Today</span>':'')+(v.rev?'<span class="tag ok">✓ Verified</span>':v.src?'<span class="tag ok">✓ Checked</span>':'<span class="tag n" title="Found on a listing site, not yet confirmed. Check with the organiser.">From a listing site</span>')+(v.pend?'<span class="tag wn">Pending review</span>':"")+(v.online?'<span class="tag n">'+ONLSVG+' Online</span>':!v.venue?'<span class="tag wn">Venue TBC</span>':"")}
 function catTag(c){return '<span class="tag" style="background:'+cc(c)[0]+'22;color:'+cc(c)[0]+'">'+ico(c,11)+esc(c)+'</span>'}
 function dtb(v){const d=new Date(v.s+"T00:00:00"),p=v.s.split("-");return '<div class="dt" style="border-top:3px solid '+cc(v.cat)[0]+'"><span>'+DOW[d.getDay()]+'</span><b>'+(+p[2])+'</b><i>'+MON[+p[1]-1].toUpperCase()+'</i></div>'}
@@ -2404,7 +2548,7 @@ function evCard(v){const img=safeImg(v.img),c=cc(v.cat),now=isLive(v),en=entLabe
   (img?'<img class="tbg" src="'+esc(img)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()"><img class="tfl" src="'+esc(img)+'" alt="Flyer: '+esc(v.name)+'" loading="lazy" onerror="this.remove()">':"")+'<span class="tfd" aria-hidden="true"><i>'+bd[0]+'</i><b>'+bd[1]+'</b><i>'+bd[2]+'</i>'+(v.online&&v.time?'<i class="tft">· '+esc(String(v.time).toUpperCase().replace(/\s*WAT$/,""))+'</i>':"")+'</span>';
  return '<div class="tc'+(isCx(v)?" cx":"")+(v.online?" onl":"")+'" data-a="open" data-id="'+v.id+'" style="--c:'+c[0]+';--c2:'+c[1]+'">'+
   '<div class="tci">'+art+'<div class="tct">'+(st||(now?'<span class="onb"><i aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="onb td">Today</span>':""))+(v.online?'<span class="onb olb">'+ONLSVG+'Online</span>':"")+evBtns(v,"fav")+'</div></div>'+
-  '<div class="tcx"><span class="tec">'+esc(v.cat)+(v.online?" · Online":"")+'</span><a class="nm" href="#e='+evSlug(v)+'" data-a="open" data-id="'+v.id+'">'+esc(v.name)+'</a><span class="tdl'+(F.length?"":" mu")+'">'+(F.length?F.join('<i class="dot" aria-hidden="true">·</i>'):"Entry details: see organiser")+'</span>'+
+  '<div class="tcx"><span class="tec">'+esc(v.cat)+(v.online?" · Online":"")+'</span><a class="nm" href="#e='+evSlug(v)+'" data-a="open" data-id="'+v.id+'">'+esc(v.name)+'</a><span class="tdl'+(F.length?"":" mu")+'">'+(F.length?F.join('<i class="dot" aria-hidden="true">·</i>'):"Entry details: see organiser")+'</span>'+gfLine(v)+
   '<div class="tmt"><span class="vn">'+(v.online?ONLSVG+'<span>'+esc(v.plat||"Online")+'</span>':PINSVG+'<span>'+esc(vShort(v))+'</span>')+'</span>'+(dt?'<b class="dist">'+dt+'</b>':"")+'</div></div></div>'}
 /* card facts: dates beyond the badge, a short time and the entry price, so people can compare at a glance */
 function tShort(t){t=String(t||"").replace(/\s*\(?WAT\)?/ig,"").trim();if(!t)return "";const lc=x=>x.replace(/\s*(am|pm)\b/ig,(m,a)=>a.toLowerCase());if(t.length<=14&&/\d/.test(t))return lc(t);const m=t.match(/\b\d{1,2}(?:[:.]\d{2})?\s?(?:am|pm)\b/i);return m?lc(m[0]):""}
@@ -2590,25 +2734,25 @@ function drow(n){if(!(S.dpo||S.when==="date"))return "";
  return '<div class="drow" role="group" aria-label="Search by date"><span class="dl">Dates</span><label>From<input type="date" data-a="d1" value="'+(S.d1||"")+'" aria-label="From date"></label><span class="dsep">to</span><label>To (optional)<input type="date" data-a="d2" value="'+(S.d2||"")+'" min="'+(S.d1||"")+'" aria-label="To date"></label>'+
  '<span class="dn">'+(S.when==="date"?'<span><b>'+n+'</b> event'+(n===1?"":"s")+' on '+dlab()+'</span><button class="lnk" data-a="dclr">Clear dates</button>':'<span>Pick a day, or a start and end date.</span>')+'</span></div>'}
 const FSVG='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
-function ubar(){const W=[["up","Upcoming"],["today","Today"],["wk","Weekend"],["n7","Next 7 days"],["mo","This month"]],n=(S.cat!=="All")+(S.city!=="All")+(!!S.src)+(!!S.free)+(!!S.onl);
- return '<div class="ubar"><div class="uch" role="group" aria-label="Dates">'+'<button class="chip dpc'+(S.when==="date"?" on":"")+'" data-a="dpick" aria-expanded="'+!!(S.dpo||S.when==="date")+'">'+DPIC+(S.when==="date"?dlab():"Pick date")+'</button>'+W.map(w=>'<button class="chip'+(S.when===w[0]?" on":"")+'" data-a="when" data-v="'+w[0]+'" aria-pressed="'+(S.when===w[0])+'">'+w[1]+'</button>').join("")+'</div><button class="ufb'+(n?" on":"")+'" data-a="fsopen" aria-haspopup="dialog">'+'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>'+'<span class="ufl">Filters</span>'+(n?'<b>'+n+'</b>':'')+'</button></div>'}
+function ubar(){const W=[["up","Upcoming"],["today","Today"],["wk","Weekend"],["n7","Next 7 days"],["mo","This month"]],n=(S.cat!=="All")+(S.city!=="All")+(!!S.src)+(!!S.free)+(!!S.onl)+(S.ft||[]).length;
+ return '<div class="ubar"><div class="uch" role="group" aria-label="Dates">'+(S.view==="events"?fyChip():"")+'<button class="chip dpc'+(S.when==="date"?" on":"")+'" data-a="dpick" aria-expanded="'+!!(S.dpo||S.when==="date")+'">'+DPIC+(S.when==="date"?dlab():"Pick date")+'</button>'+W.map(w=>'<button class="chip'+(S.when===w[0]?" on":"")+'" data-a="when" data-v="'+w[0]+'" aria-pressed="'+(S.when===w[0])+'">'+w[1]+'</button>').join("")+'</div><button class="ufb'+(n?" on":"")+'" data-a="fsopen" aria-haspopup="dialog">'+'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>'+'<span class="ufl">Filters</span>'+(n?'<b>'+n+'</b>':'')+'</button></div>'}
 function fsheet(){const A=all(),cnt={};A.forEach(v=>cnt[v.cat]=(cnt[v.cat]||0)+1);const n=list().length,cats=["All"].concat(Object.keys(CAT));
  return '<div class="fsw"><div class="fscrim" data-a="fsclose"></div><div class="fs" role="dialog" aria-modal="true" aria-label="Filters"><div class="fgrab"></div><div class="fsh"><h3>Filters</h3><button class="lnk" data-a="clear">Clear all</button></div>'+
  '<div class="fsl">Category</div><div class="fsc">'+cats.map(c=>'<button class="chip'+(S.cat===c?" on":"")+'" data-a="cat" data-v="'+esc(c)+'">'+(c==="All"?"All events":'<i class="fdot" style="background:'+cc(c)[0]+'"></i>'+esc(c))+'<span class="n">'+(c==="All"?A.length:(cnt[c]||0))+'</span></button>').join("")+'</div>'+
  '<div class="fsl">City</div><select class="sel" data-a="citysel" aria-label="City" style="width:100%;box-shadow:none"><option value="All">All cities</option>'+Object.keys(CITY).sort().map(c=>'<option'+(S.city===c?" selected":"")+'>'+c+'</option>').join("")+'</select>'+
- '<div class="fsl">Entry and source</div><div class="fsc">'+(S.view==="map"||S.view==="near"?"":'<button class="chip'+(S.onl?" on":"")+'" data-a="onl" aria-pressed="'+!!S.onl+'">'+ONLSVG+'Online and webinars</button>')+'<button class="chip'+(S.free?" on":"")+'" data-a="free" aria-pressed="'+!!S.free+'">Free entry</button><button class="chip'+(S.src?" on":"")+'" data-a="src" aria-pressed="'+!!S.src+'">Verified only</button></div>'+
+ '<div class="fsg">'+["p","h","w","b","t","s"].map(ftChips).join("")+'</div>'+'<div class="fsl">Entry and source</div><div class="fsc">'+(S.view==="map"||S.view==="near"?"":'<button class="chip'+(S.onl?" on":"")+'" data-a="onl" aria-pressed="'+!!S.onl+'">'+ONLSVG+'Online and webinars</button>')+'<button class="chip'+(S.free?" on":"")+'" data-a="free" aria-pressed="'+!!S.free+'">Free entry</button><button class="chip'+(S.src?" on":"")+'" data-a="src" aria-pressed="'+!!S.src+'">Verified only</button></div>'+
  (S.view==="events"?'<div class="fsl">Sort</div><div class="fsc">'+[["soon","Soonest"],["near","Nearest"],["az","A–Z"]].map(x=>'<button class="chip'+((S.sort||"soon")===x[0]?" on":"")+'" data-a="sort" data-v="'+x[0]+'">'+x[1]+'</button>').join("")+'</div>':"")+
  '<button class="btn p fsgo" data-a="fsclose">Show '+n+' event'+(n===1?"":"s")+'</button></div></div>'}
-function eventsView(){let L=list();const so=S.sort||"soon",SP=so==="soon"?evSplit(L):null;if(SP)L=SP[0].concat(SP[1],SP[2]);
+function eventsView(){let L=list();const FY=S.fy&&meN()&&S.view==="events"?fyBands(L):null,SY=S.q?synOf(S.q):[];const so=S.sort||"soon",SP=so==="soon"?evSplit(L):null;if(SP)L=SP[0].concat(SP[1],SP[2]);
  if(so==="near"&&NEAR)L.sort((a,b)=>(evKm(a)??1e9)-(evKm(b)??1e9));else if(so==="az")L.sort((a,b)=>a.name.localeCompare(b.name));
  const W=[["up","Upcoming"],["today","Today"],["wk","Weekend"],["n7","Next 7 days"],["mo","This month"]];
- const filt=S.cat!=="All"||S.city!=="All"||S.when!=="up"||S.src||S.free||S.onl||S.q;
- return '<div class="page evp"><div class="evtop"><div class="evpan">'+vseg(EVSEG)+'<div class="eh"><div class="ehl"><h1 title="'+(S.city!=="All"?"In "+esc(S.city)+". ":"Across Nigeria. ")+'Open any event for directions, tickets and a budget planner."><span class="hc">'+L.length+'</span> '+(S.onl?(S.cat==="All"?"Online events":esc(S.cat)+" online"):S.cat==="All"?"Events":esc(S.cat))+(S.city!=="All"?' <span class="hcity">in '+esc(S.city)+'</span>':'')+(S.when==="date"?' <span class="hcity">· '+dlab()+'</span>':'')+'</h1>'+layTog()+'</div>'+
+ const filt=S.cat!=="All"||S.city!=="All"||S.when!=="up"||S.src||S.free||S.onl||S.q||(S.ft||[]).length||S.fy;
+ return '<div class="page evp"><div class="evtop"><div class="evpan">'+vseg(EVSEG)+'<div class="eh"><div class="ehl"><h1 title="'+(S.city!=="All"?"In "+esc(S.city)+". ":"Across Nigeria. ")+'Open any event for directions, tickets and a budget planner."><span class="hc">'+(FY?FY.n:L.length)+'</span> '+(FY?"For you · ":"")+(S.onl?(S.cat==="All"?"Online events":esc(S.cat)+" online"):S.cat==="All"?"Events":esc(S.cat))+(S.city!=="All"?' <span class="hcity">in '+esc(S.city)+'</span>':'')+(S.when==="date"?' <span class="hcity">· '+dlab()+'</span>':'')+'</h1>'+layTog()+'</div>'+
   '<div class="seg" role="group" aria-label="Dates">'+W.map(w=>'<button class="'+(S.when===w[0]?"on":"")+'" data-a="when" data-v="'+w[0]+'" aria-pressed="'+(S.when===w[0])+'">'+w[1]+'</button>').join("")+'<button class="dpb'+(S.when==="date"?" on":"")+'" data-a="dpick" aria-expanded="'+!!(S.dpo||S.when==="date")+'">'+DPIC+(S.when==="date"?dlab():"Pick dates")+'</button></div></div>'+
-  ubar()+drow(L.length)+'<div class="fbar">'+catRail()+'<select class="sel" data-a="citysel" aria-label="City"><option value="All">All cities</option>'+Object.keys(CITY).map(c=>'<option'+(S.city===c?" selected":"")+'>'+c+'</option>').join("")+'</select>'+
-  (nX=>'<button class="ufb fmore'+(nX?" on":"")+'" data-a="fsopen" aria-haspopup="dialog">'+FSVG+'<span class="ufl">More filters</span>'+(nX?'<b>'+nX+'</b>':'')+'</button>')((!!S.onl)+(!!S.free)+(!!S.src))+(filt?'<button class="lnk" data-a="clear">Clear</button>':"")+
-  '<label class="ssort"><span>Sort</span><select class="sel" data-a="sortsel" aria-label="Sort events">'+[["soon","Soonest"],["near","Nearest"],["az","A–Z"]].map(x=>'<option value="'+x[0]+'"'+(so===x[0]?" selected":"")+'>'+x[1]+'</option>').join("")+'</select></label></div></div></div>'+
-  (L.length?(EVLAY==="list"?evList(L,so):'<div class="grid tgrid">'+(SP?evGrid(SP):L.map(evCard).join(""))+'</div>'):S.onl?'<div class="empty"><b style="color:var(--tx)">No webinars listed for these dates yet</b><p class="sm" style="margin:6px 0 0">Online events and webinars by Nigerian organisers show up here once they’re checked. Hosting one?</p><div class="act" style="justify-content:center;margin-top:12px"><button class="btn p" data-a="submit">Add a webinar</button><button class="btn" data-a="clear">See all events</button></div></div>':'<div class="empty"><b style="color:var(--tx)">No events match these filters</b><div class="act" style="justify-content:center;margin-top:12px"><button class="btn" data-a="clear">Clear filters</button></div></div>')+'</div>'}
+  ubar()+drow(L.length)+'<div class="fbar">'+fyChip(" fyd")+catRail()+'<select class="sel" data-a="citysel" aria-label="City"><option value="All">All cities</option>'+Object.keys(CITY).map(c=>'<option'+(S.city===c?" selected":"")+'>'+c+'</option>').join("")+'</select>'+
+  (nX=>'<button class="ufb fmore'+(nX?" on":"")+'" data-a="fsopen" aria-haspopup="dialog">'+FSVG+'<span class="ufl">More filters</span>'+(nX?'<b>'+nX+'</b>':'')+'</button>')((!!S.onl)+(!!S.free)+(!!S.src)+(S.ft||[]).length)+(filt?'<button class="lnk" data-a="clear">Clear</button>':"")+
+  '<label class="ssort"><span>Sort</span><select class="sel" data-a="sortsel" aria-label="Sort events">'+[["soon","Soonest"],["near","Nearest"],["az","A–Z"]].map(x=>'<option value="'+x[0]+'"'+(so===x[0]?" selected":"")+'>'+x[1]+'</option>').join("")+'</select></label></div>'+fyStrip()+((S.ft||[]).length?'<div class="fys"><span class="fysl">Showing:</span>'+S.ft.map(k=>'<button class="chip sm fyp" data-a="ftg" data-v="'+k+'" aria-label="Remove '+esc(LBN[k][1])+'">'+esc(LBN[k][1])+' <span aria-hidden="true">✕</span></button>').join("")+'</div>':"")+(SY.length&&!(S.ft||[]).length&&L.some(v=>SY.some(k=>lbOf(v).has(k)))?'<div class="fys syn"><span class="fysl">Including events for '+SY.map(k=>esc(lcf(LBN[k][2]))).join(", ")+'.</span><button class="chip sm" data-a="synonly" data-v="'+SY.join(",")+'">Only show these</button></div>':"")+'</div></div>'+
+  (FY?FY.html:L.length?(EVLAY==="list"?evList(L,so):'<div class="grid tgrid">'+(SP?evGrid(SP):L.map(evCard).join(""))+'</div>'):S.onl?'<div class="empty"><b style="color:var(--tx)">No webinars listed for these dates yet</b><p class="sm" style="margin:6px 0 0">Online events and webinars by Nigerian organisers show up here once they’re checked. Hosting one?</p><div class="act" style="justify-content:center;margin-top:12px"><button class="btn p" data-a="submit">Add a webinar</button><button class="btn" data-a="clear">See all events</button></div></div>':'<div class="empty"><b style="color:var(--tx)">No events match these filters</b><div class="act" style="justify-content:center;margin-top:12px"><button class="btn" data-a="clear">Clear filters</button></div></div>')+'</div>'}
 function calView(){const L=list({anyDate:true}),wk=S.calMode!=="month";let days=[],title,lead=0;
  if(wk){const st=add(TODAY,-NOW.getDay());for(let i=0;i<35;i++)days.push(add(st,i));const a=new Date(days[0]+"T00:00:00"),z=new Date(days[34]+"T00:00:00");title="Next 5 weeks";var sub=a.getDate()+" "+MON[a.getMonth()]+" – "+z.getDate()+" "+MON[z.getMonth()]+" "+z.getFullYear();if(!S.cd||S.cd<days[0]||S.cd>days[34])S.cd=TODAY}
  else{const y=S.y,m=S.m,ms=y+"-"+pad(m+1),dim=new Date(y,m+1,0).getDate();lead=new Date(y,m,1).getDay();for(let d=1;d<=dim;d++)days.push(ms+"-"+pad(d));title=MON[m]+" "+y;var sub="";if(!S.cd||S.cd.slice(0,7)!==ms)S.cd=ms===TODAY.slice(0,7)?TODAY:ms+"-01"}
@@ -3317,6 +3461,7 @@ function cleanEv(o){if(!o||typeof o!=="object")return o;const v=Object.assign({}
  if(v.online){v.online=1;v.plat=PLATS.includes(v.plat)?v.plat:"Online";v.city="Online"}else{delete v.online;delete v.plat}
  if("link" in v)v.link=safeUrl(v.link);if("img" in v)v.img=safeImg(v.img);
  if(v.ig){const a=Array.isArray(v.ig)?v.ig:[];v.ig=[String(a[0]||"").replace(/[^\w.]/g,"").slice(0,40),IGRX.test(a[1]||"")?a[1]:""];if(!v.ig[0]&&!v.ig[1])delete v.ig}
+ if("lb" in v){if(Array.isArray(v.lb))v.lb=v.lb.filter(x=>typeof x==="string"&&LBK.has(x)).slice(0,24);else delete v.lb}
  if(v.igx)v.igx=(Array.isArray(v.igx)?v.igx:[]).filter(u=>IGRX.test(u)).slice(0,60);
  for(const k in CAPS)if(typeof v[k]==="string"&&v[k].length>CAPS[k])v[k]=v[k].slice(0,CAPS[k]);return v}
 const safeImg=u=>/^(https:\/\/[^\s"'<>]+|\/_blob\/[0-9a-zA-Z_-]+|flyers\/[a-z0-9_-]+\.jpg)$/i.test(u||"")?u:"";
@@ -3458,7 +3603,7 @@ function render(){side();const V=$("#view"),same=render._v===S.view,keep=[],sw=s
  if(same)V.querySelectorAll(".mv,.mvb,.page,.rp,.lp,.split,.hrs,.uch,.calwrap,.evp,.mapbox").forEach(e=>{if(e.scrollTop||e.scrollLeft)keep.push([skey(e),e.scrollTop,e.scrollLeft])});const vst=same?V.scrollTop:0;
  const osv=same?V.querySelector(".mapbox>svg"):null,ovb=osv?osv.getAttribute("viewBox"):null;
  V.innerHTML=S.view==="map"?mapView():S.view==="events"?eventsView():S.view==="cal"?calView():S.view==="news"?newsView():S.view==="trip"?tripView():S.view==="explore"?exploreView():S.view==="near"?nearView():S.view==="tour"?tourView():S.view==="saved"?savedView():S.view==="daily"?dailyView():S.view==="about"?aboutView():S.view==="help"?helpView():S.view==="contact"?contactView():S.view==="privacy"?privacyView():S.view==="organisers"?orgView():S.view==="ended"?endedView():S.view==="account"?(window.ACCT?ACCT.view():""):quizView();
- if(S.view!=="map"&&S.view!=="events")S.fs=0;if(S.fs)V.insertAdjacentHTML("beforeend",fsheet());
+ if(S.view!=="map"&&S.view!=="events")S.fs=0;if(S.fs)V.insertAdjacentHTML("beforeend",fsheet());if(S.fyp)V.insertAdjacentHTML("beforeend",fyPick());
  const pg=V.querySelector(".page");if(pg&&!pg.querySelector(".foot"))pg.insertAdjacentHTML("beforeend",foot());else if(!pg){const L=V.querySelector(".rp,.lp");if(L)L.insertAdjacentHTML("beforeend",rfoot())}
  render._v=S.view;V.scrollTop=vst;keep.forEach(k=>{const e=V.querySelector(k[0]);if(e){e.scrollTop=k[1];e.scrollLeft=k[2]}});if(sw!=null&&scrollY!==sw)scrollTo(0,sw);zSetup();if(ovb)mapTween(ovb);
  drawer()}
@@ -3498,7 +3643,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="cat"){S.cat=v;if(S.view!=="map"&&S.view!=="events"&&S.view!=="near"&&S.view!=="cal")S.view="events"}
  else if(a==="sort"){if(v==="near"&&!NEAR){toast("Set your location in Near me first, then sort by distance.");return}S.sort=v;S.nsort=v==="near"?1:0}
  else if(a==="when"){S.when=v;S.dpo=0}else if(a==="dpick"){S.dpo=S.dpo?0:1;if(S.view!=="events"&&S.view!=="map")S.view="events"}else if(a==="dclr"){S.d1="";S.d2="";S.dpo=0;if(S.when==="date")S.when="up"}else if(a==="src")S.src=S.src?0:1;
- else if(a==="clear"){S.d1="";S.d2="";S.dpo=0;S.cat="All";S.city="All";S.when="up";S.src=0;S.free=0;S.onl=0;S.q="";$("#q").value=""}
+ else if(a==="clear"){S.d1="";S.d2="";S.dpo=0;S.cat="All";S.city="All";S.when="up";S.src=0;S.free=0;S.onl=0;S.q="";S.ft=[];S.fy=0;saveFyOn();$("#q").value=""}
  else if(a==="city"){S.city=v;S.sel=null;S.zg="";if(v==="All")S.mz="All"}else if(a==="zg"){S.zg=v;S.sel=null}
  else if(a==="mz"){S.mz=v;S.zg="";S.sel=null}
  else if(a==="zin"){const c=Object.keys(CITY).map(k=>[k,list().filter(x=>x.city===k).length]).sort((p,q)=>q[1]-p[1])[0];if(c&&c[1])S.city=c[0]}
@@ -3517,7 +3662,17 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="tlist")T.list=T.list===v?"all":v;else if(a==="tclear"){T.cat="All";T.zone="All";T.unesco=0;T.hide=0;T.list="all"}
  else if(a==="psel"||a==="popen"){T.sel=id;S.place=id;S.open=null;const D=$("#drawer");if(D)D.scrollTop=0}
  else if(a==="bl"){BL[id]=BL[id]===v?undefined:v;if(!BL[id])delete BL[id];saveBL()}
- else if(a==="fav")togFav(id);else if(a==="free")S.free=S.free?0:1;else if(a==="onl")S.onl=S.onl?0:1;
+ else if(a==="fav")togFav(id);else if(a==="free")S.free=S.free?0:1;
+ else if(a==="fy"){if(!meN()){S.fyd=null;S.fyp=1}else{S.fy=S.fy?0:1;saveFyOn()}}
+ else if(a==="fyedit"){S.fyd=null;S.fyp=1}else if(a==="fyskip"){S.fyp=0;S.fyd=null}
+ else if(a==="fyt"){const g=v[0],k=v.slice(2),D=S.fyd||{p:ME.p.slice(),h:ME.h.slice()};S.fyd=D;D[g]=D[g].includes(k)?D[g].filter(x=>x!==k):D[g].concat(k)}
+ else if(a==="fysave"){const D=S.fyd||ME;ME={p:D.p.slice(),h:D.h.slice()};saveMe();S.fyp=0;S.fyd=null;S.fy=meN()?1:0;saveFyOn();S.view="events";scrollTo(0,0)}
+ else if(a==="fyrm"){const g=v[0],k=v.slice(2);ME[g]=ME[g].filter(x=>x!==k);saveMe();if(!meN()){S.fy=0;saveFyOn()}}
+ else if(a==="fyall"){S.ft=[v];S.fy=0;saveFyOn();S.open=null;S.view="events";scrollTo(0,0)}
+ else if(a==="ftg"){const F=S.ft||[];S.ft=F.includes(v)?F.filter(x=>x!==v):F.concat(v)}
+ else if(a==="synonly"){S.ft=v.split(",");S.q="";const qi=$("#q");if(qi)qi.value=""}
+ else if(a==="lbt"){const ev=all().find(x=>x.id===id);if(ev){const cur=[...lbOf(ev)].filter(k=>LBK.has(k)&&k!=="s:onl"),nx=cur.includes(v)?cur.filter(x=>x!==v):cur.concat(v);saveLabels(id,nx)}}
+ else if(a==="lbauto"){saveLabels(id,null)}else if(a==="onl")S.onl=S.onl?0:1;
  else if(a==="theme"){SET.mode=effTheme()==="dark"?"light":"dark";saveSet();applySet();if(!$("#setm").hidden)setView()}
  else if(a==="settings"){openSet();return}else if(a==="closeset"){$("#setm").hidden=true;return}
  else if(a==="smode"){SET.mode=v;setChange();return}else if(a==="sacc"){SET.acc=+v;setChange();return}else if(a==="sts"){SET.ts=v;setChange();return}
@@ -3804,7 +3959,7 @@ function drawerHTML(v,q,d1,d2){
   (/No past-edition/.test(pe)?"":dxAcc("pe",DXI.his,"Past editions","",pe));
  const stq='<div class="stq"><div class="stqh"><b>Is it still on?</b>'+(chkAt(v)?'<span class="lck">✓ Checked '+chkTxt(chkAt(v))+'</span>':ADMIN?'<span class="lck">Not checked yet</span>':'')+'</div><span class="sm">Tell us if something changed and we’ll update it for everyone.</span><div class="chips">'+Object.keys(STREP).map(k=>'<button class="chip'+(k==="ok"?" yes":"")+'" data-a="strep" data-v="'+k+'" data-id="'+v.id+'">'+STREP[k]+'</button>').join("")+'<button class="chip scam" type="button" data-scam="'+v.id+'">⚠ Looks like a scam</button>'+(ADMIN&&DB?'<button class="chip" data-a="mchk" data-id="'+v.id+'">✓ Mark checked</button>':"")+'</div></div>';
  return XBAR+evHero(v)+'<div class="in dx"><div class="dxh">'+(tg?'<div class="dxt">'+tg+'</div>':"")+'<h2>'+esc(v.name)+'</h2>'+cdown(v)+'</div>'+stBanner(v)+facts+
-  (v.about?'<p class="dxab">'+esc(v.about)+'</p>':"")+src+adm+entryBox(v)+acts+
+  (v.about?'<p class="dxab">'+esc(v.about)+'</p>':"")+gfBlock(v)+src+adm+entryBox(v)+acts+
   (v.online?'<div class="websafe" role="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>'+WEBSAFE+'</span></div>':'<div class="dxg"><div class="dxgh">Plan your visit</div>'+tools+'</div>')+stq+
   '<div class="dxft"><button class="dxcr" data-a="corr" data-id="'+v.id+'">'+(v.online?"Report this webinar":"Report a correction")+'</button><p>Dates and venues can change. Check with the organiser before you travel.</p></div></div>'+dbar(v,q)}
 
