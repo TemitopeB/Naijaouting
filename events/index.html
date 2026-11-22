@@ -1889,6 +1889,74 @@ html.app.sopen header .search{order:0!important;flex:1 1 auto!important;flex-bas
 html.app.sopen header .hr{flex:0 0 auto!important;margin-left:0!important}
 html.app.sopen header .hr .sbtn,html.app.sopen header .hr .btn.p{display:none!important}
 html.app.sopen header .scl{display:inline-flex;align-items:center;height:44px;padding:0 2px 0 12px;background:none;border:0;color:var(--ac);font:600 15px var(--fb);cursor:pointer}
+
+/* ===== visitors from abroad (22 Nov 2026) ===== */
+.fxc{font-style:normal;font:600 12px/1 var(--fb);color:var(--ac);background:var(--acs);padding:4px 7px;border-radius:999px;margin-left:5px;white-space:nowrap}
+.fxl{display:block;margin-top:4px;font-weight:700;color:var(--ac)}
+.fxl .lnk{font-size:12px;margin-left:4px}
+.fxn,.fxw{display:block;margin-top:3px;font-size:12px;color:var(--mu);line-height:1.4}
+.fxi{display:block;margin-top:6px;font-size:14px}
+.fxi a{color:var(--ac);font-weight:600}
+.fxw{color:#8A5A00}
+.fxhint{display:inline-block;margin-top:6px;font-size:13px}
+.curb{display:none}
+html.app header .hr .curb{display:grid;place-items:center;width:42px;height:42px;flex:none;border-radius:999px;border:1px solid var(--ln2);background:var(--pn);color:var(--tx);font:700 15px var(--fb);margin-right:8px;box-shadow:var(--sh0)}
+html.app.sopen header .hr .curb{display:none!important}
+.fbar .curd{height:38px;box-shadow:none;white-space:nowrap}
+.fbar .curd b{margin-left:4px}
+.fs.curs{max-width:none}
+html:not(.app) .fsw .fs.curs{width:min(480px,92vw)!important}
+.curo{display:flex;align-items:center;gap:12px;width:100%;padding:13px 4px;border:0;border-bottom:1px solid var(--ln);background:none;color:var(--tx);font:500 15px var(--fb);text-align:left;cursor:pointer}
+.curo b{width:44px;font:700 15px var(--fd);color:var(--mu)}
+.curo span{flex:1}
+.curo i{width:22px;height:22px;border-radius:999px;border:2px solid var(--ln2)}
+.curo.on{color:var(--ac);font-weight:600}.curo.on b{color:var(--ac)}.curo.on i{border:7px solid var(--ac)}
+.curn{margin:14px 0 4px;line-height:1.5}
+.curn a{color:var(--ac)}
+.tzr{display:block;margin-top:6px}
+.tzn{display:block;font-size:12px;color:var(--mu)}
+.tzc{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tzc span{font:500 12px/1 var(--fb);padding:6px 9px;border-radius:999px;background:var(--pn2);border:1px solid var(--ln);color:var(--tx)}
+.tzc span.me{background:var(--acs);border-color:var(--acb);color:var(--ac);font-weight:600}
+.arrc{display:flex;align-items:center;gap:12px;width:100%;margin:14px 0 4px;padding:14px 16px;border:0;border-radius:16px;background:linear-gradient(135deg,#0B6B4C,#0E5A41);color:#fff;text-align:left;cursor:pointer;font:inherit}
+.arrc>span:first-child{flex:1;display:flex;flex-direction:column;gap:2px}
+.arrc b{font:700 15px var(--fd)} .arrc span span{font-size:12.5px;opacity:.88}
+.arrc>span:last-child{font-size:20px}
+.arrtabs{margin:4px 0 18px}
+.arrgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.arrs{background:var(--pn);border:1px solid var(--ln);border-radius:20px;padding:16px 18px;scroll-margin-top:90px}
+.arrs h2{display:flex;align-items:center;gap:10px;font:700 18px var(--fd);letter-spacing:-.01em;margin:0 0 8px}
+.arrs h2 i{font-style:normal;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:15px;flex:none}
+.arrs ul{margin:0;padding:0;list-style:none}
+.arrs li{position:relative;padding:6px 0 6px 16px;font-size:14px;line-height:1.5}
+.arrs li::before{content:"";position:absolute;left:2px;top:14px;width:6px;height:6px;border-radius:9px;background:var(--ac)}
+.arrsrc{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--ln);font-size:12px;color:var(--mu)}
+.arrsrc a{color:var(--ac);font-weight:600;margin-left:10px;text-decoration:none}
+.arrfoot{margin:20px 0 10px;padding:16px 18px;border-radius:20px;background:var(--acs);border:1px solid var(--acb)}
+.stopc{background:var(--pn);border:1px solid var(--ln);border-radius:18px;padding:14px;margin:0 0 14px}
+.stoph{display:flex;flex-direction:column;gap:2px;margin-bottom:10px}
+.stopr{display:grid;grid-template-columns:minmax(110px,1fr) auto auto auto auto;align-items:center;gap:8px;margin-bottom:8px}
+.stopr .inp{height:38px;padding:0 8px;min-width:0;font-size:14px}
+.stdash{font-size:13px;color:var(--mu)}
+html.app .stopr{grid-template-columns:1fr 1fr 38px;grid-template-areas:"c c x" "a b b"}
+html.app .stopr select{grid-area:c} html.app .stopr [data-a="sta"]{grid-area:a} html.app .stopr [data-a="stb"]{grid-area:b} html.app .stopr .fsx{grid-area:x} html.app .stopr .stdash{display:none}
+.stadd{width:100%;justify-content:center;border-style:dashed}
+.tripw{max-width:680px}
+.plan{margin:6px 0 10px}
+.plnh{display:flex;flex-direction:column;gap:2px;margin:6px 0 8px}
+.pday{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--ln)}
+.pdd{width:46px;flex:none;text-align:center;display:flex;flex-direction:column}
+.pdd span{font:700 10px var(--fb);letter-spacing:.06em;color:var(--mu);text-transform:uppercase}
+.pdd b{font:700 19px/1.1 var(--fd)} .pdd i{font-style:normal;font:700 10px var(--fb);color:var(--mu);text-transform:uppercase}
+.pev{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.pe{display:flex;flex-direction:column;gap:3px}
+.pet{background:none;border:0;padding:0;text-align:left;font:600 15px var(--fb);color:var(--tx);cursor:pointer}
+.pill{display:inline-block;align-self:flex-start;font:600 11.5px/1.3 var(--fb);padding:4px 9px;border-radius:999px}
+.pill.warn{background:#FDF0D6;color:#8A5A00}.pill.info{background:#E5E9F6;color:#2E4A9A}
+.ptrav{font:600 13px var(--fb);color:#2E4A9A;background:#EEF1FA;border-radius:10px;padding:7px 10px;align-self:flex-start}
+.pday.free .pdd b{font-size:16px}
+@media print{body *{visibility:hidden!important}.tripprint,.tripprint *{visibility:visible!important}.tripprint{position:absolute;left:0;top:0;width:100%;padding:20px}.tripprint .lnk,.tripprint .pill.info{display:none}}
+html.app header .hr .curb{order:1}html.app header .hr .btn.p{order:2}html.app header .hr .scl{order:3}
 </style>
 </head>
 <body>
@@ -1915,7 +1983,7 @@ html.app.sopen header .scl{display:inline-flex;align-items:center;height:44px;pa
    <button class="btn g" data-a="theme" id="themeBtn" aria-label="Switch between light and dark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
    <button class="btn g" id="acctbtn" data-a="acct" aria-label="Sign in" title="Sign in" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="lg">Sign in</span></button>
    <button class="btn" id="revbtn" data-a="review" hidden>Review</button>
-   <button class="btn p" data-a="submit" aria-label="Add event"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="lg">Add event</span><span class="shl">Add</span></button><button class="scl" data-a="sopen" aria-label="Close search">Cancel</button>
+   <button class="btn p" data-a="submit" aria-label="Add event"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="lg">Add event</span><span class="shl">Add</span></button><button class="curb" data-a="curp" aria-label="Show prices in another currency"><b>₦</b></button><button class="scl" data-a="sopen" aria-label="Close search">Cancel</button>
   </div>
  </header>
  <nav class="tabs" id="side" aria-label="Sections"></nav>
@@ -2532,6 +2600,117 @@ async function saveLabels(id,lb){const v=all().find(x=>x.id===id);if(!v||!DB)ret
  v.lb=lb===null?undefined:lb;LBC.delete(id);job.then(()=>toast(lb===null?"Labels are automatic again.":"Labels saved. Everyone sees them now.")).catch(()=>toast("Those labels didn’t save. Check your connection and try again."))}
 function ftChips(g){return '<div class="fsl">'+LBG[g]+'</div><div class="fsc">'+LB[g].map(x=>{const k=g+":"+x[0],on=(S.ft||[]).includes(k);return '<button class="chip'+(on?" on":"")+'" data-a="ftg" data-v="'+k+'" aria-pressed="'+on+'">'+esc(x[1])+'</button>'}).join("")+'</div>'}
 
+/* ---------- for visitors from abroad: currency, time zones, arrival guide, trip by dates ---------- */
+/* 1. prices in the visitor's currency (rates: data/fx.json, refreshed daily by a GitHub workflow) */
+const CURS=[["NGN","₦","Naira only"],["GBP","£","British pound"],["USD","$","US dollar"],["EUR","€","Euro"],["CAD","C$","Canadian dollar"],["GHS","GH₵","Ghanaian cedi"],["ZAR","R","South African rand"]];
+let CUR="NGN";try{const c=localStorage.getItem("ne_cur");if(CURS.some(x=>x[0]===c))CUR=c}catch(e){}
+let FXR=null;fetch("/data/fx.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.rates&&d.base==="NGN"){FXR=d;try{if(d.rates.USD){const r=Math.round(1/d.rates.USD);if(CV.rate===FX.rate)CV.rate=r;FX.rate=r;FX.label="Market rate, "+fxDate()+" (ExchangeRate-API)"}}catch(e){}if(CUR!=="NGN"||S.view==="tour")render()}}).catch(()=>{});
+const curSym=c=>(CURS.find(x=>x[0]===c)||[])[1]||"";
+function fxAmt(n){if(!FXR||CUR==="NGN"||!FXR.rates[CUR])return "";const v=n*FXR.rates[CUR],s=curSym(CUR);return s+(v>=100?Math.round(v).toLocaleString("en-GB"):v>=10?String(Math.round(v)):v.toFixed(2).replace(/\.00$/,""))}
+function nairaNums(t){const m=String(t||"").replace(/,/g,"").match(/(?:₦|\bN|NGN\s?)\s?(\d{3,9})\b/g)||[];return m.map(x=>+x.replace(/\D/g,"")).filter(n=>n>0)}
+function fxOf(t){const n=nairaNums(t);if(!n.length)return "";const lo=Math.min(...n),hi=Math.max(...n),a=fxAmt(lo);if(!a)return "";return "≈ "+a+(hi>lo?"–"+fxAmt(hi):"")}
+function fxDate(){if(!FXR)return "";const d=new Date(FXR.date+"T00:00:00");return d.getDate()+" "+MON[d.getMonth()]}
+const VTZ=(()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||""}catch(e){return ""}})();
+function tzOff(tz,d){try{const m=d.toLocaleString("en-US",{timeZone:tz,timeZoneName:"shortOffset"}).match(/GMT(?:([+-])(\d{1,2})(?::(\d{2}))?)?$/);if(!m)return null;if(!m[1])return 0;return (m[1]==="-"?-1:1)*((+m[2])*60+(+(m[3]||0)))}catch(e){return null}}
+const abroad=()=>{const o=VTZ?tzOff(VTZ,new Date()):60;return o!==null&&o!==60};
+function fxLine(v,p){if(v.intl)return '<span class="fxi">Price for buyers abroad: <b>'+esc(v.intl)+'</b>'+(v.intlLink?' · <a target="_blank" rel="noopener" href="'+esc(v.intlLink)+'">official seller '+SV.ext+'</a>':"")+'</span><span class="fxw">The organiser charges buyers abroad a different price. Pay only on the official seller’s site.</span>';
+ const t=p||v.fee||"",f=fxOf(t);
+ if(f)return '<span class="fxl">'+f+' <button class="lnk" data-a="curp">'+CUR+'</button></span><span class="fxn">Approximate, at the '+fxDate()+' rate. The organiser sets the final price and your bank may add fees.</span>';
+ if(CUR==="NGN"&&abroad()&&nairaNums(t).length)return '<button class="lnk fxhint" data-a="curp">Show this price in your currency</button>';return ""}
+function curPick(){return '<div class="fsw"><div class="fscrim" data-a="curclose"></div><div class="fs curs" role="dialog" aria-modal="true" aria-label="Show prices in"><div class="fstop"><div class="fgrab"></div><div class="fsh"><h3>Show prices in</h3><button class="fsx" data-a="curclose" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div>'+
+ CURS.map(c=>'<button class="curo'+(CUR===c[0]?" on":"")+'" data-a="curset" data-v="'+c[0]+'" aria-pressed="'+(CUR===c[0])+'"><b>'+c[1]+'</b><span>'+c[2]+'</span><i aria-hidden="true"></i></button>').join("")+
+ '<p class="sm curn">Approximate, using '+(FXR?'the '+fxDate()+' rate from <a target="_blank" rel="noopener" href="https://www.exchangerate-api.com">ExchangeRate-API</a>':"a daily published rate")+'. Prices stay in naira first: you pay the organiser in naira unless they show a separate price for buyers abroad, and your bank’s rate and fees may differ.</p></div></div>'}
+function curBtns(){document.querySelectorAll(".curb b,.curd b").forEach(b=>b.textContent=CUR==="NGN"?"₦":curSym(CUR))}
+function savePatch(id,obj,msg){const v=all().find(x=>x.id===id);if(!v||!DB)return;const n=origName(id),o=OVR[n];
+ const job=id[0]==="r"?DB.doc("events/"+id.slice(1)).update(obj):DB.doc("overrides/o"+hsh(n)).set({name:n,patch:(p=>{for(const k in obj){if(obj[k]===null)delete p[k];else p[k]=obj[k]}return p})(Object.assign({},o&&o.patch||{}))});
+ for(const k in obj){if(obj[k]===null)delete v[k];else v[k]=obj[k]}
+ job.then(()=>toast(msg||"Saved. Everyone sees it now.")).catch(()=>toast("That didn’t save. Check your connection and try again."))}
+function intlEd(v){if(!(ADMIN&&DB))return "";return '<details class="lbed"'+(v.intl?" open":"")+'><summary>Price for buyers abroad <span class="tag n">admin</span></summary><p class="sm" style="margin:8px 0">Only if the organiser publishes a different price for people buying from abroad. Type it exactly as they show it.</p>'+
+ '<input class="inp" data-intl="amt" placeholder="e.g. $40, or VIP £120" maxlength="120" value="'+esc(v.intl||"")+'"><input class="inp" data-intl="link" placeholder="https:// link to the official seller" value="'+esc(v.intlLink||"")+'" style="margin-top:8px">'+
+ '<div class="act" style="margin-top:10px"><button class="btn p" data-a="intlsave" data-id="'+v.id+'">Save</button>'+(v.intl?'<button class="btn g" data-a="intlclr" data-id="'+v.id+'">Remove</button>':"")+'</div></details>'}
+/* 3. times in the visitor's time zone */
+function evStartUTC(v){const t=String(v.time||"").toLowerCase().match(/\b(\d{1,2})(?:[:.](\d{2}))?\s?(am|pm)\b/);if(!t)return null;const h=+t[1]%12+(t[3]==="pm"?12:0),mi=+(t[2]||0),p=v.s.split("-").map(Number);return {d:new Date(Date.UTC(p[0],p[1]-1,p[2],h-1,mi)),h,mi}}
+const tcity=tz=>(tz.split("/").pop()||"").replace(/_/g," ");
+function tmIn(d,tz){const s=d.toLocaleTimeString("en-GB",{timeZone:tz,hour:"numeric",minute:"2-digit",hour12:true}).replace(/\s/g,"").toLowerCase().replace(":00","");const w0=d.toLocaleDateString("en-GB",{timeZone:"Africa/Lagos",weekday:"short"}),w1=d.toLocaleDateString("en-GB",{timeZone:tz,weekday:"short"});return s+(w0!==w1?" "+w1:"")}
+function tzBlock(v){const e=evStartUTC(v);if(!e||!abroad())return "";
+ const mine=VTZ,refs=["Europe/London","America/New_York"].filter(z=>z!==mine&&tzOff(z,e.d)!==tzOff(mine,e.d));
+ return '<span class="tzr"><span class="tzn">Nigeria time (WAT)</span><span class="tzc"><span class="me">'+tmIn(e.d,mine)+' in '+esc(tcity(mine))+' (your time)</span>'+refs.slice(0,2).map(z=>'<span>'+tmIn(e.d,z)+' '+tcity(z)+'</span>').join("")+'</span></span>'}
+function calUrl(v,d1,d2){const e=evStartUTC(v),loc=encodeURIComponent(v.online?"Online ("+(v.plat||"webinar")+")":(v.venue||"")+", "+v.city);let dates=d1+"/"+d2,tz="";
+ if(e&&v.s===v.e){const p=v.s.replace(/-/g,""),hh=x=>String(x).padStart(2,"0"),end=Math.min(e.h+3,23);dates=p+"T"+hh(e.h)+hh(e.mi)+"00/"+p+"T"+hh(end)+hh(e.mi)+"00";tz="&ctz=Africa/Lagos"}
+ return "https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(v.name)+"&dates="+dates+tz+"&location="+loc+"&details="+encodeURIComponent("Times are Nigeria time (WAT). Details: "+location.origin+"/events/")}
+/* 5. arriving in Nigeria: every section names its official source and when it was checked */
+const ARRIVE_CHECKED="22 Nov 2026";
+const ARRIVE=[["fly","Before you fly","✈","#E5E9F6","#2E4A9A",[
+  "You need a visa before you travel; visa on arrival is no longer available. Apply only on the Nigeria Immigration Service portal (portal.immigration.gov.ng) and beware of fake visa websites.",
+  "Your passport must be valid for at least 6 months after the day you arrive.",
+  "Fill in the landing and departure card online before you fly (lecard.immigration.gov.ng), and the Nigeria Health Declaration Form.",
+  "Carry a yellow fever vaccination certificate. Babies 8 months or younger and adults 61 or older are exempt."],
+  [["UK travel advice: entry requirements","https://www.gov.uk/foreign-travel-advice/nigeria/entry-requirements"],["Nigeria Immigration Service","https://immigration.gov.ng/"]]],
+ ["health","Health","+","#E3F0EA","#0B6B4C",[
+  "Malaria risk is high across Nigeria. Ask a travel clinic about antimalarial tablets before you go, and avoid mosquito bites.",
+  "See a doctor urgently if you get a fever, during your trip or after you return.",
+  "Check routine vaccines, and ask about hepatitis A and typhoid."],
+  [["TravelHealthPro: Nigeria","https://travelhealthpro.org.uk/countries/nigeria"]]],
+ ["land","Landing in Lagos or Abuja","⌂","#FDF0D6","#8A5A00",[
+  "International flights land at Murtala Muhammed International Airport (Lagos) and Nnamdi Azikiwe International Airport (Abuja).",
+  "Arrange your airport pickup before you travel and confirm the driver’s name and car registration. If they don’t match, stay inside the terminal and call your provider.",
+  "With ride-hailing apps, check the driver and car match the booking before you get in, and share your trip with someone you trust.",
+  "Lagos traffic can cause long delays, so allow extra time to reach events. Plan to arrive before dark where you can."],
+  [["UK travel advice: safety","https://www.gov.uk/foreign-travel-advice/nigeria/safety-and-security"],["Federal Airports Authority of Nigeria","https://faan.gov.ng/"]]],
+ ["money","Money and tickets","₦","#E3F0EA","#0B6B4C",[
+  "Card fraud is common: keep your card in sight when you pay and check your account for payments you didn’t make.",
+  "Carry only the cash you need, and take extra care at cash machines, especially after dark.",
+  "Many Nigerian ticket sites charge in naira. Some organisers set a separate price for buyers abroad; we show it on the event when they do.",
+  "Buy only from the official seller linked on each event. Never pay into a personal bank account or a stranger’s DM."],
+  [["UK travel advice: safety","https://www.gov.uk/foreign-travel-advice/nigeria/safety-and-security"]]],
+ ["phone","Phone and data","☏","#EDE6F2","#6C3B8E",[
+  "Visitors on a tourist or visiting visa can get a local SIM card by showing their international passport.",
+  "Save your event tickets, hotel address and contacts on your phone before you land."],
+  [["Nigerian Communications Commission","https://www.ncc.gov.ng/node/748"]]],
+ ["safe","Staying safe","!","#F6E3E1","#A33A2C",[
+  "In an emergency, call 112. It’s free.",
+  "Protests can start with little notice: avoid large crowds you don’t know about, and move away if a situation feels threatening.",
+  "Read your government’s travel advice before you go: some parts of Nigeria carry travel warnings."],
+  [["NCC: 112 emergency number","https://ncc.gov.ng/node/1397"],["UK travel advice: safety","https://www.gov.uk/foreign-travel-advice/nigeria/safety-and-security"]]]];
+function arriveView(){const sec=S.arr||"fly";
+ return '<div class="page arrp"><div class="ph"><div><div class="eyb">Visitor guide</div><h1 style="margin-top:8px">Arriving in Nigeria</h1><p>The practical basics for coming to an event, checked against official sources on '+ARRIVE_CHECKED+'. Rules change, so open the source links before you travel.</p></div></div>'+
+ '<div class="chips arrtabs">'+ARRIVE.map(s=>'<button class="chip'+(sec===s[0]?" on":"")+'" data-a="arrgo" data-v="'+s[0]+'">'+esc(s[1])+'</button>').join("")+'</div>'+
+ '<div class="arrgrid">'+ARRIVE.map(s=>'<section class="arrs" id="arr-'+s[0]+'"><h2><i style="background:'+s[3]+';color:'+s[4]+'">'+s[2]+'</i>'+esc(s[1])+'</h2><ul>'+s[5].map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul><div class="arrsrc"><span>Checked '+ARRIVE_CHECKED+'</span><span>'+s[6].map(x=>'<a target="_blank" rel="noopener" href="'+x[1]+'">'+esc(x[0])+' '+SV.ext+'</a>').join("")+'</span></div></section>').join("")+'</div>'+
+ '<div class="arrfoot"><b>Planning several events?</b> Add your cities and dates in the trip planner to see what’s on each day.<div class="act" style="margin-top:10px"><button class="btn p" data-a="go" data-v="trip">Open trip planner</button><button class="btn" data-a="curp">Prices in '+(CUR==="NGN"?"naira":curSym(CUR))+'</button></div></div></div>'}
+function arriveCard(){return '<button class="arrc" data-a="go" data-v="arrive"><span><b>Flying in for this?</b><span>Visa, health, airport, money, SIM and safety in one guide</span></span><span aria-hidden="true">→</span></button>'}
+/* 4. trip by cities and dates */
+let STOPS=[];try{const x=JSON.parse(localStorage.getItem("ne_stops")||"[]");if(Array.isArray(x))STOPS=x.filter(s=>s&&CITY[s.c]&&/^\d{4}-\d\d-\d\d$/.test(s.a)&&/^\d{4}-\d\d-\d\d$/.test(s.b)).slice(0,8)}catch(e){}
+function saveStops(){try{localStorage.setItem("ne_stops",JSON.stringify(STOPS))}catch(e){}}
+const okStops=()=>STOPS.filter(s=>s.a&&s.b&&s.b>=s.a).sort((x,y)=>x.a<y.a?-1:x.a>y.a?1:0);
+function dlong(d){const x=new Date(d+"T00:00:00");return DOW[x.getDay()]+" "+x.getDate()+" "+MON[x.getMonth()]}
+function stopsCard(){const C=Object.keys(CITY).sort();
+ return '<div class="stopc"><div class="stoph"><b>Your cities and dates</b><span class="sm">Add where you’ll be. The plan shows what’s on each day.</span></div>'+
+ STOPS.map((s,i)=>'<div class="stopr"><select class="sel" data-a="stc" data-id="'+i+'" aria-label="City">'+C.map(c=>'<option'+(s.c===c?" selected":"")+'>'+c+'</option>').join("")+'</select><input type="date" class="inp" data-a="sta" data-id="'+i+'" value="'+esc(s.a)+'" aria-label="Arrive"><span class="stdash">to</span><input type="date" class="inp" data-a="stb" data-id="'+i+'" value="'+esc(s.b)+'" min="'+esc(s.a)+'" aria-label="Leave"><button class="fsx" data-a="strm" data-id="'+i+'" aria-label="Remove '+esc(s.c)+'">✕</button></div>').join("")+
+ (STOPS.length<8?'<button class="btn stadd" data-a="stadd">+ Add a city</button>':"")+'</div>'}
+function dayPlan(ev){const st=okStops();if(!st.length)return "";const first=st[0].a,last=st.reduce((m,s)=>s.b>m?s.b:m,st[0].b),days=[];
+ for(let d=first;d<=last&&days.length<60;d=add(d,1))days.push(d);
+ const cityOn=d=>st.filter(s=>s.a<=d&&s.b>=d).map(s=>s.c),out=[],seenLag=new Set();let run=null;
+ const flush=()=>{if(!run)return;const n=list({anyDate:true,anyCity:true}).filter(v=>v.city===run.c&&v.s<=run.b&&v.e>=run.a).length;
+  out.push('<div class="pday free"><div class="pdd"><span>'+(run.a===run.b?DOW[new Date(run.a+"T00:00:00").getDay()]:"")+'</span><b>'+(+run.a.slice(8))+(run.a===run.b?"":"–"+(+run.b.slice(8)))+'</b><i>'+MON[+run.a.slice(5,7)-1]+'</i></div><div class="pev">'+(n?'<button class="lnk" data-a="tripday" data-v="'+esc(run.c)+'|'+run.a+'|'+run.b+'">'+n+' event'+(n===1?"":"s")+' in '+esc(run.c)+' '+(run.a===run.b?"that day":"those days")+' ›</button>':'<span class="sm">Nothing listed in '+esc(run.c)+' yet</span>')+'</div></div>');run=null};
+ days.forEach((d,i)=>{const cs=cityOn(d),here=cs[cs.length-1],prev=i?cityOn(days[i-1]):[],travel=cs.length>1||(prev.length&&here&&prev[prev.length-1]!==here);const from=cs.length>1?cs[0]:prev[prev.length-1];
+  const E=ev.filter(v=>v.s===d||(d===first&&v.s<first&&v.e>=d));
+  if(!here&&!E.length){flush();return}
+  if(!E.length&&!travel&&here){if(run&&run.c===here&&add(run.b,1)===d)run.b=d;else{flush();run={c:here,a:d,b:d}}return}
+  flush();
+  let h='<div class="pday"><div class="pdd"><span>'+DOW[new Date(d+"T00:00:00").getDay()]+'</span><b>'+(+d.slice(8))+'</b><i>'+MON[+d.slice(5,7)-1]+'</i></div><div class="pev">';
+  if(travel&&from&&here)h+='<div class="ptrav">✈ Travel day · '+esc(from)+' → '+esc(here)+'</div>';
+  if(!here)h+='<div class="sm">Not in your dates</div>';
+  E.forEach(v=>{const where=v.city===here||(travel&&v.city===from);const clash=E.filter(x=>x!==v&&x.city===v.city&&(!x.time||!v.time||Math.abs(((evStartUTC(x)||{}).h||0)-((evStartUTC(v)||{}).h||0))<3));
+   h+='<div class="pe"><button class="pet" data-a="open" data-id="'+v.id+'">'+esc(v.name)+'</button><span class="sm">'+esc([v.e>v.s?"Until "+(+v.e.slice(8))+" "+MON[+v.e.slice(5,7)-1]:"",tShort(v.time),v.venue?v.venue.split(",")[0]:v.city,entLabel(v)[0]].filter(Boolean).join(" · "))+(fxOf(entLabel(v)[0])&&!v.intl?' '+fxOf(entLabel(v)[0]):"")+'</span>'+
+    (!here?"":v.city!==here&&!(travel&&v.city===from)?'<span class="pill warn">You’re in '+esc(here)+' that day; this is in '+esc(v.city)+'</span>':travel&&v.city===from?'<span class="pill warn">Same day as your trip to '+esc(here)+'</span>':"")+
+    (clash.length&&where?'<span class="pill warn">Overlaps with '+esc(clash[0].name)+'</span>':"")+'</div>'});
+  if(here==="Lagos"&&!seenLag.size&&E.length){seenLag.add(1);h+='<span class="pill info">Lagos traffic can cause long delays: allow extra time between events</span>'}
+  out.push(h+'</div></div>')});flush();
+ const outside=ev.filter(v=>!days.some(d=>v.s<=d&&v.e>=d));
+ return '<div class="plan tripprint"><div class="plnh"><b>Day by day</b><span class="sm">'+dlong(first)+' – '+dlong(last)+' · '+st.map(s=>esc(s.c)).join(" → ")+'</span></div>'+out.join("")+
+  (outside.length?'<div class="h3">Saved but outside your dates</div>'+outside.map(v=>'<div class="pe"><button class="pet" data-a="open" data-id="'+v.id+'">'+esc(v.name)+'</button><span class="sm">'+fd(v.s,v.e)+' · '+esc(v.city)+'</span><button class="lnk" data-a="rmtrip" data-id="'+v.id+'">Remove</button></div>').join(""):"")+'</div>'}
+function tripShareText(){const st=okStops(),ev=tripEvents();let t="My Nigeria trip"+(st.length?" ("+st.map(s=>s.c+" "+fd(s.a,s.b)).join(", ")+")":"")+":\n";return t+ev.map(v=>fd(v.s,v.e)+" – "+v.name+" ("+v.city+")").join("\n")+"\n\nPlanned on NaijaOuting: "+location.origin+"/events/"}
+
 
 /* ---------- filtering ---------- */
 function inWhen(v){const w=S.when;if(w==="all")return true;if(w==="date"){const a=S.d1||TODAY,b=S.d2&&S.d2>=a?S.d2:a;return v.s<=b&&v.e>=a}if(w==="up")return v.e>=TODAY;if(w==="today")return v.s<=TODAY&&v.e>=TODAY;if(w==="n7")return v.s<=add(TODAY,7)&&v.e>=TODAY;
@@ -2570,7 +2749,7 @@ function evCard(v){const img=safeImg(v.img),c=cc(v.cat),now=isLive(v),en=entLabe
   '<div class="tmt"><span class="vn">'+(v.online?ONLSVG+'<span>'+esc(v.plat||"Online")+'</span>':PINSVG+'<span>'+esc(vShort(v))+'</span>')+'</span>'+(dt?'<b class="dist">'+dt+'</b>':"")+'</div></div></div>'}
 /* card facts: dates beyond the badge, a short time and the entry price, so people can compare at a glance */
 function tShort(t){t=String(t||"").replace(/\s*\(?WAT\)?/ig,"").trim();if(!t)return "";const lc=x=>x.replace(/\s*(am|pm)\b/ig,(m,a)=>a.toLowerCase());if(t.length<=14&&/\d/.test(t))return lc(t);const m=t.match(/\b\d{1,2}(?:[:.]\d{2})?\s?(?:am|pm)\b/i);return m?lc(m[0]):""}
-function cardFacts(v,en){const p=[];if(v.e>v.s){const e=new Date(v.e+"T00:00:00");p.push("Until "+(v.e===TODAY?"today":e.getDate()+" "+MON[e.getMonth()]))}const t=tShort(v.time);if(t)p.push(esc(t));if(en[0])p.push('<b class="pr'+(en[1]?" ok":"")+'">'+esc(en[0])+'</b>');return p}
+function cardFacts(v,en){const p=[];if(v.e>v.s){const e=new Date(v.e+"T00:00:00");p.push("Until "+(v.e===TODAY?"today":e.getDate()+" "+MON[e.getMonth()]))}const t=tShort(v.time);if(t)p.push(esc(t));if(en[0]){const fx=v.intl?"":fxOf(en[0]);p.push('<b class="pr'+(en[1]?" ok":"")+'">'+esc(en[0])+'</b>'+(fx?'<i class="fxc">'+fx+'</i>':""))}return p}
 function vShort(v){const x=String(v.venue||"").split(/,|\(| – | - /)[0].trim();return x&&x.length<=30&&x.toLowerCase()!==String(v.city).toLowerCase()?x+", "+v.city:v.city}
 function evLine(v){const img=safeImg(v.img),now=isLive(v),en=entLabel(v),dt=NEAR?distTxt(v):"",st=stTag(v),d=new Date(v.s+"T00:00:00");
  const tags=(st||(now?'<span class="tag on onw"><i class="lvd" aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="tag td onw">Today</span>':""))+(en[0]?'<span class="tag en2 '+(en[1]?"ok":"n")+'">'+en[0]+'</span>':"");
@@ -2592,8 +2771,8 @@ function layTog(){const g=EVLAY!=="list";return '<div class="lay" role="group" a
 function nPill(c){return '<span class="cpill" style="background:'+(NC[c]||"#94A3B8")+'26;--nc:'+(NC[c]||"#94A3B8")+'">'+esc(c)+'</span>'}
 
 /* ---------- sidebar ---------- */
-const NAV=[["map","Map",'<path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>'],["near","Near me",'<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>'],["events","Events",'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'],["cal","Calendar",'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 13h2M12 13h2M16 13h2M8 17h2M12 17h2"/>'],["news","News",'<path d="M4 5h13v14a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2zM17 9h3v10a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/>'],["online","Online",'<rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M10 8.5v5l4-2.5z"/>'],["saved","Saved",'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>'],["daily","Everyday",'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'],["trip","Trip planner",'<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H14a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h5.5"/>'],["tour","Tourism",'<path d="M3 20h18M5 20l3-9 4 4 3-6 4 11"/><circle cx="17" cy="5" r="2"/>'],["explore","Explore",'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>'],["quiz","Quiz",'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/>']];
-const NAVG=[["Discover",["events","online","map","near","cal","saved"]],["More",["trip","tour","explore","news"]]];
+const NAV=[["map","Map",'<path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>'],["near","Near me",'<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>'],["events","Events",'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'],["cal","Calendar",'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 13h2M12 13h2M16 13h2M8 17h2M12 17h2"/>'],["news","News",'<path d="M4 5h13v14a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2zM17 9h3v10a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/>'],["online","Online",'<rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M10 8.5v5l4-2.5z"/>'],["saved","Saved",'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>'],["daily","Everyday",'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'],["arrive","Visitor guide",'<path d="M2 16l20-8-8 14-2-6z"/><path d="M12 16l-4 4"/>'],["trip","Trip planner",'<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H14a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h5.5"/>'],["tour","Tourism",'<path d="M3 20h18M5 20l3-9 4 4 3-6 4 11"/><circle cx="17" cy="5" r="2"/>'],["explore","Explore",'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>'],["quiz","Quiz",'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/>']];
+const NAVG=[["Discover",["events","online","map","near","cal","saved"]],["More",["trip","arrive","tour","explore","news"]]];
 function side(){bnav();const _sb=document.querySelector("#side .sbn"),_st=_sb?_sb.scrollTop:0;const nm={};NAV.forEach(n=>nm[n[0]]=n);
  const up=all().filter(v=>v.e>=TODAY).length;
  const nOnl=all().filter(v=>v.online&&v.e>=TODAY).length;
@@ -2607,7 +2786,7 @@ function side(){bnav();const _sb=document.querySelector("#side .sbn"),_st=_sb?_s
 let APP=!!window.NE_APP;if(APP)document.documentElement.classList.add("app");
 function applyLayout(){const l=(typeof SET!=="undefined"&&SET.layout)||"auto",n=!!window.NE_APP||l==="app"||(l==="auto"&&!!window.matchMedia&&matchMedia("(max-width:600px)").matches);
  if(n!==APP){APP=n;document.documentElement.classList.toggle("app",APP);const m=$("#moresh");if(m&&!APP)m.hidden=true;return true}return false}
-const BN=["events","map","near","saved"],MOREV=["online","trip","tour","explore","news"];
+const BN=["events","map","near","saved"],MOREV=["online","trip","arrive","tour","explore","news"];
 function vseg(o){return '<div class="vseg" role="tablist">'+o.map(x=>'<button role="tab" class="'+(S.view===x[0]?"on":"")+'" aria-selected="'+(S.view===x[0])+'" data-a="go" data-v="'+x[0]+'">'+x[1]+'</button>').join("")+'</div>'}
 const EVSEG=[["events","List"],["cal","Calendar"]],EXSEG=[["explore","States"],["tour","Tourism"]];
 function bnav(){if(!APP)return;const cv={cal:"events"}[S.view]||S.view;const nm={};NAV.forEach(n=>nm[n[0]]=n);const ic=d=>'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>';
@@ -2769,7 +2948,7 @@ function eventsView(){let L=list();const FY=S.fy&&meN()&&S.view==="events"?fyBan
   '<div class="seg" role="group" aria-label="Dates">'+W.map(w=>'<button class="'+(S.when===w[0]?"on":"")+'" data-a="when" data-v="'+w[0]+'" aria-pressed="'+(S.when===w[0])+'">'+w[1]+'</button>').join("")+'<button class="dpb'+(S.when==="date"?" on":"")+'" data-a="dpick" aria-expanded="'+!!(S.dpo||S.when==="date")+'">'+DPIC+(S.when==="date"?dlab():"Pick dates")+'</button></div></div>'+
   ubar()+drow(L.length)+'<div class="fbar">'+fyChip(" fyd")+catRail()+'<select class="sel" data-a="citysel" aria-label="City"><option value="All">All cities</option>'+Object.keys(CITY).map(c=>'<option'+(S.city===c?" selected":"")+'>'+c+'</option>').join("")+'</select>'+
   (nX=>'<button class="ufb fmore'+(nX?" on":"")+'" data-a="fsopen" aria-haspopup="dialog">'+FSVG+'<span class="ufl">More filters</span>'+(nX?'<b>'+nX+'</b>':'')+'</button>')((!!S.onl)+(!!S.free)+(!!S.src)+(S.ft||[]).length)+(filt?'<button class="lnk" data-a="clear">Clear</button>':"")+
-  '<label class="ssort"><span>Sort</span><select class="sel" data-a="sortsel" aria-label="Sort events">'+[["soon","Soonest"],["near","Nearest"],["az","A–Z"]].map(x=>'<option value="'+x[0]+'"'+(so===x[0]?" selected":"")+'>'+x[1]+'</option>').join("")+'</select></label></div>'+fyStrip()+((S.ft||[]).length?'<div class="fys"><span class="fysl">Showing:</span>'+S.ft.map(k=>'<button class="chip sm fyp" data-a="ftg" data-v="'+k+'" aria-label="Remove '+esc(LBN[k][1])+'">'+esc(LBN[k][1])+' <span aria-hidden="true">✕</span></button>').join("")+'</div>':"")+(SY.length&&!(S.ft||[]).length&&L.some(v=>SY.some(k=>lbOf(v).has(k)))?'<div class="fys syn"><span class="fysl">Including events for '+SY.map(k=>esc(lcf(LBN[k][2]))).join(", ")+'.</span><button class="chip sm" data-a="synonly" data-v="'+SY.join(",")+'">Only show these</button></div>':"")+'</div></div>'+
+  '<button class="ufb curd" data-a="curp" aria-label="Show prices in another currency">Prices in <b>'+(CUR==="NGN"?"₦":curSym(CUR))+'</b></button><label class="ssort"><span>Sort</span><select class="sel" data-a="sortsel" aria-label="Sort events">'+[["soon","Soonest"],["near","Nearest"],["az","A–Z"]].map(x=>'<option value="'+x[0]+'"'+(so===x[0]?" selected":"")+'>'+x[1]+'</option>').join("")+'</select></label></div>'+fyStrip()+((S.ft||[]).length?'<div class="fys"><span class="fysl">Showing:</span>'+S.ft.map(k=>'<button class="chip sm fyp" data-a="ftg" data-v="'+k+'" aria-label="Remove '+esc(LBN[k][1])+'">'+esc(LBN[k][1])+' <span aria-hidden="true">✕</span></button>').join("")+'</div>':"")+(SY.length&&!(S.ft||[]).length&&L.some(v=>SY.some(k=>lbOf(v).has(k)))?'<div class="fys syn"><span class="fysl">Including events for '+SY.map(k=>esc(lcf(LBN[k][2]))).join(", ")+'.</span><button class="chip sm" data-a="synonly" data-v="'+SY.join(",")+'">Only show these</button></div>':"")+'</div></div>'+
   (FY?FY.html:L.length?(EVLAY==="list"?evList(L,so):'<div class="grid tgrid">'+(SP?evGrid(SP):L.map(evCard).join(""))+'</div>'):S.onl?'<div class="empty"><b style="color:var(--tx)">No webinars listed for these dates yet</b><p class="sm" style="margin:6px 0 0">Online events and webinars by Nigerian organisers show up here once they’re checked. Hosting one?</p><div class="act" style="justify-content:center;margin-top:12px"><button class="btn p" data-a="submit">Add a webinar</button><button class="btn" data-a="clear">See all events</button></div></div>':'<div class="empty"><b style="color:var(--tx)">No events match these filters</b><div class="act" style="justify-content:center;margin-top:12px"><button class="btn" data-a="clear">Clear filters</button></div></div>')+'</div>'}
 function calView(){const L=list({anyDate:true}),wk=S.calMode!=="month";let days=[],title,lead=0;
  if(wk){const st=add(TODAY,-NOW.getDay());for(let i=0;i<35;i++)days.push(add(st,i));const a=new Date(days[0]+"T00:00:00"),z=new Date(days[34]+"T00:00:00");title="Next 5 weeks";var sub=a.getDate()+" "+MON[a.getMonth()]+" – "+z.getDate()+" "+MON[z.getMonth()]+" "+z.getFullYear();if(!S.cd||S.cd<days[0]||S.cd>days[34])S.cd=TODAY}
@@ -2819,22 +2998,22 @@ function dbar(v,q){const a=access(v),L=(a.l||[]).filter(x=>/^https:\/\//.test(x[
 function saveTrip(){try{localStorage.setItem("ne_trip",JSON.stringify(TRIP))}catch(x){}}
 function togTrip(id,rm){const i=TRIP.indexOf(id);if(i>=0)TRIP.splice(i,1);else if(!rm)TRIP.push(id);saveTrip()}
 function tripEvents(){return TRIP.map(id=>all().find(v=>v.id===id)).filter(Boolean).sort((a,b)=>a.s<b.s?-1:a.s>b.s?1:0)}
-function tripShare(){window.open("https://wa.me/?text="+encodeURIComponent("My Nigeria trip:\n"+tripEvents().map(v=>fd(v.s,v.e)+" – "+v.name+" ("+v.city+")").join("\n")),"_blank","noopener")}
+function tripShare(){window.open("https://wa.me/?text="+encodeURIComponent(tripShareText()),"_blank","noopener")}
 async function tripCsv(){let dl=null;try{dl=await claude.use("downloads")}catch(x){}if(!dl){toast("Downloads aren’t available in this view.");return}
  const q=x=>'"'+String(x).replace(/"/g,'""')+'"';const csv="Start,End,Event,Venue,City\n"+tripEvents().map(v=>[v.s,v.e,q(v.name),q(v.venue||""),v.city].join(",")).join("\n");
  try{await dl.save({filename:"naijaevents-trip.csv",data:new Blob([csv],{type:"text/csv"})})}catch(x){}}
-function tripView(){const ev=tripEvents();
- if(!ev.length)return '<div class="page"><div class="ph"><div><h1>Trip planner</h1><p>Plan a run of events across Nigeria.</p></div></div><div class="empty" style="max-width:620px"><b style="color:var(--tx);font-size:16px">Your trip is empty</b><p>Open any event and tap “+ Add to trip”. The planner orders your events by date, draws your route and warns you about clashes.</p><button class="btn p" data-a="go" data-v="events">Browse events</button></div></div>';
- const stops=[];ev.forEach(v=>{if(CITY[v.city]&&stops[stops.length-1]!==v.city)stops.push(v.city)});
+function tripView(){const ev=tripEvents(),st=okStops();
+ if(!ev.length&&!STOPS.length)return '<div class="page"><div class="ph"><div><h1>Trip planner</h1><p>Plan a run of events across Nigeria: add your cities and dates, then the events you want.</p></div></div><div class="tripw">'+stopsCard()+'<div class="empty"><b style="color:var(--tx);font-size:16px">Your trip is empty</b><p>Add the cities you’ll be in and your dates to see what’s on each day. Or open any event and tap “+ Add to trip”: the planner orders them, draws your route and warns about clashes.</p><div class="act" style="justify-content:center"><button class="btn p" data-a="stadd">+ Add a city</button><button class="btn" data-a="go" data-v="events">Browse events</button></div></div></div></div>';
+ const stops=[];(st.length?st.map(x=>x.c):ev.map(v=>v.city)).forEach(c=>{if(CITY[c]&&stops[stops.length-1]!==c)stops.push(c)});
  const cl=[];for(let i=0;i<ev.length;i++)for(let j=i+1;j<ev.length;j++)if(ev[i].s<=ev[j].e&&ev[j].s<=ev[i].e)cl.push(ev[i].name+" and "+ev[j].name);
  const pts=stops.map(c=>P(...CITY[c]));
  let b=pts.length>1?'<polyline points="'+pts.map(p=>p.join(",")).join(" ")+'" fill="none" stroke="var(--warn)" stroke-width="4" stroke-dasharray="10 8" stroke-linecap="round" stroke-linejoin="round"/>':"";
  b+=stops.map((c,i)=>{const p=pts[i];return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="17" fill="var(--ac)" stroke="#fff" stroke-width="3"/><text x="'+p[0]+'" y="'+(p[1]+5)+'" text-anchor="middle" font-size="15" font-weight="800" font-family="Plus Jakarta Sans,sans-serif" fill="#fff">'+(i+1)+'</text><text x="'+(p[0]+24)+'" y="'+(p[1]+5)+'" font-size="14" font-weight="700" font-family="Plus Jakarta Sans,sans-serif" fill="var(--tx)" stroke="var(--wt)" stroke-width="3.5" paint-order="stroke">'+c+'</text>'}).join("");
  const legs=stops.slice(1).map((c,i)=>[stops[i],c]);
- return '<div class="split"><div class="lp"><h1 class="hdf" style="margin:0 0 4px;font-size:28px">My trip</h1><p class="sm" style="margin:0 0 14px">'+ev.length+' event'+(ev.length===1?"":"s")+' · '+stops.length+' cit'+(stops.length===1?"y":"ies")+'</p>'+(cl.length?'<div class="rv" style="margin-bottom:12px;border-color:var(--warn)"><b style="color:var(--warn)">Dates overlap</b><span class="sm">'+cl.map(esc).join("<br>")+'</span></div>':"")+
- ev.map(v=>'<div class="ev" style="cursor:default"><div class="thumb" style="width:64px;height:64px;background:'+grad(v.cat)+'">'+ico(v.cat,24)+'</div><div class="bd"><span class="nm">'+esc(v.name)+'</span><span class="meta">'+SV.cal+fd(v.s,v.e)+'</span><span class="meta">'+SV.pin+esc(v.city)+'</span><span style="display:flex;gap:6px;margin-top:4px"><button class="btn" style="height:36px;min-height:36px" data-a="open" data-id="'+v.id+'">Details</button><button class="btn g" style="height:36px" data-a="rmtrip" data-id="'+v.id+'">Remove</button></span></div></div>').join("")+
+ return '<div class="split"><div class="lp"><h1 class="hdf" style="margin:0 0 4px;font-size:28px">My trip</h1><p class="sm" style="margin:0 0 14px">'+ev.length+' event'+(ev.length===1?"":"s")+' · '+stops.length+' cit'+(stops.length===1?"y":"ies")+'</p>'+stopsCard()+(st.length?"":(cl.length?'<div class="rv" style="margin-bottom:12px;border-color:var(--warn)"><b style="color:var(--warn)">Dates overlap</b><span class="sm">'+cl.map(esc).join("<br>")+'</span></div>':"")+
+ ev.map(v=>'<div class="ev" style="cursor:default"><div class="thumb" style="width:64px;height:64px;background:'+grad(v.cat)+'">'+ico(v.cat,24)+'</div><div class="bd"><span class="nm">'+esc(v.name)+'</span><span class="meta">'+SV.cal+fd(v.s,v.e)+'</span><span class="meta">'+SV.pin+esc(v.city)+'</span><span style="display:flex;gap:6px;margin-top:4px"><button class="btn" style="height:36px;min-height:36px" data-a="open" data-id="'+v.id+'">Details</button><button class="btn g" style="height:36px" data-a="rmtrip" data-id="'+v.id+'">Remove</button></span></div></div>').join(""))+(st.length?dayPlan(ev):"")+
  (legs.length?'<div class="h3">Getting between cities</div>'+legs.map(l=>'<a class="pl" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(l[0]+" Nigeria")+'&destination='+encodeURIComponent(l[1]+" Nigeria")+'"><span>'+l[0]+' → '+l[1]+'</span><span>Open directions</span></a>').join(""):"")+
- '<div class="act"><button class="btn p" data-a="tripshare">Share on WhatsApp</button><button class="btn" data-a="tripcsv">Download CSV</button><button class="btn g" data-a="cleartrip">Clear trip</button></div></div><div class="mapbox">'+base("-40 -20 680 580",b,"Trip route map")+'</div></div>'}
+ '<div class="act"><button class="btn p" data-a="tripshare">Share on WhatsApp</button><button class="btn" data-a="tripprint">Print or save as PDF</button><button class="btn" data-a="tripcsv">Download CSV</button><button class="btn g" data-a="cleartrip">Clear trip</button></div></div><div class="mapbox">'+base("-40 -20 680 580",b,"Trip route map")+'</div></div>'}
 
 /* ---------- explore ---------- */
 function exploreView(){const cnt={};all().forEach(v=>{if(v.state)cnt[v.state]=(cnt[v.state]||0)+1});const sel=S.st||"",info=STATES.find(x=>x[0]===sel);
@@ -3474,11 +3653,12 @@ function art(key,kind,col){const r=prng(hsh(key+kind)),W=400,H=220,f=n=>n.toFixe
 const XBAR='<div class="xbar"><button class="x" data-a="close" aria-label="Close">✕</button></div>';
 const IGRX=/^https:\/\/(www\.)?instagram\.com\/[^\s"'<>\\]*$/i;
 const safeUrl=u=>{u=String(u==null?"":u).trim();return /^(https?:\/\/|mailto:|tel:|sms:)[^\s"'<>\\`]*$/i.test(u)&&!/^https?:\/\/[^\/?#]*@/i.test(u)&&u.length<=600?u:""};
-const CAPS={name:200,venue:200,city:60,state:60,cat:60,fee:160,time:100,about:3000,note:3000,msg:3000,contact:200,reply:200,topic:80};
+const CAPS={intl:120,name:200,venue:200,city:60,state:60,cat:60,fee:160,time:100,about:3000,note:3000,msg:3000,contact:200,reply:200,topic:80};
 function cleanEv(o){if(!o||typeof o!=="object")return o;const v=Object.assign({},o);
  if(v.online){v.online=1;v.plat=PLATS.includes(v.plat)?v.plat:"Online";v.city="Online"}else{delete v.online;delete v.plat}
  if("link" in v)v.link=safeUrl(v.link);if("img" in v)v.img=safeImg(v.img);
  if(v.ig){const a=Array.isArray(v.ig)?v.ig:[];v.ig=[String(a[0]||"").replace(/[^\w.]/g,"").slice(0,40),IGRX.test(a[1]||"")?a[1]:""];if(!v.ig[0]&&!v.ig[1])delete v.ig}
+ if("intl" in v){if(typeof v.intl!=="string"||!v.intl.trim())delete v.intl}if("intlLink" in v){v.intlLink=safeUrl(v.intlLink);if(!v.intlLink)delete v.intlLink}
  if("lb" in v){if(Array.isArray(v.lb))v.lb=v.lb.filter(x=>typeof x==="string"&&LBK.has(x)).slice(0,24);else delete v.lb}
  if(v.igx)v.igx=(Array.isArray(v.igx)?v.igx:[]).filter(u=>IGRX.test(u)).slice(0,60);
  for(const k in CAPS)if(typeof v[k]==="string"&&v[k].length>CAPS[k])v[k]=v[k].slice(0,CAPS[k]);return v}
@@ -3502,7 +3682,7 @@ const ACC={free:["Free entry","ok"],reg:["Registration required","ok"],paid:["Pa
 function entryBox(v){const a=access(v),L=a.l||[],safe=u=>/^https:\/\//.test(u||"")?u:"";
  const lab=a.t==="reg"&&/free/i.test(a.p)?"Free · registration required":ACC[a.t][0];
  const ic=a.t==="free"?"✓":a.t==="reg"?"✎":a.t==="paid"||a.t==="mixed"?"₦":"i";
- let h='<div class="entry e-'+a.t+'"><div class="eh"><span class="ei" aria-hidden="true">'+ic+'</span><div><b>'+lab+'</b>'+(a.p?'<span>'+esc(a.p)+'</span>':"")+'</div></div>';
+ let h='<div class="entry e-'+a.t+'"><div class="eh"><span class="ei" aria-hidden="true">'+ic+'</span><div><b>'+lab+'</b>'+(a.p?'<span>'+esc(a.p)+'</span>':"")+fxLine(v,a.p)+'</div></div>';
  const btn=L.filter(x=>safe(x[1]));
  const hot=scamHot(v.id);if(hot)h+='<div class="scamb">⚠ This event was reported as a possible scam and we’re checking it. Don’t pay anyone until it’s cleared.</div>';
  if(btn.length)h+='<div class="eb">'+btn.map((x,i)=>{const lb=esc(i===0&&a.t==="reg"&&!/^register/i.test(x[0])?"Register: "+x[0]:i===0&&(a.t==="paid"||a.t==="mixed")&&!/^(buy|pay)/i.test(x[0])?"Buy on "+x[0]:x[0]);
@@ -3620,8 +3800,8 @@ function lightOpen(){drawer();document.querySelectorAll("#view .ev.on").forEach(
 function render(){side();const V=$("#view"),same=render._v===S.view,keep=[],sw=same?scrollY:null,oFs=document.querySelector(".fsw .fs"),fsY=oFs?oFs.scrollTop:0,fsK=oFs?(oFs.classList.contains("fypk")?"fy":"fs"):"";
  if(same)V.querySelectorAll(".mv,.mvb,.page,.rp,.lp,.split,.hrs,.uch,.calwrap,.evp,.mapbox").forEach(e=>{if(e.scrollTop||e.scrollLeft)keep.push([skey(e),e.scrollTop,e.scrollLeft])});const vst=same?V.scrollTop:0;
  const osv=same?V.querySelector(".mapbox>svg"):null,ovb=osv?osv.getAttribute("viewBox"):null;
- V.innerHTML=S.view==="map"?mapView():S.view==="events"?eventsView():S.view==="cal"?calView():S.view==="news"?newsView():S.view==="trip"?tripView():S.view==="explore"?exploreView():S.view==="near"?nearView():S.view==="tour"?tourView():S.view==="saved"?savedView():S.view==="daily"?dailyView():S.view==="about"?aboutView():S.view==="help"?helpView():S.view==="contact"?contactView():S.view==="privacy"?privacyView():S.view==="organisers"?orgView():S.view==="ended"?endedView():S.view==="account"?(window.ACCT?ACCT.view():""):quizView();
- if(S.view!=="map"&&S.view!=="events")S.fs=0;if(S.fs)V.insertAdjacentHTML("beforeend",fsheet());if(S.fyp)V.insertAdjacentHTML("beforeend",fyPick());{const nFs=document.querySelector(".fsw .fs");if(nFs&&fsK===(nFs.classList.contains("fypk")?"fy":"fs")){nFs.classList.add("still");nFs.scrollTop=fsY}}
+ V.innerHTML=S.view==="map"?mapView():S.view==="events"?eventsView():S.view==="cal"?calView():S.view==="news"?newsView():S.view==="trip"?tripView():S.view==="explore"?exploreView():S.view==="near"?nearView():S.view==="arrive"?arriveView():S.view==="tour"?tourView():S.view==="saved"?savedView():S.view==="daily"?dailyView():S.view==="about"?aboutView():S.view==="help"?helpView():S.view==="contact"?contactView():S.view==="privacy"?privacyView():S.view==="organisers"?orgView():S.view==="ended"?endedView():S.view==="account"?(window.ACCT?ACCT.view():""):quizView();
+ if(S.view!=="map"&&S.view!=="events")S.fs=0;if(S.fs)V.insertAdjacentHTML("beforeend",fsheet());if(S.fyp)V.insertAdjacentHTML("beforeend",fyPick());if(S.curp)V.insertAdjacentHTML("beforeend",curPick());curBtns();{const nFs=document.querySelector(".fsw .fs");if(nFs&&fsK===(nFs.classList.contains("fypk")?"fy":"fs")){nFs.classList.add("still");nFs.scrollTop=fsY}}
  const pg=V.querySelector(".page");if(pg&&!pg.querySelector(".foot"))pg.insertAdjacentHTML("beforeend",foot());else if(!pg){const L=V.querySelector(".rp,.lp");if(L)L.insertAdjacentHTML("beforeend",rfoot())}
  render._v=S.view;V.scrollTop=vst;keep.forEach(k=>{const e=V.querySelector(k[0]);if(e){e.scrollTop=k[1];e.scrollLeft=k[2]}});if(sw!=null&&scrollY!==sw)scrollTo(0,sw);zSetup();if(ovb)mapTween(ovb);
  drawer()}
@@ -3690,7 +3870,16 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="ftg"){const F=S.ft||[];S.ft=F.includes(v)?F.filter(x=>x!==v):F.concat(v)}
  else if(a==="synonly"){S.ft=v.split(",");S.q="";const qi=$("#q");if(qi)qi.value=""}
  else if(a==="lbt"){const ev=all().find(x=>x.id===id);if(ev){const cur=[...lbOf(ev)].filter(k=>LBK.has(k)&&k!=="s:onl"),nx=cur.includes(v)?cur.filter(x=>x!==v):cur.concat(v);saveLabels(id,nx)}}
- else if(a==="lbauto"){saveLabels(id,null)}else if(a==="onl")S.onl=S.onl?0:1;
+ else if(a==="lbauto"){saveLabels(id,null)}
+ else if(a==="curp"){S.curp=1}else if(a==="curclose"){S.curp=0}
+ else if(a==="curset"){CUR=v;try{localStorage.setItem("ne_cur",v)}catch(e){}S.curp=0;toast(v==="NGN"?"Prices in naira only.":"Prices now also show in "+(CURS.find(x=>x[0]===v)||[])[2]+" (approximate).")}
+ else if(a==="intlsave"){const box=t.closest(".lbed"),amt=(box.querySelector('[data-intl="amt"]').value||"").trim().slice(0,120),lk=(box.querySelector('[data-intl="link"]').value||"").trim();if(!amt){toast("Type the price first.");return}if(lk&&!/^https:\/\//.test(lk)){toast("The seller link must start with https://");return}savePatch(id,{intl:amt,intlLink:lk||null},"Price for buyers abroad saved.")}
+ else if(a==="intlclr"){savePatch(id,{intl:null,intlLink:null},"Price for buyers abroad removed.")}
+ else if(a==="arrgo"){S.arr=v;const el=document.getElementById("arr-"+v);if(el){el.scrollIntoView({behavior:"smooth",block:"start"});document.querySelectorAll(".arrtabs .chip").forEach(c=>c.classList.toggle("on",c.dataset.v===v))}return}
+ else if(a==="stadd"){const st=okStops(),last=st[st.length-1],a0=last?last.b:TODAY;STOPS.push({c:last?(last.c==="Lagos"?"Abuja":"Lagos"):"Lagos",a:a0,b:add(a0,5)});saveStops()}
+ else if(a==="strm"){STOPS.splice(+id,1);saveStops()}
+ else if(a==="tripday"){const q=v.split("|");S.view="events";S.city=q[0];S.when="date";S.d1=q[1];S.d2=q[2];S.fy=0;S.ft=[];scrollTo(0,0)}
+ else if(a==="tripprint"){window.print();return}else if(a==="onl")S.onl=S.onl?0:1;
  else if(a==="theme"){SET.mode=effTheme()==="dark"?"light":"dark";saveSet();applySet();if(!$("#setm").hidden)setView()}
  else if(a==="settings"){openSet();return}else if(a==="closeset"){$("#setm").hidden=true;return}
  else if(a==="smode"){SET.mode=v;setChange();return}else if(a==="sacc"){SET.acc=+v;setChange();return}else if(a==="sts"){SET.ts=v;setChange();return}
@@ -3754,7 +3943,7 @@ function setView(){const m=SET.mode;const cities=["All"].concat(Object.keys(CITY
 function openSet(){CLR=0;setView();$("#setm").hidden=false}
 function setChange(){saveSet();applySet();setView();render()}
 document.addEventListener("change",e=>{if(e.target.dataset.chk){const c=CHK[e.target.dataset.id]||(CHK[e.target.dataset.id]={});c[e.target.dataset.chk]=e.target.checked;return}const a=e.target.dataset.a;if(!a)return;
- if(a==="shome"){SET.home=e.target.value;S.city=SET.home;saveSet();setView();render();return}else if(a==="narea"){const f=FLAT_A[+e.target.value];if(!f||e.target.value==="")return;setNear({name:f.name,lat:f.lat,lon:f.lon,src:"area"});N.chg=0;NQ=""}else if(a==="tbase"){T.base=e.target.value;try{localStorage.setItem("ne_base",T.base)}catch(x){}}else if(a==="tzone")T.zone=e.target.value;else if(a==="citysel"){S.city=e.target.value;S.sel=null}else if(a==="sortsel"){const sv=e.target.value;if(sv==="near"&&!NEAR){e.target.value=S.sort||"soon";toast("Set your location in Near me first, then sort by distance.");return}S.sort=sv;S.nsort=sv==="near"?1:0}else if(a==="catsel")S.cat=e.target.value;else if(a==="whensel")S.when=e.target.value;else if(a==="d1"){S.d1=e.target.value;if(S.d1&&S.d2&&S.d2<S.d1)S.d2="";if(!S.d1&&S.d2){S.d1=S.d2;S.d2=""}S.when=S.d1?"date":"up";S.dpo=S.d1?S.dpo:1}else if(a==="d2"){S.d2=e.target.value;if(S.d2&&!S.d1)S.d1=S.d2<TODAY?S.d2:TODAY;S.when=S.d1?"date":"up"}else if(a==="statesel")S.st=e.target.value||null;else return;render()});
+ if(a==="shome"){SET.home=e.target.value;S.city=SET.home;saveSet();setView();render();return}else if(a==="narea"){const f=FLAT_A[+e.target.value];if(!f||e.target.value==="")return;setNear({name:f.name,lat:f.lat,lon:f.lon,src:"area"});N.chg=0;NQ=""}else if(a==="tbase"){T.base=e.target.value;try{localStorage.setItem("ne_base",T.base)}catch(x){}}else if(a==="tzone")T.zone=e.target.value;else if(a==="citysel"){S.city=e.target.value;S.sel=null}else if(a==="stc"||a==="sta"||a==="stb"){const s0=STOPS[+e.target.dataset.id];if(s0){const val=e.target.value;if(a==="stc")s0.c=val;else if(a==="sta"){s0.a=val;if(s0.b<val)s0.b=val}else s0.b=val<s0.a?s0.a:val;saveStops()}}else if(a==="sortsel"){const sv=e.target.value;if(sv==="near"&&!NEAR){e.target.value=S.sort||"soon";toast("Set your location in Near me first, then sort by distance.");return}S.sort=sv;S.nsort=sv==="near"?1:0}else if(a==="catsel")S.cat=e.target.value;else if(a==="whensel")S.when=e.target.value;else if(a==="d1"){S.d1=e.target.value;if(S.d1&&S.d2&&S.d2<S.d1)S.d2="";if(!S.d1&&S.d2){S.d1=S.d2;S.d2=""}S.when=S.d1?"date":"up";S.dpo=S.d1?S.dpo:1}else if(a==="d2"){S.d2=e.target.value;if(S.d2&&!S.d1)S.d1=S.d2<TODAY?S.d2:TODAY;S.when=S.d1?"date":"up"}else if(a==="statesel")S.st=e.target.value||null;else return;render()});
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.matches&&e.target.matches("input[data-vin]")){e.preventDefault();vSave(e.target.dataset.vin);return}if(S.view==="quiz"&&Q.list&&!Q.fin&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!(e.target.matches&&e.target.matches("input,textarea,select,[contenteditable]"))){const k="1234".indexOf(e.key)>-1?"1234".indexOf(e.key):"abcd".indexOf(String(e.key).toLowerCase());if(e.key.length===1&&k>-1&&Q.picks[Q.i]===undefined){e.preventDefault();qAns(k);render();return}if(e.key==="Enter"&&Q.picks[Q.i]!==undefined&&!(e.target.matches&&e.target.matches("button,a"))){e.preventDefault();qNext();render();return}}
 if((e.key==="Enter"||e.key===" ")&&e.target.matches("g[data-a],div[data-a]")){e.preventDefault();e.target.dispatchEvent(new MouseEvent("click",{bubbles:true}))}
  if(e.key==="Escape"){const dd=document.querySelector(".cdd.open");if(dd){dd.classList.remove("open");const b=dd.querySelector(".cddb");if(b){b.setAttribute("aria-expanded","false");b.focus()}return}const fromRev=REVBACK&&$("#rev").hidden;S.open=null;S.place=null;REVEDIT=null;["#modal","#cm","#rev","#setm","#moresh","#imp"].forEach(s=>$(s).hidden=true);render();if(fromRev)revBack();else{REVBACK=false;$("#revpill").hidden=true}}});
@@ -3959,7 +4148,7 @@ function drawerHTML(v,q,d1,d2){
  const tg=tags(v).replace('<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>',"").replace('<span class="tag td">Today</span>',"");
  const ven=!v.venue&&ADMIN&&DB&&/^[br]/.test(v.id)?'<span class="vedit"><input data-vin="'+v.id+'" placeholder="Add the venue" aria-label="Venue for '+esc(v.name)+'" autocomplete="off"><button class="btn p" data-a="vsave" data-id="'+v.id+'">Save</button></span>':'<b>'+esc(v.venue||"Venue to be confirmed")+'</b>';
  const place=[v.city,v.state&&v.state!==v.city&&v.state!=="FCT"?v.state+" State":v.state==="FCT"?"FCT":""].filter(Boolean).join(", ")+(NEAR&&evKm(v)!=null?" · "+(evLL(v)[2]==="v"?"":"≈")+fk(evKm(v))+" away":"");
- const facts='<div class="dxf"><div class="dxr"><span class="dxi">'+DXI.cal+'</span><span class="dxs"><b>'+fd(v.s,v.e)+'</b>'+(v.time?'<span>'+esc(v.time)+(v.online&&!/WAT|lagos/i.test(v.time)?" (Lagos time)":"")+'</span>':"")+'</span><a class="dxl" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(v.name)+'&dates='+d1+'/'+d2+'&location='+encodeURIComponent(v.online?"Online ("+(v.plat||"webinar")+")":(v.venue||"")+", "+v.city)+'">Add to calendar</a></div>'+
+ const facts='<div class="dxf"><div class="dxr"><span class="dxi">'+DXI.cal+'</span><span class="dxs"><b>'+fd(v.s,v.e)+'</b>'+(v.time?'<span>'+esc(v.time)+(v.online&&!/WAT|lagos/i.test(v.time)?" (Lagos time)":"")+'</span>':"")+tzBlock(v)+'</span><a class="dxl" target="_blank" rel="noopener" href="'+esc(calUrl(v,d1,d2))+'">Add to calendar</a></div>'+
   (v.online?'<div class="dxr"><span class="dxi">'+ONLSVG.replace('width="14" height="14"','width="18" height="18"')+'</span><span class="dxs"><b>Online · '+esc(v.plat||"Webinar")+'</b><span>The join link usually comes after you register on the official page.</span></span></div></div>':'<div class="dxr"><span class="dxi">'+DXI.pin+'</span><span class="dxs">'+ven+'<span>'+esc(place)+'</span></span><a class="dxl" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+q+'">Map</a></div></div>');
  const g=igOf(v),src=g?'<a class="dxsrc" href="'+esc(safeUrl(g[1])||("https://www.instagram.com/"+encodeURIComponent(g[0]||"")+"/"))+'" target="_blank" rel="noopener">'+(v.img?"Flyer from ":"Source: ")+(g[0]?"@"+esc(g[0])+" on Instagram":"Instagram post")+' '+DXI.ext+'</a>':"";
  const adm=ADMIN&&DB&&/^[br]/.test(v.id)?'<div class="adm"><span>Owner tools</span><button class="btn" data-a="aedit" data-id="'+v.id+'">Edit</button><button class="btn" data-a="adel" data-id="'+v.id+'">Remove</button></div><div class="adm stadm"><span>Live status</span>'+Object.keys(STX).map(k=>'<button class="btn'+((stOf(v)||{}).st===k?" p":"")+'" data-a="ast" data-v="'+k+'" data-id="'+v.id+'">'+STX[k][0].replace("✓ ","")+'</button>').join("")+(stOf(v)?'<button class="btn g" data-a="ast" data-v="" data-id="'+v.id+'">Clear</button>':"")+'<input id="stnote" placeholder="Note for everyone (optional)" aria-label="Status note" value="'+esc((stOf(v)||{}).note||"")+'"></div>':"";
@@ -3977,7 +4166,7 @@ function drawerHTML(v,q,d1,d2){
   (/No past-edition/.test(pe)?"":dxAcc("pe",DXI.his,"Past editions","",pe));
  const stq='<div class="stq"><div class="stqh"><b>Is it still on?</b>'+(chkAt(v)?'<span class="lck">✓ Checked '+chkTxt(chkAt(v))+'</span>':ADMIN?'<span class="lck">Not checked yet</span>':'')+'</div><span class="sm">Tell us if something changed and we’ll update it for everyone.</span><div class="chips">'+Object.keys(STREP).map(k=>'<button class="chip'+(k==="ok"?" yes":"")+'" data-a="strep" data-v="'+k+'" data-id="'+v.id+'">'+STREP[k]+'</button>').join("")+'<button class="chip scam" type="button" data-scam="'+v.id+'">⚠ Looks like a scam</button>'+(ADMIN&&DB?'<button class="chip" data-a="mchk" data-id="'+v.id+'">✓ Mark checked</button>':"")+'</div></div>';
  return XBAR+evHero(v)+'<div class="in dx"><div class="dxh">'+(tg?'<div class="dxt">'+tg+'</div>':"")+'<h2>'+esc(v.name)+'</h2>'+cdown(v)+'</div>'+stBanner(v)+facts+
-  (v.about?'<p class="dxab">'+esc(v.about)+'</p>':"")+gfBlock(v)+src+adm+entryBox(v)+acts+
+  (v.about?'<p class="dxab">'+esc(v.about)+'</p>':"")+gfBlock(v)+src+adm+entryBox(v)+intlEd(v)+(abroad()||CUR!=="NGN"?arriveCard():"")+acts+
   (v.online?'<div class="websafe" role="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>'+WEBSAFE+'</span></div>':'<div class="dxg"><div class="dxgh">Plan your visit</div>'+tools+'</div>')+stq+
   '<div class="dxft"><button class="dxcr" data-a="corr" data-id="'+v.id+'">'+(v.online?"Report this webinar":"Report a correction")+'</button><p>Dates and venues can change. Check with the organiser before you travel.</p></div></div>'+dbar(v,q)}
 
