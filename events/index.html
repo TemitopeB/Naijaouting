@@ -1881,6 +1881,14 @@ html:not(.app) .fsw:not(.fyw) .fs{width:min(760px,94vw);max-height:88vh}
 .fyhd{align-items:flex-start;gap:12px}
 .fyhd .fyh{margin:2px 0 0!important}
 .fs .fsgo{position:sticky;bottom:0;z-index:3;box-shadow:0 -10px 0 8px var(--pn),0 34px 0 10px var(--pn),0 -26px 20px 4px var(--pn)}
+
+/* phone search: the search bar turns into the real search field in place (no second box), with Cancel beside it */
+.scl{display:none}
+html.app.sopen header{flex-wrap:nowrap!important;padding-bottom:0!important;align-items:center}
+html.app.sopen header .search{order:0!important;flex:1 1 auto!important;flex-basis:auto!important;margin:0!important;animation:none!important;border-color:var(--ac)!important;border-width:1.5px!important}
+html.app.sopen header .hr{flex:0 0 auto!important;margin-left:0!important}
+html.app.sopen header .hr .sbtn,html.app.sopen header .hr .btn.p{display:none!important}
+html.app.sopen header .scl{display:inline-flex;align-items:center;height:44px;padding:0 2px 0 12px;background:none;border:0;color:var(--ac);font:600 15px var(--fb);cursor:pointer}
 </style>
 </head>
 <body>
@@ -1907,7 +1915,7 @@ html:not(.app) .fsw:not(.fyw) .fs{width:min(760px,94vw);max-height:88vh}
    <button class="btn g" data-a="theme" id="themeBtn" aria-label="Switch between light and dark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
    <button class="btn g" id="acctbtn" data-a="acct" aria-label="Sign in" title="Sign in" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="lg">Sign in</span></button>
    <button class="btn" id="revbtn" data-a="review" hidden>Review</button>
-   <button class="btn p" data-a="submit" aria-label="Add event"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="lg">Add event</span><span class="shl">Add</span></button>
+   <button class="btn p" data-a="submit" aria-label="Add event"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="lg">Add event</span><span class="shl">Add</span></button><button class="scl" data-a="sopen" aria-label="Close search">Cancel</button>
   </div>
  </header>
  <nav class="tabs" id="side" aria-label="Sections"></nav>
