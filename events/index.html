@@ -1821,6 +1821,10 @@ html:not(.app) .sbrow .sbo:not(.sq) svg{color:var(--mu2)}
 html:not(.app) .sbrow .sbo:not(.sq):hover{background:var(--pn2)!important;color:var(--tx);filter:none}
 /* cover variety: mirror around the centre, then zoom and nudge (max ±6%, inside the 9% zoom margin) */
 :root .tc:not(.cx) .tci .tpc{transform:scaleX(var(--cvf,1)) scale(var(--cvz,1))!important;transform-origin:50% 50%!important;translate:var(--cvo,0 0)}
+
+/* full width on big screens: lists and grids use the whole window; text views keep a readable measure */
+:root .page>*{max-width:none}
+:root .page>.ph p,:root .page .prose,:root .page .helpw,:root .page .legal{max-width:760px}
 </style>
 </head>
 <body>

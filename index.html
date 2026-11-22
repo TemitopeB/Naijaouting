@@ -390,6 +390,21 @@ body{background:var(--bg)}
 /* bigger flyer demo so the organiser right side isn't empty */
 .og2 .up{max-width:440px!important;grid-template-columns:120px 1fr!important;padding:20px!important}
 .og2 .up img{width:120px!important;height:150px!important}
+
+/* type scale v2 (22 Nov 2026): calmer headings. Big screens no longer push the hero to 115px;
+   headings stop growing at 72px (hero) and 44px (sections), so the page reads as one system with the cards. */
+.hp h1{font-size:clamp(38px,4.2vw,72px)!important;line-height:1.02!important;letter-spacing:-.03em}
+h2{font-size:clamp(28px,2.6vw,44px)!important;line-height:1.08!important}
+.hp p.s,.intro p,.cityp p{font-size:clamp(16px,calc(.9vw + 5px),19px)!important;line-height:1.55}
+.bx h3,.og2 h3{font-size:clamp(18px,1.2vw,22px)!important}
+.dec b{font-size:clamp(26px,2.4vw,38px)!important}
+.num b{font-size:clamp(26px,2vw,34px)!important}
+@media (max-width:760px){
+ .hp h1{font-size:clamp(32px,9.2vw,38px)!important}
+ h2{font-size:clamp(25px,7vw,29px)!important}
+ .hp p.s,.intro p,.cityp p{font-size:16px!important}
+ .dec b{font-size:clamp(24px,6.6vw,28px)!important}
+}
 </style>
 </head>
 <body>
