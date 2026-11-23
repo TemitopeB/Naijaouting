@@ -1972,6 +1972,8 @@ html.app header .hr .curb{order:1}html.app header .hr .btn.p{order:2}html.app he
 .tzarr{margin:0 0 4px;width:100%}
 html:not(.app) .fbar .search{flex-basis:140px;min-width:0}
 html:not(.app) .fbar .search input{min-width:0;width:100%}
+
+.chkall{margin:0 0 10px}.chkall.ask{padding:12px 14px;border:1px solid var(--ln);border-radius:14px;background:var(--pn)}.chkall.busy{padding:10px 0}
 </style>
 </head>
 <body>
@@ -3922,7 +3924,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="evshare"){shOpen(id);return}
  else if(a==="shclose"){shClose();return}else if(a==="shcopy"){shCopy();return}else if(a==="shpic"){shPic(v);return}else if(a==="shmore"){shMore();return}else if(a==="shqr"){shQr();return}else if(a==="shto"){setTimeout(shClose,400);return}
  else if(a==="trip"){togTrip(id)}else if(a==="rmtrip"){togTrip(id,1)}else if(a==="cleartrip"){TRIP=[];saveTrip()}else if(a==="tripshare"){tripShare();return}else if(a==="tripcsv"){tripCsv();return}
- else if(a==="exp"){S.st=v}else if(a==="corr"){openCorr(id);return}else if(a==="vsave"){vSave(id);return}else if(a==="vopen"){revLeave();S.open=id;render();return}else if(a==="strep"){stReport(id,v);return}else if(a==="mchk"){markChecked(id);return}else if(a==="ast"){const vv=all().find(x=>x.id===id);if(vv){const n=$("#stnote");setStatusName(vv.name,v,n?n.value.trim():"")}return}else if(a==="stapply"){const c=CORR.find(x=>x.sid===id);if(c){setStatusName(c.name,c.st,"");moderate("dismiss",id)};return}else if(a==="closec"){$("#cm").hidden=true;return}
+ else if(a==="exp"){S.st=v}else if(a==="corr"){openCorr(id);return}else if(a==="vsave"){vSave(id);return}else if(a==="vopen"){revLeave();S.open=id;render();return}else if(a==="strep"){stReport(id,v);return}else if(a==="mchk"){markChecked(id);return}else if(a==="mchkask"){CHKC=1;renderRev();return}else if(a==="mchkno"){CHKC=0;renderRev();return}else if(a==="mchkall"){markAllChecked(v);return}else if(a==="ast"){const vv=all().find(x=>x.id===id);if(vv){const n=$("#stnote");setStatusName(vv.name,v,n?n.value.trim():"")}return}else if(a==="stapply"){const c=CORR.find(x=>x.sid===id);if(c){setStatusName(c.name,c.st,"");moderate("dismiss",id)};return}else if(a==="closec"){$("#cm").hidden=true;return}
  else if(a==="qa"){qAns(+v)}else if(a==="qn"){qNext()}else if(a==="qr"){qStart(v)}else if(a==="qquit"){qQuit()}else if(a==="qshare"){qShare();return}
  else return;
  if((a==="open"||a==="close")&&LIGHT.has(S.view)&&!S.fs){lightOpen();return}
@@ -4047,7 +4049,9 @@ const _rrChk=renderRev;renderRev=function(){_rrChk();const lim=add(TODAY,14),old
  const row=o=>{const v=o.v,r=o.r,rb=r?Object.keys(r.by).map(k=>'<span class="rpb'+(r.by[k]>=3?" hot":"")+'">'+r.by[k]+(r.by[k]===1?" visitor says ":" visitors say ")+esc((STREP[k]||k).replace(/^It’s /,"it’s ").replace(/^Venue/,"venue").replace(/^Sold/,"sold"))+'</span>').join("")+(r.ok?'<span class="rpb ok">'+r.ok+(r.ok===1?" says":" say")+' still on</span>':""):"";
   return '<div class="rv chkrow"><div class="vtop"><b>'+esc(v.name)+'</b><span class="sm">'+fd(v.s,v.e)+" · "+esc(v.city)+" · "+(o.t?"Last checked "+chkTxt(o.t):"Never checked")+'</span></div>'+(rb?'<div class="rpbs">'+rb+'</div>':"")+
   '<div class="act" style="margin:6px 0 0"><button class="btn p" data-a="mchk" data-id="'+v.id+'">✓ Mark checked</button><button class="btn" data-a="vopen" data-id="'+v.id+'">Open</button>'+(v.link?'<a class="lnk" target="_blank" rel="noopener" href="'+esc(safeUrl(v.link))+'">Event link ↗</a>':"")+(igOf(v)&&igOf(v)[1]?'<a class="lnk" target="_blank" rel="noopener" href="'+esc(safeUrl(igOf(v)[1]))+'">Instagram ↗</a>':"")+'</div></div>'};
- const html='<div class="chkw"><div class="h3" style="margin:12px 0 0">Needs a check'+(L.length?" ("+L.length+")":"")+'</div>'+(L.length?'<p class="sm" style="margin:0 0 8px">Events in the next 14 days that haven’t been checked for two weeks, plus anything visitors reported. Reported events come first; “✓ Mark checked” confirms it for everyone and clears its reports.</p>'+L.slice(0,40).map(row).join("")+(L.length>40?'<p class="sm">Showing the first 40.</p>':""):'<p class="sm">All caught up. Everything in the next two weeks was checked recently.</p>')+'</div>';
+ CHKL=L.map(o=>({id:o.v.id,rep:!!(o.r&&o.r.n)}));const nRep=CHKL.filter(o=>o.rep).length,nAll=CHKL.length;
+ const bulk=!nAll?"":CHKB?'<div class="chkall busy"><span class="sm">'+esc(CHKB)+'</span></div>':CHKC?'<div class="chkall ask"><p class="sm" style="margin:0"><b>Mark '+nAll+' event'+(nAll===1?"":"s")+' as checked?</b> '+(nRep?nRep+' of them '+(nRep===1?"has":"have")+' visitor reports, which would be cleared too.':'Everyone will see them as checked today.')+'</p><div class="act" style="margin:8px 0 0"><button class="btn p" data-a="mchkall" data-v="all">Yes, mark all '+nAll+'</button>'+(nRep&&nRep<nAll?'<button class="btn" data-a="mchkall" data-v="clean">Only the '+(nAll-nRep)+' without reports</button>':'')+'<button class="btn g" data-a="mchkno">Cancel</button></div></div>':'<div class="chkall"><button class="btn" data-a="mchkask">✓ Mark all '+nAll+' as checked</button></div>';
+ const html='<div class="chkw"><div class="h3" style="margin:12px 0 0">Needs a check'+(L.length?" ("+L.length+")":"")+'</div>'+(L.length?'<p class="sm" style="margin:0 0 8px">Events in the next 14 days that haven’t been checked for two weeks, plus anything visitors reported. Reported events come first; “✓ Mark checked” confirms it for everyone and clears its reports.</p>'+bulk+L.slice(0,40).map(row).join("")+(L.length>40?'<p class="sm">Showing the first 40.</p>':""):'<p class="sm">All caught up. Everything in the next two weeks was checked recently.</p>')+'</div>';
  const ot=$("#revlist .otools");if(ot)ot.insertAdjacentHTML("afterend",html)};
 
 /* ---------- usage counter: which sections people open (owner's visits are not counted) ---------- */
@@ -4310,6 +4314,14 @@ $("#form").addEventListener("change",e=>{if(e.target.classList&&e.target.id!=="f
 const BASE_CHECKED="2026-10-30T12:00:00Z";
 function chkAt(v){if(!v)return 0;const x=stOf(v),t=[x&&x.at,v.at,v.ck,(String(v.id)[0]==="b"&&v.src)?BASE_CHECKED:""].filter(Boolean).map(z=>Date.parse(z)).filter(z=>!isNaN(z));return t.length?Math.max.apply(null,t):0}
 function chkTxt(t){if(!t)return "";const d=Math.floor((Date.now()-t)/864e5);return d<1?"today":d===1?"yesterday":d<14?d+" days ago":"on "+new Date(t).toLocaleDateString("en-GB",{day:"numeric",month:"short"})}
+let CHKL=[],CHKC=0,CHKB="";
+async function markAllChecked(mode){const ids=CHKL.filter(o=>mode==="all"||!o.rep).map(o=>o.id);if(!ids.length||!DB)return;CHKC=0;
+ let done=0,fail=0,cleared=0;const step=()=>{CHKB="Marking "+done+" of "+ids.length+"…";if(!$("#rev").hidden)renderRev()};step();
+ for(let i=0;i<ids.length;i+=8){await Promise.all(ids.slice(i,i+8).map(async id=>{const v=all().find(x=>x.id===id);if(!v){done++;return}const x=stOf(v);
+   const ok=await setStatusName(v.name,x?x.st:"ok",x?(x.note||""):"",1);if(!ok){fail++;done++;return}
+   CORR.filter(c=>c.kind==="status"&&(c.eid===id||c.name===v.name)).forEach(c=>{cleared++;revHide(c.sid);qDrop("corrections",c).catch(()=>revUnhide(c.sid,"corrections"))});done++}));step()}
+ CHKB="";toast(fail?"Marked "+(ids.length-fail)+" as checked. "+fail+" didn’t save; try those again.":"Marked "+ids.length+" event"+(ids.length===1?"":"s")+" as checked"+(cleared?". Cleared "+cleared+" visitor report"+(cleared===1?"":"s"):"")+".");
+ if(!$("#rev").hidden)renderRev();else render()}
 function markChecked(id){const v=all().find(x=>x.id===id);if(!v||!DB)return;const x=stOf(v);
  setStatusName(v.name,x?x.st:"ok",x?(x.note||""):"",1);
  const reps=CORR.filter(c=>c.kind==="status"&&(c.eid===id||c.name===v.name));reps.forEach(c=>{const cv=c;revHide(cv.sid);qDrop("corrections",cv).catch(()=>revUnhide(cv.sid,"corrections"))});
