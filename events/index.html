@@ -3062,7 +3062,7 @@ function glEvents(){const tip=GLtip=document.createElement("div");tip.className=
  const pl=["pt","fx"];
  GL.on("mousemove",e=>{const f=GL.queryRenderedFeatures(e.point,{layers:pl.concat(["cl"])}).filter(x=>GL.getLayer(x.layer.id));GL.getCanvas().style.cursor=f.length&&(f[0].properties.a||f[0].properties.cluster)?"pointer":"";
   if(f.length&&f[0].properties.t){tip.textContent=f.length>1&&!f[0].properties.cluster?f.length+" here: "+f[0].properties.t+"…":f[0].properties.t;tip.hidden=false;tip.style.left=e.point.x+"px";tip.style.top=e.point.y+"px"}else tip.hidden=true});
- GL.on("mouseout",()=>{tip.hidden=true});
+ GL.on("mouseout",()=>{tip.hidden=true});GL.on("movestart",()=>{tip.hidden=true});
  GL.on("click","cl",e=>{const f=e.features[0];GL.getSource("pts").getClusterExpansionZoom(f.properties.cluster_id).then(z=>GL.easeTo({center:f.geometry.coordinates,zoom:Math.min(z+.2,16),duration:600})).catch(()=>{})});
  GL.on("click",e=>{const f=GL.queryRenderedFeatures([[e.point.x-6,e.point.y-6],[e.point.x+6,e.point.y+6]],{layers:pl}).filter(x=>x.properties.a);if(!f.length)return;
   const uniq=[];f.forEach(x=>{if(!uniq.some(u=>u.properties.id===x.properties.id))uniq.push(x)});
