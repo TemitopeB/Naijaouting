@@ -2116,6 +2116,13 @@ html.app .strip4>*:nth-child(-n+2){border-top-color:transparent!important}
 .glpop button[data-a]:hover{background:var(--pn3)}
 .glpop button[data-a] i{flex:none;width:9px;height:9px;border-radius:50%}
 .glpop .maplibregl-popup-close-button{font-size:18px;color:var(--mu);right:4px;top:2px}
+
+.glpop .glpl{max-height:260px;overflow:auto}
+.glb .maplibregl-ctrl-attrib{background:color-mix(in srgb,var(--pn) 85%,transparent)!important;color:var(--mu)}
+.glb .maplibregl-ctrl-attrib a{color:var(--mu)!important}
+.glb .maplibregl-ctrl-attrib-button{filter:var(--attrf,none)}
+[data-theme="dark"] .glb .maplibregl-ctrl-group,[data-theme="dark"] .glb .maplibregl-ctrl-attrib-button{filter:invert(.92) hue-rotate(180deg)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .glb .maplibregl-ctrl-group,:root:not([data-theme="light"]) .glb .maplibregl-ctrl-attrib-button{filter:invert(.92) hue-rotate(180deg)}}
 </style>
 </head>
 <body>
@@ -2991,13 +2998,13 @@ const GLFC=f=>({type:"FeatureCollection",features:f});
 function glLayers(){if(!GL||GL.getSource("pts"))return;const F=["Noto Sans Bold"];
  GL.addSource("area",{type:"geojson",data:GLFC([])});
  GL.addSource("route",{type:"geojson",data:GLFC([])});
- GL.addSource("pts",{type:"geojson",data:GLFC([]),cluster:true,clusterRadius:38,clusterMaxZoom:13});
+ GL.addSource("pts",{type:"geojson",data:GLFC([]),cluster:true,clusterRadius:38,clusterMaxZoom:12,clusterProperties:{cnt:["+",["coalesce",["get","k"],1]]}});
  GL.addSource("fix",{type:"geojson",data:GLFC([])});
  GL.addLayer({id:"area-f",type:"fill",source:"area",paint:{"fill-color":"#0B6B4C","fill-opacity":["coalesce",["get","fo"],0.05]}});
  GL.addLayer({id:"area-l",type:"line",source:"area",paint:{"line-color":"#0B6B4C","line-width":1.2,"line-dasharray":[3,3],"line-opacity":.6}});
  GL.addLayer({id:"route",type:"line",source:"route",layout:{"line-cap":"round","line-join":"round"},paint:{"line-color":"#E08A1E","line-width":3,"line-dasharray":[2,1.6]}});
- GL.addLayer({id:"cl",type:"circle",source:"pts",filter:["has","point_count"],paint:{"circle-color":"#0B6B4C","circle-opacity":.92,"circle-radius":["step",["get","point_count"],13,10,16,40,20,100,24],"circle-stroke-width":2.5,"circle-stroke-color":"#fff"}});
- GL.addLayer({id:"cl-n",type:"symbol",source:"pts",filter:["has","point_count"],layout:{"text-field":["get","point_count_abbreviated"],"text-font":F,"text-size":12,"text-allow-overlap":true},paint:{"text-color":"#fff"}});
+ GL.addLayer({id:"cl",type:"circle",source:"pts",filter:["has","point_count"],paint:{"circle-color":"#0B6B4C","circle-opacity":.92,"circle-radius":["step",["get","cnt"],13,10,16,40,20,100,24],"circle-stroke-width":2.5,"circle-stroke-color":"#fff"}});
+ GL.addLayer({id:"cl-n",type:"symbol",source:"pts",filter:["has","point_count"],layout:{"text-field":["to-string",["get","cnt"]],"text-font":F,"text-size":12,"text-allow-overlap":true},paint:{"text-color":"#fff"}});
  const R=(a,b,c)=>["interpolate",["linear"],["zoom"],5,a,10,b,15,c];
  [["pts","pt",["!",["has","point_count"]]],["fix","fx",["==",1,1]]].forEach(([src,id,flt])=>{
   GL.addLayer({id:id+"-halo",type:"circle",source:src,filter:["all",flt,["==",["get","on"],1]],paint:{"circle-color":["get","c"],"circle-opacity":.28,"circle-radius":R(10,13,16)}});
@@ -3045,7 +3052,7 @@ function glInit(){try{
  GL.touchZoomRotate.disableRotation();GL.keyboard.disableRotation&&GL.keyboard.disableRotation();
  GL.scrollZoom.setWheelZoomRate(1/300);GL.scrollZoom.setZoomRate(1/120);
  GL.addControl(new maplibregl.NavigationControl({showCompass:false}),"bottom-right");
- GL.addControl(new maplibregl.AttributionControl({compact:true,customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a>'}),"bottom-left");
+ GL.addControl(new maplibregl.AttributionControl({compact:true}),"bottom-left");
  GL.on("load",()=>{clearTimeout(GLto);GLst=2;GLerr=0;glLayers();glEvents();glAttach(1)});
  GL.on("style.load",()=>{if(GLst===2){glLayers();glData(GLdata)}});
  GL.on("error",e=>{GLerr++;if(GLst===1&&GLerr>3)glFail()});
@@ -3059,11 +3066,15 @@ function glEvents(){const tip=GLtip=document.createElement("div");tip.className=
  GL.on("click","cl",e=>{const f=e.features[0];GL.getSource("pts").getClusterExpansionZoom(f.properties.cluster_id).then(z=>GL.easeTo({center:f.geometry.coordinates,zoom:Math.min(z+.2,16),duration:600})).catch(()=>{})});
  GL.on("click",e=>{const f=GL.queryRenderedFeatures([[e.point.x-6,e.point.y-6],[e.point.x+6,e.point.y+6]],{layers:pl}).filter(x=>x.properties.a);if(!f.length)return;
   const uniq=[];f.forEach(x=>{if(!uniq.some(u=>u.properties.id===x.properties.id))uniq.push(x)});
-  if(uniq.length===1){const p=uniq[0].properties;glAct(p.a,p.a==="exp"?"":p.id,p.v||"");return}
-  if(GLpop)GLpop.remove();
-  GLpop=new maplibregl.Popup({closeButton:true,maxWidth:"300px",offset:10,className:"glpop"}).setLngLat(uniq[0].geometry.coordinates).setHTML('<b class="glph">'+uniq.length+' here</b>'+uniq.slice(0,12).map(x=>'<button data-a="'+x.properties.a+'" data-id="'+esc(x.properties.id)+'"><i style="background:'+x.properties.c+'"></i>'+esc(x.properties.t)+'</button>').join("")+(uniq.length>12?'<span class="sm">Zoom in to see the other '+(uniq.length-12)+'.</span>':"")).addTo(GL)})}
+  if(uniq.length===1){const p=uniq[0].properties;if(p.a==="grp"){glPopup(uniq[0].geometry.coordinates,JSON.parse(p.items));return}glAct(p.a,p.a==="exp"?"":p.id,p.v||"");return}
+  const items=[];uniq.forEach(x=>{const p=x.properties;if(p.a==="grp")JSON.parse(p.items).forEach(i=>items.push(i));else items.push([p.a,p.id,p.t,p.c])});glPopup(uniq[0].geometry.coordinates,items)})}
+function glGroup(pts){const G={},out=[];pts.forEach(p=>{const c=p.geometry.coordinates,k=c[0].toFixed(5)+","+c[1].toFixed(5);(G[k]=G[k]||[]).push(p)});
+ Object.values(G).forEach(g=>{if(g.length===1){out.push(g[0]);return}const on=g.some(p=>p.properties.on===1);
+  out.push(glPt(g[0].geometry.coordinates[0],g[0].geometry.coordinates[1],{id:"g:"+g.map(p=>p.properties.id).join(","),a:"grp",c:"#0B6B4C",t:g.length+" here · "+g[0].properties.t,ex:1,on:on?1:0,n:g.length,k:g.length,sz:1.9,items:JSON.stringify(g.map(p=>[p.properties.a,p.properties.id,p.properties.t,p.properties.c]))}))});return out}
+function glPopup(ll,items){if(GLpop)GLpop.remove();
+ GLpop=new maplibregl.Popup({closeButton:true,maxWidth:"300px",offset:12,className:"glpop"}).setLngLat(ll).setHTML('<b class="glph">'+items.length+' here</b><div class="glpl">'+items.map(x=>'<button data-a="'+x[0]+'" data-id="'+esc(x[1])+'"><i style="background:'+x[3]+'"></i>'+esc(x[2])+'</button>').join("")+'</div>').addTo(GL)}
 function glData(sc){GLdata=sc;if(!GL||!GL.getSource("pts")||!sc)return;
- GL.getSource("pts").setData(GLFC(sc.cluster?sc.pts:[]));GL.getSource("fix").setData(GLFC(sc.cluster?sc.fix:sc.fix.concat(sc.pts)));
+ const gp=glGroup(sc.pts);GL.getSource("pts").setData(GLFC(sc.cluster?gp:[]));GL.getSource("fix").setData(GLFC(sc.cluster?sc.fix:sc.fix.concat(gp)));
  GL.getSource("area").setData(GLFC(sc.area));GL.getSource("route").setData(GLFC(sc.route))}
 function glAttach(first){const box=document.querySelector("#view .mapbox");if(!box)return;const svg=box.querySelector(":scope>svg");if(!svg)return;
  if(GLst===0){glLoad();return}if(GLst!==2||!GL)return;
