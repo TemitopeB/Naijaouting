@@ -6,13 +6,20 @@
  * - The database (Supabase) and other websites are never cached here.
  * Change VERSION to make every phone refresh its saved copy.
  */
-const VERSION = "v45";
-const SHELL = `shell-${VERSION}`, MEDIA = `media-${VERSION}`;
+const VERSION = "v46";
+// Pictures keep the same saved copy across updates (their file names change when the picture changes),
+// so a new version of the site doesn't make every phone download all the pictures again.
+const SHELL = `shell-${VERSION}`, MEDIA = "media-keep-1";
+const COVERS = ["agriculture","arts-culture","books-literature","business","careers-education","charity-volunteering","civic","comedy",
+  "expos-trade-fairs","faith","fashion","festivals-carnivals","film-theatre","food-drink","gaming-esports","health-fitness","kids-family",
+  "markets-pop-ups","music","nightlife-parties","sports","tech","workshops-classes"].map(n => `/covers/${n}.webp?v=3`);
 const START = ["/", "/events/", "/js/supabase.js", "/js/config.js", "/js/shim.js", "/js/account.js", "/js/pwa.js",
   "/data/landing.json", "/manifest.webmanifest", "/icons/icon-192.png"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(SHELL).then(c => c.addAll(START)).catch(() => {}).then(() => self.skipWaiting()));
+  // save the category pictures in the background so cards never show blank on a weak connection
+  caches.open(MEDIA).then(c => Promise.all(COVERS.map(u => c.match(u).then(hit => hit || c.add(u).catch(() => {}))))).catch(() => {});
 });
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => ![SHELL, MEDIA].includes(k)).map(k => caches.delete(k))))
@@ -30,7 +37,7 @@ function cacheFirst(req) {
   return caches.match(req).then(hit => hit || fetch(req).then(res => {
     if (res && res.ok) { const copy = res.clone(); caches.open(MEDIA).then(c => c.put(req, copy)); }
     return res;
-  }));
+  }).catch(() => caches.match(req, { ignoreSearch: true }).then(r => r || Response.error())));
 }
 
 self.addEventListener("fetch", e => {
