@@ -1976,8 +1976,8 @@ html:not(.app) .fbar .search input{min-width:0;width:100%}
 .chkall{margin:0 0 10px}.chkall.ask{padding:12px 14px;border:1px solid var(--ln);border-radius:14px;background:var(--pn)}.chkall.busy{padding:10px 0}
 
 /* light mode: give white panels a visible edge against the page */
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]):not([data-mode]){--bg:#EEEDE8;--bg2:#E6E4DE;--pn3:#EFEEE9;--ln:#E2E0D9;--sh0:0 0 0 1px rgba(24,28,26,.085),0 1px 2px rgba(24,28,26,.07),0 10px 24px -14px rgba(24,28,26,.26);--shs:0 0 0 1px rgba(24,28,26,.06),0 2px 6px rgba(24,28,26,.06),0 20px 40px -18px rgba(24,28,26,.26)}}
-:root[data-theme="light"]:not([data-mode]){--bg:#EEEDE8;--bg2:#E6E4DE;--pn3:#EFEEE9;--ln:#E2E0D9;--sh0:0 0 0 1px rgba(24,28,26,.085),0 1px 2px rgba(24,28,26,.07),0 10px 24px -14px rgba(24,28,26,.26);--shs:0 0 0 1px rgba(24,28,26,.06),0 2px 6px rgba(24,28,26,.06),0 20px 40px -18px rgba(24,28,26,.26)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]):not([data-mode]){--bg:#EEEDE8;--bg2:#E6E4DE;--pn3:#EFEEE9;--ln:#E2E0D9;--sh0:0 0 0 1px rgba(24,28,26,.065),0 1px 2px rgba(24,28,26,.07),0 10px 24px -14px rgba(24,28,26,.26);--shs:0 0 0 1px rgba(24,28,26,.06),0 2px 6px rgba(24,28,26,.06),0 20px 40px -18px rgba(24,28,26,.26)}}
+:root[data-theme="light"]:not([data-mode]){--bg:#EEEDE8;--bg2:#E6E4DE;--pn3:#EFEEE9;--ln:#E2E0D9;--sh0:0 0 0 1px rgba(24,28,26,.065),0 1px 2px rgba(24,28,26,.07),0 10px 24px -14px rgba(24,28,26,.26);--shs:0 0 0 1px rgba(24,28,26,.06),0 2px 6px rgba(24,28,26,.06),0 20px 40px -18px rgba(24,28,26,.26)}
 
 .tph .tpi{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.55)}
 .tph .tpi svg{width:34px;height:34px}
@@ -2084,6 +2084,13 @@ select.sel:focus-visible,.md select:focus-visible,.cform select:focus-visible{ou
 
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-mode]) :is(select.sel,.md select,.cform select){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%233DBE85' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")}}
 :root[data-theme="dark"]:not([data-mode]) :is(select.sel,.md select,.cform select){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%233DBE85' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")}
+
+/* light mode: controls that already have a border don't also get the outline ring (it made them look heavy) */
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]):not([data-mode]){--ln2:#E3E1DA}:root:not([data-theme="dark"]):not([data-mode]) :is(.sbtn,.ufb,.curb,.chip,.btn,.sel,.cddb,.dxp,.lay,.search,.fyc):not(.p):not(.on):not(.pick){box-shadow:0 1px 2px rgba(24,28,26,.05)!important}}
+:root[data-theme="light"]:not([data-mode]){--ln2:#E3E1DA}:root[data-theme="light"]:not([data-mode]) :is(.sbtn,.ufb,.curb,.chip,.btn,.sel,.cddb,.dxp,.lay,.search,.fyc):not(.p):not(.on):not(.pick){box-shadow:0 1px 2px rgba(24,28,26,.05)!important}
+
+.strip4 .card,.strip4>*{box-shadow:none!important;border-radius:0!important}
+html.app .strip4>*:nth-child(-n+2){border-top-color:transparent!important}
 </style>
 </head>
 <body>
