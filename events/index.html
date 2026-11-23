@@ -2749,7 +2749,7 @@ const CHEV='<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="n
 function oneBadge(v){const st=stTag(v);if(st)return st;if(isLive(v))return '<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>';if(isTd(v))return '<span class="tag td">Today</span>';return entryTag(v)}
 function rngTxt(v){if(v.e<=v.s)return "";const a=v.s.split("-"),b=v.e.split("-");return (+a[2])+(a[1]===b[1]?"":" "+MON[+a[1]-1])+"–"+(+b[2])+" "+MON[+b[1]-1]}
 function evRow(v){const dt=NEAR?distTxt(v):"",rg=rngTxt(v),bd=oneBadge(v);
- return '<button class="ev'+((S.open===v.id||S.sel===v.id)?" on":"")+'" data-a="sel" data-id="'+v.id+'" aria-label="'+esc(v.name)+', '+fd(v.s,v.e)+', '+esc(v.city)+'">'+dtb(v)+'<div class="bd"><span class="nm">'+esc(v.name)+'</span><span class="meta rmeta"><i class="cdot" style="background:'+cc(v.cat)[0]+'" title="'+esc(v.cat)+'"></i><span class="vtx">'+esc(v.online?"Online · "+(v.plat||"Webinar"):v.venue?v.venue+" · "+v.city:v.city)+'</span></span>'+((rg||bd||dt)?'<span class="tg">'+(rg?'<span class="rng">'+rg+'</span>':"")+bd+(dt?'<b class="dist">'+dt+'</b>':"")+'</span>':"")+'</div>'+CHEV+'</button>'}
+ return '<button class="ev'+((S.open===v.id||S.sel===v.id)?" on":"")+'" data-a="sel" data-id="'+v.id+'" aria-label="'+esc(v.name)+', '+fd(v.s,v.e)+', '+esc(v.city)+'">'+dtb(v)+'<div class="bd"><span class="nm">'+esc(v.name)+'</span><span class="meta rmeta"><i class="cdot" style="background:'+cc(v.cat)[0]+'" title="'+esc(v.cat)+'"></i><span class="vtx">'+esc(v.online?"Online · "+(v.plat||"Webinar"):v.venue?v.venue+" · "+v.city:v.city)+'</span></span>'+((rg||bd||dt)?'<span class="tg">'+(rg?'<span class="rng">'+rg+'</span>':"")+bd+(dt?'<b class="dist" title="'+esc(distKm(v))+'">'+dt+'</b>':"")+'</span>':"")+'</div>'+CHEV+'</button>'}
 /* one shared copy of each category picture (a short blob: link), instead of copying the whole picture into every card */
 function coverImg(c){return COVERS[c]||""}
 /* a picture that fails on a weak connection is tried again (after 2s, then 6s, then whenever the phone is back online) */
@@ -2774,7 +2774,7 @@ function evCard(v){const img=safeImg(v.img),c=cc(v.cat),now=isLive(v),en=entLabe
  return '<div class="tc'+(isCx(v)?" cx":"")+(v.online?" onl":"")+'" data-a="open" data-id="'+v.id+'" style="--c:'+c[0]+';--c2:'+c[1]+'">'+
   '<div class="tci">'+art+'<div class="tct">'+(st||(now?'<span class="onb"><i aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="onb td">Today</span>':""))+(v.online?'<span class="onb olb">'+ONLSVG+'Online</span>':"")+evBtns(v,"fav")+'</div></div>'+
   '<div class="tcx"><span class="tec">'+esc(v.cat)+(v.online?" · Online":"")+'</span><a class="nm" href="#e='+evSlug(v)+'" data-a="open" data-id="'+v.id+'">'+esc(v.name)+'</a><span class="tdl'+(F.length?"":" mu")+'">'+(F.length?F.join('<i class="dot" aria-hidden="true">·</i>'):"Entry details: see organiser")+'</span>'+gfLine(v)+
-  '<div class="tmt"><span class="vn">'+(v.online?ONLSVG+'<span>'+esc(v.plat||"Online")+'</span>':PINSVG+'<span>'+esc(vShort(v))+'</span>')+'</span>'+(dt?'<b class="dist">'+dt+'</b>':"")+'</div></div></div>'}
+  '<div class="tmt"><span class="vn">'+(v.online?ONLSVG+'<span>'+esc(v.plat||"Online")+'</span>':PINSVG+'<span>'+esc(vShort(v))+'</span>')+'</span>'+(dt?'<b class="dist" title="'+esc(distKm(v))+'">'+dt+'</b>':"")+'</div></div></div>'}
 /* card facts: dates beyond the badge, a short time and the entry price, so people can compare at a glance */
 function tShort(t){t=String(t||"").replace(/\s*\(?WAT\)?/ig,"").trim();if(!t)return "";const lc=x=>x.replace(/\s*(am|pm)\b/ig,(m,a)=>a.toLowerCase());if(t.length<=14&&/\d/.test(t))return lc(t);const m=t.match(/\b\d{1,2}(?:[:.]\d{2})?\s?(?:am|pm)\b/i);return m?lc(m[0]):""}
 function cardFacts(v,en){const p=[];if(v.e>v.s){const e=new Date(v.e+"T00:00:00");p.push("Until "+(v.e===TODAY?"today":e.getDate()+" "+MON[e.getMonth()]))}const t=tShort(v.time);if(t)p.push(esc(t));if(en[0]){const fx=v.intl?"":fxOf(en[0]);p.push('<b class="pr'+(en[1]?" ok":"")+'">'+esc(en[0])+'</b>'+(fx?'<i class="fxc">'+fx+'</i>':""))}return p}
@@ -2788,7 +2788,7 @@ function evLine(v){const img=safeImg(v.img),now=isLive(v),en=entLabel(v),dt=NEAR
   '<span class="elm"><b>'+esc(dLine(v))+'</b><span class="elv"> · '+esc(v.venue?v.venue+", "+v.city:v.city)+'</span></span>'+(tags?'<span class="elt">'+tags+'</span>':"")+'</div>'+
   '<div class="elw"><b>'+esc(v.city)+'</b><span>'+esc(v.venue||"Venue to be confirmed")+'</span></div>'+
   '<div class="ele">'+(en[0]?'<span class="tag '+(en[1]?"ok":"n")+'">'+en[0]+'</span>':"")+'</div>'+
-  '<div class="ela">'+(dt?'<span class="dist">'+dt+'</span>':"")+evBtns(v,"elb2")+'</div></div>'}
+  '<div class="ela">'+(dt?'<span class="dist" title="'+esc(distKm(v))+'">'+dt+'</span>':"")+evBtns(v,"elb2")+'</div></div>'}
 function evList(L,so){let G=[];
  if(so==="soon"||!so){const T=TODAY,T1=add(T,1),wk=weekendRange(),w7=add(T,7);
   L.forEach(v=>{let k;if(v.s<T&&v.e>=T)k="Still running";else if(v.s===T)k="Today";else if(v.s===T1)k="Tomorrow";else if(v.s<wk[0]&&v.s<=w7)k="This week";else if(v.s>=wk[0]&&v.s<=wk[1])k="This weekend";else if(v.s<=w7)k="Next 7 days";
@@ -3580,8 +3580,10 @@ const evKm=v=>{const l=NEAR&&evLL(v);return l?km(NEAR.lat,NEAR.lon,l[0],l[1]):nu
 const fk=d=>d<1?Math.max(50,Math.round(d*20)*50)+"\u00a0m":d<10?d.toFixed(1)+"\u00a0km":Math.round(d).toLocaleString("en-NG")+"\u00a0km";
 function drv(d){const road=d*1.35;if(d<1.2)return "~"+Math.max(2,Math.round(road/4.8*60))+" min walk";
  const sp=road<10?18:road<40?28:road<150?50:70,m=road/sp*60;if(m<60)return "~"+Math.max(5,Math.round(m/5)*5)+" min drive";
- const h=Math.floor(m/60),mm=Math.round((m%60)/10)*10;return "~"+(mm===60?h+1+" h":h+" h"+(mm?" "+mm+" min":""))+" drive"}
-function distTxt(v){const d=evKm(v);if(d==null)return "";return (evLL(v)[2]==="v"?"":"≈")+fk(d)+" away"}
+ let h=Math.floor(m/60),mm=Math.round((m%60)/10)*10;if(mm===60){h++;mm=0}if(h>=4&&mm){h+=mm>=30?1:0;mm=0}const hs=h+(h===1?" hr":" hrs");return "~"+hs+(mm?" "+mm+" min":"")+" drive"}
+/* on cards: rough travel time (people plan by time, not km); the km is kept in the tooltip and on the event page */
+function distTxt(v){const d=evKm(v);if(d==null)return "";return drv(d)}
+function distKm(v){const d=evKm(v);if(d==null)return "";return (evLL(v)[2]==="v"?"":"≈")+fk(d)+" away"}
 function nearestArea(la,lo){return FLAT_A.map(a=>[a.name,km(la,lo,a.lat,a.lon)]).sort((a,b)=>a[1]-b[1])[0]}
 const inNG=(la,lo)=>la>3.8&&la<14.2&&lo>2.5&&lo<14.8;
 function locate(){if(GEO==="blocked"){N.msg=GEO_OFF_MSG;render();return}if(!navigator.geolocation){N.msg="This browser can’t share your location. Search for your area instead.";render();return}
