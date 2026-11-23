@@ -1974,6 +1974,10 @@ html:not(.app) .fbar .search{flex-basis:140px;min-width:0}
 html:not(.app) .fbar .search input{min-width:0;width:100%}
 
 .chkall{margin:0 0 10px}.chkall.ask{padding:12px 14px;border:1px solid var(--ln);border-radius:14px;background:var(--pn)}.chkall.busy{padding:10px 0}
+
+/* light mode: give white panels a visible edge against the page */
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]):not([data-mode]){--bg:#EEEDE8;--bg2:#E6E4DE;--pn3:#EFEEE9;--ln:#E2E0D9;--sh0:0 0 0 1px rgba(24,28,26,.085),0 1px 2px rgba(24,28,26,.07),0 10px 24px -14px rgba(24,28,26,.26);--shs:0 0 0 1px rgba(24,28,26,.06),0 2px 6px rgba(24,28,26,.06),0 20px 40px -18px rgba(24,28,26,.26)}}
+:root[data-theme="light"]:not([data-mode]){--bg:#EEEDE8;--bg2:#E6E4DE;--pn3:#EFEEE9;--ln:#E2E0D9;--sh0:0 0 0 1px rgba(24,28,26,.085),0 1px 2px rgba(24,28,26,.07),0 10px 24px -14px rgba(24,28,26,.26);--shs:0 0 0 1px rgba(24,28,26,.06),0 2px 6px rgba(24,28,26,.06),0 20px 40px -18px rgba(24,28,26,.26)}
 </style>
 </head>
 <body>
