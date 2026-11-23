@@ -2995,7 +2995,7 @@ function glLoad(){if(GLst)return;GLst=1;
  GLto=setTimeout(()=>{if(GLst===1&&!window.maplibregl)glFail()},40000)}
 function glFail(){GLst=-1;clearTimeout(GLto);document.querySelectorAll(".mapbox.glon").forEach(b=>b.classList.remove("glon"));if(GLel)GLel.remove()}
 const GLFC=f=>({type:"FeatureCollection",features:f});
-function glLayers(){if(!GL||GL.getSource("pts"))return;const F=["Noto Sans Bold"];
+function glLayers(){if(!GL||!GL.isStyleLoaded()||GL.getLayer("pt"))return;["area","route","pts","fix"].forEach(id=>{if(GL.getLayer(id+"-x"))return});["area-f","area-l","route","cl","cl-n","pt-halo","pt-ring","pt","pt-n","pt-lab","fx-halo","fx-ring","fx","fx-n","fx-lab"].forEach(id=>{if(GL.getLayer(id))GL.removeLayer(id)});["area","route","pts","fix"].forEach(id=>{if(GL.getSource(id))GL.removeSource(id)});const F=["Noto Sans Bold"];
  GL.addSource("area",{type:"geojson",data:GLFC([])});
  GL.addSource("route",{type:"geojson",data:GLFC([])});
  GL.addSource("pts",{type:"geojson",data:GLFC([]),cluster:true,clusterRadius:38,clusterMaxZoom:12,clusterProperties:{cnt:["+",["coalesce",["get","k"],1]]}});
@@ -3054,7 +3054,7 @@ function glInit(){try{
  GL.addControl(new maplibregl.NavigationControl({showCompass:false}),"bottom-right");
  GL.addControl(new maplibregl.AttributionControl({compact:true}),"bottom-right");
  GL.on("load",()=>{clearTimeout(GLto);GLst=2;GLerr=0;glLayers();glEvents();glAttach(1)});
- GL.on("style.load",()=>{if(GLst===2){glLayers();glData(GLdata)}});
+ GL.on("style.load",()=>{if(GLst===2){glLayers();glData(GLdata)}});GL.on("styledata",()=>{if(GLst===2&&GL.isStyleLoaded()&&!GL.getLayer("pt")){glLayers();glData(GLdata)}});
  GL.on("error",e=>{GLerr++;if(GLst===1&&GLerr>3)glFail()});
 }catch(e){glFail()}}
 function glAct(a,id,v){const b=document.createElement("button");b.hidden=true;b.dataset.a=a;if(id)b.dataset.id=id;if(v)b.dataset.v=v;document.body.appendChild(b);b.click();b.remove()}
@@ -3081,7 +3081,7 @@ function glAttach(first){const box=document.querySelector("#view .mapbox");if(!b
  const sc=glScene();if(!sc){box.classList.remove("glon");return}
  if(GLel.parentNode!==box){box.insertBefore(GLel,box.firstChild);if(GLpop)GLpop.remove()}
  box.classList.add("glon");
- const th=glTheme();if(th!==GLth){GLth=th;GL.setStyle(GLSTY[th])}
+ const th=glTheme();if(th!==GLth){GLth=th;GL.setStyle(GLSTY[th],{diff:false})}
  GL.resize();glData(sc);
  if(first||sc.key!==GLkey){const anim=!first&&GLkey.split("|")[0]===sc.key.split("|")[0];GLkey=sc.key;glView(sc.fit,anim)}}
 addEventListener("resize",()=>{if(GLst===2)GL.resize()});
