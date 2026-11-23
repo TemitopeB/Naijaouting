@@ -2975,7 +2975,7 @@ function glTheme(){try{return effTheme()==="dark"?"dark":"light"}catch(e){return
 function glLoad(){if(GLst)return;GLst=1;
  const c=document.createElement("link");c.rel="stylesheet";c.href="https://cdn.jsdelivr.net/npm/maplibre-gl@"+GLV+"/dist/maplibre-gl.css";document.head.appendChild(c);
  const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/maplibre-gl@"+GLV+"/dist/maplibre-gl.js";sc.async=true;sc.onload=glInit;sc.onerror=()=>glFail();document.head.appendChild(sc);
- GLto=setTimeout(()=>{if(GLst===1)glFail()},15000)}
+ GLto=setTimeout(()=>{if(GLst===1&&!window.maplibregl)glFail()},40000)}
 function glFail(){GLst=-1;clearTimeout(GLto);document.querySelectorAll(".mapbox.glon").forEach(b=>b.classList.remove("glon"));if(GLel)GLel.remove()}
 function glInit(){try{
  if(!window.maplibregl){glFail();return}
