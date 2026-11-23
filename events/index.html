@@ -2019,6 +2019,71 @@ html:not(.app) .evpan .eh .seg{max-width:100%;overflow-x:auto;scrollbar-width:no
 .trvi{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--acs);color:var(--ac)}
 .trvi svg{width:15px;height:15px}
 .trvn{font-size:12px;color:var(--mu2)}
+
+/* ===== event page v3: one clear order, every block in the same card style ===== */
+.stamp2{position:relative;display:flex;flex-direction:column;min-width:80px;border-radius:16px;background:#fff;color:#141614;text-align:center;overflow:hidden;box-shadow:0 14px 34px -10px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.18)}
+.stamp2 .sb{position:relative;display:block;padding:9px 14px 7px;background:linear-gradient(180deg,#14875D,#0B6B4C);color:#fff;font:800 11px/1 var(--fm,inherit);letter-spacing:.2em;white-space:nowrap}
+.stamp2 .sb i{position:absolute;top:4px;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.25)}
+.stamp2 .sb i:first-child{left:12px}.stamp2 .sb i:last-of-type{right:12px}
+.stamp2 b{display:flex;align-items:baseline;justify-content:center;gap:2px;padding:9px 14px 1px;font:800 34px/1 var(--fd);letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.stamp2.rng b{font-size:28px}
+.stamp2 b em{font-style:normal;font-weight:600;color:#9AA09B;margin:0 1px}
+.stamp2 .sf{display:block;padding:5px 12px 10px;font:700 10.5px/1.2 var(--fm,inherit);letter-spacing:.08em;text-transform:uppercase;color:#6D6F68;white-space:nowrap}
+.dx2 .dxh{gap:8px;margin:0 0 6px}
+.dx2 .dxsub{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.dx2 .dxsub .dxp{height:32px;padding:0 13px;font-size:13px;gap:6px}
+.dx2 .dxs{margin:24px 0 0}
+.dx2 .dxs>.dxgh{margin:0 2px 10px}
+.dx2 .dxs .entry{margin:0}
+.dx2 .dxs .dxa{margin:10px 0 0}
+.dx2 .dxcard,.dx2 .dxtrv .trv{border:1px solid var(--ln);border-radius:18px;background:var(--pn);padding:16px 18px;box-shadow:var(--sh0)}
+.dx2 .dxtrv .trv{border-top:1px solid var(--ln);gap:12px}
+.dx2 .dxcard .dxab{margin:0;font-size:15px;line-height:1.6}
+.dx2 .dxcard .dxgf{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--ln)}
+.dx2 .dxcard .dxgf .eyb{font:700 11.5px var(--fd);letter-spacing:.1em;text-transform:uppercase;color:var(--mu)}
+.dx2 .dxcard .dxsrc{margin:12px 0 0}
+.dx2 .dxcard>.dxsrc:first-child,.dx2 .dxcard>.dxgf:first-child{margin-top:0;padding-top:0;border-top:0}
+.dx2 .arrc{margin:14px 0 0}
+.dx2 .dxg{margin:0}
+.dx2 .dxstq .stq{margin:0}
+.dx2 .stqf{margin-top:12px;padding-top:12px;border-top:1px solid var(--ln)}
+.dx2 .stqf .dxcr{font-size:13.5px}
+.dx2 .dxnote{margin:18px 2px 0;font-size:12.5px;color:var(--mu2);text-align:center}
+.dx2 .adm{margin-top:18px}
+
+/* ===== dropdowns: one smooth, consistent look ===== */
+select.sel,.md select,.cform select,.fsheet select{transition:border-color .18s ease,box-shadow .2s ease,background-color .18s ease,transform .15s ease;cursor:pointer;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%230B6B4C' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;-webkit-appearance:none;appearance:none}
+.md select,.cform select{padding-right:38px!important;border-radius:12px!important}
+select.sel:hover,.md select:hover,.cform select:hover{border-color:var(--ac)!important}
+select.sel:focus-visible,.md select:focus-visible,.cform select:focus-visible{outline:none;border-color:var(--ac)!important;box-shadow:0 0 0 4px var(--acs)!important}
+@supports (appearance:base-select){
+ select.sel,.md select,.cform select{appearance:base-select;-webkit-appearance:base-select;display:inline-flex;align-items:center}
+ select.sel::picker-icon,.md select::picker-icon,.cform select::picker-icon{display:none}
+ select.sel::picker(select),.md select::picker(select),.cform select::picker(select){appearance:base-select;margin:6px 0;padding:6px;min-width:anchor-size(width);max-height:min(60vh,420px);overflow:auto;border:1px solid var(--ln);border-radius:16px;background:var(--pn);color:var(--tx);
+  box-shadow:0 2px 6px rgba(20,22,20,.06),0 22px 48px -12px rgba(20,22,20,.28);opacity:0;transform:translateY(-6px) scale(.98);transform-origin:top center;
+  transition:opacity .16s ease,transform .18s cubic-bezier(.2,.8,.2,1),overlay .18s allow-discrete,display .18s allow-discrete}
+ select.sel:open::picker(select),.md select:open::picker(select),.cform select:open::picker(select){opacity:1;transform:none}
+ @starting-style{select.sel:open::picker(select),.md select:open::picker(select),.cform select:open::picker(select){opacity:0;transform:translateY(-6px) scale(.98)}}
+ select.sel option,.md select option,.cform select option{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:500;color:var(--tx);background:transparent;transition:background-color .12s}
+ select.sel option:hover,select.sel option:focus-visible,.md select option:hover,.md select option:focus-visible,.cform select option:hover,.cform select option:focus-visible{background:var(--pn3);outline:none}
+ select.sel option:checked,.md select option:checked,.cform select option:checked{background:var(--acs);color:var(--ac);font-weight:600}
+ select.sel option::checkmark,.md select option::checkmark,.cform select option::checkmark{order:2;margin-left:auto;content:"✓";color:var(--ac);font-weight:700}
+ select.sel optgroup,.md select optgroup,.cform select optgroup{font:700 11px var(--fd);letter-spacing:.1em;text-transform:uppercase;color:var(--mu);padding:8px 12px 4px}
+}
+/* category menu (custom dropdown) */
+.cddm{transform-origin:top left;box-shadow:0 2px 6px rgba(20,22,20,.06),0 24px 56px -14px rgba(20,22,20,.32)!important;border:1px solid var(--ln)!important;border-radius:18px!important;padding:6px!important}
+.cdd.open .cddm{animation:ddpop .2s cubic-bezier(.2,.8,.2,1) both!important}
+@keyframes ddpop{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:none}}
+.cddo{min-height:42px!important;border-radius:11px!important;font-size:14.5px!important;transition:background-color .12s ease,color .12s ease!important}
+.cddo:hover,.cddo:focus-visible{background:var(--pn3)!important;outline:none}
+.cddo.on{background:var(--acs)!important;color:var(--ac)!important}
+.cddo.on::after{content:"";flex:none;width:16px;height:16px;margin-left:2px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.cddb .cv{transition:transform .22s cubic-bezier(.2,.8,.2,1)!important}
+@media (prefers-reduced-motion:reduce){.cdd.open .cddm{animation:none!important}select.sel::picker(select){transition:none}}
+
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-mode]) :is(select.sel,.md select,.cform select){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%233DBE85' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")}}
+:root[data-theme="dark"]:not([data-mode]) :is(select.sel,.md select,.cform select){background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%233DBE85' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")}
 </style>
 </head>
 <body>
@@ -3650,7 +3715,7 @@ const TRAINS=[{n:"Lagos–Ibadan",a:p=>tzone(p)==="lagos",b:p=>tzone(p)==="ibada
 const BUSSVG='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3.5" width="16" height="14" rx="2.5"/><path d="M4 11h16M8 17.5V20M16 17.5V20"/><circle cx="8" cy="14.3" r=".7"/><circle cx="16" cy="14.3" r=".7"/></svg>',
  TRNSVG='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 10h14M8 21l2-4M16 21l-2-4"/><circle cx="9" cy="13.5" r=".7"/><circle cx="15" cy="13.5" r=".7"/></svg>',
  AIRSVG='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 13.5L3 11l1.5-1.5 7.5 1L17 5.5a1.8 1.8 0 012.5 2.5L14.5 13l1 7.5L14 22l-2.5-7.5-3 3V20l-1.5 1-1-3-3-1 1-1.5h2.5z"/></svg>';
-function travelBlock(v){if(v.online||!NEAR)return "";const l=evLL(v);if(!l)return "";const a=[NEAR.lat,NEAR.lon],b=[l[0],l[1]],d=km(a[0],a[1],b[0],b[1]);if(d<1.2)return "";
+function travelBlock(v,bare){if(v.online||!NEAR)return "";const l=evLL(v);if(!l)return "";const a=[NEAR.lat,NEAR.lon],b=[l[0],l[1]],d=km(a[0],a[1],b[0],b[1]);if(d<1.2)return "";
  const x=drvMin(d,a,b),za=tzone(a),zb=tzone(b),rows=[];
  rows.push([CARSVG,"By car or taxi","~"+hm(x[0])+(za&&za===zb?" in normal traffic":"")]);
  if(za&&za===zb&&["lagos","abuja","ph"].includes(za)&&x[0]>=15)rows.push([BUSSVG,za==="lagos"?"By danfo, BRT or keke":"By bus or keke","allow ~"+hm(x[0]*1.5)+", with stops and changes"]);
@@ -3659,7 +3724,7 @@ function travelBlock(v){if(v.online||!NEAR)return "";const l=evLL(v);if(!l)retur
  const pa=nearAir(a),pb=nearAir(b);
  if(pa&&pb&&pa[0]!==pb[0]&&x[0]>=300){const fd2=km(pa[2],pa[3],pb[2],pb[3]),fm=Math.round((25+fd2/750*60)/5)*5;
   rows.push([AIRSVG,"By air","~"+hm(fm)+" flight, "+esc(pa[1])+" ("+pa[0]+") → "+esc(pb[1])+" ("+pb[0]+"). About "+hm(fm+150)+" door to door with airport time and check-in."])}
- return '<div class="trv"><b class="trvh">Getting there from '+esc(NEAR.name||"you")+'</b>'+rows.map(r=>'<div class="trvr"><span class="trvi">'+r[0]+'</span><span><b>'+r[1]+'</b><span>'+r[2]+'</span></span></div>').join("")+'<span class="trvn">Estimates. Check live traffic, train times and flights before you go.</span></div>'}
+ return '<div class="trv">'+(bare?"":'<b class="trvh">Getting there from '+esc(NEAR.name||"you")+'</b>')+rows.map(r=>'<div class="trvr"><span class="trvi">'+r[0]+'</span><span><b>'+r[1]+'</b><span>'+r[2]+'</span></span></div>').join("")+'<span class="trvn">Estimates. Check live traffic, train times and flights before you go.</span></div>'}
 /* on cards: rough travel time (people plan by time, not km); the km is kept in the tooltip and on the event page */
 function distTxt(v){const d=evKm(v);if(d==null)return "";const l=evLL(v);return drv(d,[NEAR.lat,NEAR.lon],[l[0],l[1]])}
 function distKm(v){const d=evKm(v);if(d==null)return "";return (evLL(v)[2]==="v"?"":"≈")+fk(d)+" away"}
@@ -3773,7 +3838,8 @@ function cleanEv(o){if(!o||typeof o!=="object")return o;const v=Object.assign({}
  for(const k in CAPS)if(typeof v[k]==="string"&&v[k].length>CAPS[k])v[k]=v[k].slice(0,CAPS[k]);return v}
 const safeImg=u=>/^(https:\/\/[^\s"'<>]+|\/_blob\/[0-9a-zA-Z_-]+|flyers\/[a-z0-9_-]+\.jpg)$/i.test(u||"")?u:"";
 function evHero(v){const a=v.s.split("-"),b=v.e.split("-"),one=v.s===v.e,d=new Date(v.s+"T00:00:00"),now=isLive(v),img=safeImg(v.img);
- const nd=Math.round((new Date(v.e+"T00:00:00")-new Date(v.s+"T00:00:00"))/864e5)+1,sm=a[1]===b[1];const stamp=one?'<div class="stamp"><b>'+(+a[2])+'</b><span>'+MON[+a[1]-1].toUpperCase()+'</span><i>'+DOW[d.getDay()]+'</i></div>':'<div class="stamp rng"><b>'+(+a[2])+'–'+(+b[2])+'</b><span>'+(sm?MON[+a[1]-1].toUpperCase():MON[+a[1]-1].toUpperCase()+'–'+MON[+b[1]-1].toUpperCase())+'</span><i>'+nd+' DAYS</i></div>';
+ const nd=Math.round((new Date(v.e+"T00:00:00")-new Date(v.s+"T00:00:00"))/864e5)+1,sm=a[1]===b[1];const de=new Date(v.e+"T00:00:00"),WD=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],mo=MON[+a[1]-1].toUpperCase()+(one||sm?"":" – "+MON[+b[1]-1].toUpperCase());
+ const stamp='<div class="stamp2'+(one?"":" rng")+'" aria-label="'+esc(fd(v.s,v.e))+'"><span class="sb" aria-hidden="true"><i></i><i></i>'+mo+'</span><b aria-hidden="true">'+(+a[2])+(one?"":"<em>–</em>"+(+b[2]))+'</b><span class="sf" aria-hidden="true">'+(one?WD[d.getDay()]:DOW[d.getDay()]+" – "+DOW[de.getDay()]+" · "+nd+" days")+'</span></div>';
  return '<div class="hero poster'+(img?" flyer":"")+'" style="background:'+grad(v.cat)+'">'+(COVERS[v.cat]?'<img class="cover" src="'+COVERS[v.cat]+'" alt="" aria-hidden="true" decoding="async">':art(v.name,v.cat,cc(v.cat)[0])+'<div class="bigico">'+ico(v.cat,120)+'</div>')+(img?'<img class="fbg" src="'+esc(img)+'" alt=""><img class="fl" src="'+esc(img)+'" alt="Flyer for '+esc(v.name)+'">':'')+
   '<div class="htop">'+catTag(v.cat).replace(/background:[^;]+;color:[^"]+/,"background:rgba(0,0,0,.35);color:#fff")+(now?'<span class="onb"><i aria-hidden="true"></i>On now</span>':"")+'</div>'+
   '<div class="hbot">'+stamp+'<div class="hwhere"><b>'+esc(v.city.toUpperCase())+'</b><span>'+esc(v.venue||"Venue to be confirmed")+'</span></div>'+(img?'<button class="vfl" type="button" data-a="flv" data-id="'+v.id+'">View flyer</button>':"")+'</div></div>'}
@@ -4262,9 +4328,11 @@ function drawerHTML(v,q,d1,d2){
  const ven=!v.venue&&ADMIN&&DB&&/^[br]/.test(v.id)?'<span class="vedit"><input data-vin="'+v.id+'" placeholder="Add the venue" aria-label="Venue for '+esc(v.name)+'" autocomplete="off"><button class="btn p" data-a="vsave" data-id="'+v.id+'">Save</button></span>':'<b>'+esc(v.venue||"Venue to be confirmed")+'</b>';
  const place=[v.city,v.state&&v.state!==v.city&&v.state!=="FCT"?v.state+" State":v.state==="FCT"?"FCT":""].filter(Boolean).join(", ")+(NEAR&&evKm(v)!=null?" · "+(evLL(v)[2]==="v"?"":"≈")+fk(evKm(v))+" away":"");
  const facts='<div class="dxf"><div class="dxr"><span class="dxi">'+DXI.cal+'</span><span class="dxs"><b>'+fd(v.s,v.e)+'</b>'+(v.time?'<span>'+esc(v.time)+(v.online&&!/WAT|lagos/i.test(v.time)?" (Lagos time)":"")+'</span>':"")+tzBlock(v)+'</span><a class="dxl" target="_blank" rel="noopener" href="'+esc(calUrl(v,d1,d2))+'">Add to calendar</a></div>'+
-  (v.online?'<div class="dxr"><span class="dxi">'+ONLSVG.replace('width="14" height="14"','width="18" height="18"')+'</span><span class="dxs"><b>Online · '+esc(v.plat||"Webinar")+'</b><span>The join link usually comes after you register on the official page.</span></span></div></div>':'<div class="dxr"><span class="dxi">'+DXI.pin+'</span><span class="dxs">'+ven+'<span>'+esc(place)+'</span></span><a class="dxl" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+q+'">Map</a></div>'+travelBlock(v)+'</div>');
+  (v.online?'<div class="dxr"><span class="dxi">'+ONLSVG.replace('width="14" height="14"','width="18" height="18"')+'</span><span class="dxs"><b>Online · '+esc(v.plat||"Webinar")+'</b><span>The join link usually comes after you register on the official page.</span></span></div></div>':'<div class="dxr"><span class="dxi">'+DXI.pin+'</span><span class="dxs">'+ven+'<span>'+esc(place)+'</span></span><a class="dxl" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+q+'">Map</a></div></div>');
  const g=igOf(v),src=g?'<a class="dxsrc" href="'+esc(safeUrl(g[1])||("https://www.instagram.com/"+encodeURIComponent(g[0]||"")+"/"))+'" target="_blank" rel="noopener">'+(v.img?"Flyer from ":"Source: ")+(g[0]?"@"+esc(g[0])+" on Instagram":"Instagram post")+' '+DXI.ext+'</a>':"";
  const adm=ADMIN&&DB&&/^[br]/.test(v.id)?'<div class="adm"><span>Owner tools</span><button class="btn" data-a="aedit" data-id="'+v.id+'">Edit</button><button class="btn" data-a="adel" data-id="'+v.id+'">Remove</button></div><div class="adm stadm"><span>Live status</span>'+Object.keys(STX).map(k=>'<button class="btn'+((stOf(v)||{}).st===k?" p":"")+'" data-a="ast" data-v="'+k+'" data-id="'+v.id+'">'+STX[k][0].replace("✓ ","")+'</button>').join("")+(stOf(v)?'<button class="btn g" data-a="ast" data-v="" data-id="'+v.id+'">Clear</button>':"")+'<input id="stnote" placeholder="Note for everyone (optional)" aria-label="Status note" value="'+esc((stOf(v)||{}).note||"")+'"></div>':"";
+ const trip='<button class="dxp dxtrip'+(TRIP.includes(v.id)?" on":"")+'" data-a="trip" data-id="'+v.id+'">'+(TRIP.includes(v.id)?DXI.chk+"In my trip":DXI.plus+"Add to trip")+'</button>',
+  elink=v.link&&!(access(v).l||[]).some(x=>x[1]===v.link)?'<a class="dxp dxlink" target="_blank" rel="noopener" href="'+esc(safeUrl(v.link))+'">'+(v.online?"Register on the official page ":"Event website ")+DXI.ext+'</a>':"";
  const acts='<div class="dxa">'+'<button class="dxp'+(TRIP.includes(v.id)?" on":"")+'" data-a="trip" data-id="'+v.id+'">'+(TRIP.includes(v.id)?DXI.chk+"In my trip":DXI.plus+"Add to trip")+'</button>'+(v.link&&!(access(v).l||[]).some(x=>x[1]===v.link)?'<a class="dxp" target="_blank" rel="noopener" href="'+esc(safeUrl(v.link))+'">'+(v.online?"Register on the official page ":"Event link ")+DXI.ext+'</a>':"")+'</div>';
  // tools: weather, getting there, nearby, past editions, budget, checklist
  const ex=dxSecs(extra(v)),pl=dxSecs(planner(v)),get=(arr,t)=>(arr.find(x=>x[0]===t)||[])[1]||"";
@@ -4272,16 +4340,23 @@ function drawerHTML(v,q,d1,d2){
  const wx=get(ex,"Weather"),gt=get(ex,"Getting there"),nb=get(ex,"Make a day of it"),pe=get(ex,"Past editions");
  const nPl=(nb.match(/class="pl"/g)||[]).length,nCk=(pl.length&&(get(pl,"Before you go").match(/type="checkbox"/g)||[]).length)||0,nDone=(get(pl,"Before you go").match(/ checked>/g)||[]).length;
  const tools=dxAcc("wx",DXI.sun,"Weather",w?w[0]+" · typical for the season":"Check the live forecast",wx)+
-  dxAcc("gt",DXI.car,"Getting there","Rides, traffic and timing",gt)+
+  dxAcc("gt",DXI.car,"Rides & traffic tips","Ride apps, rush hours and timing",gt)+
   (nPl?dxAcc("nb",DXI.map,"Make a day of it",nPl+" places nearby",nb):"")+
   dxAcc("bud",DXI.wal,"Plan your budget","Work out the cost of the night",get(pl,"Plan your budget"))+
   (nCk?dxAcc("ck",DXI.chk,"Before you go",nDone?nDone+" of "+nCk+" done":nCk+" things to check",get(pl,"Before you go")):"")+
   (/No past-edition/.test(pe)?"":dxAcc("pe",DXI.his,"Past editions","",pe));
  const stq='<div class="stq"><div class="stqh"><b>Is it still on?</b>'+(chkAt(v)?'<span class="lck">✓ Checked '+chkTxt(chkAt(v))+'</span>':ADMIN?'<span class="lck">Not checked yet</span>':'')+'</div><span class="sm">Tell us if something changed and we’ll update it for everyone.</span><div class="chips">'+Object.keys(STREP).map(k=>'<button class="chip'+(k==="ok"?" yes":"")+'" data-a="strep" data-v="'+k+'" data-id="'+v.id+'">'+STREP[k]+'</button>').join("")+'<button class="chip scam" type="button" data-scam="'+v.id+'">⚠ Looks like a scam</button>'+(ADMIN&&DB?'<button class="chip" data-a="mchk" data-id="'+v.id+'">✓ Mark checked</button>':"")+'</div></div>';
- return XBAR+evHero(v)+'<div class="in dx"><div class="dxh">'+(tg?'<div class="dxt">'+tg+'</div>':"")+'<h2>'+esc(v.name)+'</h2>'+cdown(v)+'</div>'+stBanner(v)+facts+
-  (v.about?'<p class="dxab">'+esc(v.about)+'</p>':"")+gfBlock(v)+src+adm+entryBox(v)+intlEd(v)+(abroad()||CUR!=="NGN"?arriveCard():"")+acts+
-  (v.online?'<div class="websafe" role="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>'+WEBSAFE+'</span></div>':'<div class="dxg"><div class="dxgh">Plan your visit</div>'+tools+'</div>')+stq+
-  '<div class="dxft"><button class="dxcr" data-a="corr" data-id="'+v.id+'">'+(v.online?"Report this webinar":"Report a correction")+'</button><p>Dates and venues can change. Check with the organiser before you travel.</p></div></div>'+dbar(v,q)}
+ const sec=(t,h,c)=>h?'<section class="dxs'+(c?" "+c:"")+'">'+(t?'<h3 class="dxgh">'+t+'</h3>':"")+h+'</section>':"";
+ const trv=travelBlock(v,1),about=(v.about?'<p class="dxab">'+esc(v.about)+'</p>':"")+gfBlock(v)+src;
+ return XBAR+evHero(v)+'<div class="in dx dx2"><div class="dxh">'+(tg?'<div class="dxt">'+tg+'</div>':"")+'<h2>'+esc(v.name)+'</h2><div class="dxsub">'+cdown(v)+trip+'</div></div>'+stBanner(v)+
+  sec("When and where",facts)+
+  sec(v.online?"Joining":"Tickets and entry",entryBox(v)+(elink?'<div class="dxa">'+elink+'</div>':"")+intlEd(v))+
+  (abroad()||CUR!=="NGN"?arriveCard():"")+
+  (trv?sec("Getting there from "+esc(NEAR.name||"you"),trv,"dxtrv"):"")+
+  sec("About this event",about?'<div class="dxcard">'+about+'</div>':"")+adm+
+  (v.online?'<div class="websafe" role="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>'+WEBSAFE+'</span></div>':sec("Plan your visit",'<div class="dxg">'+tools+'</div>'))+
+  sec("",stq.replace(/<\/div><\/div>$/,'</div><div class="stqf"><button class="dxcr" data-a="corr" data-id="'+v.id+'">'+(v.online?"Report this webinar":"Report a correction")+'</button></div></div>'),"dxstq")+
+  '<p class="dxnote">Dates and venues can change. Check with the organiser before you travel.</p></div>'+dbar(v,q)}
 
 
 
