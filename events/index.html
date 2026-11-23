@@ -3052,7 +3052,7 @@ function glInit(){try{
  GL.touchZoomRotate.disableRotation();GL.keyboard.disableRotation&&GL.keyboard.disableRotation();
  GL.scrollZoom.setWheelZoomRate(1/300);GL.scrollZoom.setZoomRate(1/120);
  GL.addControl(new maplibregl.NavigationControl({showCompass:false}),"bottom-right");
- GL.addControl(new maplibregl.AttributionControl({compact:true}),"bottom-left");
+ GL.addControl(new maplibregl.AttributionControl({compact:true}),"bottom-right");
  GL.on("load",()=>{clearTimeout(GLto);GLst=2;GLerr=0;glLayers();glEvents();glAttach(1)});
  GL.on("style.load",()=>{if(GLst===2){glLayers();glData(GLdata)}});
  GL.on("error",e=>{GLerr++;if(GLst===1&&GLerr>3)glFail()});
