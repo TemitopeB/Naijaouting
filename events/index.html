@@ -2008,6 +2008,17 @@ html:not(.app) .evpan .eh .seg{max-width:100%;overflow-x:auto;scrollbar-width:no
 :root:root .tgrid .tfd b{font-size:12.5px!important}
 :root:root .tci .tdist{right:8px;bottom:8px;height:21px;padding:0 7px;gap:4px;font-size:10.5px;box-shadow:0 1px 6px rgba(0,0,0,.22)}
 :root:root .tci .tdist svg{width:11px;height:11px}
+
+.trv{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border-top:1px solid var(--ln)}
+.trvh{font-size:13px;color:var(--mu);font-weight:600}
+.trvr{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.4}
+.trvr>span:last-child{display:flex;flex-direction:column;gap:1px;min-width:0}
+.trvr b{font-weight:600;color:var(--tx)}
+.trvr span span{color:var(--mu)}
+.trvr a{color:var(--ac);font-weight:600}
+.trvi{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--acs);color:var(--ac)}
+.trvi svg{width:15px;height:15px}
+.trvn{font-size:12px;color:var(--mu2)}
 </style>
 </head>
 <body>
@@ -3622,6 +3633,33 @@ function drvMin(d,a,b){const za=tzone(a),zb=tzone(b);
  const r=d*1.3;let m=r/(r<40?35:r<120?55:70)*60;
  [za,zb].forEach(z=>{m+=z==="lagos"?40:z?15:0});return [m,"drive"]}
 function drv(d,a,b){const x=drvMin(d,a,b);return "~"+hm(x[0])+" "+x[1]}
+
+/* ways to get there, shown on the event page. Car time is an estimate; bus is a rule of thumb; trains are only listed on
+   routes NRC runs, with its official booking sites (no times or fares guessed); flights only between cities with airports,
+   with flight time worked out from distance plus a fixed allowance for airport travel and check-in. */
+const AIRP=[["LOS","Lagos",6.5774,3.3212],["ABV","Abuja",9.0068,7.2632],["PHC","Port Harcourt",5.0155,6.9496],["KAN","Kano",12.0476,8.5246],["ENU","Enugu",6.4743,7.5620],
+ ["QOW","Owerri",5.4271,7.2060],["BNI","Benin",6.3170,5.5995],["CBQ","Calabar",4.9760,8.3472],["QUO","Uyo",4.8725,8.0930],["ABB","Asaba",6.2042,6.6653],["QRW","Warri",5.5961,5.8181],
+ ["KAD","Kaduna",10.6960,7.3201],["JOS","Jos",9.6398,8.8691],["ILR","Ilorin",8.4402,4.4939],["SKO","Sokoto",12.9163,5.2072],["MIU","Maiduguri",11.8553,13.0809],["YOL","Yola",9.2576,12.4304],
+ ["GMO","Gombe",10.2984,10.8964],["BCU","Bauchi",10.4829,9.7440],["AKR","Akure",7.2467,5.3010],["IBA","Ibadan",7.3624,3.9783]];
+function nearAir(p){let b=null;for(const a of AIRP){const d=km(p[0],p[1],a[2],a[3]);if(d<80&&(!b||d<b[1]))b=[a,d]}return b&&b[0]}
+const nearPt=(p,la,lo,r)=>km(p[0],p[1],la,lo)<r;
+const TRAINS=[{n:"Lagos–Ibadan",a:p=>tzone(p)==="lagos",b:p=>tzone(p)==="ibadan",st:["Mobolaji Johnson Station, Ebute Metta","Obafemi Awolowo Station, Moniya"],url:"https://nrc.gsds.ng"},
+ {n:"Abuja–Kaduna",a:p=>tzone(p)==="abuja",b:p=>tzone(p)==="kaduna",st:["Idu Station, Abuja","Rigasa Station, Kaduna"],url:"https://nrc.tps.ng"},
+ {n:"Warri–Itakpe",a:p=>nearPt(p,5.517,5.750,35),b:p=>nearPt(p,7.62,6.30,45),st:["Warri","Itakpe"],url:"https://nrc-fane.ng"},
+ {n:"Port Harcourt–Aba",a:p=>tzone(p)==="ph",b:p=>nearPt(p,5.107,7.367,20),st:["Port Harcourt","Aba"],url:""}];
+const BUSSVG='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3.5" width="16" height="14" rx="2.5"/><path d="M4 11h16M8 17.5V20M16 17.5V20"/><circle cx="8" cy="14.3" r=".7"/><circle cx="16" cy="14.3" r=".7"/></svg>',
+ TRNSVG='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 10h14M8 21l2-4M16 21l-2-4"/><circle cx="9" cy="13.5" r=".7"/><circle cx="15" cy="13.5" r=".7"/></svg>',
+ AIRSVG='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 13.5L3 11l1.5-1.5 7.5 1L17 5.5a1.8 1.8 0 012.5 2.5L14.5 13l1 7.5L14 22l-2.5-7.5-3 3V20l-1.5 1-1-3-3-1 1-1.5h2.5z"/></svg>';
+function travelBlock(v){if(v.online||!NEAR)return "";const l=evLL(v);if(!l)return "";const a=[NEAR.lat,NEAR.lon],b=[l[0],l[1]],d=km(a[0],a[1],b[0],b[1]);if(d<1.2)return "";
+ const x=drvMin(d,a,b),za=tzone(a),zb=tzone(b),rows=[];
+ rows.push([CARSVG,"By car or taxi","~"+hm(x[0])+(za&&za===zb?" in normal traffic":"")]);
+ if(za&&za===zb&&["lagos","abuja","ph"].includes(za)&&x[0]>=15)rows.push([BUSSVG,za==="lagos"?"By danfo, BRT or keke":"By bus or keke","allow ~"+hm(x[0]*1.5)+", with stops and changes"]);
+ for(const t of TRAINS){const fw=t.a(a)&&t.b(b),bw=t.b(a)&&t.a(b);if(!fw&&!bw)continue;const st=fw?t.st:[t.st[1],t.st[0]];
+  rows.push([TRNSVG,"By train ("+t.n+")",esc(st[0])+" → "+esc(st[1])+". "+(t.url?'<a href="'+t.url+'" target="_blank" rel="noopener">Check times and book on the official NRC site ↗</a>':"Check times with NRC at the station.")])}
+ const pa=nearAir(a),pb=nearAir(b);
+ if(pa&&pb&&pa[0]!==pb[0]&&x[0]>=300){const fd2=km(pa[2],pa[3],pb[2],pb[3]),fm=Math.round((25+fd2/750*60)/5)*5;
+  rows.push([AIRSVG,"By air","~"+hm(fm)+" flight, "+esc(pa[1])+" ("+pa[0]+") → "+esc(pb[1])+" ("+pb[0]+"). About "+hm(fm+150)+" door to door with airport time and check-in."])}
+ return '<div class="trv"><b class="trvh">Getting there from '+esc(NEAR.name||"you")+'</b>'+rows.map(r=>'<div class="trvr"><span class="trvi">'+r[0]+'</span><span><b>'+r[1]+'</b><span>'+r[2]+'</span></span></div>').join("")+'<span class="trvn">Estimates. Check live traffic, train times and flights before you go.</span></div>'}
 /* on cards: rough travel time (people plan by time, not km); the km is kept in the tooltip and on the event page */
 function distTxt(v){const d=evKm(v);if(d==null)return "";const l=evLL(v);return drv(d,[NEAR.lat,NEAR.lon],[l[0],l[1]])}
 function distKm(v){const d=evKm(v);if(d==null)return "";return (evLL(v)[2]==="v"?"":"≈")+fk(d)+" away"}
@@ -4224,7 +4262,7 @@ function drawerHTML(v,q,d1,d2){
  const ven=!v.venue&&ADMIN&&DB&&/^[br]/.test(v.id)?'<span class="vedit"><input data-vin="'+v.id+'" placeholder="Add the venue" aria-label="Venue for '+esc(v.name)+'" autocomplete="off"><button class="btn p" data-a="vsave" data-id="'+v.id+'">Save</button></span>':'<b>'+esc(v.venue||"Venue to be confirmed")+'</b>';
  const place=[v.city,v.state&&v.state!==v.city&&v.state!=="FCT"?v.state+" State":v.state==="FCT"?"FCT":""].filter(Boolean).join(", ")+(NEAR&&evKm(v)!=null?" · "+(evLL(v)[2]==="v"?"":"≈")+fk(evKm(v))+" away":"");
  const facts='<div class="dxf"><div class="dxr"><span class="dxi">'+DXI.cal+'</span><span class="dxs"><b>'+fd(v.s,v.e)+'</b>'+(v.time?'<span>'+esc(v.time)+(v.online&&!/WAT|lagos/i.test(v.time)?" (Lagos time)":"")+'</span>':"")+tzBlock(v)+'</span><a class="dxl" target="_blank" rel="noopener" href="'+esc(calUrl(v,d1,d2))+'">Add to calendar</a></div>'+
-  (v.online?'<div class="dxr"><span class="dxi">'+ONLSVG.replace('width="14" height="14"','width="18" height="18"')+'</span><span class="dxs"><b>Online · '+esc(v.plat||"Webinar")+'</b><span>The join link usually comes after you register on the official page.</span></span></div></div>':'<div class="dxr"><span class="dxi">'+DXI.pin+'</span><span class="dxs">'+ven+'<span>'+esc(place)+'</span></span><a class="dxl" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+q+'">Map</a></div></div>');
+  (v.online?'<div class="dxr"><span class="dxi">'+ONLSVG.replace('width="14" height="14"','width="18" height="18"')+'</span><span class="dxs"><b>Online · '+esc(v.plat||"Webinar")+'</b><span>The join link usually comes after you register on the official page.</span></span></div></div>':'<div class="dxr"><span class="dxi">'+DXI.pin+'</span><span class="dxs">'+ven+'<span>'+esc(place)+'</span></span><a class="dxl" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+q+'">Map</a></div>'+travelBlock(v)+'</div>');
  const g=igOf(v),src=g?'<a class="dxsrc" href="'+esc(safeUrl(g[1])||("https://www.instagram.com/"+encodeURIComponent(g[0]||"")+"/"))+'" target="_blank" rel="noopener">'+(v.img?"Flyer from ":"Source: ")+(g[0]?"@"+esc(g[0])+" on Instagram":"Instagram post")+' '+DXI.ext+'</a>':"";
  const adm=ADMIN&&DB&&/^[br]/.test(v.id)?'<div class="adm"><span>Owner tools</span><button class="btn" data-a="aedit" data-id="'+v.id+'">Edit</button><button class="btn" data-a="adel" data-id="'+v.id+'">Remove</button></div><div class="adm stadm"><span>Live status</span>'+Object.keys(STX).map(k=>'<button class="btn'+((stOf(v)||{}).st===k?" p":"")+'" data-a="ast" data-v="'+k+'" data-id="'+v.id+'">'+STX[k][0].replace("✓ ","")+'</button>').join("")+(stOf(v)?'<button class="btn g" data-a="ast" data-v="" data-id="'+v.id+'">Clear</button>':"")+'<input id="stnote" placeholder="Note for everyone (optional)" aria-label="Status note" value="'+esc((stOf(v)||{}).note||"")+'"></div>':"";
  const acts='<div class="dxa">'+'<button class="dxp'+(TRIP.includes(v.id)?" on":"")+'" data-a="trip" data-id="'+v.id+'">'+(TRIP.includes(v.id)?DXI.chk+"In my trip":DXI.plus+"Add to trip")+'</button>'+(v.link&&!(access(v).l||[]).some(x=>x[1]===v.link)?'<a class="dxp" target="_blank" rel="noopener" href="'+esc(safeUrl(v.link))+'">'+(v.online?"Register on the official page ":"Event link ")+DXI.ext+'</a>':"")+'</div>';
