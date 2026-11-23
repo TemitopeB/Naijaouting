@@ -2105,6 +2105,12 @@ html.app .strip4>*:nth-child(-n+2){border-top-color:transparent!important}
 .mapbox.glon>.glb{z-index:1}
 .mapbox.glon>.mtop,.mapbox.glon>.lgd,.mapbox.glon>.legend,.mapbox.glon>.nhint{z-index:3}
 .mapbox.glon{background:var(--pn2)}
+/* while the street map is loading, keep the old drawn map hidden and show a quiet placeholder */
+.mapbox.glwait{background:var(--pn2)}
+.mapbox.glwait>svg,.mapbox.glwait>.zctl,.mapbox.glwait>.ctl,.mapbox.glwait .glattr{visibility:hidden!important}
+.mapbox.glwait::after{content:"Loading map…";position:absolute;inset:0;z-index:2;display:grid;place-items:center;color:var(--mu);font-size:13px;font-weight:500;pointer-events:none;background:linear-gradient(100deg,transparent 30%,rgba(127,127,127,.08) 50%,transparent 70%) 0 0/250% 100%;animation:glsh 1.4s linear infinite;border-radius:inherit}
+@keyframes glsh{to{background-position:-250% 0}}
+@media (prefers-reduced-motion:reduce){.mapbox.glwait::after{animation:none}}
 .glb .maplibregl-ctrl-group{border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.18)}
 .glb .maplibregl-ctrl-group button{width:36px;height:36px}
 .glb .maplibregl-ctrl-attrib{font-size:10px}
@@ -3001,7 +3007,7 @@ function glLoad(){if(GLst)return;GLst=1;
  const c=document.createElement("link");c.rel="stylesheet";c.href="https://cdn.jsdelivr.net/npm/maplibre-gl@"+GLV+"/dist/maplibre-gl.css";document.head.appendChild(c);
  const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/maplibre-gl@"+GLV+"/dist/maplibre-gl.js";sc.async=true;sc.onload=glInit;sc.onerror=()=>glFail();document.head.appendChild(sc);
  GLto=setTimeout(()=>{if(GLst===1&&!window.maplibregl)glFail()},40000)}
-function glFail(){GLst=-1;clearTimeout(GLto);document.querySelectorAll(".mapbox.glon").forEach(b=>b.classList.remove("glon"));if(GLel)GLel.remove()}
+function glFail(){GLst=-1;clearTimeout(GLto);document.querySelectorAll(".mapbox.glon,.mapbox.glwait").forEach(b=>b.classList.remove("glon","glwait"));if(GLel)GLel.remove()}
 const GLFC=f=>({type:"FeatureCollection",features:f});
 function glLayers(){if(!GL||!GL.isStyleLoaded()||GL.getLayer("pt"))return;["area","route","pts","fix"].forEach(id=>{if(GL.getLayer(id+"-x"))return});["area-f","area-l","route","cl","cl-n","pt-halo","pt-ring","pt","pt-n","pt-lab","fx-halo","fx-ring","fx","fx-n","fx-lab"].forEach(id=>{if(GL.getLayer(id))GL.removeLayer(id)});["area","route","pts","fix"].forEach(id=>{if(GL.getSource(id))GL.removeSource(id)});const F=["Noto Sans Bold"];
  GL.addSource("area",{type:"geojson",data:GLFC([])});
@@ -3085,15 +3091,17 @@ function glData(sc){GLdata=sc;if(!GL||!GL.getSource("pts")||!sc)return;
  const gp=glGroup(sc.pts);GL.getSource("pts").setData(GLFC(sc.cluster?gp:[]));GL.getSource("fix").setData(GLFC(sc.cluster?sc.fix:sc.fix.concat(gp)));
  GL.getSource("area").setData(GLFC(sc.area));GL.getSource("route").setData(GLFC(sc.route))}
 function glAttach(first){const box=document.querySelector("#view .mapbox");if(!box)return;const svg=box.querySelector(":scope>svg");if(!svg)return;
+ if(GLst!==-1&&GLst!==2)box.classList.add("glwait");
  if(GLst===0){glLoad();return}if(GLst!==2||!GL)return;
- const sc=glScene();if(!sc){box.classList.remove("glon");return}
+ const sc=glScene();if(!sc){box.classList.remove("glon","glwait");return}
  if(GLel.parentNode!==box){box.insertBefore(GLel,box.firstChild);if(GLpop)GLpop.remove()}
- box.classList.add("glon");
+ box.classList.add("glon");box.classList.remove("glwait");
  const th=glTheme();if(th!==GLth){GLth=th;GL.setStyle(GLSTY[th],{diff:false});let n=0;const iv=setInterval(()=>{n++;if(GL.isStyleLoaded()&&!GL.getLayer("pt")){try{glLayers();glData(GLdata)}catch(e){}}if(GL.getLayer("pt")||n>60)clearInterval(iv)},300)}
  GL.resize();glData(sc);
  if(first||sc.key!==GLkey){const anim=!first&&GLkey.split("|")[0]===sc.key.split("|")[0];GLkey=sc.key;glView(sc.fit,anim)}}
 addEventListener("resize",()=>{if(GLst===2)GL.resize()});
 addEventListener("online",()=>{if(GLst===-1){GLst=0;GLerr=0;glAttach()}});
+addEventListener("load",()=>{try{const c=navigator.connection;if(c&&(c.saveData||/2g/.test(c.effectiveType||"")))return}catch(e){}setTimeout(()=>{if(GLst)return;["maplibre-gl.js","maplibre-gl.css"].forEach(f=>fetch("https://cdn.jsdelivr.net/npm/maplibre-gl@"+GLV+"/dist/"+f,{mode:"cors",credentials:"omit"}).catch(()=>{}))},5000)});
 /* district names for the zoomed-in map come from the Near me list (AREAS: [name, lat, lng]) */
 function mapAreas(zc){try{const g=AREAS.find(x=>x[0]===zc);return g?g[1]:[]}catch(e){return []}}
 /* is this event part of the city the map is zoomed into? (same rule the map uses) */
@@ -3611,10 +3619,10 @@ function quizView(){let h='<div class="page"><div class="qz">';
 
 /* ---------- tourism data ---------- */
 /* Pins are placed at approximate coordinates. Facts are general knowledge plus the sources named in the Visitor guide. */
-const TCAT={"Wildlife & Parks":["#22A35A","#0B3D22"],"Waterfalls & Springs":["#2E9BD6","#0B3550"],"Hills & Rocks":["#B7791F","#4A2E07"],"Beaches & Lakes":["#14B8A6","#064B46"],"Heritage & History":["#C2410C","#4A1806"],"Museums & Art":["#8B5CF6","#2E1A63"],"Faith & Landmarks":["#E0A526","#4D3505"],"City & Leisure":["#EC4899","#4A1238"]};
-const TICO={"Wildlife & Parks":'<path d="M12 3c3 3 5 6 5 9a5 5 0 0 1-10 0c0-3 2-6 5-9z"/><path d="M12 12v9"/>',"Waterfalls & Springs":'<path d="M4 4h16M7 4v6c0 3 2 4 2 7M12 4v13M17 4v6c0 3-2 4-2 7M5 21h14"/>',"Hills & Rocks":'<path d="M2 20l7-12 4 6 3-4 6 10z"/>',"Beaches & Lakes":'<path d="M2 18c2 0 2-1.5 4-1.5S8 18 10 18s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M17 4a4 4 0 1 1 0 8"/>',"Heritage & History":'<path d="M3 21h18M5 21V9M19 21V9M9 21v-6h6v6M2 9l10-6 10 6z"/>',"Museums & Art":'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.6"/>',"Faith & Landmarks":'<path d="M12 2v4M10 4h4M6 21V11l6-5 6 5v10M10 21v-5h4v5"/>',"City & Leisure":'<path d="M4 21V10l4-3v14M10 21V4l6 3v14M18 21v-9l3 2v7M2 21h20"/>'};
+const TCAT={"Wildlife & Parks":["#22A35A","#0B3D22"],"Waterfalls & Springs":["#2E9BD6","#0B3550"],"Hills & Rocks":["#B7791F","#4A2E07"],"Beaches & Lakes":["#14B8A6","#064B46"],"Heritage & History":["#C2410C","#4A1806"],"Museums & Art":["#8B5CF6","#2E1A63"],"Faith & Landmarks":["#E0A526","#4D3505"],"City & Leisure":["#EC4899","#4A1238"],"Amusement & Water Parks":["#DC2626","#4C0A0A"]};
+const TICO={"Wildlife & Parks":'<path d="M12 3c3 3 5 6 5 9a5 5 0 0 1-10 0c0-3 2-6 5-9z"/><path d="M12 12v9"/>',"Waterfalls & Springs":'<path d="M4 4h16M7 4v6c0 3 2 4 2 7M12 4v13M17 4v6c0 3-2 4-2 7M5 21h14"/>',"Hills & Rocks":'<path d="M2 20l7-12 4 6 3-4 6 10z"/>',"Beaches & Lakes":'<path d="M2 18c2 0 2-1.5 4-1.5S8 18 10 18s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M17 4a4 4 0 1 1 0 8"/>',"Heritage & History":'<path d="M3 21h18M5 21V9M19 21V9M9 21v-6h6v6M2 9l10-6 10 6z"/>',"Museums & Art":'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.6"/>',"Faith & Landmarks":'<path d="M12 2v4M10 4h4M6 21V11l6-5 6 5v10M10 21v-5h4v5"/>',"City & Leisure":'<path d="M4 21V10l4-3v14M10 21V4l6 3v14M18 21v-9l3 2v7M2 21h20"/>',"Amusement & Water Parks":'<circle cx="12" cy="10" r="7"/><path d="M12 3v14M5 10h14M7 5l10 10M17 5L7 15M8 21l4-4 4 4M6 21h12"/>'};
 const tico=(c,sz)=>'<svg width="'+(sz||16)+'" height="'+(sz||16)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(TICO[c]||TICO["City & Leisure"])+'</svg>';
-const BEST={"Wildlife & Parks":"Dry season, December to April, when animals gather near water.","Waterfalls & Springs":"Rainy season (June to October) for the strongest flow; dry season for easier paths.","Hills & Rocks":"November to February, when it is cooler and dry. Go early in the morning.","Beaches & Lakes":"November to March, outside the rainy season.","Heritage & History":"All year. Mornings are cooler.","Museums & Art":"All year. Check opening days before you go.","Faith & Landmarks":"All year. Visits may pause during services and prayers.","City & Leisure":"All year. Weekends are busiest."};
+const BEST={"Wildlife & Parks":"Dry season, December to April, when animals gather near water.","Waterfalls & Springs":"Rainy season (June to October) for the strongest flow; dry season for easier paths.","Hills & Rocks":"November to February, when it is cooler and dry. Go early in the morning.","Beaches & Lakes":"November to March, outside the rainy season.","Heritage & History":"All year. Mornings are cooler.","Museums & Art":"All year. Check opening days before you go.","Faith & Landmarks":"All year. Visits may pause during services and prayers.","City & Leisure":"All year. Weekends are busiest.","Amusement & Water Parks":"All year. Weekday mornings are quietest; weekends and holidays are busiest."};
 /* [id, name, category, state, town, lat, lon, about, tip, flags]  flags: u = UNESCO World Heritage Site */
 const PRAW=[
 ["lcc","Lekki Conservation Centre","Wildlife & Parks","Lagos","Lekki",6.4425,3.5357,"A protected wetland in the city with boardwalks, monkeys, birds and a long canopy walkway above the trees.","Wear flat shoes. The canopy walkway is not for anyone afraid of heights."],
@@ -3696,7 +3704,7 @@ const PRAW=[
 ["boro","Isaac Boro Park","City & Leisure","Rivers","Port Harcourt",4.7860,7.0060,"Park named after the activist Isaac Adaka Boro, used for events and walks.","See the Events map for events in Port Harcourt."],
 ["oxbow","Oxbow Lake","Beaches & Lakes","Bayelsa","Yenagoa",4.9200,6.3300,"Lake and park in Yenagoa used for festivals and boat rides.","Pleasant at sunset."]
 ];
-const PL=PRAW.map(a=>({id:a[0],name:a[1],cat:a[2],state:a[3],town:a[4],lat:a[5],lon:a[6],about:a[7],tip:a[8],u:a[9]==="u"}));
+const PL=PRAW.map(a=>({id:a[0],name:a[1],cat:a[2],state:a[3],town:a[4],lat:a[5],lon:a[6],about:a[7],tip:a[8],u:a[9]==="u",src:a[10]||null}));
 /* UK Foreign Office travel advice as reported on 16 Oct 2026 */
 const UKADV={all:["Borno","Yobe","Adamawa","Gombe","Katsina","Zamfara","Sokoto"],ess:["Bauchi","Kaduna","Kano","Kebbi","Niger","Kogi","Plateau","Taraba","Benue","Kwara","Jigawa","Abia","Anambra","Imo"],riv:["Rivers","Delta","Cross River"]};
 function adv(st){return UKADV.all.includes(st)?["all","UK: against all travel"]:UKADV.ess.includes(st)?["ess","UK: essential travel only"]:UKADV.riv.includes(st)?["riv","UK: avoid riverine areas"]:null}
@@ -3714,7 +3722,7 @@ function dist(p){if(!T.base)return null;const b=BASES[T.base];return Math.round(
 function nearestAir(p){return AIRPORTS.map(a=>[a[0],Math.round(km(a[1],a[2],p.lat,p.lon))]).sort((x,y)=>x[1]-y[1])[0]}
 function tlist(){const q=S.q.toLowerCase();let L=PL.filter(p=>(T.cat==="All"||p.cat===T.cat)&&(T.zone==="All"||ZONEOF(p.state)===T.zone)&&(!T.unesco||p.u)&&(!T.hide||!adv(p.state)||adv(p.state)[0]==="riv")&&(T.list==="all"||BL[p.id]===T.list)&&(!q||(p.name+" "+p.town+" "+p.state+" "+p.cat+" "+p.about).toLowerCase().includes(q)));
  return T.base?L.sort((a,b)=>dist(a)-dist(b)):L.sort((a,b)=>a.name<b.name?-1:1)}
-function tbadges(p){const a=adv(p.state);return (p.u?'<span class="tag" style="background:rgba(224,165,38,.18);color:var(--gold)">★ UNESCO World Heritage</span>':"")+(BL[p.id]==="been"?'<span class="tag ok">✓ Been there</span>':BL[p.id]==="want"?'<span class="tag fv">♥ Want to go</span>':"")+(/Closed|suspended/i.test(p.tip)?'<span class="tag wn">Check status</span>':"")+(a?'<span class="tag '+(a[0]==="all"?"bad":"wn")+'">'+a[1]+'</span>':"")}
+function tbadges(p){const a=adv(p.state);return (p.u?'<span class="tag" style="background:rgba(224,165,38,.18);color:var(--gold)">★ UNESCO World Heritage</span>':"")+(BL[p.id]==="been"?'<span class="tag ok">✓ Been there</span>':BL[p.id]==="want"?'<span class="tag fv">♥ Want to go</span>':"")+(/Closed|suspended|not confirmed|under construction/i.test(p.tip)?'<span class="tag wn">Check status</span>':"")+(a?'<span class="tag '+(a[0]==="all"?"bad":"wn")+'">'+a[1]+'</span>':"")}
 function prow(p){const d=dist(p);return '<button class="ev'+(T.sel===p.id?" on":"")+'" data-a="psel" data-id="'+p.id+'"><div class="thumb" style="width:72px;height:72px;background:'+tgrad(p.cat)+'">'+tico(p.cat,28)+'</div><div class="bd"><span class="nm">'+esc(p.name)+'</span><span class="meta">'+SV.pin+esc(p.town)+", "+esc(dn(p.state))+(d!=null?' · <b style="color:var(--tx)">'+d.toLocaleString("en-NG")+' km</b>':"")+'</span><span><span class="tag" style="background:'+tcc(p.cat)[0]+'22;color:'+tcc(p.cat)[0]+'">'+tico(p.cat,11)+esc(p.cat)+'</span>'+tbadges(p)+'</span></div></button>'}
 function tmap(L){const b=L.map(p=>{const q=P(p.lon,p.lat),on=T.sel===p.id,c=tcc(p.cat)[0];return '<g data-a="psel" data-id="'+p.id+'" style="cursor:pointer" tabindex="0" role="button" aria-label="'+esc(p.name)+'"><title>'+esc(p.name)+'</title>'+(on?'<circle cx="'+q[0]+'" cy="'+q[1]+'" r="17" fill="'+c+'" opacity=".3"/>':"")+(p.u?'<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+(on?13:10)+'" fill="none" stroke="var(--gold)" stroke-width="2.5"/>':"")+'<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+(on?9:6.5)+'" fill="'+c+'" stroke="#fff" stroke-width="2"/>'+(on?'<text x="'+(q[0]+15)+'" y="'+(q[1]+5)+'" font-size="14" font-weight="800" font-family="Plus Jakarta Sans,sans-serif" fill="var(--tx)" stroke="var(--wt)" stroke-width="3.5" paint-order="stroke">'+esc(p.name)+'</text>':"")+'</g>'}).join("");
  const bs=T.base?(()=>{const q=P(BASES[T.base][1],BASES[T.base][0]);return '<rect x="'+(q[0]-7)+'" y="'+(q[1]-7)+'" width="14" height="14" rx="3" fill="var(--tx)" stroke="var(--wt)" stroke-width="3"/><text x="'+(q[0]+12)+'" y="'+(q[1]-10)+'" font-size="12" font-weight="800" font-family="Plus Jakarta Sans,sans-serif" fill="var(--tx)" stroke="var(--wt)" stroke-width="3" paint-order="stroke">You: '+T.base+'</text>'})():"";
@@ -3749,7 +3757,7 @@ function placeDrawer(p){const d=dist(p),air=nearestAir(p),a=adv(p.state),ev=all(
  '<div class="act" style="margin-top:8px"><a class="btn" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent("Let’s visit "+p.name+" in "+p.town+", "+p.state+" State. Found on NaijaOuting.")+'">Share on WhatsApp</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?q='+encodeURIComponent("weather "+p.town+" Nigeria")+'">Weather</a></div>'+
  (a?'<div class="rv" style="margin-top:16px;border-color:'+(a[0]==="all"?"var(--hot)":"var(--warn)")+'"><b>'+a[1]+'</b><span class="sm">The UK Foreign Office advises '+(a[0]==="all"?"against all travel to":a[0]==="ess"?"against all but essential travel to":"avoiding the riverine areas of")+' '+esc(p.state)+' State (as reported 16 Oct 2026). Check your own government’s advice and local news before you go.</span></div>':"")+
  '<div class="h3">Best time to visit</div><p class="sm" style="margin:0">'+BEST[p.cat]+'</p>'+
- '<div class="h3">Good to know</div><p class="sm" style="margin:0">'+esc(p.tip)+'</p>'+
+ '<div class="h3">Good to know</div><p class="sm" style="margin:0">'+esc(p.tip)+'</p>'+(p.src?'<p class="sm" style="margin:8px 0 0">Source: '+p.src.map(x=>'<a href="'+esc(x[1])+'" target="_blank" rel="noopener">'+esc(x[0])+'</a>').join(", ")+'</p>':"")+
  '<div class="h3">Nearby places</div>'+near.map(n=>'<button class="pl" style="width:100%;border-left:0;border-right:0;border-top:0;background:transparent;text-align:left" data-a="popen" data-id="'+n[0].id+'"><span>'+esc(n[0].name)+'</span><span>'+n[1]+' km</span></button>').join("")+
  '<div class="h3">Events in '+esc(dn(p.state))+'</div>'+(ev.length?ev.slice(0,3).map(evRow).join(""):'<p class="sm" style="margin:0">No upcoming events listed in this state yet.</p>')+
  '<p class="sm" style="margin-top:16px">Pins are approximate. Opening hours and fees change, so confirm locally before you travel.</p></div>'}

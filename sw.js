@@ -6,7 +6,7 @@
  * - The database (Supabase) and other websites are never cached here.
  * Change VERSION to make every phone refresh its saved copy.
  */
-const VERSION = "v65";
+const VERSION = "v66";
 // Pictures keep the same saved copy across updates (their file names change when the picture changes),
 // so a new version of the site doesn't make every phone download all the pictures again.
 const SHELL = `shell-${VERSION}`, MEDIA = "media-keep-1";
@@ -47,6 +47,8 @@ self.addEventListener("fetch", e => {
   if (url.origin !== location.origin) {
     // Google Fonts can be kept; everything else from other sites (database, maps, tickets) goes straight through
     if (/fonts\.(googleapis|gstatic)\.com$/.test(url.hostname)) e.respondWith(cacheFirst(req));
+    // the street-map library: pinned version, so the saved copy never goes stale
+    else if (url.hostname === "cdn.jsdelivr.net" && /^\/npm\/maplibre-gl@\d/.test(url.pathname)) e.respondWith(cacheFirst(req));
     return;
   }
   if (url.pathname.startsWith("/admin")) return;
