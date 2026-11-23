@@ -2091,6 +2091,11 @@ select.sel:focus-visible,.md select:focus-visible,.cform select:focus-visible{ou
 
 .strip4 .card,.strip4>*{box-shadow:none!important;border-radius:0!important}
 html.app .strip4>*:nth-child(-n+2){border-top-color:transparent!important}
+
+/* active "More filters" on computers: same filled look as on phones (it was green text on green) */
+.fbar .fmore.on{background:var(--pb)!important;color:var(--pbt)!important;border-color:transparent!important}
+.fbar .fmore.on svg{color:var(--pbt)}
+.fbar .fmore.on b{background:var(--mark,#F2B233);color:#1a1200}
 </style>
 </head>
 <body>
