@@ -2097,16 +2097,25 @@ html.app .strip4>*:nth-child(-n+2){border-top-color:transparent!important}
 .fbar .fmore.on svg{color:var(--pbt)}
 .fbar .fmore.on b{background:var(--mark,#F2B233);color:#1a1200}
 
-/* street basemap under the drawn map */
+/* interactive street map */
 .mapbox{position:relative}
 .mapbox>.glb{position:absolute;inset:0;z-index:0;border-radius:inherit;overflow:hidden}
 .mapbox>svg{z-index:1}
-.mapbox.glon>svg .bm{display:none}
+.mapbox.glon>svg,.mapbox.glon>.zctl,.mapbox.glon>.ctl,.mapbox.glon .glattr{display:none!important}
+.mapbox.glon>.glb{z-index:1}
+.mapbox.glon>.mtop,.mapbox.glon>.lgd,.mapbox.glon>.legend,.mapbox.glon>.nhint{z-index:3}
 .mapbox.glon{background:var(--pn2)}
-.mapbox .glattr{position:absolute;right:8px;bottom:6px;z-index:3;padding:2px 7px;border-radius:999px;background:color-mix(in srgb,var(--pn) 82%,transparent);font-size:10px;line-height:1.5;color:var(--mu);pointer-events:auto}
-.mapbox .glattr a{color:inherit;text-decoration:none}
-.mapbox:not(.glon) .glattr{display:none}
-.mapbox .glb canvas{outline:none}
+.glb .maplibregl-ctrl-group{border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.glb .maplibregl-ctrl-group button{width:36px;height:36px}
+.glb .maplibregl-ctrl-attrib{font-size:10px}
+.gltip{position:absolute;z-index:5;transform:translate(-50%,calc(-100% - 12px));pointer-events:none;max-width:260px;padding:6px 10px;border-radius:10px;background:var(--tx);color:var(--bg);font-size:12.5px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.glpop .maplibregl-popup-content{padding:12px 12px 8px;border-radius:14px;background:var(--pn);color:var(--tx);box-shadow:0 12px 32px rgba(0,0,0,.25)}
+.glpop .maplibregl-popup-tip{border-top-color:var(--pn);border-bottom-color:var(--pn)}
+.glpop .glph{display:block;font-size:12px;color:var(--mu);margin:0 18px 6px 2px}
+.glpop button[data-a]{display:flex;align-items:center;gap:8px;width:100%;padding:7px 6px;border:0;border-radius:8px;background:none;color:var(--tx);font-size:13px;font-weight:500;text-align:left;cursor:pointer}
+.glpop button[data-a]:hover{background:var(--pn3)}
+.glpop button[data-a] i{flex:none;width:9px;height:9px;border-radius:50%}
+.glpop .maplibregl-popup-close-button{font-size:18px;color:var(--mu);right:4px;top:2px}
 </style>
 </head>
 <body>
@@ -2966,39 +2975,105 @@ function base(vb,body,label,zoom){
  '<path d="'+'M60 150 L170 260 L225 300 L240 370 L230 440 L216 490 M240 320 L330 310 L430 300 L520 230'.replace(/(-?[\d.]+) (-?[\d.]+)/g,(m,x,y)=>x+' '+(y*PF).toFixed(1))+'" fill="none" stroke="var(--road)" stroke-width="4" stroke-linecap="round" opacity=".85" vector-effect="non-scaling-stroke"/>'+caps+
  '<g font-family="Plus Jakarta Sans,sans-serif" font-size="11" letter-spacing="5" fill="var(--mu2)" opacity=".8"><text x="250" y="'+(-4*PF).toFixed(1)+'">NIGER</text><text x="530" y="'+(420*PF).toFixed(1)+'">CAMEROON</text><text x="-36" y="'+(250*PF).toFixed(1)+'" transform="rotate(-90 -36 '+(250*PF).toFixed(1)+')">BENIN</text><text x="560" y="'+(40*PF).toFixed(1)+'">CHAD</text></g><text x="160" y="'+(548*PF).toFixed(1)+'" font-family="Plus Jakarta Sans,sans-serif" font-size="13" font-style="italic" fill="var(--mu2)" opacity=".7">Gulf of Guinea</text></g>'+body+'</svg>'}
 
-/* ---------- street basemap: OpenFreeMap tiles (free, no key, no limits) under the drawn map.
-   The drawn map's pins, bubbles and labels stay on top; the basemap just follows its view.
-   If the map library or tiles can't load (offline, old phone, service down), the drawn map shows as before. ---------- */
-const GLV="4.7.1",GLSTY={light:"https://tiles.openfreemap.org/styles/positron",dark:"https://tiles.openfreemap.org/styles/dark"};
-let GL=null,GLst=0,GLel=null,GLobs=null,GLsvg=null,GLth="",GLerr=0,GLto=null;
+/* ---------- interactive street map (OpenFreeMap tiles: free, no key, no limits) ----------
+   Every map page draws its points straight onto a real street map you can drag, pinch and zoom like Google Maps.
+   Points sit at their real coordinates (venue when known, else the area or city centre). If the map library or
+   tiles can't load (offline, old phone, service down), the original drawn map shows instead. */
+const GLV="4.7.1",GLSTY={light:"https://tiles.openfreemap.org/styles/positron",dark:"https://tiles.openfreemap.org/styles/dark"},NGB=[[2.6,4.1],[14.7,13.95]];
+let GL=null,GLst=0,GLel=null,GLth="",GLerr=0,GLto=null,GLkey="",GLpop=null,GLtip=null,GLdata=null;
 function glTheme(){try{return effTheme()==="dark"?"dark":"light"}catch(e){return "light"}}
 function glLoad(){if(GLst)return;GLst=1;
  const c=document.createElement("link");c.rel="stylesheet";c.href="https://cdn.jsdelivr.net/npm/maplibre-gl@"+GLV+"/dist/maplibre-gl.css";document.head.appendChild(c);
  const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/maplibre-gl@"+GLV+"/dist/maplibre-gl.js";sc.async=true;sc.onload=glInit;sc.onerror=()=>glFail();document.head.appendChild(sc);
  GLto=setTimeout(()=>{if(GLst===1&&!window.maplibregl)glFail()},40000)}
 function glFail(){GLst=-1;clearTimeout(GLto);document.querySelectorAll(".mapbox.glon").forEach(b=>b.classList.remove("glon"));if(GLel)GLel.remove()}
+const GLFC=f=>({type:"FeatureCollection",features:f});
+function glLayers(){if(!GL||GL.getSource("pts"))return;const F=["Noto Sans Bold"];
+ GL.addSource("area",{type:"geojson",data:GLFC([])});
+ GL.addSource("route",{type:"geojson",data:GLFC([])});
+ GL.addSource("pts",{type:"geojson",data:GLFC([]),cluster:true,clusterRadius:38,clusterMaxZoom:13});
+ GL.addSource("fix",{type:"geojson",data:GLFC([])});
+ GL.addLayer({id:"area-f",type:"fill",source:"area",paint:{"fill-color":"#0B6B4C","fill-opacity":["coalesce",["get","fo"],0.05]}});
+ GL.addLayer({id:"area-l",type:"line",source:"area",paint:{"line-color":"#0B6B4C","line-width":1.2,"line-dasharray":[3,3],"line-opacity":.6}});
+ GL.addLayer({id:"route",type:"line",source:"route",layout:{"line-cap":"round","line-join":"round"},paint:{"line-color":"#E08A1E","line-width":3,"line-dasharray":[2,1.6]}});
+ GL.addLayer({id:"cl",type:"circle",source:"pts",filter:["has","point_count"],paint:{"circle-color":"#0B6B4C","circle-opacity":.92,"circle-radius":["step",["get","point_count"],13,10,16,40,20,100,24],"circle-stroke-width":2.5,"circle-stroke-color":"#fff"}});
+ GL.addLayer({id:"cl-n",type:"symbol",source:"pts",filter:["has","point_count"],layout:{"text-field":["get","point_count_abbreviated"],"text-font":F,"text-size":12,"text-allow-overlap":true},paint:{"text-color":"#fff"}});
+ const R=(a,b,c)=>["interpolate",["linear"],["zoom"],5,a,10,b,15,c];
+ [["pts","pt",["!",["has","point_count"]]],["fix","fx",["==",1,1]]].forEach(([src,id,flt])=>{
+  GL.addLayer({id:id+"-halo",type:"circle",source:src,filter:["all",flt,["==",["get","on"],1]],paint:{"circle-color":["get","c"],"circle-opacity":.28,"circle-radius":R(10,13,16)}});
+  GL.addLayer({id:id+"-ring",type:"circle",source:src,filter:["all",flt,["==",["get","u"],1]],paint:{"circle-color":"rgba(0,0,0,0)","circle-radius":R(6.5,8.5,10),"circle-stroke-width":2,"circle-stroke-color":"#E0A526"}});
+  GL.addLayer({id:id,type:"circle",source:src,filter:flt,paint:{"circle-color":["get","c"],"circle-radius":["*",["coalesce",["get","sz"],1],["case",["==",["get","on"],1],R(6,7.5,9),R(4,5.5,7)]],"circle-stroke-width":["case",["==",["get","ex"],0],1.2,1.8],"circle-stroke-color":"#fff"}});
+  GL.addLayer({id:id+"-n",type:"symbol",source:src,filter:["all",flt,["has","n"]],layout:{"text-field":["to-string",["get","n"]],"text-font":F,"text-size":11,"text-allow-overlap":true},paint:{"text-color":"#fff"}});
+  GL.addLayer({id:id+"-lab",type:"symbol",source:src,filter:["all",flt,["has","lab"]],layout:{"text-field":["get","lab"],"text-font":F,"text-size":12,"text-offset":[0,1.25],"text-anchor":"top","text-optional":true},paint:{"text-color":glTheme()==="dark"?"#F1F4F1":"#141614","text-halo-color":glTheme()==="dark"?"#141A17":"#FFFFFF","text-halo-width":1.6}})})}
+function glCircle(lat,lng,km,fo){const pts=[],n=64;for(let i=0;i<=n;i++){const a=i/n*2*Math.PI;pts.push([lng+km/(111.32*Math.cos(lat*Math.PI/180))*Math.cos(a),lat+km/110.57*Math.sin(a)])}return {type:"Feature",properties:{fo:fo},geometry:{type:"Polygon",coordinates:[pts]}}}
+const glPt=(lng,lat,p)=>({type:"Feature",properties:p,geometry:{type:"Point",coordinates:[lng,lat]}});
+/* what each map page shows: points (with the action a tap does), fixed points, areas, route, and where to look first */
+function glScene(){const v=S.view,out={pts:[],fix:[],area:[],route:[],key:v,fit:NGB,cluster:true};
+ if(v==="map"){const zc=zoomCity(),LA=list().filter(x=>!x.online),IN=[];
+  LA.forEach(e=>{const ll=evLL(e);if(!ll)return;const p=glPt(ll[1],ll[0],{id:e.id,a:"sel",c:cc(e.cat)[0],t:e.name+" · "+(e.venue||e.city),ex:ll[2]==="v"?1:0,on:S.sel===e.id?1:0});out.pts.push(p);if(zc&&inZoom(zc,e))IN.push(ll)});
+  out.key="map|"+zc;if(zc){if(IN.length)out.fit=glB(IN.map(l=>[l[1],l[0]]),.02);else if(CITY[zc])out.fit={c:[CITY[zc][0],CITY[zc][1]],z:11}}}
+ else if(v==="explore"){const cnt={};all().forEach(e=>{if(e.state)cnt[e.state]=(cnt[e.state]||0)+1});out.cluster=false;
+  STATES.forEach(x=>{const n=cnt[x[0]]||0,on=S.st===x[0];out.fix.push(glPt(x[5],x[4],Object.assign({id:x[0],a:"exp",v:x[0],c:n?"#0B6B4C":"#5B6B7E",t:dn(x[0])+(n?" · "+n+" event"+(n===1?"":"s"):""),ex:1,on:on?1:0,sz:n?1.9:1.1},n?{n:n}:{},on?{lab:dn(x[0])}:{})))});
+  out.key="explore|"+(S.st||"");const s=STATES.find(x=>x[0]===S.st);if(s)out.fit={c:[s[5],s[4]],z:7.2};}
+ else if(v==="tour"&&T.sub!=="guide"){out.cluster=false;const L=tlist();
+  L.forEach(p=>out.fix.push(glPt(p.lon,p.lat,Object.assign({id:p.id,a:"psel",c:tcc(p.cat)[0],t:p.name+" · "+p.town,ex:1,on:T.sel===p.id?1:0,u:p.u?1:0},T.sel===p.id?{lab:p.name}:{}))));
+  if(T.base&&BASES[T.base]){const b=BASES[T.base];out.fix.push(glPt(b[1],b[0],{id:"base",c:"#141614",t:"You: "+T.base,ex:1,sz:1.3,lab:"You: "+T.base}))}
+  out.key="tour|"+T.cat+T.zone+(T.base||"");if(L.length&&L.length<PL.length)out.fit=glB(L.map(p=>[p.lon,p.lat]),.3)}
+ else if(v==="near"){if(NEAR){const D=nearData(),R=N.r;
+   D.inR.forEach(x=>out.pts.push(glPt(x.ll[1],x.ll[0],{id:x.v.id,a:"open",c:cc(x.v.cat)[0],t:x.v.name+" · "+fk(x.d),ex:x.ll[2]==="v"?1:0,on:0})));
+   D.plR.slice(0,40).forEach(x=>out.fix.push(glPt(x.p.lon,x.p.lat,{id:x.p.id,a:"popen",c:tcc(x.p.cat)[0],t:x.p.name+" · "+fk(x.d),ex:1,on:0,u:1})));
+   out.fix.push(glPt(NEAR.lon,NEAR.lat,{id:"me",c:"#2F80ED",t:"You",ex:1,on:1,sz:1.4}));
+   const rings={2:[1,2],5:[2,5],10:[2,5,10],25:[5,10,25],50:[10,25,50],150:[25,50,150]}[R]||[R/2,R];
+   rings.forEach((r,i)=>out.area.push(glCircle(NEAR.lat,NEAR.lon,r,i===rings.length-1?.06:0)));
+   const c=glCircle(NEAR.lat,NEAR.lon,R*1.1,0).geometry.coordinates[0];out.fit=glB(c,0);out.key="near|"+NEAR.lat+","+NEAR.lon+"|"+R}
+  else out.key="near|none"}
+ else if(v==="trip"){out.cluster=false;const ev=tripEvents(),st=okStops(),stops=[];(st.length?st.map(x=>x.c):ev.map(e=>e.city)).forEach(c=>{if(CITY[c]&&stops[stops.length-1]!==c)stops.push(c)});
+  stops.forEach((c,i)=>out.fix.push(glPt(CITY[c][0],CITY[c][1],{id:c,c:"#0B6B4C",t:(i+1)+". "+c,ex:1,on:0,sz:2.4,n:i+1,lab:c})));
+  if(stops.length>1)out.route.push({type:"Feature",properties:{},geometry:{type:"LineString",coordinates:stops.map(c=>[CITY[c][0],CITY[c][1]])}});
+  out.key="trip|"+stops.join(">");if(stops.length>1)out.fit=glB(stops.map(c=>[CITY[c][0],CITY[c][1]]),.6);else if(stops.length)out.fit={c:[CITY[stops[0]][0],CITY[stops[0]][1]],z:10}}
+ else return null;
+ return out}
+function glB(pts,pad){let a=1e9,b=1e9,c=-1e9,d=-1e9;pts.forEach(p=>{a=Math.min(a,p[0]);b=Math.min(b,p[1]);c=Math.max(c,p[0]);d=Math.max(d,p[1])});if(c-a<.02){a-=.03;c+=.03}if(d-b<.02){b-=.03;d+=.03}return [[a-pad,b-pad],[c+pad,d+pad]]}
+function glView(fit,anim){if(!GL)return;const box=GLel&&GLel.parentNode,W=box?box.clientWidth:600,pd=Math.round(Math.min(48,W*.06));
+ if(fit&&fit.c)GL.easeTo({center:fit.c,zoom:fit.z,duration:anim?700:0});else if(fit)GL.fitBounds(fit,{padding:{top:pd+44,bottom:pd,left:pd,right:pd},duration:anim?700:0,maxZoom:15})}
 function glInit(){try{
- if(!window.maplibregl){glFail();return}
- GLel=document.createElement("div");GLel.className="glb";GLel.setAttribute("aria-hidden","true");
+ if(!window.maplibregl||(maplibregl.supported&&!maplibregl.supported())){glFail();return}
+ GLel=document.createElement("div");GLel.className="glb";
  const box=document.querySelector("#view .mapbox");if(box)box.insertBefore(GLel,box.firstChild);
  GLth=glTheme();
- GL=new maplibregl.Map({container:GLel,style:GLSTY[GLth],interactive:false,attributionControl:false,fadeDuration:0,center:[8.6,9.1],zoom:5,maxTileCacheSize:200});
- GL.on("load",()=>{clearTimeout(GLto);GLst=2;GLerr=0;glAttach()});
- GL.on("error",e=>{GLerr++;if(GLst===1&&GLerr>3)glFail();if(GLst===2&&GLerr>40&&!navigator.onLine)glFail()});
+ GL=new maplibregl.Map({container:GLel,style:GLSTY[GLth],bounds:NGB,fitBoundsOptions:{padding:20},minZoom:4.3,maxZoom:18,maxBounds:[[-6,-2],[24,20]],attributionControl:false,fadeDuration:0,dragRotate:false,pitchWithRotate:false,touchPitch:false,cooperativeGestures:false,maxTileCacheSize:300});
+ GL.touchZoomRotate.disableRotation();GL.keyboard.disableRotation&&GL.keyboard.disableRotation();
+ GL.scrollZoom.setWheelZoomRate(1/300);GL.scrollZoom.setZoomRate(1/120);
+ GL.addControl(new maplibregl.NavigationControl({showCompass:false}),"bottom-right");
+ GL.addControl(new maplibregl.AttributionControl({compact:true,customAttribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a>'}),"bottom-left");
+ GL.on("load",()=>{clearTimeout(GLto);GLst=2;GLerr=0;glLayers();glEvents();glAttach(1)});
+ GL.on("style.load",()=>{if(GLst===2){glLayers();glData(GLdata)}});
+ GL.on("error",e=>{GLerr++;if(GLst===1&&GLerr>3)glFail()});
 }catch(e){glFail()}}
-function glSync(){const svg=GLsvg;if(!GL||!svg||!svg.isConnected)return;const vb=svg.viewBox&&svg.viewBox.baseVal,W=svg.clientWidth,H=svg.clientHeight;if(!vb||!W||!H||!vb.width)return;
- const k=Math.min(W/vb.width,H/vb.height),cx=vb.x+vb.width/2,cy=vb.y+vb.height/2;
- GL.jumpTo({center:[cx/48+2.5,14-cy/PY],zoom:Math.log2(48*k*360/512)})}
-function glAttach(){const box=document.querySelector("#view .mapbox");if(!box)return;const svg=box.querySelector(":scope>svg");if(!svg)return;
+function glAct(a,id,v){const b=document.createElement("button");b.hidden=true;b.dataset.a=a;if(id)b.dataset.id=id;if(v)b.dataset.v=v;document.body.appendChild(b);b.click();b.remove()}
+function glEvents(){const tip=GLtip=document.createElement("div");tip.className="gltip";tip.hidden=true;GLel.appendChild(tip);
+ const pl=["pt","fx"];
+ GL.on("mousemove",e=>{const f=GL.queryRenderedFeatures(e.point,{layers:pl.concat(["cl"])}).filter(x=>GL.getLayer(x.layer.id));GL.getCanvas().style.cursor=f.length&&(f[0].properties.a||f[0].properties.cluster)?"pointer":"";
+  if(f.length&&f[0].properties.t){tip.textContent=f.length>1&&!f[0].properties.cluster?f.length+" here: "+f[0].properties.t+"…":f[0].properties.t;tip.hidden=false;tip.style.left=e.point.x+"px";tip.style.top=e.point.y+"px"}else tip.hidden=true});
+ GL.on("mouseout",()=>{tip.hidden=true});
+ GL.on("click","cl",e=>{const f=e.features[0];GL.getSource("pts").getClusterExpansionZoom(f.properties.cluster_id).then(z=>GL.easeTo({center:f.geometry.coordinates,zoom:Math.min(z+.2,16),duration:600})).catch(()=>{})});
+ GL.on("click",e=>{const f=GL.queryRenderedFeatures([[e.point.x-6,e.point.y-6],[e.point.x+6,e.point.y+6]],{layers:pl}).filter(x=>x.properties.a);if(!f.length)return;
+  const uniq=[];f.forEach(x=>{if(!uniq.some(u=>u.properties.id===x.properties.id))uniq.push(x)});
+  if(uniq.length===1){const p=uniq[0].properties;glAct(p.a,p.a==="exp"?"":p.id,p.v||"");return}
+  if(GLpop)GLpop.remove();
+  GLpop=new maplibregl.Popup({closeButton:true,maxWidth:"300px",offset:10,className:"glpop"}).setLngLat(uniq[0].geometry.coordinates).setHTML('<b class="glph">'+uniq.length+' here</b>'+uniq.slice(0,12).map(x=>'<button data-a="'+x.properties.a+'" data-id="'+esc(x.properties.id)+'"><i style="background:'+x.properties.c+'"></i>'+esc(x.properties.t)+'</button>').join("")+(uniq.length>12?'<span class="sm">Zoom in to see the other '+(uniq.length-12)+'.</span>':"")).addTo(GL)})}
+function glData(sc){GLdata=sc;if(!GL||!GL.getSource("pts")||!sc)return;
+ GL.getSource("pts").setData(GLFC(sc.cluster?sc.pts:[]));GL.getSource("fix").setData(GLFC(sc.cluster?sc.fix:sc.fix.concat(sc.pts)));
+ GL.getSource("area").setData(GLFC(sc.area));GL.getSource("route").setData(GLFC(sc.route))}
+function glAttach(first){const box=document.querySelector("#view .mapbox");if(!box)return;const svg=box.querySelector(":scope>svg");if(!svg)return;
  if(GLst===0){glLoad();return}if(GLst!==2||!GL)return;
- if(GLel.parentNode!==box)box.insertBefore(GLel,box.firstChild);
- if(!box.querySelector(".glattr"))box.insertAdjacentHTML("beforeend",'<span class="glattr"><a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">© OpenMapTiles</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a></span>');
+ const sc=glScene();if(!sc){box.classList.remove("glon");return}
+ if(GLel.parentNode!==box){box.insertBefore(GLel,box.firstChild);if(GLpop)GLpop.remove()}
  box.classList.add("glon");
  const th=glTheme();if(th!==GLth){GLth=th;GL.setStyle(GLSTY[th])}
- GL.resize();
- if(GLsvg!==svg){GLsvg=svg;if(GLobs)GLobs.disconnect();GLobs=new MutationObserver(glSync);GLobs.observe(svg,{attributes:true,attributeFilter:["viewBox"]})}
- glSync()}
-addEventListener("resize",()=>{if(GLst===2){GL.resize();glSync()}});
+ GL.resize();glData(sc);
+ if(first||sc.key!==GLkey){const anim=!first&&GLkey.split("|")[0]===sc.key.split("|")[0];GLkey=sc.key;glView(sc.fit,anim)}}
+addEventListener("resize",()=>{if(GLst===2)GL.resize()});
 addEventListener("online",()=>{if(GLst===-1){GLst=0;GLerr=0;glAttach()}});
 /* district names for the zoomed-in map come from the Near me list (AREAS: [name, lat, lng]) */
 function mapAreas(zc){try{const g=AREAS.find(x=>x[0]===zc);return g?g[1]:[]}catch(e){return []}}
@@ -3100,7 +3175,7 @@ function zoomCity(){return S.city!=="All"?S.city:(S.mz&&S.mz!=="All"&&CITY[S.mz]
 function hrail(L,zc){const wr=weekendRange(),pool=L.filter(v=>!isOff(v)&&(!zc||v.city===zc));let ev=pool.filter(v=>v.s<=wr[1]&&v.e>=wr[0]),t="This weekend";
  if(ev.length<3){ev=pool;t="Coming up"}ev=ev.slice(0,10);if(!ev.length)return "";
  return '<section class="hrail" aria-label="'+t+'"><div class="hrh"><h2>'+t+' <span>in '+esc(zc||"Nigeria")+'</span></h2><button class="lnk" data-a="go" data-v="events">See all</button></div><div class="hrs">'+ev.map(evCard).join("")+'</div></section>'}
-function mapView(){if(S.mz===undefined)S.mz=homeCity();const zc=zoomCity(),LA=list().filter(v=>!v.online),L=LA.filter(v=>inZoom(zc,v)),W=[["up","Upcoming"],["today","Today"],["wk","This weekend"],["n7","Next 7 days"],["mo","This month"]];
+function mapView(){if(S.mz===undefined)S.mz="";const zc=zoomCity(),LA=list().filter(v=>!v.online),L=LA.filter(v=>inZoom(zc,v)),W=[["up","Upcoming"],["today","Today"],["wk","This weekend"],["n7","Next 7 days"],["mo","This month"]];
  const cities=[...new Set(all().map(v=>v.city))].filter(c=>CITY[c]).sort(),filt=S.cat!=="All"||S.city!=="All"||S.when!=="up"||S.src||S.free||S.q;
  const wl=S.when==="date"?"on "+dlab():(W.find(w=>w[0]===S.when)||W[0])[1].toLowerCase();
  const tb='<div class="tbar">'+catRail()+'<div class="tools"><select class="sel" data-a="citysel" aria-label="City"><option value="All">All cities</option>'+cities.map(c=>'<option'+(S.city===c?" selected":"")+'>'+c+'</option>').join("")+'</select><select class="sel" data-a="whensel" aria-label="Dates">'+(S.when==="date"?'<option value="date" selected>'+dlab()+'</option>':'')+W.map(w=>'<option value="'+w[0]+'"'+(S.when===w[0]?" selected":"")+'>'+w[1]+'</option>').join("")+'</select><button class="chip'+(S.src?" on":"")+'" data-a="src" aria-pressed="'+!!S.src+'">Verified only</button><button class="chip'+(S.free?" on":"")+'" data-a="free" aria-pressed="'+!!S.free+'">Free</button>'+(filt?'<button class="lnk" data-a="clear">Clear</button>':"")+'</div></div>';
