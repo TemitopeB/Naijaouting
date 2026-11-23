@@ -3006,7 +3006,7 @@ function glLayers(){if(!GL||GL.getSource("pts"))return;const F=["Noto Sans Bold"
  GL.addLayer({id:"cl",type:"circle",source:"pts",filter:["has","point_count"],paint:{"circle-color":"#0B6B4C","circle-opacity":.92,"circle-radius":["step",["get","cnt"],13,10,16,40,20,100,24],"circle-stroke-width":2.5,"circle-stroke-color":"#fff"}});
  GL.addLayer({id:"cl-n",type:"symbol",source:"pts",filter:["has","point_count"],layout:{"text-field":["to-string",["get","cnt"]],"text-font":F,"text-size":12,"text-allow-overlap":true},paint:{"text-color":"#fff"}});
  const R=(a,b,c)=>["interpolate",["linear"],["zoom"],5,a,10,b,15,c];
- [["pts","pt",["!",["has","point_count"]]],["fix","fx",["==",1,1]]].forEach(([src,id,flt])=>{
+ [["pts","pt",["!",["has","point_count"]]],["fix","fx",["has","id"]]].forEach(([src,id,flt])=>{
   GL.addLayer({id:id+"-halo",type:"circle",source:src,filter:["all",flt,["==",["get","on"],1]],paint:{"circle-color":["get","c"],"circle-opacity":.28,"circle-radius":R(10,13,16)}});
   GL.addLayer({id:id+"-ring",type:"circle",source:src,filter:["all",flt,["==",["get","u"],1]],paint:{"circle-color":"rgba(0,0,0,0)","circle-radius":R(6.5,8.5,10),"circle-stroke-width":2,"circle-stroke-color":"#E0A526"}});
   GL.addLayer({id:id,type:"circle",source:src,filter:flt,paint:{"circle-color":["get","c"],"circle-radius":["interpolate",["linear"],["zoom"],5,["*",["coalesce",["get","sz"],1],["case",["==",["get","on"],1],6,4]],10,["*",["coalesce",["get","sz"],1],["case",["==",["get","on"],1],7.5,5.5]],15,["*",["coalesce",["get","sz"],1],["case",["==",["get","on"],1],9,7]]],"circle-stroke-width":["case",["==",["get","ex"],0],1.2,1.8],"circle-stroke-color":"#fff"}});
