@@ -2123,6 +2123,14 @@ html.app .strip4>*:nth-child(-n+2){border-top-color:transparent!important}
 .glb .maplibregl-ctrl-attrib-button{filter:var(--attrf,none)}
 [data-theme="dark"] .glb .maplibregl-ctrl-group,[data-theme="dark"] .glb .maplibregl-ctrl-attrib-button{filter:invert(.92) hue-rotate(180deg)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .glb .maplibregl-ctrl-group,:root:not([data-theme="light"]) .glb .maplibregl-ctrl-attrib-button{filter:invert(.92) hue-rotate(180deg)}}
+
+/* phones: let the browser's own pull-down-to-refresh work from the top of the page */
+html.app .view,.view{overscroll-behavior-y:auto!important;overscroll-behavior-x:contain}
+.ptr{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 6px);z-index:9000;width:40px;height:40px;margin-left:-20px;border-radius:50%;background:var(--pn);color:var(--ac);display:grid;place-items:center;box-shadow:0 4px 16px rgba(0,0,0,.2);transform:translateY(-60px);opacity:0;pointer-events:none}
+.ptr svg{transition:transform .15s}
+.ptr.go svg{transform:rotate(180deg)}
+.ptr.spin svg{animation:ptrs .8s linear infinite}
+@keyframes ptrs{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -5139,6 +5147,16 @@ function liveTick(){const t=iso(new Date());if(t!==TODAY){NOW=new Date();TODAY=t
 setInterval(liveTick,60000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)liveTick()});
 applySet();applyLayout();addEventListener("resize",()=>{if(applyLayout())render()});if(SET.home&&SET.home!=="All"&&CITY[SET.home])S.city=SET.home;
 deepLink();render();bkInit();tkPause(!!SET.rm);tkShow(true);tkArm();
+
+/* pull down to refresh, for iPhones and the installed app (where the browser doesn't offer it inside the app's scrolling page) */
+(function(){const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1),sa=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;if(!(ios||sa))return;
+ let y0=null,d=0,v=null,ind=null;const TH=120;
+ const mk=()=>{if(ind)return ind;ind=document.createElement("div");ind.className="ptr";ind.setAttribute("aria-hidden","true");ind.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>';document.body.appendChild(ind);return ind};
+ const hide=()=>{if(ind){ind.style.transition="transform .2s,opacity .2s";ind.style.transform="translateY(-60px)";ind.style.opacity="0";ind.classList.remove("go")}y0=null;d=0};
+ document.addEventListener("touchstart",e=>{y0=null;if(e.touches.length!==1)return;const t=e.target;v=t.closest&&t.closest(".view");if(!v||v.scrollTop>2||t.closest(".mapbox,#drawer,.dr,.md,.fsheet,[role=dialog],input,textarea,select"))return;if(S.open||S.place||S.fs)return;y0=e.touches[0].clientY;d=0},{passive:true});
+ document.addEventListener("touchmove",e=>{if(y0===null)return;d=e.touches[0].clientY-y0;if(d<=0||v.scrollTop>2){hide();return}const el=mk(),p=Math.min(d*.5,90);el.style.transition="none";el.style.transform="translateY("+(p-10)+"px)";el.style.opacity=Math.min(1,d/60);el.classList.toggle("go",d>TH)},{passive:true});
+ document.addEventListener("touchend",()=>{if(y0===null)return;if(d>TH&&ind){ind.classList.remove("go");ind.classList.add("spin");ind.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>';location.reload()}else hide()},{passive:true});
+})();
 
 </script>
 <script src="/js/account.js"></script>
