@@ -1638,6 +1638,7 @@ html.installed [data-install]{display:none!important}
 
 /* Tourism panel: tidy layout */
 .tz-tph h1{margin:0;font-size:28px}.tz-tph p{margin:4px 0 0}
+.tz-tq{margin:0 0 14px}.tz-tq:focus-within{border-color:var(--ac,var(--tx))}
 .tz-tseg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin:16px 0 14px;border-radius:14px;background:var(--pn2,var(--bg2));border:1px solid var(--ln)}
 .tz-tseg button{height:38px;border:0;border-radius:10px;background:transparent;color:var(--mu);font:600 14px var(--fd,inherit);cursor:pointer}
 .tz-tseg button.on{background:var(--pn);color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.08)}
@@ -3914,19 +3915,24 @@ const AIRPORTS=[["Lagos (LOS)",6.5774,3.3212],["Abuja (ABV)",9.0068,7.2632],["Po
 const km=(a,b,c,d)=>{const r=Math.PI/180,x=Math.sin((c-a)*r/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin((d-b)*r/2)**2;return 6371*2*Math.asin(Math.sqrt(x))};
 let BL={};try{BL=JSON.parse(localStorage.getItem("ne_bl")||"{}")}catch(x){}
 function saveBL(){try{localStorage.setItem("ne_bl",JSON.stringify(BL))}catch(x){}}
-let T={sub:"places",cat:"All",zone:"All",unesco:0,hide:0,base:"",sel:null,list:"all"};
+let T={sub:"places",cat:"All",zone:"All",unesco:0,hide:0,base:"",sel:null,list:"all",q:""};
 try{const b=localStorage.getItem("ne_base");if(b&&BASES[b])T.base=b}catch(x){}
 const tcc=c=>TCAT[c]||["#64748B","#1E293B"];
 const tgrad=c=>"linear-gradient(135deg,"+tcc(c)[1]+" 0%,"+tcc(c)[0]+" 100%)";
 function dist(p){if(!T.base)return null;const b=BASES[T.base];return Math.round(km(b[0],b[1],p.lat,p.lon))}
 function nearestAir(p){return AIRPORTS.map(a=>[a[0],Math.round(km(a[1],a[2],p.lat,p.lon))]).sort((x,y)=>x[1]-y[1])[0]}
-function tlist(){const q=S.q.toLowerCase();let L=PL.filter(p=>(T.cat==="All"||p.cat===T.cat)&&(T.zone==="All"||ZONEOF(p.state)===T.zone)&&(!T.unesco||p.u)&&(!T.hide||!adv(p.state)||adv(p.state)[0]==="riv")&&(T.list==="all"||BL[p.id]===T.list)&&(!q||(p.name+" "+p.town+" "+p.state+" "+p.cat+" "+p.about).toLowerCase().includes(q)));
+const tnorm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/['’`]/g,"").replace(/[^a-z0-9]+/g," ").trim();
+function tlist(){const q=S.q.toLowerCase(),tq=tnorm(T.q);let L=PL.filter(p=>(!tq||tnorm(p.name+" "+p.town+" "+p.state).includes(tq))&&(T.cat==="All"||p.cat===T.cat)&&(T.zone==="All"||ZONEOF(p.state)===T.zone)&&(!T.unesco||p.u)&&(!T.hide||!adv(p.state)||adv(p.state)[0]==="riv")&&(T.list==="all"||BL[p.id]===T.list)&&(!q||(p.name+" "+p.town+" "+p.state+" "+p.cat+" "+p.about).toLowerCase().includes(q)));
  return T.base?L.sort((a,b)=>dist(a)-dist(b)):L.sort((a,b)=>a.name<b.name?-1:1)}
 function tbadges(p){const a=adv(p.state);return (p.u?'<span class="tag" style="background:rgba(224,165,38,.18);color:var(--gold)">★ UNESCO World Heritage</span>':"")+(BL[p.id]==="been"?'<span class="tag ok">✓ Been there</span>':BL[p.id]==="want"?'<span class="tag fv">♥ Want to go</span>':"")+(/Closed|suspended|not confirmed|under construction/i.test(p.tip)?'<span class="tag wn">Check status</span>':"")+(a?'<span class="tag '+(a[0]==="all"?"bad":"wn")+'">'+a[1]+'</span>':"")}
 function prow(p){const d=dist(p);return '<button class="ev'+(T.sel===p.id?" on":"")+'" data-a="psel" data-id="'+p.id+'"><div class="thumb" style="width:72px;height:72px;background:'+tgrad(p.cat)+'">'+(phOf(p)?'<img class="phth" src="'+esc(phOf(p).img)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">':"")+tico(p.cat,28)+'</div><div class="bd"><span class="nm">'+esc(p.name)+'</span><span class="meta">'+SV.pin+esc(p.town)+", "+esc(dn(p.state))+(d!=null?' · <b style="color:var(--tx)">'+d.toLocaleString("en-NG")+' km</b>':"")+'</span><span><span class="tag" style="background:'+tcc(p.cat)[0]+'22;color:'+tcc(p.cat)[0]+'">'+tico(p.cat,11)+esc(p.cat)+'</span>'+tbadges(p)+'</span></div></button>'}
 function tmap(L){const b=L.map(p=>{const q=P(p.lon,p.lat),on=T.sel===p.id,c=tcc(p.cat)[0];return '<g data-a="psel" data-id="'+p.id+'" style="cursor:pointer" tabindex="0" role="button" aria-label="'+esc(p.name)+'"><title>'+esc(p.name)+'</title>'+(on?'<circle cx="'+q[0]+'" cy="'+q[1]+'" r="17" fill="'+c+'" opacity=".3"/>':"")+(p.u?'<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+(on?13:10)+'" fill="none" stroke="var(--gold)" stroke-width="2.5"/>':"")+'<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+(on?9:6.5)+'" fill="'+c+'" stroke="#fff" stroke-width="2"/>'+(on?'<text x="'+(q[0]+15)+'" y="'+(q[1]+5)+'" font-size="14" font-weight="800" font-family="Plus Jakarta Sans,sans-serif" fill="var(--tx)" stroke="var(--wt)" stroke-width="3.5" paint-order="stroke">'+esc(p.name)+'</text>':"")+'</g>'}).join("");
  const bs=T.base?(()=>{const q=P(BASES[T.base][1],BASES[T.base][0]);return '<rect x="'+(q[0]-7)+'" y="'+(q[1]-7)+'" width="14" height="14" rx="3" fill="var(--tx)" stroke="var(--wt)" stroke-width="3"/><text x="'+(q[0]+12)+'" y="'+(q[1]-10)+'" font-size="12" font-weight="800" font-family="Plus Jakarta Sans,sans-serif" fill="var(--tx)" stroke="var(--wt)" stroke-width="3" paint-order="stroke">You: '+T.base+'</text>'})():"";
  return base(VBN,b+bs,"Map of tourist attractions in Nigeria")}
+function tzRes(L,filt){const q=T.q.trim();
+ return '<div class="tz-tcount"><span><b>'+L.length+' place'+(L.length===1?"":"s")+'</b>'+(q?' · matching “'+esc(q)+'”':'')+(T.base?' · nearest to '+esc(T.base)+' first':'')+(S.q?' · matching “'+esc(S.q)+'”':'')+'</span>'+(filt?'<button class="lnk" data-a="tclear">Clear filters</button>':'')+'</div>'+
+ (L.length?'<div class="tz-tlist">'+L.map(prow).join("")+'</div>':'<div class="empty">'+(q?'No place called “'+esc(q)+'”'+(T.cat!=="All"||T.zone!=="All"||T.unesco||T.hide||T.list!=="all"?' with these filters. <button class="lnk" data-a="tclear">Clear filters</button>':'. Check the spelling or try the town name.'):'No places match. Clear a filter to see more.')+'</div>')}
+function tqUpdate(v){T.q=v;const o=document.getElementById("tzres");if(!o){render();return}const L=tlist(),filt=T.cat!=="All"||T.zone!=="All"||T.unesco||T.hide||T.list!=="all"||T.q;o.innerHTML=tzRes(L,filt);const fl=document.querySelector(".tz-tfl");if(fl)fl.hidden=!!T.q.trim();try{glAttach()}catch(e){}}
 function tourView(){
  const nb=Object.values(BL).filter(x=>x==="been").length,nw=Object.values(BL).filter(x=>x==="want").length;
  const head='<div class="tz-tph"><h1 class="hdf">Tourism</h1><p class="sm">'+PL.length+' places to visit across Nigeria</p></div>'+
@@ -3935,17 +3941,17 @@ function tourView(){
  const L=tlist(),zones=["All"].concat(Object.values(ZN)),cnt={};PL.forEach(p=>cnt[p.cat]=(cnt[p.cat]||0)+1);
  const ALLI='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg>';
  const tg=(a,v,on,ic,lab,full)=>'<button class="tz-ttg'+(on?" on":"")+'" data-a="'+a+'"'+(v?' data-v="'+v+'"':'')+' aria-pressed="'+!!on+'"'+(full?' title="'+full+'" aria-label="'+full+'"':'')+'><span class="tz-tgi" aria-hidden="true">'+ic+'</span>'+lab+'</button>';
- const filt=T.cat!=="All"||T.zone!=="All"||T.unesco||T.hide||T.list!=="all";
+ const filt=T.cat!=="All"||T.zone!=="All"||T.unesco||T.hide||T.list!=="all"||T.q;
  const left=head+
- '<div class="tz-tfl">'+
+ '<label class="nsr tz-tq"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="tq" type="search" enterkeyhint="search" autocomplete="off" placeholder="Search places by name or town" aria-label="Search tourism places by name or town" aria-controls="tzres" value="'+esc(T.q)+'"></label>'+
+ '<div class="tz-tfl"'+(T.q.trim()?' hidden':'')+'>'+
  '<div class="tz-tsel"><select class="sel" data-a="tbase" aria-label="Where are you staying?"><option value="">Staying in… (any city)</option>'+Object.keys(BASES).map(b=>'<option'+(T.base===b?" selected":"")+'>'+b+'</option>').join("")+'</select><select class="sel" data-a="tzone" aria-label="Region">'+zones.map(z=>'<option value="'+z+'"'+(T.zone===z?" selected":"")+'>'+(z==="All"?"All regions":z)+'</option>').join("")+'</select></div>'+
  '<div class="tz-tlab">Type of place</div>'+
  '<div class="tz-tcats" role="group" aria-label="Type of place">'+["All"].concat(Object.keys(TCAT)).map(c=>{const on=T.cat===c,col=c==="All"?"var(--tx)":tcc(c)[0];return '<button class="tz-tct'+(on?" on":"")+'" data-a="tcat" data-v="'+esc(c)+'" aria-pressed="'+on+'" style="--tc:'+col+'"><span class="tz-ti">'+(c==="All"?ALLI:tico(c,20))+'</span><span class="tz-tl">'+(c==="All"?"All places":esc(c))+'</span><span class="tz-tn">'+(c==="All"?PL.length:(cnt[c]||0))+'</span></button>'}).join("")+'</div>'+
  '<div class="tz-tlab">Show only</div>'+
  '<div class="tz-ttgs">'+tg("tunesco","",T.unesco,"★","UNESCO sites")+tg("tlist","want",T.list==="want","♥","Want to go"+(nw?" · "+nw:""))+tg("tlist","been",T.list==="been","✓","Been there"+(nb?" · "+nb:""))+tg("thide","",T.hide,"!","Hide no-go states","Hide states where the UK advises against all or all but essential travel")+'</div>'+
  '</div>'+
- '<div class="tz-tcount"><span><b>'+L.length+' place'+(L.length===1?"":"s")+'</b>'+(T.base?' · nearest to '+esc(T.base)+' first':'')+(S.q?' · matching “'+esc(S.q)+'”':'')+'</span>'+(filt?'<button class="lnk" data-a="tclear">Clear filters</button>':'')+'</div>'+
- (L.length?'<div class="tz-tlist">'+L.map(prow).join("")+'</div>':'<div class="empty">No places match. Clear a filter to see more.</div>')+
+ '<div id="tzres" aria-live="polite">'+tzRes(L,filt)+'</div>'+
  (T.base?'<p class="sm" style="margin-top:12px">Distances are straight-line. Road journeys are longer.</p>':'');
  const leg='<details class="lgd"'+(LGO?" open":"")+'><summary>Colour key</summary><div class="legend">'+Object.keys(TCAT).map(k=>'<span><i style="background:'+tcc(k)[0]+'"></i>'+esc(k)+'</span>').join("")+'<span><i style="background:transparent;border:2px solid var(--gold)"></i>UNESCO</span></div></details>';
  return vseg(EXSEG)+'<div class="split tz-tsplit"><div class="lp">'+left+'</div><div class="mapbox">'+tmap(L)+leg+'</div></div>'}
@@ -4028,7 +4034,7 @@ async function nAsk(){const q=NQ.trim();if(q.length<3)return;const o=document.ge
   if(!r||!r.found||!isFinite(r.lat)||!isFinite(r.lon)||!inNG(+r.lat,+r.lon)){if(o)o.innerHTML='<p class="sm" style="margin:6px 4px">We couldn’t place “'+esc(q)+'”. Try a nearby area or landmark.</p>';return}
   setNear({name:String(r.name||q).slice(0,60)+(r.area?", "+String(r.area).slice(0,60):""),lat:+r.lat,lon:+r.lon,src:"search"});NQ="";NRES=[];N.chg=0;render()}
  catch(x){if(o)o.innerHTML='<p class="sm" style="margin:6px 4px">'+(x&&x.code==="not_granted"?"Lookup wasn’t allowed. Try the name of the area instead.":"That didn’t work just now. Try the name of the area instead.")+'</p>'}}
-document.addEventListener("input",e=>{if(e.target&&e.target.id==="nq")nqUpdate(e.target.value)});
+document.addEventListener("input",e=>{if(e.target&&e.target.id==="nq")nqUpdate(e.target.value);else if(e.target&&e.target.id==="tq")tqUpdate(e.target.value)});
 document.addEventListener("keydown",e=>{if(e.target&&e.target.id==="nq"&&e.key==="Enter"){e.preventDefault();if(NRES[0]){const x=NRES[0];setNear({name:x.k==="area"?x.n:x.n+", "+x.sub,lat:x.lat,lon:x.lon,src:x.k==="area"||x.k==="city"?"area":"lm"});NQ="";NRES=[];N.chg=0;render()}else nAsk()}});
 let NEAR=null;try{const n=JSON.parse(localStorage.getItem("ne_near")||"null");if(n&&isFinite(n.lat)&&isFinite(n.lon))NEAR=n}catch(x){}
 let N={focus:"",r:25,when:"n30",sort:"dist",msg:"",busy:0,chg:0};
@@ -4395,7 +4401,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="nr"){N.r=+v;N.focus="";try{localStorage.setItem("ne_nr",v)}catch(x){}}else if(a==="nw")N.when=v;else if(a==="ns")N.sort=v;else if(a==="nsort")S.nsort=S.nsort?0:1;
  else if(a==="tsub")T.sub=v;else if(a==="tcat")T.cat=v;else if(a==="tunesco")T.unesco=T.unesco?0:1;else if(a==="thide")T.hide=T.hide?0:1;
  else if(a==="mzin"){zTo(1.6,null,true);return}else if(a==="mzout"){zTo(1/1.6,null,true);return}else if(a==="mzfit"){zFit();return}
- else if(a==="tlist")T.list=T.list===v?"all":v;else if(a==="tclear"){T.cat="All";T.zone="All";T.unesco=0;T.hide=0;T.list="all"}
+ else if(a==="tlist")T.list=T.list===v?"all":v;else if(a==="tclear"){T.cat="All";T.zone="All";T.unesco=0;T.hide=0;T.list="all";T.q=""}
  else if(a==="psel"||a==="popen"){T.sel=id;S.place=id;S.open=null;const D=$("#drawer");if(D)D.scrollTop=0}
  else if(a==="bl"){BL[id]=BL[id]===v?undefined:v;if(!BL[id])delete BL[id];saveBL()}
  else if(a==="fav")togFav(id);else if(a==="free")S.free=S.free?0:1;
