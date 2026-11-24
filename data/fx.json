@@ -1,13 +1,13 @@
 {
  "base": "NGN",
- "date": "2026-11-23",
+ "date": "2026-11-24",
  "rates": {
-  "GBP": 0.000561,
-  "USD": 0.000731,
-  "EUR": 0.000669,
-  "CAD": 0.001047,
-  "GHS": 0.008559,
-  "ZAR": 0.01278
+  "GBP": 0.000566,
+  "USD": 0.000724,
+  "EUR": 0.000676,
+  "CAD": 0.001043,
+  "GHS": 0.008712,
+  "ZAR": 0.012647
  },
  "source": "ExchangeRate-API",
  "credit": "https://www.exchangerate-api.com"
