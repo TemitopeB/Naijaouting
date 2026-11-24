@@ -819,7 +819,7 @@ html.app .fbar{border-radius:20px}
 html.rm .cdd .cddb:hover .cv{animation:none}
 .adm{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0 4px;padding:10px 12px;border-radius:16px;background:var(--pn2);border:1px dashed var(--ln2)}
 .phadm{display:block}.phadm summary{display:flex;align-items:center;gap:10px;cursor:pointer;list-style:none;min-height:28px}.phadm summary::-webkit-details-marker{display:none}.phadm summary span{font-size:12px;color:var(--mu)}.phadm summary b{font-weight:600;font-size:14px}.phadm summary::after{content:"";margin-left:auto;width:8px;height:8px;border-right:2px solid var(--mu);border-bottom:2px solid var(--mu);transform:rotate(45deg);transition:transform .15s}.phadm[open] summary::after{transform:rotate(225deg)}
-.phf{display:grid;gap:10px;margin-top:12px}.phf label{display:grid;gap:5px;font-size:13px;font-weight:600}.phf label i{font-style:normal;font-weight:400;color:var(--mu)}.phf input[type=url],.phf input[type=text]{font:inherit;font-weight:400;padding:10px 12px;border-radius:12px;border:1px solid var(--ln2);background:var(--bg);color:var(--tx);min-width:0}.phf input[type=file]{font-size:13px;font-weight:400}.phf .sm{margin:0}.phf label>span{font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--tx)}
+.phf{display:grid;gap:10px;margin-top:12px}.phf label{display:grid;gap:5px;font-size:13px;font-weight:600}.phf label i{font-style:normal;font-weight:400;color:var(--mu)}.phf input[type=url],.phf input[type=text],.phf input[type=tel]{font:inherit;font-weight:400;padding:10px 12px;border-radius:12px;border:1px solid var(--ln2);background:var(--bg);color:var(--tx);min-width:0}.phf input[type=file]{font-size:13px;font-weight:400}.phf .sm{margin:0}.phf label>span{font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--tx)}
 .hero .phc{position:absolute;right:10px;bottom:8px;z-index:3;display:inline-flex;align-items:center;gap:4px;font-size:11px;line-height:1.3;color:rgba(255,255,255,.92);background:rgba(0,0,0,.45);padding:3px 8px;border-radius:7px;text-decoration:none;max-width:62%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hero .phc svg{flex:none;width:11px;height:11px}.hero a.phc:hover{background:rgba(0,0,0,.65)}.hero.phero .cover{object-fit:cover}
 .thumb{position:relative}.thumb .phth{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;z-index:1}
 .adm span{font:600 12px var(--fm);letter-spacing:.1em;text-transform:uppercase;color:var(--mu2);margin-right:auto}
@@ -2055,6 +2055,33 @@ html:not(.app) .evpan .eh .seg{max-width:100%;overflow-x:auto;scrollbar-width:no
 .dx2 .stqf .dxcr{font-size:13.5px}
 .dx2 .dxnote{margin:18px 2px 0;font-size:12.5px;color:var(--mu2);text-align:center}
 .dx2 .adm{margin-top:18px}
+/* tourism place page */
+.pld .plsub{display:flex;align-items:center;gap:6px;margin:2px 0 4px;font-size:14px;color:var(--mu)}
+.pld .plsub svg{flex:none}
+.pld .dxsub .dxp svg{flex:none}
+.pld .pladv{display:flex;gap:10px;align-items:flex-start;margin:16px 0 0;padding:12px 14px;border-radius:14px;background:rgba(224,165,38,.12);border:1px solid rgba(224,165,38,.35);font-size:13.5px;line-height:1.45;color:var(--tx)}
+.pld .pladv svg{flex:none;margin-top:2px;color:var(--warn)}
+.pld .pladv.hot{background:rgba(215,48,59,.08);border-color:rgba(215,48,59,.3)}.pld .pladv.hot svg{color:var(--hot)}
+.pld .pladv b{margin-right:4px}
+.pld .dxrl{width:100%;text-align:left;font:inherit;color:inherit;text-decoration:none;background:none;border:0;border-radius:0;cursor:pointer}
+.pld .dxrl+.dxrl,.pld .dxr+.dxrl,.pld .dxrl+.dxr{border-top:1px solid var(--ln)}
+.pld .dxrl:hover{background:var(--pn2)}
+.pld .dxrl .dxc{color:var(--mu)}
+.pld .dxf .dxs,.pld .dxd .dxs{margin:0}
+.pld .pldist{font:600 13px var(--fd);color:var(--mu);white-space:nowrap}
+.pld .plkv{display:grid;gap:12px;margin:14px 0 0;padding-top:14px;border-top:1px solid var(--ln)}
+.pld .plkv>div{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start}
+.pld .plkv .pki{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--pn2);color:var(--tx)}
+.pld .plkv .pki svg{width:16px;height:16px}
+.pld .plkv span:last-child{display:flex;flex-direction:column;gap:2px;font-size:14px;line-height:1.5;color:var(--mu)}
+.pld .plkv b{font:600 14px var(--fd);color:var(--tx)}
+.pld .plsrc{margin:14px 0 0;font-size:12.5px;color:var(--mu)}.pld .plsrc a{color:var(--mu)}
+.pld .plchk{display:grid;gap:10px}.pld .plchk label{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4}.pld .plchk input{flex:none;width:18px;height:18px;margin:1px 0 0;accent-color:var(--ac)}
+.pld .plnote{margin:10px 2px 0;font-size:12.5px;color:var(--mu)}
+.pld .plev{border:1px solid var(--ln);border-radius:18px;background:var(--pn);overflow:hidden}
+.pld .plev>*{margin:0}
+.pld .dxnote .dxcr{font-size:12.5px;color:inherit}
+.pld .phadm{margin-top:24px}
 
 /* ===== dropdowns: one smooth, consistent look ===== */
 select.sel,.md select,.cform select,.fsheet select{transition:border-color .18s ease,box-shadow .2s ease,background-color .18s ease,transform .15s ease;cursor:pointer;
@@ -3955,18 +3982,45 @@ function tourView(){
  (T.base?'<p class="sm" style="margin-top:12px">Distances are straight-line. Road journeys are longer.</p>':'');
  const leg='<details class="lgd"'+(LGO?" open":"")+'><summary>Colour key</summary><div class="legend">'+Object.keys(TCAT).map(k=>'<span><i style="background:'+tcc(k)[0]+'"></i>'+esc(k)+'</span>').join("")+'<span><i style="background:transparent;border:2px solid var(--gold)"></i>UNESCO</span></div></details>';
  return vseg(EXSEG)+'<div class="split tz-tsplit"><div class="lp">'+left+'</div><div class="mapbox">'+tmap(L)+leg+'</div></div>'}
-function placeDrawer(p){const d=dist(p),air=nearestAir(p),a=adv(p.state),ev=all().filter(v=>v.state===p.state).sort((x,y)=>x.s<y.s?-1:1),near=PL.filter(x=>x.id!==p.id).map(x=>[x,Math.round(km(p.lat,p.lon,x.lat,x.lon))]).sort((x,y)=>x[1]-y[1]).slice(0,4);
- const q=encodeURIComponent(p.name+" "+p.town+" "+p.state+" Nigeria");
- return ''+XBAR+plHero(p)+'<div class="in"><div>'+tbadges(p)+'</div><h2>'+esc(p.name)+'</h2><p style="color:var(--mu);margin:8px 0 14px">'+esc(p.about)+'</p>'+
- '<div class="kv"><span>Location</span><span>'+esc(p.town)+", "+esc(dn(p.state))+'</span></div><div class="kv"><span>Region</span><span>'+esc(ZONEOF(p.state))+'</span></div>'+(NEAR?'<div class="kv"><span>From you</span><span>'+fk(km(NEAR.lat,NEAR.lon,p.lat,p.lon))+" · "+drv(km(NEAR.lat,NEAR.lon,p.lat,p.lon),[NEAR.lat,NEAR.lon],[p.lat,p.lon])+'</span></div>':"")+'<div class="kv"><span>Nearest airport</span><span>'+air[0]+' · about '+air[1]+'&nbsp;km</span></div>'+(d!=null?'<div class="kv"><span>From '+T.base+'</span><span>'+(d<2?"in the city":"about "+d.toLocaleString("en-NG")+" km in a straight line")+'</span></div>':'')+
- '<div class="act"><a class="btn p" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+q+'">Get directions</a>'+(PHO[p.id]&&safeUrl(PHO[p.id].web||"")?'<a class="btn" target="_blank" rel="noopener" href="'+esc(safeUrl(PHO[p.id].web))+'">'+esc(PHO[p.id].webl||"Website")+' '+DXI.ext+'</a>':"")+'<button class="btn" data-a="bl" data-v="want" data-id="'+p.id+'">'+(BL[p.id]==="want"?"♥ Want to go":"♡ Want to go")+'</button><button class="btn" data-a="bl" data-v="been" data-id="'+p.id+'">'+(BL[p.id]==="been"?"✓ Been there":"Been there")+'</button></div>'+
- '<div class="act" style="margin-top:8px"><a class="btn" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent("Let’s visit "+p.name+" in "+p.town+", "+p.state+" State. Found on NaijaOuting.")+'">Share on WhatsApp</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/search?q='+encodeURIComponent("weather "+p.town+" Nigeria")+'">Weather</a></div>'+phAdmin(p)+
- (a?'<div class="rv" style="margin-top:16px;border-color:'+(a[0]==="all"?"var(--hot)":"var(--warn)")+'"><b>'+a[1]+'</b><span class="sm">The UK Foreign Office advises '+(a[0]==="all"?"against all travel to":a[0]==="ess"?"against all but essential travel to":"avoiding the riverine areas of")+' '+esc(p.state)+' State (as reported 16 Oct 2026). Check your own government’s advice and local news before you go.</span></div>':"")+
- '<div class="h3">Best time to visit</div><p class="sm" style="margin:0">'+BEST[p.cat]+'</p>'+
- '<div class="h3">Good to know</div><p class="sm" style="margin:0">'+esc(p.tip)+'</p>'+(p.src?'<p class="sm" style="margin:8px 0 0">Source: '+p.src.map(x=>'<a href="'+esc(x[1])+'" target="_blank" rel="noopener">'+esc(x[0])+'</a>').join(", ")+'</p>':"")+
- '<div class="h3">Nearby places</div>'+near.map(n=>'<button class="pl" style="width:100%;border-left:0;border-right:0;border-top:0;background:transparent;text-align:left" data-a="popen" data-id="'+n[0].id+'"><span>'+esc(n[0].name)+'</span><span>'+n[1]+' km</span></button>').join("")+
- '<div class="h3">Events in '+esc(dn(p.state))+'</div>'+(ev.length?ev.slice(0,3).map(evRow).join(""):'<p class="sm" style="margin:0">No upcoming events listed in this state yet.</p>')+
- '<p class="sm" style="margin-top:16px">Pins are approximate. Opening hours and fees change, so confirm locally before you travel.</p></div>'}
+function placeDrawer(p){const d=dist(p),air=nearestAir(p),a=adv(p.state),o=PHO[p.id]||{},ev=all().filter(v=>v.state===p.state).sort((x,y)=>x.s<y.s?-1:1).slice(0,3),near=PL.filter(x=>x.id!==p.id).map(x=>[x,Math.round(km(p.lat,p.lon,x.lat,x.lon))]).sort((x,y)=>x[1]-y[1]).slice(0,4);
+ const q=encodeURIComponent(p.name+" "+p.town+" "+p.state+" Nigeria"),st=dn(p.state)+(p.state==="FCT"?"":" State");
+ const I=(d,w)=>'<svg width="'+(w||18)+'" height="'+(w||18)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>';
+ const IC={air:I('<path d="M2 16l20-8-8 14-2-6z"/><path d="M12 16l-4 4"/>'),tel:I('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>'),wa:I('<path d="M3 21l1.6-4.7A8.5 8.5 0 1 1 8 19.6z"/><path d="M9 9.5c.3 2 2.5 4.2 4.5 4.5l1.2-1.2 1.8.9"/>'),web:I('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>'),info:I('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'),share:I('<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>',16),heart:I('<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',16),pin:DXI.pin,warn:I('<path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17h.01"/>',16)};
+ const sec=(t,h,c)=>h?'<section class="dxs'+(c?" "+c:"")+'">'+(t?'<h3 class="dxgh">'+t+'</h3>':"")+h+'</section>':"";
+ const row=(ic,b,sm,end)=>'<div class="dxr"><span class="dxi">'+ic+'</span><span class="dxs"><b>'+b+'</b>'+(sm?'<span>'+sm+'</span>':"")+'</span>'+(end||"")+'</div>';
+ const lrow=(href,ic,b,sm)=>'<a class="dxr dxrl" href="'+esc(href)+'" target="_blank" rel="noopener"><span class="dxi">'+ic+'</span><span class="dxs"><b>'+b+'</b><span>'+sm+'</span></span>'+DXI.chev+'</a>';
+ /* header */
+ const tags=(p.u?'<span class="tag" style="background:rgba(224,165,38,.18);color:var(--gold)">★ UNESCO World Heritage</span>':"")+(/Closed|suspended|not confirmed|under construction/i.test(p.tip)?'<span class="tag" style="background:rgba(224,165,38,.18);color:var(--warn)">Check status</span>':"");
+ const want=BL[p.id]==="want",been=BL[p.id]==="been";
+ const head='<div class="dxh">'+(tags?'<div class="dxt">'+tags+'</div>':"")+'<h2>'+esc(p.name)+'</h2><p class="plsub"><span style="color:'+tcc(p.cat)[0]+'">'+tico(p.cat,14)+'</span>'+esc(p.cat)+' · '+esc(p.town)+', '+esc(st)+'</p>'+
+  '<div class="dxsub"><button class="dxp'+(want?" on":"")+'" data-a="bl" data-v="want" data-id="'+p.id+'" aria-pressed="'+want+'">'+(want?"♥ Want to go":IC.heart+"Want to go")+'</button><button class="dxp'+(been?" on":"")+'" data-a="bl" data-v="been" data-id="'+p.id+'" aria-pressed="'+been+'">'+(been?DXI.chk+"Been there":"Been there")+'</button><a class="dxp" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent("Let’s visit "+p.name+" in "+p.town+", "+st+". Found on NaijaOuting.")+'">'+IC.share+'Share</a></div></div>';
+ const warnb=a?'<div class="pladv'+(a[0]==="all"?" hot":"")+'" role="note">'+IC.warn+'<span><b>'+a[1]+'</b> The UK Foreign Office advises '+(a[0]==="all"?"against all travel to":a[0]==="ess"?"against all but essential travel to":"avoiding the riverine areas of")+' '+esc(st)+' (as reported 16 Oct 2026). Check your own government’s advice and local news before you go.</span></div>':"";
+ /* where */
+ const fromYou=NEAR?row(DXI.car,fk(km(NEAR.lat,NEAR.lon,p.lat,p.lon))+" from you",drv(km(NEAR.lat,NEAR.lon,p.lat,p.lon),[NEAR.lat,NEAR.lon],[p.lat,p.lon])+" by road, roughly"):(d!=null?row(DXI.car,d<2?"In "+esc(T.base):"About "+d.toLocaleString("en-NG")+" km from "+esc(T.base),"Straight-line distance. The road is longer."):"");
+ const where='<div class="dxf">'+row(DXI.pin,esc(p.town)+", "+esc(st),esc(ZONEOF(p.state))+" · pin is approximate",'<a class="dxl" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+q+'">Directions</a>')+fromYou+row(IC.air,"Nearest airport: "+air[0],"About "+air[1]+" km away")+'</div>';
+ /* about */
+ const about='<div class="dxcard"><p class="dxab">'+esc(p.about)+'</p><div class="plkv"><div><span class="pki" aria-hidden="true">'+DXI.sun+'</span><span><b>Best time to visit</b>'+BEST[p.cat]+'</span></div><div><span class="pki" aria-hidden="true">'+IC.info+'</span><span><b>Good to know</b>'+esc(p.tip)+'</span></div></div>'+(p.src?'<p class="plsrc">Source: '+p.src.map(x=>'<a href="'+esc(x[1])+'" target="_blank" rel="noopener">'+esc(x[0])+'</a>').join(", ")+'</p>':"")+'</div>';
+ /* check before you go */
+ const tel=String(o.tel||"").replace(/[^\d+]/g,""),wa=String(o.wa||"").replace(/\D/g,""),web=safeUrl(o.web||"");
+ const checks=["Confirm it’s open on the day you plan to go","Ask about the entry fee and how to pay","Ask if you need a guide or a permit","Check the road and the weather","Read the latest travel advice for "+st];
+ const check='<div class="dxf">'+lrow("https://www.google.com/maps/search/?api=1&query="+q,DXI.map,"Hours, reviews and photos","Opens Google Maps")+
+  (tel?lrow("tel:"+tel,IC.tel,"Call "+esc(o.tel),"Ask about opening times and fees"):"")+
+  (wa?lrow("https://wa.me/"+wa,IC.wa,"Message on WhatsApp","Many places reply faster here"):"")+
+  (web?lrow(web,IC.web,esc(o.webl||"Official website"),esc(web.replace(/^https?:\/\/(www\.)?/,"").split("/")[0])):"")+
+  lrow("https://www.google.com/search?q="+encodeURIComponent("weather "+p.town+" Nigeria"),DXI.sun,"Weather in "+esc(p.town),"Live forecast")+'</div>'+
+  '<div style="margin-top:8px">'+dxAcc("pchk",DXI.chk,"Before you go",checks.length+" things to check",'<div class="plchk">'+checks.map(x=>'<label><input type="checkbox"> '+esc(x)+'</label>').join("")+'</div>')+'</div>'+
+  '<p class="plnote">Opening hours and fees change. Confirm with the place before you travel.</p>';
+ /* nearby */
+ const nearH=near.length?'<div class="dxf">'+near.map(n=>'<button class="dxr dxrl" data-a="popen" data-id="'+n[0].id+'"><span class="dxi" style="background:'+tcc(n[0].cat)[0]+'22;color:'+tcc(n[0].cat)[0]+'">'+tico(n[0].cat,18)+'</span><span class="dxs"><b>'+esc(n[0].name)+'</b><span>'+esc(n[0].cat)+'</span></span><span class="pldist">'+n[1]+' km</span></button>').join("")+'</div>':"";
+ const evH=ev.length?'<div class="plev">'+ev.map(evRow).join("")+'</div>':"";
+ return XBAR+plHero(p)+'<div class="in dx dx2 pld">'+head+warnb+
+  sec("Where it is",where)+
+  sec("About this place",about)+
+  sec("Check before you go",check)+
+  sec("Nearby places",nearH)+
+  sec("Events in "+esc(dn(p.state)),evH)+
+  phAdmin(p)+
+  '<p class="dxnote">Facts come from the sources listed. Spot something wrong? <button class="dxcr" data-a="go" data-v="contact">Tell us</button></p></div>'}
 function guideView(){
  const ph=[["Pidgin","How far?","How are you?"],["Pidgin","Tank you","Thank you"],["Yoruba","Bawo ni?","How are you?"],["Yoruba","E se","Thank you"],["Igbo","Kedu?","How are you?"],["Igbo","Daalu","Thank you"],["Hausa","Sannu","Hello"],["Hausa","Na gode","Thank you"]];
  return '<div class="ess"><button class="arrc tzarr" data-a="go" data-v="arrive"><span><b>Arriving in Nigeria: the full checklist</b><span>Visa, landing card, health, airport, money, SIM and safety, with official sources</span></span><span aria-hidden="true">→</span></button>'+
@@ -4897,15 +4951,17 @@ async function saveVenue(id,venue){const v=all().find(x=>x.id===id);venue=String
  toast("Venue saved for "+v.name+". Everyone sees it now.");job.catch(()=>toast("That venue didn’t save. Check your connection and try again."));return true}
 /* ---------- owner tools: change a tourism place's photo and add links ---------- */
 function phAdmin(p){if(!ADMIN||!DB)return"";const o=PHO[p.id]||{},v=k=>esc(o[k]||"");
- return '<details class="adm phadm"'+(o.img||o.web?"":"")+'><summary><span>Owner tools</span><b>'+(o.img?"Change photo or links":"Add a photo or link")+'</b></summary><div class="phf" data-pid="'+esc(p.id)+'">'+
+ return '<details class="adm phadm"'+(o.img||o.web?"":"")+'><summary><span>Owner tools</span><b>'+(o.img?"Change photo, contacts or links":"Add a photo, contacts or links")+'</b></summary><div class="phf" data-pid="'+esc(p.id)+'">'+
   '<label><span>Upload a photo</span><input type="file" accept="image/*" data-ph="file"></label>'+
   '<label><span>Or paste an image link</span><input type="url" inputmode="url" placeholder="https://…/photo.jpg" value="'+(/^https:/i.test(o.img||"")?v("img"):"")+'" data-ph="img" autocomplete="off"></label>'+
   '<label><span>Photo credit <i>optional</i></span><input type="text" maxlength="140" placeholder="Photo: Name · CC BY-SA 4.0" value="'+v("credit")+'" data-ph="credit"></label>'+
   '<label><span>Credit or source link <i>optional</i></span><input type="url" inputmode="url" placeholder="https://…" value="'+v("link")+'" data-ph="link" autocomplete="off"></label>'+
+  '<label><span>Phone number <i>optional</i></span><input type="tel" inputmode="tel" maxlength="24" placeholder="0803 000 0000" value="'+v("tel")+'" data-ph="tel" autocomplete="off"></label>'+
+  '<label><span>WhatsApp number <i>optional</i></span><input type="tel" inputmode="tel" maxlength="24" placeholder="0803 000 0000" value="'+v("wa")+'" data-ph="wa" autocomplete="off"></label>'+
   '<label><span>Website or booking link <i>optional</i></span><input type="url" inputmode="url" placeholder="https://…" value="'+v("web")+'" data-ph="web" autocomplete="off"></label>'+
   '<label><span>Button text for that link <i>optional</i></span><input type="text" maxlength="30" placeholder="Website" value="'+v("webl")+'" data-ph="webl"></label>'+
   '<p class="sm">Only use photos you took or have permission to use, and credit the owner.</p>'+
-  '<div class="act" style="margin:0"><button class="btn p" data-a="phsave" data-id="'+esc(p.id)+'">Save</button>'+(o.img||o.web||o.credit?'<button class="btn" data-a="phdel" data-id="'+esc(p.id)+'">Remove photo and links</button>':"")+'</div></div></details>'}
+  '<div class="act" style="margin:0"><button class="btn p" data-a="phsave" data-id="'+esc(p.id)+'">Save</button>'+(o.img||o.web||o.credit||o.tel||o.wa?'<button class="btn" data-a="phdel" data-id="'+esc(p.id)+'">Remove photo and links</button>':"")+'</div></div></details>'}
 async function phSave(id,btn){const box=btn&&btn.closest(".phf");if(!box||!DB||!ADMIN)return;const g=k=>(box.querySelector('[data-ph="'+k+'"]')||{}),val=k=>String(g(k).value||"").trim();
  const f=g("file").files&&g("file").files[0],old=PHO[id]||{};let img=val("img");
  if(img&&!/^https:\/\//i.test(img)){toast("The image link must start with https://");return}
@@ -4914,8 +4970,11 @@ async function phSave(id,btn){const box=btn&&btn.closest(".phf");if(!box||!DB||!
  const t=btn.textContent;btn.disabled=true;
  try{if(f){if(!ASSETS){toast("Photo upload isn’t available right now. Paste an image link instead.");return}if(!/^image\//.test(f.type)){toast("Choose a picture file.");return}btn.textContent="Uploading…";const u=await ASSETS.upload(await shrink(f),{type:"image/jpeg"});img="/_blob/"+u.id}
   if(!img&&old.img&&/^\/_blob\//.test(old.img))img=old.img;
-  const d={img:img||"",credit:val("credit"),link:safeUrl(val("link")),web:safeUrl(val("web")),webl:val("webl"),at:new Date().toISOString()};
-  if(!d.img&&!d.web&&!d.credit){await DB.doc("overrides/ph-"+id).delete();PHO[id]=undefined}else{await DB.doc("overrides/ph-"+id).set(d);PHO[id]=d}
+  const ph=x=>{x=x.replace(/[^\d+]/g,"");if(!x)return"";const dg=x.replace(/\D/g,"");return dg.length>=7&&dg.length<=15?x:null},tel=ph(val("tel")),wa0=ph(val("wa"));
+  if(tel===null||wa0===null){toast("Check the phone or WhatsApp number. Use digits only, for example 0803 000 0000.");return}
+  const wa=wa0?(wa0.startsWith("+")?wa0.slice(1):wa0.startsWith("0")?"234"+wa0.slice(1):wa0).replace(/\D/g,""):"";
+  const d={img:img||"",credit:val("credit"),link:safeUrl(val("link")),tel:tel?val("tel").replace(/[^\d+ ]/g,"").trim():"",wa,web:safeUrl(val("web")),webl:val("webl"),at:new Date().toISOString()};
+  if(!d.img&&!d.web&&!d.credit&&!d.tel&&!d.wa){await DB.doc("overrides/ph-"+id).delete();PHO[id]=undefined}else{await DB.doc("overrides/ph-"+id).set(d);PHO[id]=d}
   toast("Saved. Everyone sees the new "+(d.img?"photo":"details")+" now.");render()}
  catch(x){toast((x&&x.msg)||"That didn’t save. Check your connection and try again.")}finally{btn.disabled=false;btn.textContent=t}}
 async function phDel(id){if(!DB||!ADMIN)return;try{await DB.doc("overrides/ph-"+id).delete();delete PHO[id];toast("Removed. The place shows its original picture again.");render()}catch(x){toast("That didn’t save. Check your connection and try again.")}}
