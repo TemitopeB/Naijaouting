@@ -54,6 +54,10 @@
     {
       "source": "/_blob/:id(s-[0-9a-z]+)",
       "destination": "https://fcdebtyopthaikonnfsd.supabase.co/storage/v1/object/public/flyers/:id"
+    },
+    {
+      "source": "/_blob/:id(s-[0-9a-z]+)/",
+      "destination": "https://fcdebtyopthaikonnfsd.supabase.co/storage/v1/object/public/flyers/:id"
     }
   ],
   "git": {
