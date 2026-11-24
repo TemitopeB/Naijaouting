@@ -818,7 +818,7 @@ html.app .fbar{border-radius:20px}
 @media (prefers-reduced-motion:reduce){.cdd .cddb:hover .cv{animation:none}}
 html.rm .cdd .cddb:hover .cv{animation:none}
 .adm{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0 4px;padding:10px 12px;border-radius:16px;background:var(--pn2);border:1px dashed var(--ln2)}
-.phadm{display:block}.phadm summary{display:flex;align-items:center;gap:10px;cursor:pointer;list-style:none;min-height:28px}.phadm summary::-webkit-details-marker{display:none}.phadm summary span{font-size:12px;color:var(--mu)}.phadm summary b{font-weight:600;font-size:14px}.phadm summary::after{content:"";margin-left:auto;width:8px;height:8px;border-right:2px solid var(--mu);border-bottom:2px solid var(--mu);transform:rotate(45deg);transition:transform .15s}.phadm[open] summary::after{transform:rotate(225deg)}
+.phadm{display:block}.phadm summary{display:flex;align-items:center;gap:10px;cursor:pointer;list-style:none;min-height:28px}.phadm summary::-webkit-details-marker{display:none}.phadm summary span{font-size:12px;color:var(--mu);white-space:nowrap}.phadm summary b{font-weight:600;font-size:14px}.phadm summary::after{content:"";margin-left:auto;width:8px;height:8px;border-right:2px solid var(--mu);border-bottom:2px solid var(--mu);transform:rotate(45deg);transition:transform .15s}.phadm[open] summary::after{transform:rotate(225deg)}
 .phf{display:grid;gap:10px;margin-top:12px}.phf label{display:grid;gap:5px;font-size:13px;font-weight:600}.phf label i{font-style:normal;font-weight:400;color:var(--mu)}.phf input[type=url],.phf input[type=text],.phf input[type=tel]{font:inherit;font-weight:400;padding:10px 12px;border-radius:12px;border:1px solid var(--ln2);background:var(--bg);color:var(--tx);min-width:0}.phf input[type=file]{font-size:13px;font-weight:400}.phf .sm{margin:0}.phf label>span{font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--tx)}
 .hero .phc{position:absolute;right:10px;bottom:8px;z-index:3;display:inline-flex;align-items:center;gap:4px;font-size:11px;line-height:1.3;color:rgba(255,255,255,.92);background:rgba(0,0,0,.45);padding:3px 8px;border-radius:7px;text-decoration:none;max-width:62%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hero .phc svg{flex:none;width:11px;height:11px}.hero a.phc:hover{background:rgba(0,0,0,.65)}.hero.phero .cover{object-fit:cover}
 .thumb{position:relative}.thumb .phth{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit;z-index:1}
@@ -2081,7 +2081,12 @@ html:not(.app) .evpan .eh .seg{max-width:100%;overflow-x:auto;scrollbar-width:no
 .pld .plev{border:1px solid var(--ln);border-radius:18px;background:var(--pn);overflow:hidden}
 .pld .plev>*{margin:0}
 .pld .dxnote .dxcr{font-size:12.5px;color:inherit}
-.pld .phadm{margin-top:24px}
+.pld .phadm{margin-top:24px}.pld .pdadm+.phadm{margin-top:10px}
+.phf textarea,.phf select{font:inherit;font-weight:400;padding:10px 12px;border-radius:12px;border:1px solid var(--ln2);background:var(--bg);color:var(--tx);min-width:0;width:100%;resize:vertical}
+.pdrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pdck{display:flex!important;grid-template-columns:none!important;align-items:center;gap:10px!important;font-weight:500!important}.pdck input{width:18px;height:18px;accent-color:var(--ac)}
+.pdadm summary em{font-style:normal;font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:999px}.pdadm .pde{background:var(--acs);color:var(--ac)}.pdadm .pdh{background:rgba(215,48,59,.12);color:var(--hot)}
+.ev.pdhid{opacity:.55}.ev.pdhid .nm::after{content:" · hidden";font-weight:500;color:var(--hot)}
 
 /* ===== dropdowns: one smooth, consistent look ===== */
 select.sel,.md select,.cform select,.fsheet select{transition:border-color .18s ease,box-shadow .2s ease,background-color .18s ease,transform .15s ease;cursor:pointer;
@@ -3932,7 +3937,16 @@ const PRAW=[
 ["national-stadium-abuja", "National Stadium Abuja", "City & Leisure", "FCT", "Abuja", 9.038, 7.4534, "National Stadium Abuja is a stadium in Abuja, Abuja.", "Opening hours and any gate fee can change, so confirm locally.", "", [["Wikipedia", "https://en.wikipedia.org/wiki/List_of_tourist_attractions_in_Nigeria"]]],
 ["akwa-ibom-international-stad", "Akwa Ibom International Stadium", "City & Leisure", "Akwa Ibom", "Uyo", 5.0064, 7.8847, "Akwa Ibom International Stadium is a stadium in Uyo, Akwa Ibom State.", "Opening hours and any gate fee can change, so confirm locally.", "", [["Within Nigeria", "https://www.withinnigeria.com/piece/2023/01/17/interesting-places-to-visit-in-akwa-ibom/"]]]
 ];
-const PL=PRAW.map(a=>({id:a[0],name:a[1],cat:a[2],state:a[3],town:a[4],lat:a[5],lon:a[6],about:a[7],tip:a[8],u:a[9]==="u",src:a[10]||null}));
+const PLALL=PRAW.map(a=>({id:a[0],name:a[1],cat:a[2],state:a[3],town:a[4],lat:a[5],lon:a[6],about:a[7],tip:a[8],u:a[9]==="u",src:a[10]||null})),PLB={};PLALL.forEach(p=>PLB[p.id]=Object.assign({},p));
+const PL=PLALL.slice();/* PL = places shown; owner edits live in overrides/pd-<place id> (PDO) and are applied on top of the originals (PLB) */
+let PDO={};
+const PDS=(v,n)=>String(v==null?"":v).replace(/\s+/g," ").trim().slice(0,n);
+function applyPlaceEdits(){PLALL.forEach(p=>{const b=PLB[p.id],e=PDO[p.id]||{};for(const k in p)delete p[k];Object.assign(p,b);
+  if(PDS(e.name,90))p.name=PDS(e.name,90);if(TCAT[e.cat])p.cat=e.cat;if(STATES.some(x=>x[0]===e.state))p.state=e.state;if(PDS(e.town,60))p.town=PDS(e.town,60);
+  if(PDS(e.about,500))p.about=PDS(e.about,500);if(PDS(e.tip,500))p.tip=PDS(e.tip,500);if(PDS(e.best,240))p.best=PDS(e.best,240);
+  const la=+e.lat,lo=+e.lon;if(e.lat!=null&&e.lon!=null&&la>=3.8&&la<=14.2&&lo>=2.4&&lo<=15)p.lat=la,p.lon=lo;
+  if(e.hide)p.hide=1;if(Object.keys(e).length)p.edited=1});
+ PL.length=0;PLALL.forEach(p=>{if(!p.hide||ADMIN)PL.push(p)});LOCIX=null}
 /* UK Foreign Office travel advice as reported on 16 Oct 2026 */
 const UKADV={all:["Borno","Yobe","Adamawa","Gombe","Katsina","Zamfara","Sokoto"],ess:["Bauchi","Kaduna","Kano","Kebbi","Niger","Kogi","Plateau","Taraba","Benue","Kwara","Jigawa","Abia","Anambra","Imo"],riv:["Rivers","Delta","Cross River"]};
 function adv(st){return UKADV.all.includes(st)?["all","UK: against all travel"]:UKADV.ess.includes(st)?["ess","UK: essential travel only"]:UKADV.riv.includes(st)?["riv","UK: avoid riverine areas"]:null}
@@ -3952,7 +3966,7 @@ const tnorm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u0
 function tlist(){const q=S.q.toLowerCase(),tq=tnorm(T.q);let L=PL.filter(p=>(!tq||tnorm(p.name+" "+p.town+" "+p.state).includes(tq))&&(T.cat==="All"||p.cat===T.cat)&&(T.zone==="All"||ZONEOF(p.state)===T.zone)&&(!T.unesco||p.u)&&(!T.hide||!adv(p.state)||adv(p.state)[0]==="riv")&&(T.list==="all"||BL[p.id]===T.list)&&(!q||(p.name+" "+p.town+" "+p.state+" "+p.cat+" "+p.about).toLowerCase().includes(q)));
  return T.base?L.sort((a,b)=>dist(a)-dist(b)):L.sort((a,b)=>a.name<b.name?-1:1)}
 function tbadges(p){const a=adv(p.state);return (p.u?'<span class="tag" style="background:rgba(224,165,38,.18);color:var(--gold)">★ UNESCO World Heritage</span>':"")+(BL[p.id]==="been"?'<span class="tag ok">✓ Been there</span>':BL[p.id]==="want"?'<span class="tag fv">♥ Want to go</span>':"")+(/Closed|suspended|not confirmed|under construction/i.test(p.tip)?'<span class="tag wn">Check status</span>':"")+(a?'<span class="tag '+(a[0]==="all"?"bad":"wn")+'">'+a[1]+'</span>':"")}
-function prow(p){const d=dist(p);return '<button class="ev'+(T.sel===p.id?" on":"")+'" data-a="psel" data-id="'+p.id+'"><div class="thumb" style="width:72px;height:72px;background:'+tgrad(p.cat)+'">'+(phOf(p)?'<img class="phth" src="'+esc(phThumb(p))+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">':"")+tico(p.cat,28)+'</div><div class="bd"><span class="nm">'+esc(p.name)+'</span><span class="meta">'+SV.pin+esc(p.town)+", "+esc(dn(p.state))+(d!=null?' · <b style="color:var(--tx)">'+d.toLocaleString("en-NG")+' km</b>':"")+'</span><span><span class="tag" style="background:'+tcc(p.cat)[0]+'22;color:'+tcc(p.cat)[0]+'">'+tico(p.cat,11)+esc(p.cat)+'</span>'+tbadges(p)+'</span></div></button>'}
+function prow(p){const d=dist(p);return '<button class="ev'+(T.sel===p.id?" on":"")+(p.hide?" pdhid":"")+'" data-a="psel" data-id="'+p.id+'"><div class="thumb" style="width:72px;height:72px;background:'+tgrad(p.cat)+'">'+(phOf(p)?'<img class="phth" src="'+esc(phThumb(p))+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">':"")+tico(p.cat,28)+'</div><div class="bd"><span class="nm">'+esc(p.name)+'</span><span class="meta">'+SV.pin+esc(p.town)+", "+esc(dn(p.state))+(d!=null?' · <b style="color:var(--tx)">'+d.toLocaleString("en-NG")+' km</b>':"")+'</span><span><span class="tag" style="background:'+tcc(p.cat)[0]+'22;color:'+tcc(p.cat)[0]+'">'+tico(p.cat,11)+esc(p.cat)+'</span>'+tbadges(p)+'</span></div></button>'}
 function tmap(L){const b=L.map(p=>{const q=P(p.lon,p.lat),on=T.sel===p.id,c=tcc(p.cat)[0];return '<g data-a="psel" data-id="'+p.id+'" style="cursor:pointer" tabindex="0" role="button" aria-label="'+esc(p.name)+'"><title>'+esc(p.name)+'</title>'+(on?'<circle cx="'+q[0]+'" cy="'+q[1]+'" r="17" fill="'+c+'" opacity=".3"/>':"")+(p.u?'<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+(on?13:10)+'" fill="none" stroke="var(--gold)" stroke-width="2.5"/>':"")+'<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+(on?9:6.5)+'" fill="'+c+'" stroke="#fff" stroke-width="2"/>'+(on?'<text x="'+(q[0]+15)+'" y="'+(q[1]+5)+'" font-size="14" font-weight="800" font-family="Plus Jakarta Sans,sans-serif" fill="var(--tx)" stroke="var(--wt)" stroke-width="3.5" paint-order="stroke">'+esc(p.name)+'</text>':"")+'</g>'}).join("");
  const bs=T.base?(()=>{const q=P(BASES[T.base][1],BASES[T.base][0]);return '<rect x="'+(q[0]-7)+'" y="'+(q[1]-7)+'" width="14" height="14" rx="3" fill="var(--tx)" stroke="var(--wt)" stroke-width="3"/><text x="'+(q[0]+12)+'" y="'+(q[1]-10)+'" font-size="12" font-weight="800" font-family="Plus Jakarta Sans,sans-serif" fill="var(--tx)" stroke="var(--wt)" stroke-width="3" paint-order="stroke">You: '+T.base+'</text>'})():"";
  return base(VBN,b+bs,"Map of tourist attractions in Nigeria")}
@@ -3999,7 +4013,7 @@ function placeDrawer(p){const d=dist(p),air=nearestAir(p),a=adv(p.state),o=PHO[p
  const fromYou=NEAR?row(DXI.car,fk(km(NEAR.lat,NEAR.lon,p.lat,p.lon))+" from you",drv(km(NEAR.lat,NEAR.lon,p.lat,p.lon),[NEAR.lat,NEAR.lon],[p.lat,p.lon])):(d!=null?row(DXI.car,d<2?"In "+esc(T.base):"About "+d.toLocaleString("en-NG")+" km from "+esc(T.base),"Straight-line distance. The road is longer."):"");
  const where='<div class="dxf">'+row(DXI.pin,esc(p.town)+", "+esc(st),esc(ZONEOF(p.state))+" · pin is approximate",'<a class="dxl" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+q+'">Directions</a>')+fromYou+row(IC.air,"Nearest airport: "+air[0],"About "+air[1]+" km away")+'</div>';
  /* about */
- const about='<div class="dxcard"><p class="dxab">'+esc(p.about)+'</p><div class="plkv"><div><span class="pki" aria-hidden="true">'+DXI.sun+'</span><span><b>Best time to visit</b>'+BEST[p.cat]+'</span></div><div><span class="pki" aria-hidden="true">'+IC.info+'</span><span><b>Good to know</b>'+esc(p.tip)+'</span></div></div>'+(p.src?'<p class="plsrc">Source: '+p.src.map(x=>'<a href="'+esc(x[1])+'" target="_blank" rel="noopener">'+esc(x[0])+'</a>').join(", ")+'</p>':"")+'</div>';
+ const about='<div class="dxcard"><p class="dxab">'+esc(p.about)+'</p><div class="plkv"><div><span class="pki" aria-hidden="true">'+DXI.sun+'</span><span><b>Best time to visit</b>'+esc(p.best||BEST[p.cat]||"")+'</span></div><div><span class="pki" aria-hidden="true">'+IC.info+'</span><span><b>Good to know</b>'+esc(p.tip)+'</span></div></div>'+(p.src?'<p class="plsrc">Source: '+p.src.map(x=>'<a href="'+esc(x[1])+'" target="_blank" rel="noopener">'+esc(x[0])+'</a>').join(", ")+'</p>':"")+'</div>';
  /* check before you go */
  const tel=String(o.tel||"").replace(/[^\d+]/g,""),wa=String(o.wa||"").replace(/\D/g,""),web=safeUrl(o.web||"");
  const checks=["Confirm it’s open on the day you plan to go","Ask about the entry fee and how to pay","Ask if you need a guide or a permit","Check the road and the weather","Read the latest travel advice for "+st];
@@ -4019,7 +4033,7 @@ function placeDrawer(p){const d=dist(p),air=nearestAir(p),a=adv(p.state),o=PHO[p
   sec("Check before you go",check)+
   sec("Nearby places",nearH)+
   sec("Events in "+esc(dn(p.state)),evH)+
-  phAdmin(p)+
+  pdAdmin(p)+phAdmin(p)+
   '<p class="dxnote">Facts come from the sources listed. Spot something wrong? <button class="dxcr" data-a="go" data-v="contact">Tell us</button></p></div>'}
 function guideView(){
  const ph=[["Pidgin","How far?","How are you?"],["Pidgin","Tank you","Thank you"],["Yoruba","Bawo ni?","How are you?"],["Yoruba","E se","Thank you"],["Igbo","Kedu?","How are you?"],["Igbo","Daalu","Thank you"],["Hausa","Sannu","Hello"],["Hausa","Na gode","Thank you"]];
@@ -4505,7 +4519,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="evshare"){shOpen(id);return}
  else if(a==="shclose"){shClose();return}else if(a==="shcopy"){shCopy();return}else if(a==="shpic"){shPic(v);return}else if(a==="shmore"){shMore();return}else if(a==="shqr"){shQr();return}else if(a==="shto"){setTimeout(shClose,400);return}
  else if(a==="trip"){togTrip(id)}else if(a==="rmtrip"){togTrip(id,1)}else if(a==="cleartrip"){TRIP=[];saveTrip()}else if(a==="tripshare"){tripShare();return}else if(a==="tripcsv"){tripCsv();return}
- else if(a==="exp"){S.st=v}else if(a==="corr"){openCorr(id);return}else if(a==="vsave"){vSave(id,t);return}else if(a==="phsave"){phSave(id,t);return}else if(a==="phdel"){phDel(id);return}else if(a==="vopen"){revLeave();S.open=id;render();return}else if(a==="strep"){stReport(id,v);return}else if(a==="mchk"){markChecked(id);return}else if(a==="mchkask"){CHKC=1;renderRev();return}else if(a==="mchkno"){CHKC=0;renderRev();return}else if(a==="mchkall"){markAllChecked(v);return}else if(a==="ast"){const vv=all().find(x=>x.id===id);if(vv){const n=$("#stnote");setStatusName(vv.name,v,n?n.value.trim():"")}return}else if(a==="stapply"){const c=CORR.find(x=>x.sid===id);if(c){setStatusName(c.name,c.st,"");moderate("dismiss",id)};return}else if(a==="closec"){$("#cm").hidden=true;return}
+ else if(a==="exp"){S.st=v}else if(a==="corr"){openCorr(id);return}else if(a==="vsave"){vSave(id,t);return}else if(a==="phsave"){phSave(id,t);return}else if(a==="pdsave"){pdSave(id,t);return}else if(a==="pdreset"){pdReset(id);return}else if(a==="phdel"){phDel(id);return}else if(a==="vopen"){revLeave();S.open=id;render();return}else if(a==="strep"){stReport(id,v);return}else if(a==="mchk"){markChecked(id);return}else if(a==="mchkask"){CHKC=1;renderRev();return}else if(a==="mchkno"){CHKC=0;renderRev();return}else if(a==="mchkall"){markAllChecked(v);return}else if(a==="ast"){const vv=all().find(x=>x.id===id);if(vv){const n=$("#stnote");setStatusName(vv.name,v,n?n.value.trim():"")}return}else if(a==="stapply"){const c=CORR.find(x=>x.sid===id);if(c){setStatusName(c.name,c.st,"");moderate("dismiss",id)};return}else if(a==="closec"){$("#cm").hidden=true;return}
  else if(a==="qa"){qAns(+v)}else if(a==="qn"){qNext()}else if(a==="qr"){qStart(v)}else if(a==="qquit"){qQuit()}else if(a==="qshare"){qShare();return}
  else return;
  if((a==="open"||a==="close")&&LIGHT.has(S.view)&&!S.fs){lightOpen();return}
@@ -4852,9 +4866,9 @@ function moderate(a,id){const isC=a==="dismiss",v=(isC?CORR:PEND).find(x=>x.sid=
  if(a==="reject")job.then(()=>blobDel(v.img));
  return job.catch(()=>{revUnhide(id,col);toast("That didn’t save. Check your connection and try again.")})}
 (async()=>{try{if(typeof claude==="undefined")return;const r=await Promise.all([claude.use("db"),claude.use("user")]);if(!r[0])return;DB=r[0];
- try{ADMIN=r[1]?await r[1].canEdit():false}catch(x){}try{UID=r[1]?await r[1].id():null}catch(x){}
+ try{ADMIN=r[1]?await r[1].canEdit():false}catch(x){}try{applyPlaceEdits()}catch(x){}try{UID=r[1]?await r[1].id():null}catch(x){}
  try{ASSETS=await claude.use("assets")}catch(x){ASSETS=null}
- DB.collection("overrides").onSnapshot(sn=>{OVR={};STS={};ND=new Set();const pho={};let sc=new Set(),bl=[];sn.docs.forEach(d=>{const x=d.data();if(d.id.slice(0,3)==="ph-"){if(x)pho[d.id.slice(3)]=x;return}if(d.id==="block"){bl=((x&&x.terms)||[]).filter(i=>typeof i==="string").map(i=>i.toLowerCase());return}if(d.id==="scam"){sc=new Set(((x&&x.ids)||[]).filter(i=>typeof i==="string"));return}if(d.id==="notdup"){ND=new Set((x&&x.pairs)||[]);return}if(x&&x.status&&x.name){STS[x.name]=x.status;return}if(x&&x.name)OVR[x.name]=Object.assign({oid:d.id},x)});SCAMC=sc;BLK=bl;PHO=pho;applyOvr();renderSoon();stAlerts();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
+ DB.collection("overrides").onSnapshot(sn=>{OVR={};STS={};ND=new Set();const pho={},pdo={};let sc=new Set(),bl=[];sn.docs.forEach(d=>{const x=d.data();if(d.id.slice(0,3)==="ph-"){if(x)pho[d.id.slice(3)]=x;return}if(d.id.slice(0,3)==="pd-"){if(x)pdo[d.id.slice(3)]=x;return}if(d.id==="block"){bl=((x&&x.terms)||[]).filter(i=>typeof i==="string").map(i=>i.toLowerCase());return}if(d.id==="scam"){sc=new Set(((x&&x.ids)||[]).filter(i=>typeof i==="string"));return}if(d.id==="notdup"){ND=new Set((x&&x.pairs)||[]);return}if(x&&x.status&&x.name){STS[x.name]=x.status;return}if(x&&x.name)OVR[x.name]=Object.assign({oid:d.id},x)});SCAMC=sc;BLK=bl;PHO=pho;PDO=pdo;try{applyPlaceEdits()}catch(e){}applyOvr();renderSoon();stAlerts();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
  DB.collection("events").onSnapshot(sn=>{const RA=sn.docs.map(d=>cleanEv(Object.assign({},d.data(),{id:"r"+d.id,src:0,pend:0,rev:1})));REMOTE=RA.filter(v=>!v.hide);RHID=RA.filter(v=>v.hide);REMLOADED=true;if(PENDLINK){const k=PENDLINK,v=evFind(k);if(v){PENDLINK=null;S.open=v.id;S.sel=v.id;render()}else endedLookup(k)}renderSoon();if(ADMIN&&!$("#rev").hidden)renderRev()},()=>{});
  if(ADMIN){const flat=sn=>[].concat(...sn.docs.map(d=>((d.data().items)||[]).slice(0,100).map(it=>cleanEv(Object.assign({},it,{uid:d.id,sid:d.id+"#"+it.iid})))));
   DB.collection("submissions").onSnapshot(sn=>{PEND=flat(sn).filter(x=>!GONE.has(x.sid));revCount();renderRev()},()=>{});
@@ -4950,9 +4964,37 @@ async function saveEdit(id,d){const v=all().find(x=>x.id===id);if(!v||!DB)throw 
 async function saveVenue(id,venue){const v=all().find(x=>x.id===id);venue=String(venue||"").trim();if(!v||!DB)return false;if(!venue){toast("Type the venue first.");return false}
  const n=origName(id),o=OVR[n],job=id[0]==="r"?DB.doc("events/"+id.slice(1)).update({venue}):DB.doc("overrides/o"+hsh(n)).set({name:n,patch:Object.assign({},o&&o.patch||{},{venue})});
  toast("Venue saved for "+v.name+". Everyone sees it now.");job.catch(()=>toast("That venue didn’t save. Check your connection and try again."));return true}
+/* ---------- owner tools: edit a tourism place's details ---------- */
+function pdAdmin(p){if(!ADMIN||!DB)return"";const b=PLB[p.id]||p,v=k=>esc(p[k]==null?"":String(p[k]));
+ const stOpts=STATES.map(x=>'<option'+(x[0]===p.state?" selected":"")+'>'+esc(x[0])+'</option>').join(""),cOpts=Object.keys(TCAT).map(c=>'<option'+(c===p.cat?" selected":"")+'>'+esc(c)+'</option>').join("");
+ return '<details class="adm phadm pdadm"><summary><span>Owner tools</span><b>Edit details</b>'+(p.hide?'<em class="pdh">Hidden</em>':p.edited?'<em class="pde">Edited</em>':"")+'</summary><div class="phf" data-pid="'+esc(p.id)+'">'+
+  '<label><span>Name</span><input type="text" maxlength="90" value="'+v("name")+'" data-pd="name" required></label>'+
+  '<div class="pdrow"><label><span>Type of place</span><select data-pd="cat">'+cOpts+'</select></label><label><span>State</span><select data-pd="state">'+stOpts+'</select></label></div>'+
+  '<label><span>Town or area</span><input type="text" maxlength="60" value="'+v("town")+'" data-pd="town"></label>'+
+  '<label><span>About</span><textarea rows="3" maxlength="500" data-pd="about">'+v("about")+'</textarea></label>'+
+  '<label><span>Good to know</span><textarea rows="3" maxlength="500" data-pd="tip">'+v("tip")+'</textarea></label>'+
+  '<label><span>Best time to visit <i>optional, replaces the general advice</i></span><textarea rows="2" maxlength="240" placeholder="'+esc(BEST[p.cat]||"")+'" data-pd="best">'+v("best")+'</textarea></label>'+
+  '<div class="pdrow"><label><span>Latitude</span><input type="text" inputmode="decimal" value="'+v("lat")+'" data-pd="lat"></label><label><span>Longitude</span><input type="text" inputmode="decimal" value="'+v("lon")+'" data-pd="lon"></label></div>'+
+  '<p class="sm">To move the pin, copy the numbers from Google Maps: press and hold the exact spot, then copy the two numbers shown. You can paste both into Latitude.</p>'+
+  '<label class="pdck"><input type="checkbox" data-pd="hide"'+(p.hide?" checked":"")+'> Hide this place from visitors</label>'+
+  '<div class="act" style="margin:0"><button class="btn p" data-a="pdsave" data-id="'+esc(p.id)+'">Save details</button>'+(PDO[p.id]?'<button class="btn" data-a="pdreset" data-id="'+esc(p.id)+'">Undo all my edits</button>':"")+'</div>'+
+  (PDO[p.id]?'<p class="sm">Original name: '+esc(b.name)+' · '+esc(b.town)+', '+esc(b.state)+'</p>':"")+'</div></details>'}
+async function pdSave(id,btn){const box=btn&&btn.closest(".phf");if(!box||!DB||!ADMIN)return;const b=PLB[id];if(!b)return;
+ const g=k=>box.querySelector('[data-pd="'+k+'"]'),val=k=>{const el=g(k);return el?(el.type==="checkbox"?el.checked:String(el.value||"").trim()):""};
+ const name=PDS(val("name"),90);if(!name){toast("The place needs a name.");return}
+ let la=val("lat"),lo=val("lon");const m=/^\s*(-?\d+(?:\.\d+)?)\s*[, ]\s*(-?\d+(?:\.\d+)?)\s*$/.exec(la);if(m&&!lo){la=m[1];lo=m[2]}
+ const lat=+la,lon=+lo;if(!(lat>=3.8&&lat<=14.2&&lon>=2.4&&lon<=15)){toast("Those map numbers aren’t in Nigeria. Latitude is about 4 to 14, longitude about 2.5 to 15.");return}
+ const cur={name,cat:val("cat"),state:val("state"),town:PDS(val("town"),60),about:PDS(val("about"),500),tip:PDS(val("tip"),500),best:PDS(val("best"),240),lat:Math.round(lat*1e5)/1e5,lon:Math.round(lon*1e5)/1e5};
+ const d={};for(const k in cur){const o=k==="best"?"":b[k];if(String(cur[k])!==String(o==null?"":o)&&!(k==="best"&&!cur[k]))d[k]=cur[k]}
+ if(val("hide"))d.hide=1;
+ const t=btn.textContent;btn.disabled=true;btn.textContent="Saving…";
+ try{if(!Object.keys(d).length){await DB.doc("overrides/pd-"+id).delete();delete PDO[id]}else{d.at=new Date().toISOString();await DB.doc("overrides/pd-"+id).set(d);PDO[id]=d}
+  applyPlaceEdits();toast(d.hide?"Saved. This place is now hidden from visitors.":"Saved. Everyone sees the new details now.");render();try{glAttach()}catch(e){}}
+ catch(x){toast((x&&x.msg)||"That didn’t save. Check your connection and try again.")}finally{btn.disabled=false;btn.textContent=t}}
+async function pdReset(id){if(!DB||!ADMIN)return;try{await DB.doc("overrides/pd-"+id).delete();delete PDO[id];applyPlaceEdits();toast("Back to the original details.");render();try{glAttach()}catch(e){}}catch(x){toast("That didn’t save. Check your connection and try again.")}}
 /* ---------- owner tools: change a tourism place's photo and add links ---------- */
 function phAdmin(p){if(!ADMIN||!DB)return"";const o=PHO[p.id]||{},v=k=>esc(o[k]||"");
- return '<details class="adm phadm"'+(o.img||o.web?"":"")+'><summary><span>Owner tools</span><b>'+(o.img?"Change photo, contacts or links":"Add a photo, contacts or links")+'</b></summary><div class="phf" data-pid="'+esc(p.id)+'">'+
+ return '<details class="adm phadm"'+(o.img||o.web?"":"")+'><summary><span>Owner tools</span><b>'+"Photo, contacts and links"+'</b></summary><div class="phf" data-pid="'+esc(p.id)+'">'+
   '<label><span>Upload a photo</span><input type="file" accept="image/*" data-ph="file"></label>'+
   '<label><span>Or paste an image link</span><input type="url" inputmode="url" placeholder="https://…/photo.jpg" value="'+(/^https:/i.test(o.img||"")?v("img"):"")+'" data-ph="img" autocomplete="off"></label>'+
   '<label><span>Photo credit <i>optional</i></span><input type="text" maxlength="140" placeholder="Photo: Name · CC BY-SA 4.0" value="'+v("credit")+'" data-ph="credit"></label>'+
