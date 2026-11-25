@@ -2307,6 +2307,34 @@ select.sel optgroup,.md select optgroup,.cform select optgroup,.tz-tseg button,.
 @media (max-width:760px){.calsum .eyb{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.calsum .card>span:last-child{-webkit-line-clamp:2!important}}
 @media (max-width:760px){.calsum{grid-template-columns:1fr 1fr 1fr;gap:8px}.calsum .card{padding:10px 10px}.calsum .card b{font-size:20px}.calsum .card>span:last-child{font-size:11.5px}}
 @media (max-width:420px){.calsum .card>span:last-child{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
+
+/* ===== phone web polish (25 Nov 2026) ===== */
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.nphd,.nmsel,.tz-fbtn,.calsum .cs{display:none}
+.pld .dxf:has(+.pchkw){border-bottom-left-radius:0;border-bottom-right-radius:0;box-shadow:none}
+.pld .pchkw>.dxd{margin:0;border-top:0;border-top-left-radius:0;border-top-right-radius:0;box-shadow:none}
+html.app .glb .maplibregl-ctrl-group button{width:30px!important;height:30px!important}
+html.app .ubar .uch{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);padding-right:24px}
+html.app .nphd{display:block;padding:14px 16px 0}
+html.app .nphd .hdf{font-size:24px!important;margin:0 0 2px!important}
+html.app .nphd p{margin:0!important}
+html.app .nsplit .lp .nhd{display:none}
+html.app .nsplit>.mapbox{margin-top:10px}
+html.app .nmsel{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+html.app .nms{position:relative;flex:1 1 auto;min-width:0}
+html.app .nms:nth-child(1){flex-basis:74px}html.app .nms:nth-child(2){flex-basis:88px}html.app .nms:nth-child(3){flex-basis:92px}
+html.app .nmsel .nmfree{padding:0 12px}
+html.app .nms select{width:100%;height:38px;padding:0 22px 0 11px;background-position:right 8px center!important;border:1px solid var(--edge,var(--ln));border-radius:999px;background:var(--pn) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236D6F68' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;-webkit-appearance:none;appearance:none;font:600 12.5px/1 var(--font-interface);color:var(--tx);text-overflow:ellipsis}
+html.app .nmsel .chip{height:38px;flex:none}
+html.app .nsplit .nflt{display:none}
+html.app .calsum .cl{display:none}
+html.app .calsum .cs{display:block;font-size:12px;color:var(--mu);line-height:1.3}
+html.app .calsum .eyb{font-size:10.5px;white-space:nowrap}
+html.app .tz-fbtn{display:flex;align-items:center;gap:8px;width:100%;height:48px;margin:0 0 12px;padding:0 14px;border:1px solid var(--edge,var(--ln));border-radius:16px;background:var(--pn);color:var(--tx);font:600 14px/1 var(--font-interface);cursor:pointer;box-shadow:var(--sh0)}
+html.app .tz-fbtn em{font-style:normal;font-weight:500;font-size:12.5px;color:var(--mu);margin-left:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.app .tz-fbtn i{font-style:normal;font-size:18px;line-height:1;color:var(--mu);width:16px;text-align:center}
+html.app .tz-fbtn[hidden]{display:none}
+html.app .tz-tfl:not(.fo){display:none}
 </style>
 </head>
 <body>
@@ -3453,9 +3481,9 @@ function calView(){const L=list({anyDate:true}),wk=S.calMode!=="month";let days=
  /* at-a-glance strip under the grid: the busiest day, this weekend, and free events in this period */
  const up=days.filter(k=>k>=TODAY),cnt=k=>L.filter(v=>v.s<=k&&v.e>=k).length,busy=up.reduce((a,k)=>{const n=cnt(k);return n>a[1]?[k,n]:a},["",0]),wr=weekendRange(),wkN=L.filter(v=>v.s<=wr[1]&&v.e>=wr[0]).length,frN=L.filter(v=>v.s<=f1&&v.e>=(f0>TODAY?f0:TODAY)&&isFree(v)).length;
  const dl=k=>{const d=new Date(k+"T00:00:00");return d.toLocaleDateString("en-GB",{weekday:"short"})+" "+d.getDate()+" "+MON[d.getMonth()]};
- h+='</div>'+(up.length?'<div class="calsum">'+(busy[1]?'<button class="card" data-a="cday" data-v="'+busy[0]+'"><span class="eyb">Busiest day</span><b class="tnum">'+busy[1]+'</b><span>events on '+dl(busy[0])+'</span></button>':"")+
-  '<button class="card" data-a="cday" data-v="'+(wr[0]>=f0&&wr[0]<=f1?wr[0]:TODAY)+'"><span class="eyb">This weekend</span><b class="tnum">'+wkN+'</b><span>events, '+dl(wr[0])+' – '+dl(wr[1]).split(" ").slice(1).join(" ")+'</span></button>'+
-  '<button class="card'+(S.free?" on":"")+'" data-a="free"><span class="eyb">Free entry</span><b class="tnum">'+frN+'</b><span>'+(S.free?"showing free events only · tap to show all":"free events "+(wk?"in the next five weeks":"this month")+" · tap to show only these")+'</span></button></div>':"")+'</div><aside class="card cagenda"><div class="eyb">'+(sel===TODAY?"Today":sel<TODAY?"Earlier":"Selected day")+'</div><h2>'+sl+'</h2>'+(onDay.length?onDay.map(evRow).join(""):'<p class="sm" style="margin:6px 0 10px">'+(sel<TODAY?"This day has passed.":"Nothing listed on this day.")+'</p>')+
+ h+='</div>'+(up.length?'<div class="calsum">'+(busy[1]?'<button class="card" data-a="cday" data-v="'+busy[0]+'"><span class="eyb">Busiest day</span><b class="tnum">'+busy[1]+'</b><span class="cl">events on '+dl(busy[0])+'</span><span class="cs">'+dl(busy[0])+'</span></button>':"")+
+  '<button class="card" data-a="cday" data-v="'+(wr[0]>=f0&&wr[0]<=f1?wr[0]:TODAY)+'"><span class="eyb">Weekend</span><b class="tnum">'+wkN+'</b><span class="cl">events, '+dl(wr[0])+' – '+dl(wr[1]).split(" ").slice(1).join(" ")+'</span><span class="cs">'+(+wr[0].slice(8))+'–'+dl(wr[1]).split(" ").slice(1).join(" ")+'</span></button>'+
+  '<button class="card'+(S.free?" on":"")+'" data-a="free"><span class="eyb">Free entry</span><b class="tnum">'+frN+'</b><span class="cl">'+(S.free?"showing free events only · tap to show all":"free events "+(wk?"in the next five weeks":"this month")+" · tap to show only these")+'</span><span class="cs">'+(S.free?"Showing only these":"Tap to show")+'</span></button></div>':"")+'</div><aside class="card cagenda"><div class="eyb">'+(sel===TODAY?"Today":sel<TODAY?"Earlier":"Selected day")+'</div><h2>'+sl+'</h2>'+(onDay.length?onDay.map(evRow).join(""):'<p class="sm" style="margin:6px 0 10px">'+(sel<TODAY?"This day has passed.":"Nothing listed on this day.")+'</p>')+
   '<div class="eyb" style="margin-top:18px">Coming up next</div>'+(next.length?next.map(evRow).join(""):'<p class="sm">No later events listed yet.</p>')+'</aside></div></div>';
  return h}
 function newsView(){const cats=["All"].concat(Object.keys(NC)),q=S.q.toLowerCase();const N=NEWS.filter(n=>(S.nc==="All"||n.c===S.nc)&&(!q||(n.t+" "+n.s+" "+n.c).toLowerCase().includes(q)));
@@ -4149,7 +4177,8 @@ function tourView(){
  const filt=T.cat!=="All"||T.zone!=="All"||T.unesco||T.hide||T.list!=="all"||T.q;
  const left=head+
  '<label class="nsr tz-tq"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="tq" type="search" enterkeyhint="search" autocomplete="off" placeholder="Search places by name or town" aria-label="Search tourism places by name or town" aria-controls="tzres" value="'+esc(T.q)+'"></label>'+
- '<div class="tz-tfl"'+(T.q.trim()?' hidden':'')+'>'+
+ (()=>{const on=[T.cat!=="All"&&T.cat,T.zone!=="All"&&T.zone,T.base&&"Near "+T.base,T.unesco&&"UNESCO",T.list==="want"&&"Want to go",T.list==="been"&&"Been there",T.hide&&"No-go states hidden"].filter(Boolean),n=on.length;return '<button class="tz-fbtn" data-a="tfo" aria-expanded="'+!!T.fo+'"'+(T.q.trim()?' hidden':'')+'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span>Filter places</span><em>'+(n?esc(on.join(", ")):"Type, region, UNESCO")+'</em><i aria-hidden="true">'+(T.fo?"−":"+")+'</i></button>'})()+
+ '<div class="tz-tfl'+(T.fo?" fo":"")+'"'+(T.q.trim()?' hidden':'')+'>'+
  '<div class="tz-tsel"><select class="sel" data-a="tbase" aria-label="Where are you staying?"><option value="">Staying in… (any city)</option>'+Object.keys(BASES).map(b=>'<option'+(T.base===b?" selected":"")+'>'+b+'</option>').join("")+'</select><select class="sel" data-a="tzone" aria-label="Region">'+zones.map(z=>'<option value="'+z+'"'+(T.zone===z?" selected":"")+'>'+(z==="All"?"All regions":z)+'</option>').join("")+'</select></div>'+
  '<div class="tz-tlab">Type of place</div>'+
  '<div class="tz-tcats" role="group" aria-label="Type of place">'+["All"].concat(Object.keys(TCAT)).map(c=>{const on=T.cat===c,col=c==="All"?"var(--tx)":tcc(c)[0];return '<button class="tz-tct'+(on?" on":"")+'" data-a="tcat" data-v="'+esc(c)+'" aria-pressed="'+on+'" style="--tc:'+col+'"><span class="tz-ti">'+(c==="All"?ALLI:tico(c,20))+'</span><span class="tz-tl">'+(c==="All"?"All places":esc(c))+'</span><span class="tz-tn">'+(c==="All"?PL.length:(cnt[c]||0))+'</span></button>'}).join("")+'</div>'+
@@ -4186,10 +4215,10 @@ function placeDrawer(p){const d=dist(p),air=nearestAir(p),a=adv(p.state),o=PHO[p
   (wa?lrow("https://wa.me/"+wa,IC.wa,"Message on WhatsApp","Many places reply faster here"):"")+
   (web?lrow(web,IC.web,esc(o.webl||"Official website"),esc(web.replace(/^https?:\/\/(www\.)?/,"").split("/")[0])):"")+
   lrow("https://www.google.com/search?q="+encodeURIComponent("weather "+p.town+" Nigeria"),DXI.sun,"Weather in "+esc(p.town),"Live forecast")+'</div>'+
-  '<div style="margin-top:8px">'+dxAcc("pchk",DXI.chk,"Before you go",checks.length+" things to check",'<div class="plchk">'+checks.map(x=>'<label><input type="checkbox"> '+esc(x)+'</label>').join("")+'</div>')+'</div>'+
+  '<div class="pchkw">'+dxAcc("pchk",DXI.chk,"Before you go",checks.length+" things to check",'<div class="plchk">'+checks.map(x=>'<label><input type="checkbox"> '+esc(x)+'</label>').join("")+'</div>')+'</div>'+
   '<p class="plnote">Opening hours and fees change. Confirm with the place before you travel.</p>';
  /* nearby */
- const nearH=near.length?'<div class="dxf">'+near.map(n=>'<button class="dxr dxrl" data-a="popen" data-id="'+n[0].id+'"><span class="dxi" style="background:'+tcc(n[0].cat)[0]+'22;color:'+tcc(n[0].cat)[0]+'">'+tico(n[0].cat,18)+'</span><span class="dxs"><b>'+esc(n[0].name)+'</b><span>'+esc(n[0].cat)+'</span></span><span class="pldist">'+n[1]+' km</span></button>').join("")+'</div>':"";
+ const nearH=near.length?'<div class="dxf">'+near.map(n=>'<button class="dxr dxrl" data-a="popen" data-id="'+n[0].id+'"><span class="dxi" style="background:'+tcc(n[0].cat)[0]+'22;color:'+tcc(n[0].cat)[0]+'">'+tico(n[0].cat,18)+'</span><span class="dxs"><b>'+esc(n[0].name)+'</b><span>'+esc(n[0].cat)+'</span></span><span class="pldist">'+(+n[1]<1?"Same area":n[1]+' km')+'</span></button>').join("")+'</div>':"";
  const evH=nbEvents(p),evw=evH&&(evNearPl(p)||{}).wide;
  return XBAR+plHero(p)+'<div class="in dx dx2 pld">'+backLnk()+head+warnb+
   sec("Where it is",where)+
@@ -4387,7 +4416,13 @@ function nearView(){const nOpen=!NEAR||N.chg;
  const ix=RS.indexOf(N.r),wider=RS[ix+1];
  const top=D.inR.slice(0,6),share="What’s on near "+(NEAR.src==="gps"?(NEAR.near||"me"):NEAR.name)+" (NaijaOuting):\n"+top.map(x=>"• "+x.v.name+" – "+fd(x.v.s,x.v.e)+", "+(x.v.venue||x.v.city)+" ("+fk(x.d)+")").join("\n");
  const lim=N.lim||10,todayTop=(today.length&&N.when!=="today")?today.slice(0,3):[],seen=new Set(todayTop.map(x=>x.v.id)),rest=D.inR.filter(x=>!seen.has(x.v.id)),pls=(D.plR.length?D.plR:D.pl).slice(0,8);
- let L=head+loc+
+ const RL={2:"2 km",5:"5 km",10:"10 km",25:"25 km",50:"50 km",150:"150 km"},WSS={today:"Today",wk:"Weekend",n7:"7 days",n30:"30 days",up:"Any date"};
+ /* phones: the three filters fit on one line as menus */
+ const msel='<div class="nmsel"><label class="nms"><span class="vh">Distance</span><select data-a="nrsel" aria-label="Distance">'+RS.map(r=>'<option value="'+r+'"'+(N.r===r?" selected":"")+'>'+RL[r]+'</option>').join("")+'</select></label>'+
+  '<label class="nms"><span class="vh">When</span><select data-a="nwsel" aria-label="When">'+WS.map(w=>'<option value="'+w[0]+'"'+(N.when===w[0]?" selected":"")+'>'+WSS[w[0]]+'</option>').join("")+'</select></label>'+
+  '<label class="nms"><span class="vh">Order</span><select data-a="nssel" aria-label="Order"><option value="dist"'+(N.sort==="dist"?" selected":"")+'>Nearest</option><option value="date"'+(N.sort==="date"?" selected":"")+'>Soonest</option></select></label>'+
+  '<button class="chip nmfree'+(S.free?" on":"")+'" data-a="free" aria-pressed="'+!!S.free+'">Free</button>'+(S.cat!=="All"?'<button class="chip on" data-a="cat" data-v="All">'+esc(S.cat)+' ✕</button>':"")+'</div>';
+ let L='<div class="nhd">'+head+'</div>'+loc+msel+
   '<div class="nflt"><div class="nfr"><span class="sl">Distance</span><div class="chips nscr">'+RS.map(r=>'<button class="chip'+(N.r===r?" on":"")+'" data-a="nr" data-v="'+r+'">'+r+' km</button>').join("")+'</div></div>'+
   '<div class="nfr"><span class="sl">When</span><div class="chips nscr">'+WS.map(w=>'<button class="chip'+(N.when===w[0]?" on":"")+'" data-a="nw" data-v="'+w[0]+'">'+w[1]+'</button>').join("")+'</div></div>'+
   '<div class="nfr"><span class="sl">Show</span><div class="chips nscr"><button class="chip'+(N.sort==="dist"?" on":"")+'" data-a="ns" data-v="dist">Nearest first</button><button class="chip'+(N.sort==="date"?" on":"")+'" data-a="ns" data-v="date">Soonest first</button><button class="chip'+(S.free?" on":"")+'" data-a="free">Free entry</button>'+(S.cat!=="All"?'<button class="chip on" data-a="cat" data-v="All">'+esc(S.cat)+' ✕</button>':"")+'</div></div></div>'+
@@ -4402,7 +4437,7 @@ function nearView(){const nOpen=!NEAR||N.chg;
  if(pls.length)L+='<div class="nsec"><span>'+(D.plR.length?"Places to visit within "+N.r+" km":"Nearest places to visit")+'</span><button class="lnk" data-a="go" data-v="tour">Tourism →</button></div><div class="nbrow">'+pls.map(x=>{const p=x.p,ph=phOf(p);return nbCard('data-a="popen" data-id="'+p.id+'" aria-label="'+esc(p.name)+', '+esc(p.cat)+', '+fk(x.d).replace("\u00a0"," ")+' away"',ph?(safeImg(ph.th)||ph.img):"",tgrad(p.cat),tico(p.cat,30),p.name,esc(p.cat),"",fk(x.d))}).join("")+'</div>';
  L+='<p class="sm" style="margin-top:16px">Distances are straight-line from '+(NEAR.src==="gps"?"your location":esc(NEAR.name))+'; drive times are rough guides without traffic. ≈ means the venue isn’t pinned yet, so we measured to its area or city centre; “In your area” means it’s in your part of town but its exact spot isn’t known.</p>';
  const leg='<div class="legend"><span><i style="background:#2F80ED"></i>You</span><span><i style="background:var(--ac)"></i>Event (colour = category)</span><span><i style="background:var(--gold);border-radius:2px;transform:rotate(45deg)"></i>Place to visit</span><span>Rings: '+fk(N.r)+'</span></div>';
- return '<div class="split"><div class="lp">'+L+'</div><div class="mapbox">'+nMap(D)+leg+'</div></div>'}
+ return '<div class="nphd">'+head+'</div><div class="split nsplit"><div class="lp">'+L+'</div><div class="mapbox">'+nMap(D)+leg+'</div></div>'}
 
 /* Category covers: original illustrations drawn for NaijaOuting (SVG). */
 const COVERS={"Music":"/covers/music.webp?v=3","Arts & Culture":"/covers/arts-culture.webp?v=3","Business":"/covers/business.webp?v=3","Tech":"/covers/tech.webp?v=3","Fashion":"/covers/fashion.webp?v=3","Faith":"/covers/faith.webp?v=3","Civic":"/covers/civic.webp?v=3","Sports":"/covers/sports.webp?v=3","Comedy":"/covers/comedy.webp?v=3","Nightlife & Parties":"/covers/nightlife-parties.webp?v=3","Food & Drink":"/covers/food-drink.webp?v=3","Festivals & Carnivals":"/covers/festivals-carnivals.webp?v=3","Film & Theatre":"/covers/film-theatre.webp?v=3","Careers & Education":"/covers/careers-education.webp?v=3","Kids & Family":"/covers/kids-family.webp?v=3","Health & Fitness":"/covers/health-fitness.webp?v=3","Expos & Trade Fairs":"/covers/expos-trade-fairs.webp?v=3","Workshops & Classes":"/covers/workshops-classes.webp?v=3","Markets & Pop-ups":"/covers/markets-pop-ups.webp?v=3","Gaming & Esports":"/covers/gaming-esports.webp?v=3","Books & Literature":"/covers/books-literature.webp?v=3","Charity & Volunteering":"/covers/charity-volunteering.webp?v=3","Agriculture":"/covers/agriculture.webp?v=3"};
@@ -4628,7 +4663,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="zin"){const c=Object.keys(CITY).map(k=>[k,list().filter(x=>x.city===k).length]).sort((p,q)=>q[1]-p[1])[0];if(c&&c[1])S.city=c[0]}
  else if(a==="sel"){S.back=null;S.open=id;S.sel=id;const D=$("#drawer");if(D)D.scrollTop=0}
  else if(a==="unsel")S.sel=null;else if(a==="open"){S.back=null;S.open=id}else if(a==="close"){S.back=null;S.open=null;S.place=null;S.sel=null;if(REVBACK)setTimeout(revBack,0)}
- else if(a==="mo"){if(S.calMode!=="month"){S.calMode="month";S.y=NOW.getFullYear();S.m=NOW.getMonth();if(+v<0)v=0}S.m+=+v;if(S.m<0){S.m=11;S.y--}if(S.m>11){S.m=0;S.y++}}else if(a==="mot"){S.calMode="weeks";S.y=NOW.getFullYear();S.m=NOW.getMonth();S.cd=TODAY}else if(a==="cday"){S.cd=v}else if(a==="catmore"){S.catOpen=S.catOpen?0:1}
+ else if(a==="mo"){if(S.calMode!=="month"){S.calMode="month";S.y=NOW.getFullYear();S.m=NOW.getMonth();if(+v<0)v=0}S.m+=+v;if(S.m<0){S.m=11;S.y--}if(S.m>11){S.m=0;S.y++}}else if(a==="mot"){S.calMode="weeks";S.y=NOW.getFullYear();S.m=NOW.getMonth();S.cd=TODAY}else if(a==="cday"){S.cd=v;if(APP)setTimeout(()=>{const g=document.querySelector(".cagenda");if(g)g.scrollIntoView({block:"start",behavior:"smooth"})},60)}else if(a==="catmore"){S.catOpen=S.catOpen?0:1}
  else if(a==="nc")S.nc=v;
  else if(a==="flv"){flvOpen(id);return}else if(a==="flvclose"){flvClose();return}else if(a==="flvbg"){if(e.target.id!=="flvimg")flvClose();return}else if(a==="flvzoom"){e.target.classList.toggle("z");return}else if(a==="flvsave"){flvSave();return}else if(a==="flvshare"){const i=FLV&&FLV.id;flvClose();if(i)setTimeout(()=>shOpen(i),60);return}
  else if(a==="locate"){locate();return}else if(a==="nchg"){N.chg=1;NQ="";NRES=[];render();setTimeout(()=>{const q=$("#nq");if(q)q.focus()},50);return}else if(a==="nchgx"){N.chg=0;render();return}else if(a==="nask"){nAsk();return}else if(a==="nfocus"){const q=$("#nq");if(q){q.scrollIntoView({block:"center",behavior:"smooth"});setTimeout(()=>q.focus({preventScroll:true}),350)}return}
@@ -4640,6 +4675,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="mzin"){zTo(1.6,null,true);return}else if(a==="mzout"){zTo(1/1.6,null,true);return}else if(a==="mzfit"){zFit();return}
  else if(a==="tlist")T.list=T.list===v?"all":v;else if(a==="tclear"){T.cat="All";T.zone="All";T.unesco=0;T.hide=0;T.list="all";T.q=""}
  else if(a==="nmore"){N.lim=(N.lim||10)+20}
+ else if(a==="tfo"){T.fo=T.fo?0:1}
  else if(a==="bbset"){S.bb=v?v.split(",").map(Number):null;S.bbf=mapSig();setTimeout(glAreaUpd,0)}
  else if(a==="xnav"){S.back=S.place?{k:"p",id:S.place}:S.open?{k:"e",id:S.open}:null;if(v==="p"){T.sel=id;S.place=id;S.open=null}else{S.place=null;S.open=id;S.sel=id}const D=$("#drawer");if(D)D.scrollTop=0}
  else if(a==="xback"){const b=S.back;S.back=null;if(b){if(b.k==="p"){T.sel=b.id;S.place=b.id;S.open=null}else{S.place=null;S.open=b.id;S.sel=b.id}}const D=$("#drawer");if(D)D.scrollTop=0}
@@ -4728,7 +4764,9 @@ function setView(){const m=SET.mode;const cities=["All"].concat(Object.keys(CITY
 function openSet(){CLR=0;setView();$("#setm").hidden=false}
 function setChange(){saveSet();applySet();setView();render()}
 document.addEventListener("change",e=>{if(e.target.dataset.chk){const c=CHK[e.target.dataset.id]||(CHK[e.target.dataset.id]={});c[e.target.dataset.chk]=e.target.checked;return}const a=e.target.dataset.a;if(!a)return;
- if(a==="shome"){SET.home=e.target.value;S.city=SET.home;saveSet();setView();render();return}else if(a==="narea"){const f=FLAT_A[+e.target.value];if(!f||e.target.value==="")return;setNear({name:f.name,lat:f.lat,lon:f.lon,src:"area"});N.chg=0;NQ=""}else if(a==="tbase"){T.base=e.target.value;try{localStorage.setItem("ne_base",T.base)}catch(x){}}else if(a==="tzone")T.zone=e.target.value;else if(a==="citysel"){S.city=e.target.value;S.sel=null}else if(a==="stc"||a==="sta"||a==="stb"){const s0=STOPS[+e.target.dataset.id];if(s0){const val=e.target.value;if(a==="stc")s0.c=val;else if(a==="sta"){s0.a=val;if(s0.b<val)s0.b=val}else s0.b=val<s0.a?s0.a:val;saveStops()}}else if(a==="sortsel"){const sv=e.target.value;if(sv==="near"&&!NEAR){e.target.value=S.sort||"soon";toast("Set your location in Near me first, then sort by distance.");return}S.sort=sv;S.nsort=sv==="near"?1:0}else if(a==="catsel")S.cat=e.target.value;else if(a==="whensel")S.when=e.target.value;else if(a==="d1"){S.d1=e.target.value;if(S.d1&&S.d2&&S.d2<S.d1)S.d2="";if(!S.d1&&S.d2){S.d1=S.d2;S.d2=""}S.when=S.d1?"date":"up";S.dpo=S.d1?S.dpo:1}else if(a==="d2"){S.d2=e.target.value;if(S.d2&&!S.d1)S.d1=S.d2<TODAY?S.d2:TODAY;S.when=S.d1?"date":"up"}else if(a==="statesel")S.st=e.target.value||null;else return;render()});
+ if(a==="shome"){SET.home=e.target.value;S.city=SET.home;saveSet();setView();render();return}else if(a==="narea"){const f=FLAT_A[+e.target.value];if(!f||e.target.value==="")return;setNear({name:f.name,lat:f.lat,lon:f.lon,src:"area"});N.chg=0;NQ=""}else if(a==="tbase"){T.base=e.target.value;try{localStorage.setItem("ne_base",T.base)}catch(x){}}else if(a==="tzone")T.zone=e.target.value;else if(a==="citysel"){S.city=e.target.value;S.sel=null}else if(a==="stc"||a==="sta"||a==="stb"){const s0=STOPS[+e.target.dataset.id];if(s0){const val=e.target.value;if(a==="stc")s0.c=val;else if(a==="sta"){s0.a=val;if(s0.b<val)s0.b=val}else s0.b=val<s0.a?s0.a:val;saveStops()}}else if(a==="sortsel"){const sv=e.target.value;if(sv==="near"&&!NEAR){e.target.value=S.sort||"soon";toast("Set your location in Near me first, then sort by distance.");return}S.sort=sv;S.nsort=sv==="near"?1:0}else if(a==="catsel")S.cat=e.target.value;else if(a==="whensel")S.when=e.target.value;else if(a==="d1"){S.d1=e.target.value;if(S.d1&&S.d2&&S.d2<S.d1)S.d2="";if(!S.d1&&S.d2){S.d1=S.d2;S.d2=""}S.when=S.d1?"date":"up";S.dpo=S.d1?S.dpo:1}else if(a==="d2"){S.d2=e.target.value;if(S.d2&&!S.d1)S.d1=S.d2<TODAY?S.d2:TODAY;S.when=S.d1?"date":"up"}else if(a==="statesel")S.st=e.target.value||null;
+ else if(a==="nrsel"){N.r=+e.target.value;N.lim=0;try{localStorage.setItem("ne_nr",N.r)}catch(x){}}else if(a==="nwsel"){N.when=e.target.value;N.lim=0}else if(a==="nssel"){N.sort=e.target.value;N.lim=0}
+ else return;render()});
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.matches&&e.target.matches("input[data-vin]")){e.preventDefault();vSave(e.target.dataset.vin,e.target);return}if(S.view==="quiz"&&Q.list&&!Q.fin&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!(e.target.matches&&e.target.matches("input,textarea,select,[contenteditable]"))){const k="1234".indexOf(e.key)>-1?"1234".indexOf(e.key):"abcd".indexOf(String(e.key).toLowerCase());if(e.key.length===1&&k>-1&&Q.picks[Q.i]===undefined){e.preventDefault();qAns(k);render();return}if(e.key==="Enter"&&Q.picks[Q.i]!==undefined&&!(e.target.matches&&e.target.matches("button,a"))){e.preventDefault();qNext();render();return}}
 if((e.key==="Enter"||e.key===" ")&&e.target.matches("g[data-a],div[data-a]")){e.preventDefault();e.target.dispatchEvent(new MouseEvent("click",{bubbles:true}))}
  if(e.key==="Escape"){const dd=document.querySelector(".cdd.open");if(dd){dd.classList.remove("open");const b=dd.querySelector(".cddb");if(b){b.setAttribute("aria-expanded","false");b.focus()}return}const fromRev=REVBACK&&$("#rev").hidden;S.fs=0;S.curp=0;S.fyp=0;S.open=null;S.place=null;REVEDIT=null;["#modal","#cm","#rev","#setm","#moresh","#imp"].forEach(s=>$(s).hidden=true);render();if(fromRev)revBack();else{REVBACK=false;$("#revpill").hidden=true}}});
