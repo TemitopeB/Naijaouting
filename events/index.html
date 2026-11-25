@@ -2239,6 +2239,7 @@ select.sel optgroup,.md select optgroup,.cform select optgroup,.tz-tseg button,.
 .glb .maplibregl-ctrl-attrib.maplibregl-compact-show{padding:2px 26px 2px 8px}
 .glb .glfit{display:grid;place-items:center;color:#333}
 .glb .maplibregl-ctrl-attrib-inner{color:var(--mu)}
+.glb .maplibregl-ctrl-compass.rot{background:var(--acs)}
 .glarea{position:absolute;right:12px;top:12px;z-index:3;height:36px;padding:0 16px;border:0;border-radius:999px;background:var(--tx);color:var(--pn);font:600 13px/1 var(--font-interface);box-shadow:0 4px 14px rgba(0,0,0,.22);cursor:pointer;white-space:nowrap}
 .glarea[disabled]{background:var(--pn);color:var(--mu);cursor:default}
 .glarea:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
@@ -3232,13 +3233,20 @@ function glInit(){try{
  GLel=document.createElement("div");GLel.className="glb";
  const box=document.querySelector("#view .mapbox");if(box)box.insertBefore(GLel,box.firstChild);
  GLth=glTheme();
- GL=new maplibregl.Map({container:GLel,style:GLSTY[GLth],bounds:NGB,fitBoundsOptions:{padding:20},minZoom:4.3,maxZoom:18,maxBounds:[[-6,-2],[24,20]],attributionControl:false,fadeDuration:0,dragRotate:false,pitchWithRotate:false,touchPitch:false,cooperativeGestures:false,maxTileCacheSize:300});
- GL.touchZoomRotate.disableRotation();GL.keyboard.disableRotation&&GL.keyboard.disableRotation();
+ GL=new maplibregl.Map({container:GLel,style:GLSTY[GLth],bounds:NGB,fitBoundsOptions:{padding:20},minZoom:4.3,maxZoom:18,maxBounds:[[-6,-2],[24,20]],attributionControl:false,fadeDuration:0,dragRotate:true,pitchWithRotate:false,touchPitch:false,cooperativeGestures:false,maxTileCacheSize:300});
+ // the map can be turned (two-finger twist, right-click drag, or the north arrow); it never tilts
+ GL.touchZoomRotate.enableRotation();
  GL.scrollZoom.setWheelZoomRate(1/300);GL.scrollZoom.setZoomRate(1/120);
  // bottom-right corner, from the bottom up: map credit, zoom, my location, all of Nigeria
  GL.addControl(new maplibregl.AttributionControl({compact:true}),"bottom-right");
- GL.addControl(new maplibregl.NavigationControl({showCompass:false}),"bottom-right");
- try{GL.addControl(new maplibregl.GeolocateControl({positionOptions:{enableHighAccuracy:false,timeout:12000,maximumAge:300000},trackUserLocation:false,showAccuracyCircle:false,fitBoundsOptions:{maxZoom:12}}),"bottom-right")}catch(e){}
+ GL.addControl(new maplibregl.NavigationControl({showCompass:true,visualizePitch:false}),"bottom-right");
+ /* north arrow: drag it to turn the map; tap it to turn 45°, or to point north again once the map is turned */
+ {const cp=GLel.querySelector(".maplibregl-ctrl-compass");if(cp){const tip=()=>{const b=Math.round(GL.getBearing());cp.title=b?"Point north again (or drag to turn)":"Turn the map (or drag to turn)";cp.setAttribute("aria-label",cp.title);cp.classList.toggle("rot",!!b)};
+  cp.addEventListener("click",e=>{e.stopImmediatePropagation();e.preventDefault();const b=GL.getBearing();GL.easeTo({bearing:Math.abs(b)>.5?0:-45,pitch:0,duration:500})},true);
+  GL.on("rotate",tip);tip()}}
+ try{const gc=new maplibregl.GeolocateControl({positionOptions:{enableHighAccuracy:true,timeout:12000,maximumAge:60000},trackUserLocation:false,showAccuracyCircle:false,fitBoundsOptions:{maxZoom:12}});GL.addControl(gc,"bottom-right");
+  /* on Near me, finding you on the map also moves "your location" there (rings, list and places follow), so an area chosen earlier doesn't linger */
+  gc.on("geolocate",p=>{if(S.view!=="near")return;const la=p.coords.latitude,lo=p.coords.longitude,a=nearestArea(la,lo);setNear({name:"Your location",near:a&&a[1]<30?a[0]:"",lat:la,lon:lo,src:"gps",acc:Math.round(p.coords.accuracy||0),t:Date.now()});N.chg=0;NQ="";NRES=[];render()})}catch(e){}
  GL.addControl({onAdd(){const d=document.createElement("div");d.className="maplibregl-ctrl maplibregl-ctrl-group glfitc";d.innerHTML='<button type="button" class="glfit" title="Show all of Nigeria" aria-label="Show all of Nigeria"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>';d.firstChild.onclick=()=>GL.fitBounds(NGB,{padding:20,duration:600});return d},onRemove(){}},"bottom-right");
  GL.on("load",()=>{clearTimeout(GLto);GLst=2;GLerr=0;glLayers();glEvents();glAttach(1)});
  GL.on("style.load",()=>{if(GLst===2){glLayers();glData(GLdata)}});const glFix=()=>{if(GLst===2&&GL.isStyleLoaded()&&!GL.getLayer("pt")){try{glLayers();glData(GLdata)}catch(e){}}};GL.on("styledata",glFix);GL.on("idle",glFix);
@@ -4322,11 +4330,11 @@ function nearestArea(la,lo){return FLAT_A.map(a=>[a.name,km(la,lo,a.lat,a.lon)])
 const inNG=(la,lo)=>la>3.8&&la<14.2&&lo>2.5&&lo<14.8;
 function locate(){if(GEO==="blocked"){N.msg=GEO_OFF_MSG;render();return}if(!navigator.geolocation){N.msg="This browser can’t share your location. Search for your area instead.";render();return}
  N.busy=1;N.msg="";render();
- try{navigator.geolocation.getCurrentPosition(p=>{N.busy=0;const la=p.coords.latitude,lo=p.coords.longitude,a=nearestArea(la,lo);
+ try{navigator.geolocation.getCurrentPosition(p=>{N.busy=0;N.chg=0;NQ="";NRES=[];const la=p.coords.latitude,lo=p.coords.longitude,a=nearestArea(la,lo);
    setNear({name:"Your location",near:a&&a[1]<30?a[0]:"",lat:la,lon:lo,src:"gps",acc:Math.round(p.coords.accuracy||0),t:Date.now()});
    if(!inNG(la,lo))N.msg="You seem to be outside Nigeria, so nothing may show nearby. Choose an area in Nigeria to look around there.";render()},
   e=>{N.busy=0;if(e&&e.code===1&&(IN_FRAME||GEO==="blocked")){GEO="blocked";N.msg=GEO_OFF_MSG}else N.msg=e&&e.code===1?"Location is turned off for NaijaOuting. Allow it in your browser’s site settings, or search for your area instead.":"We couldn’t find your location just now. Search for your area or a landmark instead.";render()},
-  {enableHighAccuracy:false,timeout:12000,maximumAge:300000})}catch(x){N.busy=0;GEO="blocked";N.msg=GEO_OFF_MSG;render()}}
+  {enableHighAccuracy:true,timeout:15000,maximumAge:60000})}catch(x){N.busy=0;GEO="blocked";N.msg=GEO_OFF_MSG;render()}}
 function nWhen(v){const w=N.when;if(w==="up")return true;if(w==="today")return v.s<=TODAY&&v.e>=TODAY;if(w==="wk"){const r=weekendRange();return v.s<=r[1]&&v.e>=r[0]}
  return v.s<=add(TODAY,w==="n7"?7:30)}
 function nearData(){const q=S.q.toLowerCase();
