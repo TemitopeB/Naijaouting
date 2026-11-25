@@ -463,6 +463,40 @@ body>footer{margin-top:var(--sec)!important}
 .dt i{color:#9A5B0C;font-size:11px}
 .hp :focus-visible,.app :focus-visible,footer :focus-visible,.msheet :focus-visible{outline-color:#fff}
 .top .btn:not(.ln):focus-visible{outline-color:var(--ink)}
+
+/* ===== app section: full phone with the live map (25 Nov 2026) ===== */
+.ph2{width:262px;padding:9px;border-radius:44px;background:#121412;box-shadow:0 0 0 2px #2b2e2b inset,0 30px 60px -24px rgba(0,0,0,.55),0 10px 20px -10px rgba(0,0,0,.35);margin:0 0 56px;flex:none}
+.ph2s{position:relative;overflow:hidden;border-radius:36px;background:#F2F1EC;color:#141614;font-family:var(--font-interface);display:flex;flex-direction:column;height:540px}
+.ph2st{display:flex;align-items:center;justify-content:space-between;padding:10px 20px 4px;font:600 11px/1 var(--font-numbers)}
+.ph2is{width:70px;height:20px;border-radius:12px;background:#121412}
+.ph2sg{display:flex;gap:2px;align-items:flex-end}.ph2sg i{width:3px;background:#141614;border-radius:1px}.ph2sg i:nth-child(1){height:5px}.ph2sg i:nth-child(2){height:7px}.ph2sg i:nth-child(3){height:9px}
+.ph2hd{display:flex;gap:6px;padding:6px 10px 6px}
+.ph2q{flex:1;display:flex;align-items:center;gap:5px;height:28px;padding:0 10px;border-radius:999px;background:#fff;border:1px solid #DAD8D0;font-size:10.5px;color:#6D6F68}
+.ph2q svg{width:11px;height:11px}
+.ph2ad{display:flex;align-items:center;height:28px;padding:0 10px;border-radius:999px;border:1px solid #0B6B4C;color:#0B6B4C;font-size:10.5px;font-weight:600}
+.ph2ch{display:flex;gap:5px;padding:0 10px 8px;overflow:hidden}
+.ph2ch span{flex:none;height:22px;display:flex;align-items:center;padding:0 9px;border-radius:999px;background:#fff;border:1px solid #DAD8D0;font-size:9.5px;font-weight:500}
+.ph2ch span.on{background:#141614;color:#fff;border-color:#141614}
+.ph2mp{position:relative;margin:0 10px;border-radius:16px;overflow:hidden;aspect-ratio:1/1;background:#EDEDE9;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.ph2mp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph2dots{position:absolute;inset:0}
+.ph2dots i{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;border-radius:50%;background:#0B6B4C;color:#fff;border:2px solid #fff;font:700 8.5px/1 var(--font-numbers);font-style:normal;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.ph2zm{position:absolute;right:7px;bottom:20px;display:flex;flex-direction:column;border-radius:8px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.2);overflow:hidden}
+.ph2zm i{width:20px;height:20px;display:grid;place-items:center;font-style:normal;font-size:12px;line-height:1;color:#333}.ph2zm i+i{border-top:1px solid #e5e5e5}
+.ph2cr{position:absolute;right:4px;bottom:4px;padding:1px 5px;border-radius:999px;background:rgba(255,255,255,.85);font-size:5.5px;line-height:1.4;color:#555;white-space:nowrap}
+.ph2lh{display:flex;align-items:baseline;gap:4px;padding:10px 14px 4px;font-size:11px;color:#3A3C37}.ph2lh b{font:700 14px/1 var(--font-numbers);color:#141614}
+.ph2rows{display:flex;flex-direction:column;gap:6px;padding:0 10px;flex:1;min-height:0;overflow:hidden}
+.ph2r{display:flex;gap:8px;align-items:center;padding:7px;border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.ph2d{flex:none;width:34px;display:flex;flex-direction:column;align-items:center;padding:3px 0;border-radius:8px;border:1px solid #E3E1D9;border-top:3px solid #0B6B4C;background:#fff;line-height:1.05}
+.ph2d small{font-size:6.5px;font-weight:700;text-transform:uppercase;color:#6D6F68}.ph2d b{font:700 13px/1.1 var(--font-numbers)}
+.ph2rt{min-width:0;display:flex;flex-direction:column;gap:1px}.ph2rt b{font:600 10.5px/1.25 var(--font-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ph2rt span{font-size:9px;color:#6D6F68}
+.ph2rt em{align-self:flex-start;font-style:normal;font-size:8px;font-weight:600;color:#0B6B4C;background:#E7F5EE;border-radius:999px;padding:1px 6px;margin-top:2px}
+.ph2tb{display:flex;justify-content:space-around;padding:7px 6px 14px;background:#fff;border-top:1px solid #E3E1D9}
+.ph2tb span{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:8px;color:#5C5E58;padding:3px 7px;border-radius:10px}
+.ph2tb span svg{width:14px;height:14px}.ph2tb span.on{color:#0B6B4C;background:#E7F5EE;font-weight:600}
+.app{align-items:center!important}
+@media (min-width:1001px){.app>.ph2{align-self:center;margin:40px 0 56px}}
+@media (max-width:760px){.ph2{width:236px;justify-self:center;margin:8px auto 44px}.ph2s{height:488px}}
 </style>
 </head>
 <body>
@@ -538,7 +572,7 @@ body>footer{margin-top:var(--sec)!important}
   <ul><li>Near me</li><li>Save events</li><li>Directions in one tap</li></ul>
   <div class="inst"><button class="btn amb" type="button" data-install data-install-always><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7M9 11l3 3 3-3"/></svg>Install the app, free</button><span>Works on Android and iPhone · no app store needed</span></div>
   <div class="sto"><span class="sb2" aria-label="App Store, coming soon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.8-3-.8C6.9 7.4 5.4 8.3 4.6 9.8c-1.7 2.9-.4 7.2 1.2 9.5.8 1.1 1.7 2.4 2.9 2.4s1.6-.8 3-.8 1.8.8 3 .7c1.3 0 2.1-1.2 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7 0 0-2.4-.9-2.4-4zM14.2 5.8c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.7-1.3z" fill="currentColor" stroke="none"/></svg><i><small>COMING SOON</small><b>App Store</b></i></span><span class="sb2" aria-label="Google Play, coming soon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 3.2v17.6c0 .4.4.6.7.4l15-8.8a.5.5 0 0 0 0-.8l-15-8.8c-.3-.2-.7 0-.7.4z"/></svg><i><small>COMING SOON</small><b>Google Play</b></i></span></div></div>
- <div class="ph"><img src="/img/app-map.jpg" alt="The NaijaOuting app showing the events map of Nigeria"></div>
+ <div class="ph2" role="img" aria-label="The NaijaOuting app on a phone, showing upcoming events on the map of Nigeria"><div class="ph2s" aria-hidden="true"><div class="ph2st"><span>9:41</span><i class="ph2is"></i><span class="ph2sg"><i></i><i></i><i></i></span></div><div class="ph2hd"><span class="ph2q"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>Search events</span><span class="ph2ad">+ Add</span></div><div class="ph2ch"><span>Pick date</span><span class="on">Upcoming</span><span>Today</span><span>Filters</span></div><div class="ph2mp"><img src="/img/phone-map-v1.webp" alt="" width="448" height="448" loading="lazy" decoding="async"><div class="ph2dots" id="phDots"></div><span class="ph2zm"><i>+</i><i>−</i></span><span class="ph2cr">OpenFreeMap © OpenMapTiles © OpenStreetMap</span></div><div class="ph2lh"><b id="phN"></b><span>upcoming</span></div><div class="ph2rows" id="phRows"></div><div class="ph2tb"><span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Events</span><span class="on"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Map</span><span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>Near me</span><span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>Saved</span><span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>More</span></div></div></div>
 </div></div></section>
 </main>
 
@@ -589,6 +623,20 @@ if(wkN){$("#tagN").textContent=wkN;$("#tagT").textContent=(wkN===1?"event":"even
 else{$("#tagN").textContent=up.length;$("#tagT").textContent="upcoming events"}
 $("#sub").textContent="Concerts, parties, comedy, food and culture across "+plural(cities.length,"city").replace("citys","cities")+", checked and linked to the official ticket seller.";
 $("#mapN").textContent=up.length;$("#nUp").textContent=up.length;$("#nCi").textContent=cities.length;
+/* phone in the app section: the real map, with today's event counts per city and the next events */
+(function(){const box=$("#phDots");if(!box)return;
+ const XY={"Lagos":[3.4,6.5],"Abuja":[7.49,9.06],"Port Harcourt":[7.01,4.82],"Calabar":[8.33,4.96],"Enugu":[7.51,6.45],"Ibadan":[3.9,7.38],"Kaduna":[7.44,10.52],"Kano":[8.52,12],"Owerri":[7.03,5.48],"Asaba":[6.73,6.2],"Uyo":[7.93,5.04],"Jos":[8.89,9.9],"Umuahia":[7.49,5.53],"Benin City":[5.63,6.34],"Maiduguri":[13.16,11.85],"Abeokuta":[3.35,7.15],"Lokoja":[6.73,7.8],"Yenagoa":[6.26,4.92],"Keffi":[7.87,8.85],"Warri":[5.78,5.55],"Ilorin":[4.55,8.5],"Akure":[5.2,7.25],"Sokoto":[5.24,13.06],"Makurdi":[8.54,7.73]};
+ /* the picture covers lon 2.374–14.876, lat 2.857–15.164 (web mercator) */
+ const W=2.3744,E=14.8759,N=15.1635,S=2.8572,m=a=>Math.log(Math.tan(Math.PI/4+a*Math.PI/360));
+ const pos=(lon,lat)=>[(lon-W)/(E-W)*100,(m(N)-m(lat))/(m(N)-m(S))*100];
+ const per={};up.forEach(e=>{if(XY[e.ci])per[e.ci]=(per[e.ci]||0)+1});
+ const mx=Math.max(1,...Object.values(per));
+ box.innerHTML=Object.entries(per).sort((a,b)=>a[1]-b[1]).map(([c,n])=>{const p=pos(XY[c][0],XY[c][1]),d=Math.round(16+12*Math.sqrt(n/mx));return '<i style="left:'+p[0].toFixed(1)+'%;top:'+p[1].toFixed(1)+'%;width:'+d+'px;height:'+d+'px" title="'+esc(c)+'">'+n+'</i>'}).join("");
+ $("#phN").textContent=up.length;
+ const M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+ $("#phRows").innerHTML=up.slice().sort(order).slice(0,2).map(e=>{const on=e.s<=TODAY&&e.e>=TODAY,multi=on&&e.e>e.s,d=multi?e.e:e.s,cc=(N.cats||{})[e.c]||["#0B6B4C"];
+  return '<div class="ph2r"><span class="ph2d" style="border-top-color:'+cc[0]+'"><small>'+(multi?"Until":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(d+"T00:00:00").getDay()])+'</small><b>'+(+d.slice(8))+'</b><small>'+M[+d.slice(5,7)-1]+'</small></span><span class="ph2rt"><b>'+esc(e.n)+'</b><span>'+esc(e.ci)+'</span>'+(on?'<em>On now</em>':"")+'</span></div>'}).join("")})();
+
 
 /* hero search + chips */
 const sw=$("#sWhere");cities.slice(0,12).forEach(([c])=>sw.insertAdjacentHTML("beforeend",'<option value="'+esc(c)+'">'+esc(c)+'</option>'));
@@ -670,7 +718,7 @@ fetch("/data/landing.json",{cache:"no-cache"}).then(r=>r.json()).then(d=>{Object
    Content is only hidden once this script runs, so nothing disappears if it fails. */
 (function(){
  if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
- var SEL=[".head",".picks>li",".below",".cityp>div:first-child",".ctg>li",".dec",".intro",".bento>.bx",".og1",".og2",".app>div",".app .ph",".fg>div"];
+ var SEL=[".head",".picks>li",".below",".cityp>div:first-child",".ctg>li",".dec",".intro",".bento>.bx",".og1",".og2",".app>div",".app .ph2",".fg>div"];
  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var el=e.target;io.unobserve(el);el.classList.add("in");
    /* once it has arrived, hand the element back to its normal styles (keeps hover effects working) */
    setTimeout(function(){el.classList.remove("rv","in","rl","rr");el.style.removeProperty("--rd")},1400+(parseInt(el.style.getPropertyValue("--rd"))||0))})},{rootMargin:"0px 0px -8% 0px",threshold:.08});
