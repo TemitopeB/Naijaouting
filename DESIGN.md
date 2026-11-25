@@ -244,6 +244,8 @@ A tall flyer header with the countdown date block, a "Checked" badge, title, sta
 - **Do** keep flyers in square frames and let them be the most colourful thing on the screen.
 - **Do** check every change in light mode, dark mode and on a 390px-wide phone.
 
+- **Do** keep text at 4.5:1 contrast or more (3:1 for headings 24px and up), and give button, chip and menu outlines 3:1 against the page (`--edge-ctl` #7E7B72 on the landing page). Text on photos sits on a dark overlay. Never signal something by colour alone: "On now" always has its label, and counts always have numbers.
+
 ### Don't:
 - **Don't** add coloured glow shadows; use the neutral shadow vocabulary.
 - **Don't** add font families beyond the four in `fonts/type-v1.css`, or write font names directly in components.

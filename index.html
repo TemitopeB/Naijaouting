@@ -451,6 +451,18 @@ body>footer{margin-top:var(--sec)!important}
  .dec{align-items:center!important;text-align:center}
 }
 @media (min-width:600px) and (max-width:1000px){.fg{grid-template-columns:repeat(4,minmax(0,1fr))!important}.fg>div:first-child{grid-column:1/-1}}
+
+/* ===== colour accessibility (25 Nov 2026, WCAG 2.2 AA) =====
+   - outlines of buttons, chips and the menu reach 3:1 against the page, so they read as buttons for low-vision visitors
+   - hero quick chips: brighter outline on the dark photo
+   - month on the date badge: darker amber (5.4:1) and a touch larger
+   - keyboard focus ring turns white on dark and green areas, where the green ring was hard to see */
+:root{--edge-ctl:#7E7B72}
+.top nav,.btn.ln,.btn.ink,.seg,.cats a,.ib{border-color:var(--edge-ctl)!important}
+.chips a{border-color:rgba(255,255,255,.5)}
+.dt i{color:#9A5B0C;font-size:11px}
+.hp :focus-visible,.app :focus-visible,footer :focus-visible,.msheet :focus-visible{outline-color:#fff}
+.top .btn:not(.ln):focus-visible{outline-color:var(--ink)}
 </style>
 </head>
 <body>
