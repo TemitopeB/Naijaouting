@@ -2259,9 +2259,11 @@ select.sel optgroup,.md select optgroup,.cform select optgroup,.tz-tseg button,.
 .nflt{display:flex;flex-direction:column;gap:8px;margin:2px 0 14px}
 .nfr{display:flex;align-items:center;gap:10px;min-width:0}
 .nfr>.sl{flex:none;width:62px;margin:0;font-size:11px;letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--mu)}
-.nscr{flex:1;min-width:0;flex-wrap:nowrap!important;overflow-x:auto;margin:0!important;scrollbar-width:none;padding:2px 0}
-.nscr::-webkit-scrollbar{display:none}
-.nscr .chip{flex:none}
+/* chips wrap onto a second line rather than running off the edge */
+.nscr{flex:1;min-width:0;flex-wrap:wrap!important;gap:6px!important;margin:0!important;padding:2px 0}
+.nscr .chip{flex:none;height:34px;padding:0 10px;font-size:13px}
+.nscr{gap:5px!important}
+.nfr{flex-direction:column;align-items:stretch;gap:6px}.nfr>.sl{width:auto}
 .nstat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--ln);border-radius:18px;background:var(--pn);box-shadow:var(--sh0);overflow:hidden}
 .nstat>div{display:flex;flex-direction:column;gap:2px;padding:12px 14px}
 .nstat>div+div{border-left:1px solid var(--ln)}
