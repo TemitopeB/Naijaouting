@@ -1,0 +1,49 @@
+# Every morning: re-check the official page of each upcoming event for cancellations,
+# postponements, new dates, venue changes and sold-out notices (scripts/recheck.py).
+# Nothing changes on the site by itself: each change becomes a suggestion in
+# Review -> Corrections ("Found by the daily check"), applied only when an admin taps it.
+# Secrets: SUPABASE_URL, SUPABASE_SERVICE_KEY, GEMINI_API_KEY (and optionally EVENTBRITE_TOKEN).
+name: Daily event re-check
+
+on:
+  schedule:
+    - cron: "13 7 * * *"      # every day, 08:13 Lagos time
+  workflow_dispatch:
+    inputs:
+      all:
+        description: "Check every upcoming event today (not only the next 14 days)"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/recheck.yml"
+      - "scripts/recheck.py"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: recheck
+  cancel-in-progress: false
+
+jobs:
+  recheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install headless browser
+        run: |
+          pip install playwright==1.47.0
+          python -m playwright install --with-deps chromium
+      - name: Re-check upcoming events
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          EVENTBRITE_TOKEN: ${{ secrets.EVENTBRITE_TOKEN }}
+        run: python scripts/recheck.py ${{ (github.event_name == 'workflow_dispatch' && inputs.all) && '--all' || '' }}
