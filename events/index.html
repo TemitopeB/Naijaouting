@@ -2200,6 +2200,36 @@ select.sel optgroup,.md select optgroup,.cform select optgroup,.tz-tseg button,.
 .pr{white-space:nowrap}
 /* long names, venues and prices never push a layout wider */
 .dx .dxh h2,.tcb .nm,.tcx .nm,.eln,.ph h1,.evp h1{overflow-wrap:anywhere}
+
+/* ===== event & place details: tidy grouping + nearby photo cards ===== */
+.dx2 span.dxs{margin:0}
+.dx2 section.dxs{margin:28px 0 0}
+.dx2 .dxf{box-shadow:var(--sh0)}
+.dx2 .dxg{border:1px solid var(--ln);border-radius:18px;background:var(--pn);overflow:hidden;box-shadow:var(--sh0)}
+.dx2 .dxg .dxd{border:0;border-radius:0;margin:0;background:none}
+.dx2 .dxg .dxd+.dxd{border-top:1px solid var(--ln)}
+.dx2 .dxh{margin-bottom:4px}
+.xback{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;padding:6px 12px 6px 8px;border:1px solid var(--ln);border-radius:999px;background:var(--pn);color:var(--tx);font:600 13px/1.2 var(--fb);cursor:pointer;max-width:100%}
+.xback svg{transform:rotate(180deg);flex:none}
+.xback span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.xback:hover{background:var(--pn2)}
+.nbg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.nbc{display:flex;flex-direction:column;min-width:0;padding:0;text-align:left;background:var(--pn);border:1px solid var(--ln);border-radius:16px;overflow:hidden;color:var(--tx);font:inherit;cursor:pointer;box-shadow:var(--sh0);transition:border-color .15s,transform .15s}
+.nbc:hover{border-color:var(--ac);transform:translateY(-1px)}
+.nbc:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.nbi{position:relative;display:grid;place-items:center;aspect-ratio:4/3;overflow:hidden;color:rgba(255,255,255,.9)}
+.nbi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.nbb{position:absolute;left:8px;top:8px;z-index:1}
+.nbt{display:flex;flex-direction:column;gap:3px;padding:10px 12px 12px;min-width:0}
+.nbt b{font:600 14px/1.3 var(--font-display);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.nbt>span{font-size:12.5px;line-height:1.35;color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nbn{margin:8px 2px 0;font-size:12.5px;color:var(--mu2)}
+.dx .dxs.dxnb .nbic{color:rgba(255,255,255,.9);font-size:0}
+.dx .dxs.dxnb .nbt b{font:600 14px/1.3 var(--font-display)}
+.dx .dxs.dxnb .nbt>span{font-size:12.5px;color:var(--mu)}
+.dx .dxs.dxnb .onb{font-size:12px;color:#10231A}
+.dx .dxs.dxnb .nbk{position:absolute;left:8px;bottom:8px;z-index:1;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.95);color:#141614;font:600 12px/1 var(--font-numbers);box-shadow:0 1px 4px rgba(0,0,0,.18)}
+@media (prefers-reduced-motion:reduce){.nbc{transition:none}.nbc:hover{transform:none}}
 </style>
 </head>
 <body>
@@ -4023,7 +4053,7 @@ function tourView(){
  (T.base?'<p class="sm" style="margin-top:12px">Distances are straight-line. Road journeys are longer.</p>':'');
  const leg='<details class="lgd"'+(LGO?" open":"")+'><summary>Colour key</summary><div class="legend">'+Object.keys(TCAT).map(k=>'<span><i style="background:'+tcc(k)[0]+'"></i>'+esc(k)+'</span>').join("")+'<span><i style="background:transparent;border:2px solid var(--gold)"></i>UNESCO</span></div></details>';
  return vseg(EXSEG)+'<div class="split tz-tsplit"><div class="lp">'+left+'</div><div class="mapbox">'+tmap(L)+leg+'</div></div>'}
-function placeDrawer(p){const d=dist(p),air=nearestAir(p),a=adv(p.state),o=PHO[p.id]||{},ev=all().filter(v=>v.state===p.state).sort((x,y)=>x.s<y.s?-1:1).slice(0,3),near=PL.filter(x=>x.id!==p.id).map(x=>[x,Math.round(km(p.lat,p.lon,x.lat,x.lon))]).sort((x,y)=>x[1]-y[1]).slice(0,4);
+function placeDrawer(p){const d=dist(p),air=nearestAir(p),a=adv(p.state),o=PHO[p.id]||{},near=PL.filter(x=>x.id!==p.id).map(x=>[x,Math.round(km(p.lat,p.lon,x.lat,x.lon))]).sort((x,y)=>x[1]-y[1]).slice(0,4);
  const q=encodeURIComponent(p.name+" "+p.town+" "+p.state+" Nigeria"),st=dn(p.state)+(p.state==="FCT"?"":" State");
  const I=(d,w)=>'<svg width="'+(w||18)+'" height="'+(w||18)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>';
  const IC={air:I('<path d="M2 16l20-8-8 14-2-6z"/><path d="M12 16l-4 4"/>'),tel:I('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>'),wa:I('<path d="M3 21l1.6-4.7A8.5 8.5 0 1 1 8 19.6z"/><path d="M9 9.5c.3 2 2.5 4.2 4.5 4.5l1.2-1.2 1.8.9"/>'),web:I('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>'),info:I('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'),share:I('<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>',16),heart:I('<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',16),pin:DXI.pin,warn:I('<path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17h.01"/>',16)};
@@ -4053,13 +4083,13 @@ function placeDrawer(p){const d=dist(p),air=nearestAir(p),a=adv(p.state),o=PHO[p
   '<p class="plnote">Opening hours and fees change. Confirm with the place before you travel.</p>';
  /* nearby */
  const nearH=near.length?'<div class="dxf">'+near.map(n=>'<button class="dxr dxrl" data-a="popen" data-id="'+n[0].id+'"><span class="dxi" style="background:'+tcc(n[0].cat)[0]+'22;color:'+tcc(n[0].cat)[0]+'">'+tico(n[0].cat,18)+'</span><span class="dxs"><b>'+esc(n[0].name)+'</b><span>'+esc(n[0].cat)+'</span></span><span class="pldist">'+n[1]+' km</span></button>').join("")+'</div>':"";
- const evH=ev.length?'<div class="plev">'+ev.map(evRow).join("")+'</div>':"";
- return XBAR+plHero(p)+'<div class="in dx dx2 pld">'+head+warnb+
+ const evH=nbEvents(p),evw=evH&&(evNearPl(p)||{}).wide;
+ return XBAR+plHero(p)+'<div class="in dx dx2 pld">'+backLnk()+head+warnb+
   sec("Where it is",where)+
   sec("About this place",about)+
+  sec(evw?"Events in "+esc(dn(p.state)):"Events nearby",evH,"dxnb")+
   sec("Check before you go",check)+
   sec("Nearby places",nearH)+
-  sec("Events in "+esc(dn(p.state)),evH)+
   pdAdmin(p)+phAdmin(p)+
   '<p class="dxnote">Facts come from the sources listed. Spot something wrong? <button class="dxcr" data-a="go" data-v="contact">Tell us</button></p></div>'}
 function guideView(){
@@ -4485,8 +4515,8 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="city"){S.city=v;S.sel=null;S.zg="";if(v==="All")S.mz="All"}else if(a==="zg"){S.zg=v;S.sel=null}
  else if(a==="mz"){S.mz=v;S.zg="";S.sel=null}
  else if(a==="zin"){const c=Object.keys(CITY).map(k=>[k,list().filter(x=>x.city===k).length]).sort((p,q)=>q[1]-p[1])[0];if(c&&c[1])S.city=c[0]}
- else if(a==="sel"){S.open=id;S.sel=id;const D=$("#drawer");if(D)D.scrollTop=0}
- else if(a==="unsel")S.sel=null;else if(a==="open")S.open=id;else if(a==="close"){S.open=null;S.place=null;S.sel=null;if(REVBACK)setTimeout(revBack,0)}
+ else if(a==="sel"){S.back=null;S.open=id;S.sel=id;const D=$("#drawer");if(D)D.scrollTop=0}
+ else if(a==="unsel")S.sel=null;else if(a==="open"){S.back=null;S.open=id}else if(a==="close"){S.back=null;S.open=null;S.place=null;S.sel=null;if(REVBACK)setTimeout(revBack,0)}
  else if(a==="mo"){if(S.calMode!=="month"){S.calMode="month";S.y=NOW.getFullYear();S.m=NOW.getMonth();if(+v<0)v=0}S.m+=+v;if(S.m<0){S.m=11;S.y--}if(S.m>11){S.m=0;S.y++}}else if(a==="mot"){S.calMode="weeks";S.y=NOW.getFullYear();S.m=NOW.getMonth();S.cd=TODAY}else if(a==="cday"){S.cd=v}else if(a==="catmore"){S.catOpen=S.catOpen?0:1}
  else if(a==="nc")S.nc=v;
  else if(a==="flv"){flvOpen(id);return}else if(a==="flvclose"){flvClose();return}else if(a==="flvbg"){if(e.target.id!=="flvimg")flvClose();return}else if(a==="flvzoom"){e.target.classList.toggle("z");return}else if(a==="flvsave"){flvSave();return}else if(a==="flvshare"){const i=FLV&&FLV.id;flvClose();if(i)setTimeout(()=>shOpen(i),60);return}
@@ -4498,7 +4528,9 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="tsub")T.sub=v;else if(a==="tcat")T.cat=v;else if(a==="tunesco")T.unesco=T.unesco?0:1;else if(a==="thide")T.hide=T.hide?0:1;
  else if(a==="mzin"){zTo(1.6,null,true);return}else if(a==="mzout"){zTo(1/1.6,null,true);return}else if(a==="mzfit"){zFit();return}
  else if(a==="tlist")T.list=T.list===v?"all":v;else if(a==="tclear"){T.cat="All";T.zone="All";T.unesco=0;T.hide=0;T.list="all";T.q=""}
- else if(a==="psel"||a==="popen"){T.sel=id;S.place=id;S.open=null;const D=$("#drawer");if(D)D.scrollTop=0}
+ else if(a==="xnav"){S.back=S.place?{k:"p",id:S.place}:S.open?{k:"e",id:S.open}:null;if(v==="p"){T.sel=id;S.place=id;S.open=null}else{S.place=null;S.open=id;S.sel=id}const D=$("#drawer");if(D)D.scrollTop=0}
+ else if(a==="xback"){const b=S.back;S.back=null;if(b){if(b.k==="p"){T.sel=b.id;S.place=b.id;S.open=null}else{S.place=null;S.open=b.id;S.sel=b.id}}const D=$("#drawer");if(D)D.scrollTop=0}
+ else if(a==="psel"||a==="popen"){S.back=null;T.sel=id;S.place=id;S.open=null;const D=$("#drawer");if(D)D.scrollTop=0}
  else if(a==="bl"){BL[id]=BL[id]===v?undefined:v;if(!BL[id])delete BL[id];saveBL()}
  else if(a==="fav")togFav(id);else if(a==="free")S.free=S.free?0:1;
  else if(a==="fy"){if(!meN()){S.fyd=null;S.fyp=1}else{S.fy=S.fy?0:1;saveFyOn()}}
@@ -4787,6 +4819,23 @@ const DXI={cal:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stro
  ext:'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>'};
 function dxSecs(h){return String(h).split('<div class="h3">').slice(1).map(x=>{const i=x.indexOf("</div>");return [x.slice(0,i),x.slice(i+6)]})}
 function dxAcc(key,icon,title,hint,body){return '<details class="dxd" data-k="'+esc(key)+'"'+(DXO.has(key)?" open":"")+'><summary><span class="dxi">'+icon+'</span><span class="dxs"><b>'+esc(title)+'</b>'+(hint?'<span>'+esc(hint)+'</span>':"")+'</span>'+DXI.chev+'</summary><div class="dxb">'+body+'</div></details>'}
+/* nearby: tourism places close to an event's venue, and events close to a tourism place (shown as photo cards) */
+function nbCard(at,img,bg,ic,title,meta,badge,chip){return '<button class="nbc" type="button" '+at+'><span class="nbi" style="background:'+bg+'"><span class="nbic" aria-hidden="true">'+ic+'</span>'+(img?'<img src="'+esc(img)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">':"")+(badge||"")+(chip?'<span class="nbk tnum">'+chip+'</span>':"")+'</span><span class="nbt"><b>'+esc(title)+'</b><span>'+meta+'</span></span></button>'}
+function plNearEv(v){const ll=evLL(v);if(!ll)return null;const L=PL.map(p=>[p,km(ll[0],ll[1],p.lat,p.lon)]).sort((a,b)=>a[1]-b[1]);
+ let near=L.filter(x=>x[1]<=(ll[2]==="c"?30:40)).slice(0,4),wide=0;
+ if(!near.length){near=L.filter(x=>x[0].state===v.state&&x[1]<=150).slice(0,4);wide=1}
+ return near.length?{L:near,wide:wide,appx:ll[2]==="c"}:null}
+function evNearPl(p){const L=all().filter(v=>!v.online&&!isOff(v)&&(v.e||v.s)>=TODAY).map(v=>{const ll=evLL(v);return ll?[v,km(p.lat,p.lon,ll[0],ll[1])]:null}).filter(Boolean);
+ let near=L.filter(x=>x[1]<=60).sort((a,b)=>(isLive(b[0])-isLive(a[0]))||(a[0].s<b[0].s?-1:a[0].s>b[0].s?1:a[1]-b[1])).slice(0,4),wide=0;
+ if(!near.length){near=L.filter(x=>x[0].state===p.state).sort((a,b)=>a[0].s<b[0].s?-1:1).slice(0,4);wide=1}
+ return near.length?{L:near,wide:wide}:null}
+function nbPlaces(v){const n=plNearEv(v);if(!n)return "";
+ return '<div class="nbg">'+n.L.map(x=>{const p=x[0],ph=phOf(p);return nbCard('data-a="xnav" data-v="p" data-id="'+p.id+'" aria-label="'+esc(p.name)+', '+esc(p.cat)+', about '+fk(x[1]).replace(" "," ")+' away"',ph?(safeImg(ph.th)||ph.img):"",tgrad(p.cat),tico(p.cat,30),p.name,esc(p.cat),"",(n.appx||n.wide?"≈ ":"")+fk(x[1]))}).join("")+'</div>'+
+  (n.appx&&!n.wide?'<p class="nbn">Distances are from the middle of '+esc(v.city)+'.</p>':"")}
+function nbEvents(p){const n=evNearPl(p);if(!n)return "";
+ return '<div class="nbg">'+n.L.map(x=>{const v=x[0],live=isLive(v),when=live&&v.e>TODAY?"Until "+fdS(v.e):fdS(v.s);
+  return nbCard('data-a="xnav" data-v="e" data-id="'+v.id+'" aria-label="'+esc(v.name)+', '+esc(fd(v.s,v.e))+'"',safeImg(v.img)||coverImg(v.cat),grad(v.cat),ico(v.cat,30),v.name,'<span class="tnum">'+esc(when)+'</span>'+(n.wide?' · '+esc(v.city):""),live?'<span class="onb nbb"><i aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="onb td nbb">Today</span>':"",n.wide?"":fk(x[1])+" away")}).join("")+'</div>'}
+function backLnk(){const b=S.back;if(!b)return "";const n=b.k==="p"?(PL.find(x=>x.id===b.id)||{}).name:(all().find(x=>x.id===b.id)||{}).name;return n?'<button class="xback" type="button" data-a="xback">'+DXI.chev+'<span>Back to '+esc(n)+'</span></button>':""}
 function drawerHTML(v,q,d1,d2){
  // the heading above the title says when it's on (On now / Today / Starts tomorrow / Starts in N days), not the checked badge
  const tg=cdown(v)+tags(v).replace('<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>',"").replace('<span class="tag td">Today</span>',"").replace('<span class="tag ok">✓ Verified</span>',"").replace('<span class="tag ok">✓ Checked</span>',"").replace('<span class="tag ok">Still on</span>',"");
@@ -4806,19 +4855,20 @@ function drawerHTML(v,q,d1,d2){
  const nPl=(nb.match(/class="pl"/g)||[]).length,nCk=(pl.length&&(get(pl,"Before you go").match(/type="checkbox"/g)||[]).length)||0,nDone=(get(pl,"Before you go").match(/ checked>/g)||[]).length;
  const tools=dxAcc("wx",DXI.sun,"Weather",w?w[0]+" · typical for the season":"Check the live forecast",wx)+
   dxAcc("gt",DXI.car,"Rides & traffic tips","Ride apps, rush hours and timing",gt)+
-  (nPl?dxAcc("nb",DXI.map,"Make a day of it",nPl+" places nearby",nb):"")+
   dxAcc("bud",DXI.wal,"Plan your budget","Work out the cost of the night",get(pl,"Plan your budget"))+
   (nCk?dxAcc("ck",DXI.chk,"Before you go",nDone?nDone+" of "+nCk+" done":nCk+" things to check",get(pl,"Before you go")):"")+
   (/No past-edition/.test(pe)?"":dxAcc("pe",DXI.his,"Past editions","",pe));
  const stq='<div class="stq"><div class="stqh"><b>Is it still on?</b>'+(chkAt(v)?'<span class="lck">✓ Checked '+chkTxt(chkAt(v))+'</span>':ADMIN?'<span class="lck">Not checked yet</span>':'')+'</div><span class="sm">Tell us if something changed and we’ll update it for everyone.</span><div class="chips">'+Object.keys(STREP).map(k=>'<button class="chip'+(k==="ok"?" yes":"")+'" data-a="strep" data-v="'+k+'" data-id="'+v.id+'">'+STREP[k]+'</button>').join("")+'<button class="chip scam" type="button" data-scam="'+v.id+'">⚠ Looks like a scam</button>'+(ADMIN&&DB?'<button class="chip" data-a="mchk" data-id="'+v.id+'">✓ Mark checked</button>':"")+'</div></div>';
  const sec=(t,h,c)=>h?'<section class="dxs'+(c?" "+c:"")+'">'+(t?'<h3 class="dxgh">'+t+'</h3>':"")+h+'</section>':"";
  const trv=travelBlock(v,1),about=(v.about?'<p class="dxab">'+esc(v.about)+'</p>':"")+gfBlock(v)+src;
- return XBAR+evHero(v)+'<div class="in dx dx2"><div class="dxh">'+(tg?'<div class="dxt">'+tg+'</div>':"")+'<h2>'+esc(v.name)+'</h2>'+(trip?'<div class="dxsub">'+trip+'</div>':"")+'</div>'+stBanner(v)+
+ const nbp=v.online?"":nbPlaces(v),nbw=nbp&&(plNearEv(v)||{}).wide;
+ return XBAR+evHero(v)+'<div class="in dx dx2">'+backLnk()+'<div class="dxh">'+(tg?'<div class="dxt">'+tg+'</div>':"")+'<h2>'+esc(v.name)+'</h2>'+(trip?'<div class="dxsub">'+trip+'</div>':"")+'</div>'+stBanner(v)+
   sec("When and where",facts)+
   sec(v.online?"Joining":"Tickets and entry",entryBox(v)+(elink?'<div class="dxa">'+elink+'</div>':"")+intlEd(v))+
   (abroad()||CUR!=="NGN"?arriveCard():"")+
   (trv?sec("Getting there from "+esc(NEAR.name||"you"),trv,"dxtrv"):"")+
   sec("About this event",about?'<div class="dxcard">'+about+'</div>':"")+adm+
+  sec(nbw?"Places to visit in "+esc(dn(v.state)):"Places to visit nearby",nbp,"dxnb")+
   (v.online?'<div class="websafe" role="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>'+WEBSAFE+'</span></div>':sec("Plan your visit",'<div class="dxg">'+tools+'</div>'))+
   sec("",stq.replace(/<\/div><\/div>$/,'</div><div class="stqf"><button class="dxcr" data-a="corr" data-id="'+v.id+'">'+(v.online?"Report this webinar":"Report a correction")+'</button></div></div>'),"dxstq")+
   '<p class="dxnote">Dates and venues can change. Check with the organiser before you travel.</p></div>'+dbar(v,q)}
