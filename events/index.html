@@ -1726,7 +1726,7 @@ html.app .zctl{bottom:10px;right:10px}html.app .zctl button{width:34px;height:34
 #form label.fonl{display:flex!important;flex-direction:row!important;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--ln);border-radius:14px;cursor:pointer;font-weight:400}
 #form label.fonl input{flex:none;width:20px;height:20px;margin:0;accent-color:var(--ac)}
 #form label.fonl>span{display:flex;flex-direction:column;gap:2px}#form label.fonl b{font-size:15px}
-#form .fplatl{display:none}#form.isonl .fplatl{display:flex}#form.isonl .fcityl,#form.isonl .fvenl{display:none}
+#form .fplatl{display:none}#form.isonl .fplatl{display:flex}#form.isonl .fcityl,#form.isonl .fvenl,#form.isonl .fvx,#form.isonl .fvxadd{display:none}
 
 /* ===== "This event has ended" page ===== */
 .endp{max-width:1100px}
@@ -2341,6 +2341,19 @@ html.app .tz-tfl:not(.fo){display:none}
 .rvtag{display:inline-block;margin-right:4px;padding:1px 8px;border-radius:999px;background:color-mix(in srgb,var(--gold,#C27A0A) 16%,var(--pn));color:var(--tx);font-weight:600;font-size:11.5px}
 .rvq{margin:6px 0 2px;padding:6px 10px;border-left:2px solid var(--ln);color:var(--tx);font-size:13px;font-style:italic;background:var(--pn2);border-radius:0 8px 8px 0}
 .rvsrc{display:inline-block;margin-top:2px;color:var(--ac);text-decoration:underline}
+
+/* ===== extra venues (form, event page, cards) ===== */
+.fvx{display:flex;flex-direction:column;gap:10px}
+.fvx:empty{display:none}
+.fvxr{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px dashed var(--ln);border-radius:14px;background:var(--pn2)}
+.fvxh{display:flex;align-items:center;justify-content:space-between}
+.fvxh b{font-size:13px}
+.fvxadd{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:1px dashed var(--edge,var(--ln));border-radius:999px;background:transparent;color:var(--ac);font:600 13px/1 var(--font-interface);cursor:pointer}
+.fvxadd .opt{color:var(--mu);font-weight:500}
+.fvxadd[hidden]{display:none}
+.dxvxh{padding:8px 16px 0;font-size:11px;font-weight:600;letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--mu);border-top:1px solid var(--ln)}
+.dx .dxf .dxr.dxvx{border-top:0}
+.vxn{flex:none;margin-left:6px;font-style:normal;font-size:11.5px;font-weight:600;color:var(--ac);background:var(--acs);padding:1px 7px;border-radius:999px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -2385,6 +2398,7 @@ html.app .tz-tfl:not(.fo){display:none}
  <label class="fonl"><input type="checkbox" name="online" id="fonl"><span><b>Online event or webinar</b><span class="sm">Zoom, Google Meet, YouTube Live and similar</span></span></label>
  <div class="row2"><label>Category<select name="cat" id="fcat"></select></label><label class="fcityl">City<select name="city" id="fcity"></select></label><label class="fplatl">Platform<select name="plat" id="fplat"></select></label></div>
  <label class="fvenl">Venue<input name="venue" placeholder="Venue and area"></label>
+ <div class="fvx" id="fvx"></div><button type="button" class="fvxadd" id="fvxadd"><span aria-hidden="true">+</span> Add another venue <span class="opt">optional</span></button>
  <div class="row2"><label><span class="lt">Start date <span class="rq">Required</span></span><input name="s" type="date" required></label><label><span class="lt">End date <span class="opt">if longer</span></span><input name="e" type="date"></label></div>
  <div class="row2"><label>Time<input name="time" placeholder="e.g. 7pm"></label><label>Entry or price<input name="fee" placeholder="e.g. Free, ₦10,000, Free with RSVP"></label></div>
  <label>Official ticket or info link<input name="link" type="url" placeholder="https://"><span class="fuph">Where people buy tickets or register. No resale links.</span></label>
@@ -3101,7 +3115,7 @@ function tripShareText(){const st=okStops(),ev=tripEvents();let t="My Nigeria tr
 function inWhen(v){const w=S.when;if(w==="all")return true;if(w==="date"){const a=S.d1||TODAY,b=S.d2&&S.d2>=a?S.d2:a;return v.s<=b&&v.e>=a}if(w==="up")return v.e>=TODAY;if(w==="today")return v.s<=TODAY&&v.e>=TODAY;if(w==="n7")return v.s<=add(TODAY,7)&&v.e>=TODAY;
  if(w==="wk"){const dow=NOW.getDay();const ws=dow===0?add(TODAY,-1):add(TODAY,6-dow);return v.s<=add(ws,1)&&v.e>=ws}
  const ms=NOW.getFullYear()+"-"+pad(NOW.getMonth()+1);return v.s.slice(0,7)<=ms&&v.e.slice(0,7)>=ms}
-function list(opt){opt=opt||{};const q=S.q.toLowerCase(),qq=qClean(q),syn=q?synOf(q):[];return all().filter(v=>(opt.anyDate||inWhen(v))&&(S.cat==="All"||v.cat===S.cat)&&(opt.anyCity||S.city==="All"||v.city===S.city)&&(!S.src||v.src||v.rev)&&(!S.free||isFree(v))&&(!S.onl||(S.view!=="events"&&S.view!=="cal")||v.online)&&ftOK(v)&&(!q||(t=>t.includes(q)||(qq&&t.includes(qq)))((v.name+" "+v.venue+" "+v.city+" "+v.state+" "+v.cat+(v.online?" online webinar "+(v.plat||""):"")).toLowerCase())||(syn.length&&syn.some(k=>lbOf(v).has(k))))).sort((a,b)=>a.s<b.s?-1:a.s>b.s?1:a.name<b.name?-1:1)}
+function list(opt){opt=opt||{};const q=S.q.toLowerCase(),qq=qClean(q),syn=q?synOf(q):[];return all().filter(v=>(opt.anyDate||inWhen(v))&&(S.cat==="All"||v.cat===S.cat)&&(opt.anyCity||S.city==="All"||v.city===S.city||vxOf(v).some(x=>x.city===S.city))&&(!S.src||v.src||v.rev)&&(!S.free||isFree(v))&&(!S.onl||(S.view!=="events"&&S.view!=="cal")||v.online)&&ftOK(v)&&(!q||(t=>t.includes(q)||(qq&&t.includes(qq)))((v.name+" "+v.venue+" "+v.city+" "+v.state+" "+v.cat+(v.online?" online webinar "+(v.plat||""):"")+vxOf(v).map(x=>" "+x.venue+" "+x.city).join("")).toLowerCase())||(syn.length&&syn.some(k=>lbOf(v).has(k))))).sort((a,b)=>a.s<b.s?-1:a.s>b.s?1:a.name<b.name?-1:1)}
 function tags(v){return (scamHot(v.id)?'<span class="tag bad">⚠ Under review</span>':'')+stTag(v)+(FAV.includes(v.id)?'<span class="tag fv">♥ Saved</span>':'')+(isLive(v)?'<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="tag td">Today</span>':'')+(v.rev?'<span class="tag ok">✓ Verified</span>':v.src?'<span class="tag ok">✓ Checked</span>':'<span class="tag n" title="Found on a listing site, not yet confirmed. Check with the organiser.">From a listing site</span>')+(v.pend?'<span class="tag wn">Pending review</span>':"")+(v.online?'<span class="tag n">'+ONLSVG+' Online</span>':!v.venue?'<span class="tag wn">Venue TBC</span>':"")}
 function catTag(c){return '<span class="tag" style="background:'+cc(c)[0]+'22;color:'+cc(c)[0]+'">'+ico(c,11)+esc(c)+'</span>'}
 function dtb(v){const on=v.s<TODAY&&v.e>=TODAY,ds=on?v.e:v.s,d=new Date(ds+"T00:00:00"),p=ds.split("-");return '<div class="dt'+(on?" dtu":"")+'" style="border-top:3px solid '+cc(v.cat)[0]+'"'+(on?' title="Started '+fd(v.s,v.s)+', on until '+fd(v.e,v.e)+'"':"")+'><span>'+(on?"Until":DOW[d.getDay()])+'</span><b>'+(+p[2])+'</b><i>'+MON[+p[1]-1].toUpperCase()+'</i></div>'}
@@ -3109,7 +3123,7 @@ const CHEV='<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="n
 function oneBadge(v){const st=stTag(v);if(st)return st;if(isLive(v))return '<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>';if(isTd(v))return '<span class="tag td">Today</span>';return entryTag(v)}
 function rngTxt(v){if(v.e<=v.s)return "";const a=v.s.split("-"),b=v.e.split("-");return (+a[2])+(a[1]===b[1]?"":" "+MON[+a[1]-1])+"–"+(+b[2])+" "+MON[+b[1]-1]}
 function evRow(v){const dt=NEAR?distTxt(v):"",rg=rngTxt(v),bd=oneBadge(v);
- return '<button class="ev'+((S.open===v.id||S.sel===v.id)?" on":"")+'" data-a="sel" data-id="'+v.id+'" aria-label="'+esc(v.name)+', '+fd(v.s,v.e)+', '+esc(v.city)+'">'+dtb(v)+'<div class="bd"><span class="nm">'+esc(v.name)+'</span><span class="meta rmeta"><i class="cdot" style="background:'+cc(v.cat)[0]+'" title="'+esc(v.cat)+'"></i><span class="vtx">'+esc(v.online?"Online · "+(v.plat||"Webinar"):v.venue?v.venue+" · "+v.city:v.city)+'</span></span>'+((rg||bd||dt)?'<span class="tg">'+(rg?'<span class="rng">'+rg+'</span>':"")+bd+(dt?'<b class="dist" title="'+esc(distKm(v))+'">'+dt+'</b>':"")+'</span>':"")+'</div>'+CHEV+'</button>'}
+ return '<button class="ev'+((S.open===v.id||S.sel===v.id)?" on":"")+'" data-a="sel" data-id="'+v.id+'" aria-label="'+esc(v.name)+', '+fd(v.s,v.e)+', '+esc(v.city)+'">'+dtb(v)+'<div class="bd"><span class="nm">'+esc(v.name)+'</span><span class="meta rmeta"><i class="cdot" style="background:'+cc(v.cat)[0]+'" title="'+esc(v.cat)+'"></i><span class="vtx">'+esc(v.online?"Online · "+(v.plat||"Webinar"):v.venue?v.venue+" · "+v.city:v.city)+'</span>'+(vxOf(v).length?'<em class="vxn">+'+vxOf(v).length+'</em>':"")+'</span>'+((rg||bd||dt)?'<span class="tg">'+(rg?'<span class="rng">'+rg+'</span>':"")+bd+(dt?'<b class="dist" title="'+esc(distKm(v))+'">'+dt+'</b>':"")+'</span>':"")+'</div>'+CHEV+'</button>'}
 /* one shared copy of each category picture (a short blob: link), instead of copying the whole picture into every card */
 function coverImg(c){return COVERS[c]||""}
 /* a picture that fails on a weak connection is tried again (after 2s, then 6s, then whenever the phone is back online) */
@@ -3136,7 +3150,7 @@ function evCard(v){const img=safeImg(v.img),c=cc(v.cat),now=isLive(v),en=entLabe
  return '<div class="tc'+(isCx(v)?" cx":"")+(v.online?" onl":"")+'" data-a="open" data-id="'+v.id+'" style="--c:'+c[0]+';--c2:'+c[1]+'">'+
   '<div class="tci">'+art+'<div class="tct">'+(st||(now?'<span class="onb"><i aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="onb td">Today</span>':""))+(v.online?'<span class="onb olb">'+ONLSVG+'Online</span>':"")+evBtns(v,"fav")+'</div>'+(dt?'<span class="tdist" title="'+esc(distKm(v))+'">'+(/walk$/.test(dt)?WALKSVG:CARSVG)+'<span>'+esc(dt.replace(/ drive$/,"").replace(/(\d+) hrs? (\d+) min/,"$1h $2m"))+'</span></span>':"")+'</div>'+
   '<div class="tcx"><span class="tec">'+esc(v.cat)+(v.online?" · Online":"")+'</span><a class="nm" href="#e='+evSlug(v)+'" data-a="open" data-id="'+v.id+'">'+esc(v.name)+'</a><span class="tdl'+(F.length?"":" mu")+'">'+(F.length?F.join('<i class="dot" aria-hidden="true">·</i>'):"Entry details: see organiser")+'</span>'+gfLine(v)+
-  '<div class="tmt"><span class="vn">'+(v.online?ONLSVG+'<span>'+esc(v.plat||"Online")+'</span>':PINSVG+'<span>'+esc(vShort(v))+'</span>')+'</span></div></div></div>'}
+  '<div class="tmt"><span class="vn">'+(v.online?ONLSVG+'<span>'+esc(v.plat||"Online")+'</span>':PINSVG+'<span>'+esc(vShort(v))+'</span>'+(vxOf(v).length?'<em class="vxn">+'+vxOf(v).length+' more</em>':""))+'</span></div></div></div>'}
 /* card facts: dates beyond the badge, a short time and the entry price, so people can compare at a glance */
 function tShort(t){t=String(t||"").replace(/\s*\(?WAT\)?/ig,"").trim();if(!t)return "";const lc=x=>x.replace(/\s*(am|pm)\b/ig,(m,a)=>a.toLowerCase());if(t.length<=14&&/\d/.test(t))return lc(t);const m=t.match(/\b\d{1,2}(?:[:.]\d{2})?\s?(?:am|pm)\b/i);return m?lc(m[0]):""}
 function cardFacts(v,en){const p=[];if(v.e>v.s){const e=new Date(v.e+"T00:00:00");p.push('<span class="tnum">Until '+(v.e===TODAY?"today":e.getDate()+" "+MON[e.getMonth()])+'</span>')}const t=tShort(v.time);if(t)p.push('<span class="tnum">'+esc(t)+'</span>');if(en[0]){const fx=v.intl?"":fxOf(en[0]);p.push('<b class="pr'+(en[1]?" ok":"")+'">'+esc(en[0])+'</b>'+(fx?'<i class="fxc">'+fx+'</i>':""))}return p}
@@ -3236,7 +3250,8 @@ const glPt=(lng,lat,p)=>({type:"Feature",properties:p,geometry:{type:"Point",coo
 /* what each map page shows: points (with the action a tap does), fixed points, areas, route, and where to look first */
 function glScene(){const v=S.view,out={pts:[],fix:[],area:[],route:[],key:v,fit:NGB,cluster:true};
  if(v==="map"){const zc=zoomCity(),LA=list().filter(x=>!x.online),IN=[];
-  LA.forEach(e=>{const ll=evLL(e);if(!ll)return;const p=glPt(ll[1],ll[0],{id:e.id,a:"sel",c:cc(e.cat)[0],t:e.name+" · "+(e.venue||e.city),ex:ll[2]==="v"?1:0,on:S.sel===e.id?1:0});out.pts.push(p);if(zc&&inZoom(zc,e))IN.push(ll)});
+  LA.forEach(e=>{const ll=evLL(e);if(!ll)return;const p=glPt(ll[1],ll[0],{id:e.id,a:"sel",c:cc(e.cat)[0],t:e.name+" · "+(e.venue||e.city),ex:ll[2]==="v"?1:0,on:S.sel===e.id?1:0});out.pts.push(p);if(zc&&inZoom(zc,e))IN.push(ll);
+   vxOf(e).forEach(x=>{const l2=vxLL(e,x);if(l2&&(l2[0]!==ll[0]||l2[1]!==ll[1]))out.pts.push(glPt(l2[1],l2[0],{id:e.id,a:"sel",c:cc(e.cat)[0],t:e.name+" · "+x.venue,ex:l2[2]==="v"?1:0,on:S.sel===e.id?1:0}))})});
   out.key="map|"+zc;if(zc){if(IN.length)out.fit=glB(IN.map(l=>[l[1],l[0]]),.02);else if(CITY[zc])out.fit={c:[CITY[zc][0],CITY[zc][1]],z:11}}}
  else if(v==="explore"){const cnt={};all().forEach(e=>{if(e.state)cnt[e.state]=(cnt[e.state]||0)+1});out.cluster=false;
   STATES.forEach(x=>{const n=cnt[x[0]]||0,on=S.st===x[0];out.fix.push(glPt(x[5],x[4],Object.assign({id:x[0],a:"exp",v:x[0],c:n?"#0B6B4C":"#5B6B7E",t:dn(x[0])+(n?" · "+n+" event"+(n===1?"":"s"):""),ex:1,on:on?1:0,sz:n?1.9:1.1},n?{n:n}:{},on?{lab:dn(x[0])}:{})))});
@@ -4313,7 +4328,7 @@ function evLL(v){if(v.online)return null;if(v._ll!==undefined)return v._ll;const
  if(!r&&CITY[v.city])r=[CITY[v.city][1],CITY[v.city][0],"c"];
  if(!r){const s=STATES.find(x=>x[1]===v.city)||STATES.find(x=>x[0]===v.state);if(s)r=[s[4],s[5],"c"]}
  return v._ll=r}
-const evKm=v=>{const l=NEAR&&evLL(v);return l?km(NEAR.lat,NEAR.lon,l[0],l[1]):null};
+const evKm=v=>{const l=NEAR&&nearLL(v);return l?km(NEAR.lat,NEAR.lon,l[0],l[1]):null};
 const fk=d=>d<1?Math.max(50,Math.round(d*20)*50)+"\u00a0m":d<10?d.toFixed(1)+"\u00a0km":Math.round(d).toLocaleString("en-NG")+"\u00a0km";
 /* rough travel time. Within a city it uses typical traffic speeds for that city (Lagos is slowest, and crossing
    between the Island and the Mainland adds time); between cities it uses highway speeds plus time to get out of town. */
@@ -4373,7 +4388,7 @@ function locate(){if(GEO==="blocked"){N.msg=GEO_OFF_MSG;render();return}if(!navi
 function nWhen(v){const w=N.when;if(w==="up")return true;if(w==="today")return v.s<=TODAY&&v.e>=TODAY;if(w==="wk"){const r=weekendRange();return v.s<=r[1]&&v.e>=r[0]}
  return v.s<=add(TODAY,w==="n7"?7:30)}
 function nearData(){const q=S.q.toLowerCase();
- const ev=all().filter(v=>nWhen(v)&&(S.cat==="All"||v.cat===S.cat)&&(!S.free||isFree(v))&&(!q||(v.name+" "+v.venue+" "+v.city+" "+v.cat).toLowerCase().includes(q))).map(v=>{const ll=evLL(v);return ll?{v,ll,d:km(NEAR.lat,NEAR.lon,ll[0],ll[1])}:null}).filter(Boolean);
+ const ev=all().filter(v=>nWhen(v)&&(S.cat==="All"||v.cat===S.cat)&&(!S.free||isFree(v))&&(!q||(v.name+" "+v.venue+" "+v.city+" "+v.cat).toLowerCase().includes(q))).map(v=>{const ll=nearLL(v);return ll?{v,ll,d:km(NEAR.lat,NEAR.lon,ll[0],ll[1])}:null}).filter(Boolean);
  ev.sort(N.sort==="dist"?(a,b)=>a.d-b.d||(a.v.s<b.v.s?-1:1):(a,b)=>a.v.s<b.v.s?-1:a.v.s>b.v.s?1:a.d-b.d);
  const pl=PL.map(p=>({p,d:km(NEAR.lat,NEAR.lon,p.lat,p.lon)})).sort((a,b)=>a.d-b.d);
  return {ev,inR:ev.filter(x=>x.d<=N.r),pl,plR:pl.filter(x=>x.d<=N.r)}}
@@ -4471,7 +4486,16 @@ const XBAR='<div class="xbar"><button class="x" data-a="close" aria-label="Close
 const IGRX=/^https:\/\/(www\.)?instagram\.com\/[^\s"'<>\\]*$/i;
 const safeUrl=u=>{u=String(u==null?"":u).trim();return /^(https?:\/\/|mailto:|tel:|sms:)[^\s"'<>\\`]*$/i.test(u)&&!/^https?:\/\/[^\/?#]*@/i.test(u)&&u.length<=600?u:""};
 const CAPS={intl:120,name:200,venue:200,city:60,state:60,cat:60,fee:160,time:100,about:3000,note:3000,msg:3000,contact:200,reply:200,topic:80};
+/* extra venues: some events run in more than one place. vx = [{venue, city, s}] (s = date there, optional) */
+const vxOf=v=>Array.isArray(v&&v.vx)?v.vx.filter(x=>x&&(x.venue||x.city)):[];
+const vxLL=(v,x)=>evLL({venue:x.venue||"",city:x.city||v.city,state:x.city&&x.city!==v.city?"":v.state});
+function nearLL(v){const a=evLL(v);if(!NEAR)return a;let best=a,bd=a?km(NEAR.lat,NEAR.lon,a[0],a[1]):1e9;vxOf(v).forEach(x=>{const l=vxLL(v,x);if(l){const d=km(NEAR.lat,NEAR.lon,l[0],l[1]);if(d<bd){bd=d;best=l}}});return best}
+function vxRow(x,i){x=x||{};return '<div class="fvxr"><div class="fvxh"><b>Venue '+(i+2)+'</b><button type="button" class="lnk fvxdel">Remove</button></div><label><span class="vh">Venue '+(i+2)+'</span><input class="vxv" maxlength="160" placeholder="Venue and area" value="'+esc(x.venue||"")+'"></label><div class="row2"><label>City<select class="vxc">'+Object.keys(CITY).concat(["Other"]).map(c=>'<option'+(c===(x.city||"")?" selected":"")+'>'+c+'</option>').join("")+'</select></label><label><span class="lt">Date here <span class="opt">if different</span></span><input class="vxs" type="date" value="'+esc(x.s||"")+'"></label></div></div>'}
+function vxFill(list){const b=$("#fvx");if(!b)return;b.innerHTML=(list||[]).map(vxRow).join("");vxNum()}
+function vxNum(){const rows=[...document.querySelectorAll("#fvx .fvxr")];rows.forEach((r,i)=>{const t=r.querySelector(".fvxh b");if(t)t.textContent="Venue "+(i+2)});const a=$("#fvxadd");if(a)a.hidden=rows.length>=5}
+function vxRead(){return [...document.querySelectorAll("#fvx .fvxr")].map(r=>({venue:r.querySelector(".vxv").value.trim(),city:r.querySelector(".vxc").value,s:r.querySelector(".vxs").value||""})).filter(x=>x.venue).map(x=>Object.assign(x,{city:CITY[x.city]?x.city:""}))}
 function cleanEv(o){if(!o||typeof o!=="object")return o;const v=Object.assign({},o);
+ if("vx" in v)v.vx=(Array.isArray(v.vx)?v.vx:[]).map(x=>({venue:String(x&&x.venue||"").trim().slice(0,160),city:CITY[x&&x.city]?x.city:"",s:/^\d{4}-\d{2}-\d{2}$/.test(x&&x.s||"")?x.s:""})).filter(x=>x.venue).slice(0,5);
  if(v.online){v.online=1;v.plat=PLATS.includes(v.plat)?v.plat:"Online";v.city="Online"}else{delete v.online;delete v.plat}
  if("link" in v)v.link=safeUrl(v.link);if("img" in v)v.img=safeImg(v.img);
  if(v.ig){const a=Array.isArray(v.ig)?v.ig:[];v.ig=[String(a[0]||"").replace(/[^\w.]/g,"").slice(0,40),IGRX.test(a[1]||"")?a[1]:""];if(!v.ig[0]&&!v.ig[1])delete v.ig}
@@ -4800,6 +4824,7 @@ $("#form").addEventListener("input",e=>{if(e.target.name==="s"){const en=$("#for
 $("#form").addEventListener("submit",async e=>{e.preventDefault();const F=e.target,f=new FormData(F),eid=f.get("eid")||"",btn=$("#fbtn");if(f.get("hp_check")){F.reset();$("#modal").hidden=true;toast("Sent for review.");return}
  const onl=!!f.get("online");const d={name:(f.get("name")||"").trim(),cat:f.get("cat"),s:f.get("s"),e:f.get("e")||f.get("s"),venue:onl?"":(f.get("venue")||"").trim(),city:onl?"Online":f.get("city"),state:"",fee:(f.get("fee")||"").trim()||SEE,about:(f.get("about")||"").trim()||(eid||ADMIN?"":"Submitted by the organiser."),link:/^https:\/\//i.test(f.get("link")||"")?f.get("link"):"",img:safeImg((f.get("img")||"").trim()),time:(f.get("time")||"").trim()};
  if(onl){d.online=1;d.plat=PLATS.includes(f.get("plat"))?f.get("plat"):"Online"}
+ {const vx=onl?[]:vxRead();if(vx.length||eid)d.vx=vx}
  if(d.e<d.s){toast("The end date is before the start date.");return}
  if(!ADMIN&&riskOf(d).rej){toast("We can’t list this. NaijaOuting doesn’t list money-making schemes, trading signals, paid grants or loans, miracle cures, betting, or events that ask for bank details.");return}
  const igu=(f.get("ig")||"").trim();if(/^https:\/\/(www\.)?instagram\.com\//i.test(igu)){const m=igu.match(/instagram\.com\/([^\/?#]+)\/?$/);d.ig=[m&&!/^(p|reel|tv)$/.test(m[1])?m[1]:"",igu]}
@@ -4838,7 +4863,7 @@ function revBack(){const p=$("#revpill");if(p)p.hidden=true;if(REVBACK&&ADMIN){R
 function outcome(uid,iid,name,st){return inOrder("outcomes/"+uid,async()=>{try{const r=DB.doc("outcomes/"+uid),sn=await r.get(),it=(sn.exists&&sn.data().items||[]).filter(x=>x.iid!==iid).slice(-80);it.push({iid,n:name||"",st,at:new Date().toISOString()});await r.set({items:it})}catch(x){}})}
 function revDrop(sid,saved){const v=PEND.find(x=>x.sid===sid);if(!v||!DB)return Promise.resolve();revHide(sid);return Promise.resolve(saved).then(()=>Promise.all([qDrop("submissions",v),outcome(v.uid,v.iid,v.name,"approved")])).catch(e=>{revUnhide(sid,"submissions");throw e})}
 function revEdit(sid){const v=PEND.find(x=>x.sid===sid);if(!v)return;revLeave();openForm(null);REVEDIT=sid;const E=$("#form").elements,set=(k,val)=>{if(E[k]&&val!=null&&val!=="")E[k].value=val};
- set("name",v.name);if(CAT[v.cat])E.cat.value=v.cat;if(CITY[v.city])E.city.value=v.city;set("venue",v.venue);set("s",v.s);if(v.e&&v.e!==v.s)set("e",v.e);set("time",v.time);if(v.fee&&v.fee!==SEE)set("fee",v.fee);set("about",v.about);set("link",v.link);set("img",v.img);
+ set("name",v.name);if(CAT[v.cat])E.cat.value=v.cat;if(CITY[v.city])E.city.value=v.city;set("venue",v.venue);set("s",v.s);if(v.e&&v.e!==v.s)set("e",v.e);set("time",v.time);if(v.fee&&v.fee!==SEE)set("fee",v.fee);set("about",v.about);set("link",v.link);set("img",v.img);vxFill(vxOf(v));
  $("#form h2").textContent="Check and approve";$("#fbtn").textContent="Approve and publish"}
 function renderRev(){const hid=Object.values(OVR).filter(o=>o.hide);$("#revlist").innerHTML='<div class="otools"><div><b>Add events</b><span class="sm">Publish straight to the site. Only you see these tools.</span></div><div class="act" style="margin:0"><button class="btn p" data-a="ffopen">Find flyers</button><button class="btn" data-a="impopen">Import events</button><button class="btn" data-a="submit">Add one event</button></div></div>'+dupSiteHtml()+
  (hid.length?'<div class="h3" style="margin:12px 0 0">Removed events</div>'+hid.map(o=>'<div class="rv"><b>'+esc(o.name)+'</b><div class="act" style="margin:6px 0 0"><button class="btn" data-a="arest" data-v="'+esc(o.oid)+'">Restore</button></div></div>').join(""):"")+
@@ -5002,7 +5027,8 @@ function drawerHTML(v,q,d1,d2){
  const ven=!v.venue&&ADMIN&&DB&&/^[br]/.test(v.id)?'<span class="vedit"><input data-vin="'+v.id+'" placeholder="Add the venue" aria-label="Venue for '+esc(v.name)+'" autocomplete="off"><button class="btn p" data-a="vsave" data-id="'+v.id+'">Save</button></span>':'<b>'+esc(v.venue||"Venue to be confirmed")+'</b>';
  const place=[v.city,v.state&&v.state!==v.city&&v.state!=="FCT"?v.state+" State":v.state==="FCT"?"FCT":""].filter(Boolean).join(", ")+(NEAR&&evKm(v)!=null?" · "+(evLL(v)[2]==="v"?"":"≈")+fk(evKm(v))+" away":"");
  const facts='<div class="dxf"><div class="dxr"><span class="dxi">'+DXI.cal+'</span><span class="dxs"><b class="tnum">'+fd(v.s,v.e)+'</b>'+(v.time?'<span class="tnum">'+esc(v.time)+(v.online&&!/WAT|lagos/i.test(v.time)?" (Lagos time)":"")+'</span>':"")+tzBlock(v)+'</span><a class="dxl" target="_blank" rel="noopener" href="'+esc(calUrl(v,d1,d2))+'">Add to calendar</a></div>'+
-  (v.online?'<div class="dxr"><span class="dxi">'+ONLSVG.replace('width="14" height="14"','width="18" height="18"')+'</span><span class="dxs"><b>Online · '+esc(v.plat||"Webinar")+'</b><span>The join link usually comes after you register on the official page.</span></span></div></div>':'<div class="dxr"><span class="dxi">'+DXI.pin+'</span><span class="dxs">'+ven+'<span>'+esc(place)+'</span></span><a class="dxl" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+q+'">Map</a></div></div>');
+  (v.online?'<div class="dxr"><span class="dxi">'+ONLSVG.replace('width="14" height="14"','width="18" height="18"')+'</span><span class="dxs"><b>Online · '+esc(v.plat||"Webinar")+'</b><span>The join link usually comes after you register on the official page.</span></span></div></div>':'<div class="dxr"><span class="dxi">'+DXI.pin+'</span><span class="dxs">'+ven+'<span>'+esc(place)+'</span></span><a class="dxl" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+q+'">Map</a></div>'+
+   (vxOf(v).length?'<div class="dxvxh">Also at '+vxOf(v).length+' more venue'+(vxOf(v).length===1?"":"s")+'</div>'+vxOf(v).map(x=>{const c=x.city||v.city,lx=NEAR?vxLL(v,x):null;return '<div class="dxr dxvx"><span class="dxi">'+DXI.pin+'</span><span class="dxs"><b>'+esc(x.venue)+'</b><span>'+esc(c)+(x.s?' · <span class="tnum">'+fd(x.s,x.s)+'</span>':"")+(lx?" · "+(lx[2]==="v"?"":"≈")+fk(km(NEAR.lat,NEAR.lon,lx[0],lx[1]))+" away":"")+'</span></span><a class="dxl" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(x.venue+", "+c+", Nigeria")+'">Map</a></div>'}).join(""):"")+'</div>');
  const g=igOf(v),src=g?'<a class="dxsrc" href="'+esc(safeUrl(g[1])||("https://www.instagram.com/"+encodeURIComponent(g[0]||"")+"/"))+'" target="_blank" rel="noopener">'+(v.img?"Flyer from ":"Source: ")+(g[0]?"@"+esc(g[0])+" on Instagram":"Instagram post")+' '+DXI.ext+'</a>':"";
  const adm=ADMIN&&DB&&/^[br]/.test(v.id)?'<div class="adm"><span>Owner tools</span><button class="btn" data-a="aedit" data-id="'+v.id+'">Edit</button><button class="btn" data-a="adel" data-id="'+v.id+'">Remove</button></div><div class="adm stadm"><span>Live status</span>'+Object.keys(STX).map(k=>'<button class="btn'+((stOf(v)||{}).st===k?" p":"")+'" data-a="ast" data-v="'+k+'" data-id="'+v.id+'">'+STX[k][0].replace("✓ ","")+'</button>').join("")+(stOf(v)?'<button class="btn g" data-a="ast" data-v="" data-id="'+v.id+'">Clear</button>':"")+'<input id="stnote" placeholder="Note for everyone (optional)" aria-label="Status note" value="'+esc((stOf(v)||{}).note||"")+'"></div>':"";
  const trip='<button class="dxp dxtrip'+(TRIP.includes(v.id)?" on":"")+'" data-a="trip" data-id="'+v.id+'">'+(TRIP.includes(v.id)?DXI.chk+"In my trip":DXI.plus+"Add to trip")+'</button>',
@@ -5077,6 +5103,9 @@ function riskTags(v){const r=riskOf(v);return (r.blk?'<span class="rtag bad">Blo
 function onlForm(){const F=$("#form");if(!F)return;const sel=$("#fplat");if(sel&&!sel.options.length)sel.innerHTML=PLATS.map(p=>'<option>'+p+'</option>').join("");const on=!!(fe("online")&&fe("online").checked);F.classList.toggle("isonl",on);
  const t=fe("time");if(t)t.placeholder=on?"e.g. 4pm (Lagos time)":"e.g. 7pm";const l=fe("link");if(l)l.placeholder=on?"https:// official registration page":"https://"}
 document.addEventListener("change",e=>{if(e.target&&e.target.id==="fonl")onlForm()});
+document.addEventListener("click",e=>{const t=e.target;if(!t||!t.closest)return;
+ if(t.closest("#fvxadd")){e.preventDefault();const b=$("#fvx"),n=b.querySelectorAll(".fvxr").length;if(n>=5)return;const c=fe("city");b.insertAdjacentHTML("beforeend",vxRow({city:c&&c.value||""},n));vxNum();const r=b.lastElementChild;r&&r.querySelector(".vxv").focus();return}
+ const del=t.closest(".fvxdel");if(del){e.preventDefault();const r=del.closest(".fvxr");if(r)r.remove();vxNum()}});
 /* ---------- patch25: order, map key, cover variety ---------- */
 let LGO=false,CVN={};
 document.addEventListener("toggle",e=>{const d=e.target;if(d&&d.classList&&d.classList.contains("lgd"))LGO=d.open},true);
@@ -5097,7 +5126,7 @@ function qDrop(col,v){return inOrder(col+"/"+v.uid,async()=>{const ref=DB.doc(co
 function modMsg(id){const v=MSG.find(x=>x.sid===id);if(!v||!DB)return;revHide(id);toast("Marked as done.");
  qDrop("messages",v).catch(()=>{revUnhide(id,"messages");toast("That didn’t save. Check your connection and try again.")})}
 function moderate(a,id){const isC=a==="dismiss",v=(isC?CORR:PEND).find(x=>x.sid===id);if(!v||!DB)return Promise.resolve();const col=isC?"corrections":"submissions";
- let o=null;if(a==="approve"){o={};["name","cat","s","e","venue","city","state","fee","about","link","img","time","ig","online","plat"].forEach(k=>{if(v[k]!=null&&v[k]!=="")o[k]=v[k]});Object.assign(o,cleanEv(o));if(!o.name||!/^\d{4}-\d{2}-\d{2}$/.test(o.s||"")){toast("This submission is missing a name or date, so it can’t be approved.");return Promise.resolve()}o.rev=1;o.at=new Date().toISOString()}
+ let o=null;if(a==="approve"){o={};["name","cat","s","e","venue","city","state","fee","about","link","img","time","ig","online","plat","vx"].forEach(k=>{if(v[k]!=null&&v[k]!=="")o[k]=v[k]});Object.assign(o,cleanEv(o));if(!o.name||!/^\d{4}-\d{2}-\d{2}$/.test(o.s||"")){toast("This submission is missing a name or date, so it can’t be approved.");return Promise.resolve()}o.rev=1;o.at=new Date().toISOString()}
  revHide(id);toast(a==="approve"?"Approved. It is now on the map.":a==="reject"?"Rejected and removed.":"Marked as done.");
  /* approve: the event is saved first; the submission is removed only once the event is safely saved */
  const job=(o?DB.collection("events").add(o):Promise.resolve()).then(()=>Promise.all([qDrop(col,v),!isC&&(a==="approve"||a==="reject")?outcome(v.uid,v.iid,v.name,a==="approve"?"approved":"rejected"):null]));
@@ -5120,7 +5149,7 @@ let ASSETS=null;const IMP={rows:[],files:{},busy:0};
 const fe=n=>$("#form").elements.namedItem(n);
 function openForm(id){const F=$("#form");F.reset();REVEDIT=null;const v=id?all().find(x=>x.id===id):null;fe("eid").value=v?id:"";
  if(v){fe("name").value=v.name;fe("cat").value=v.cat;if(CITY[v.city])fe("city").value=v.city;fe("venue").value=v.venue||"";fe("s").value=v.s;fe("e").value=v.e&&v.e!==v.s?v.e:"";fe("time").value=v.time||"";fe("fee").value=v.fee&&v.fee!==SEE?v.fee:"";fe("about").value=v.about||"";fe("link").value=v.link||"";fe("img").value=v.img||"";fe("ig").value=v.ig&&v.ig[1]||"";fe("online").checked=!!v.online;if(v.online)fe("plat").value=v.plat||"Online"}
- onlForm();
+ vxFill(v?vxOf(v):[]);onlForm();
  $("#form h2").textContent=v?"Edit event":ADMIN?"Add an event":"Add event";$("#fbtn").textContent=v?"Save changes":ADMIN&&DB?"Publish now":"Send for review";
  $("#form .fnote").hidden=!!(ADMIN&&DB);$("#ffw").hidden=!!v;$("#ffst").textContent=FFDEF;$("#ffthumb").hidden=true;F.querySelectorAll(".af").forEach(x=>x.classList.remove("af"));$("#form .fup").hidden=!ASSETS;revLeave();$("#modal").hidden=false}
 
