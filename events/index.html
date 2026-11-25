@@ -1012,6 +1012,8 @@ html.app .evpan .fbar .seg.sm button{height:28px}
 .stb.st-cancelled{background:color-mix(in srgb,var(--hot) 12%,transparent);border-left-color:var(--hot)}
 .tcb .pl.stp{align-self:flex-start;height:24px;padding:0 9px;font-size:12px;margin-bottom:2px;box-shadow:none}
 .pl.stp.st-ok{background:#E7F5EE;color:#0B6B4C}
+.tct .pl.stp{display:inline-flex;align-items:center;height:26px;min-height:0;padding:0 10px;border-radius:999px;font:700 12px/1 var(--fb);white-space:nowrap;box-shadow:0 1px 6px rgba(0,0,0,.18);flex:none}
+html.app .tgrid .tct .pl.stp{height:24px;padding:0 8px}
 .pl.stp.st-venue,.pl.stp.st-postponed,.pl.stp.st-soldout{background:#FFF1D6;color:#7A4B00}
 .pl.stp.st-cancelled{background:var(--hot);color:#fff}
 .tc.cx .tci img,.tc.cx .tci{filter:grayscale(.85)}
@@ -2688,13 +2690,14 @@ let NOW=new Date(),TODAY=iso(NOW);
 const PY=48.6,PF=PY/52,VBN="-40 "+(-20*PF).toFixed(1)+" 680 "+(580*PF).toFixed(1),P=(lo,la)=>[(lo-2.5)*48,(14-la)*PY];
 let OVR={},BASEV=BASE,PHO={};/* PHO: admin-chosen photo and links per tourism place, from overrides/ph-<place id> */
 let STS={};
-const STX={ok:["✓ Confirmed","ok"],venue:["Venue changed","wn"],postponed:["Postponed","wn"],cancelled:["Cancelled","bad"],soldout:["Sold out","wn"]};
-const STMSG={ok:"Confirmed as going ahead",venue:"The venue has changed",postponed:"This event has been postponed",cancelled:"This event has been cancelled",soldout:"Tickets are sold out"};
+const STX={ok:["Still on","ok"],venue:["Venue changed","wn"],postponed:["Postponed","wn"],cancelled:["Cancelled","bad"],soldout:["Sold out","wn"]};
+const STMSG={ok:"Going ahead as planned",venue:"The venue has changed",postponed:"This event has been postponed",cancelled:"This event has been cancelled",soldout:"Tickets are sold out"};
 const STREP={ok:"Yes, still on",cancelled:"It’s cancelled",postponed:"It’s postponed",venue:"Venue changed",soldout:"Sold out"};
 const stOf=v=>{const x=v&&STS[v.name];return x&&STX[x.st]?x:null},isCx=v=>{const x=stOf(v);return !!x&&x.st==="cancelled"},isOff=v=>{const x=stOf(v);return !!x&&(x.st==="cancelled"||x.st==="postponed")},isLive=v=>v.s<=TODAY&&v.e>=TODAY&&!isOff(v)&&(v.s<TODAY||v.e>TODAY||liveByTime(v)),isTd=v=>v.s===TODAY&&v.e===TODAY&&!isOff(v)&&!isLive(v);
 function agoTxt(t){const d=Date.parse(t);if(isNaN(d))return "";const m=Math.round((Date.now()-d)/6e4);if(m<2)return "just now";if(m<60)return m+" min ago";if(m<1440)return Math.round(m/60)+" h ago";const n=Math.round(m/1440);return n+" day"+(n===1?"":"s")+" ago"}
-function stTag(v){const x=stOf(v);return x?'<span class="tag '+STX[x.st][1]+'">'+STX[x.st][0]+'</span>':""}
-function stPill(v){const x=stOf(v);return x?'<span class="pl stp st-'+x.st+'">'+STX[x.st][0]+'</span>':""}
+function stHide(v,x){return x.st==="ok"&&(isLive(v)||isTd(v))}
+function stTag(v){const x=stOf(v);return x&&!stHide(v,x)?'<span class="tag '+STX[x.st][1]+'">'+STX[x.st][0]+'</span>':""}
+function stPill(v){const x=stOf(v);return x&&!stHide(v,x)?'<span class="pl stp st-'+x.st+'">'+STX[x.st][0]+'</span>':""}
 function stBanner(v){const x=stOf(v);if(!x)return "";return '<div class="stb st-'+x.st+'" role="status"><b>'+STX[x.st][0].replace("✓ ","")+'</b><span>'+esc(STMSG[x.st]+(x.note?". "+x.note.replace(/\.$/,""):"")+".")+'</span><span class="sm">Updated '+agoTxt(x.at)+'</span></div>'}
 function setStatusName(name,st,note,quiet){if(!DB||!name)return Promise.resolve(false);const ref=DB.doc("overrides/s"+hsh(name)),job=!st?ref.delete():ref.set({name,status:{st,note:note||"",at:new Date().toISOString()}});if(!quiet)toast(st?"Status updated. Everyone sees it now.":"Status cleared.");return job.then(()=>true,()=>{toast("That didn’t save. Check your connection and try again.");return false})}
 function stAlerts(){let seen={};try{seen=JSON.parse(localStorage.getItem("ne_stseen")||"{}")}catch(x){}const ups=[];
@@ -4786,7 +4789,7 @@ function dxSecs(h){return String(h).split('<div class="h3">').slice(1).map(x=>{c
 function dxAcc(key,icon,title,hint,body){return '<details class="dxd" data-k="'+esc(key)+'"'+(DXO.has(key)?" open":"")+'><summary><span class="dxi">'+icon+'</span><span class="dxs"><b>'+esc(title)+'</b>'+(hint?'<span>'+esc(hint)+'</span>':"")+'</span>'+DXI.chev+'</summary><div class="dxb">'+body+'</div></details>'}
 function drawerHTML(v,q,d1,d2){
  // the heading above the title says when it's on (On now / Today / Starts tomorrow / Starts in N days), not the checked badge
- const tg=cdown(v)+tags(v).replace('<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>',"").replace('<span class="tag td">Today</span>',"").replace('<span class="tag ok">✓ Verified</span>',"").replace('<span class="tag ok">✓ Checked</span>',"");
+ const tg=cdown(v)+tags(v).replace('<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>',"").replace('<span class="tag td">Today</span>',"").replace('<span class="tag ok">✓ Verified</span>',"").replace('<span class="tag ok">✓ Checked</span>',"").replace('<span class="tag ok">Still on</span>',"");
  const ven=!v.venue&&ADMIN&&DB&&/^[br]/.test(v.id)?'<span class="vedit"><input data-vin="'+v.id+'" placeholder="Add the venue" aria-label="Venue for '+esc(v.name)+'" autocomplete="off"><button class="btn p" data-a="vsave" data-id="'+v.id+'">Save</button></span>':'<b>'+esc(v.venue||"Venue to be confirmed")+'</b>';
  const place=[v.city,v.state&&v.state!==v.city&&v.state!=="FCT"?v.state+" State":v.state==="FCT"?"FCT":""].filter(Boolean).join(", ")+(NEAR&&evKm(v)!=null?" · "+(evLL(v)[2]==="v"?"":"≈")+fk(evKm(v))+" away":"");
  const facts='<div class="dxf"><div class="dxr"><span class="dxi">'+DXI.cal+'</span><span class="dxs"><b class="tnum">'+fd(v.s,v.e)+'</b>'+(v.time?'<span class="tnum">'+esc(v.time)+(v.online&&!/WAT|lagos/i.test(v.time)?" (Lagos time)":"")+'</span>':"")+tzBlock(v)+'</span><a class="dxl" target="_blank" rel="noopener" href="'+esc(calUrl(v,d1,d2))+'">Add to calendar</a></div>'+
