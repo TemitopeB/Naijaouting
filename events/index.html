@@ -2283,6 +2283,29 @@ select.sel optgroup,.md select optgroup,.cform select optgroup,.tz-tseg button,.
 .nbrow .nbk{position:absolute;left:8px;bottom:8px;z-index:1;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.95);color:#141614;font:600 12px/1 var(--font-numbers);box-shadow:0 1px 4px rgba(0,0,0,.18)}
 .nmore{width:100%;justify-content:center;margin:10px 0 0;gap:6px}
 @media (min-width:1101px){.nbrow{grid-auto-columns:minmax(150px,31%)}}
+
+/* ===== calendar: named events in each day, grid fills the screen, summary strip (25 Nov 2026) ===== */
+.calmain{min-width:0;display:flex;flex-direction:column;gap:16px}
+.calsum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.calsum .card{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 16px;text-align:left;font:inherit;color:var(--tx);cursor:pointer;border:1px solid var(--ln);background:var(--pn);transition:border-color .15s}
+.calsum .card:hover{border-color:var(--ac)}
+.calsum .card.on{border-color:var(--ac);box-shadow:inset 0 0 0 1px var(--ac)}
+.calsum .card b{font-size:26px;line-height:1.1;font-weight:600}
+.calsum .card>span:last-child{font-size:13px;color:var(--mu);line-height:1.35}
+.calsum .eyb{font-size:11px}
+@media (min-width:761px){
+ html:not(.app) .cal .ce{display:block!important}
+ html:not(.app) .cal .more{display:block!important}
+ html:not(.app) .cal .day{min-height:max(104px,calc((100vh - 400px) / 5))!important;padding:8px}
+ html:not(.app) .cal .dn{flex-direction:row;align-items:center;gap:6px;margin-bottom:2px}
+ html:not(.app) .cal .dn i{font-size:12px;padding:1px 7px}
+}
+/* the day list scrolls on its own, so the page ends with the calendar instead of a long empty column */
+@media (min-width:1101px){html:not(.app) .cagenda{max-height:calc(100vh - 150px);overflow:auto;overscroll-behavior:contain}}
+@media (min-width:1101px) and (max-width:1500px){.calwrap{grid-template-columns:minmax(0,1fr) 310px!important}}
+@media (max-width:760px){.calsum .eyb{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.calsum .card>span:last-child{-webkit-line-clamp:2!important}}
+@media (max-width:760px){.calsum{grid-template-columns:1fr 1fr 1fr;gap:8px}.calsum .card{padding:10px 10px}.calsum .card b{font-size:20px}.calsum .card>span:last-child{font-size:11.5px}}
+@media (max-width:420px){.calsum .card>span:last-child{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
 </style>
 </head>
 <body>
@@ -3412,12 +3435,19 @@ function calView(){const L=list({anyDate:true}),wk=S.calMode!=="month";let days=
  const sl=new Date(sel+"T00:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
  const pm=wk?NOW.getMonth():(S.m+11)%12,nm=wk?(NOW.getMonth()+1)%12:(S.m+1)%12;
  let h='<div class="page">'+vseg(EVSEG)+'<div class="ph"><div><div class="eyb">Calendar'+(sub?" · "+sub:"")+'</div><h1 style="margin-top:8px">'+title+'</h1><p>'+nR+' event'+(nR===1?"":"s")+(wk?" in the next five weeks":" this month")+'. Tap a day to see everything on it.</p></div><div class="chips"><button class="chip" data-a="mo" data-v="-1" aria-label="Show '+MON[pm]+'">‹ '+MON[pm]+'</button><button class="chip'+(wk?" on":"")+'" data-a="mot">Next 5 weeks</button><button class="chip" data-a="mo" data-v="1" aria-label="Show '+MON[nm]+'">'+MON[nm]+' ›</button></div></div>'+
-  '<div style="margin-bottom:20px">'+catRail()+'</div><div class="calwrap"><div class="cal">'+DOW.map(d=>'<div class="dh">'+d+'</div>').join("");
+  '<div style="margin-bottom:20px">'+catRail()+'</div><div class="calwrap"><div class="calmain"><div class="cal">'+DOW.map(d=>'<div class="dh">'+d+'</div>').join("");
  for(let i=0;i<lead;i++)h+='<div class="emp"></div>';
- days.forEach((k,i)=>{const es=L.filter(v=>v.s<=k&&v.e>=k),dd=+k.slice(8),mo=+k.slice(5,7)-1,lab='<span class="dl">'+dd+((dd===1||(wk&&i===0))?'<small>'+MON[mo]+'</small>':"")+'</span>';
-  h+='<div class="day'+(k===TODAY?" today":"")+(k===sel?" sel":"")+(k<TODAY?" past":"")+'" data-a="cday" data-v="'+k+'" role="button" tabindex="0" aria-label="'+dd+" "+MON[mo]+", "+es.length+' events"><span class="dn">'+lab+(es.length?'<i>'+es.length+'</i>':"")+'</span>'+es.slice(0,3).map(v=>'<button class="ce" style="--c:'+cc(v.cat)[0]+'" data-a="open" data-id="'+v.id+'">'+esc(v.name)+'</button>').join("")+(es.length>3?'<button class="more" data-a="cday" data-v="'+k+'">+'+(es.length-3)+' more</button>':"")+'</div>'});
+ const dur=v=>(new Date(v.e+"T00:00:00")-new Date(v.s+"T00:00:00"))/864e5;
+ days.forEach((k,i)=>{/* name the events that start that day first, short ones before month-long shows */
+  const es=L.filter(v=>v.s<=k&&v.e>=k).sort((a,b)=>((a.s===k?0:1)-(b.s===k?0:1))||(dur(a)-dur(b))),dd=+k.slice(8),mo=+k.slice(5,7)-1,lab='<span class="dl">'+dd+((dd===1||(wk&&i===0))?'<small>'+MON[mo]+'</small>':"")+'</span>';
+  h+='<div class="day'+(k===TODAY?" today":"")+(k===sel?" sel":"")+(k<TODAY?" past":"")+'" data-a="cday" data-v="'+k+'" role="button" tabindex="0" aria-label="'+dd+" "+MON[mo]+", "+es.length+' events"><span class="dn">'+lab+(es.length?'<i>'+es.length+'</i>':"")+'</span>'+es.slice(0,2).map(v=>'<button class="ce" style="--c:'+cc(v.cat)[0]+'" data-a="open" data-id="'+v.id+'" title="'+esc(v.name)+'">'+esc(v.name)+'</button>').join("")+(es.length>2?'<button class="more" data-a="cday" data-v="'+k+'">+'+(es.length-2)+' more</button>':"")+'</div>'});
  const tail=(7-(lead+days.length)%7)%7;for(let i=0;i<tail;i++)h+='<div class="emp"></div>';
- h+='</div><aside class="card cagenda"><div class="eyb">'+(sel===TODAY?"Today":sel<TODAY?"Earlier":"Selected day")+'</div><h2>'+sl+'</h2>'+(onDay.length?onDay.map(evRow).join(""):'<p class="sm" style="margin:6px 0 10px">'+(sel<TODAY?"This day has passed.":"Nothing listed on this day.")+'</p>')+
+ /* at-a-glance strip under the grid: the busiest day, this weekend, and free events in this period */
+ const up=days.filter(k=>k>=TODAY),cnt=k=>L.filter(v=>v.s<=k&&v.e>=k).length,busy=up.reduce((a,k)=>{const n=cnt(k);return n>a[1]?[k,n]:a},["",0]),wr=weekendRange(),wkN=L.filter(v=>v.s<=wr[1]&&v.e>=wr[0]).length,frN=L.filter(v=>v.s<=f1&&v.e>=(f0>TODAY?f0:TODAY)&&isFree(v)).length;
+ const dl=k=>{const d=new Date(k+"T00:00:00");return d.toLocaleDateString("en-GB",{weekday:"short"})+" "+d.getDate()+" "+MON[d.getMonth()]};
+ h+='</div>'+(up.length?'<div class="calsum">'+(busy[1]?'<button class="card" data-a="cday" data-v="'+busy[0]+'"><span class="eyb">Busiest day</span><b class="tnum">'+busy[1]+'</b><span>events on '+dl(busy[0])+'</span></button>':"")+
+  '<button class="card" data-a="cday" data-v="'+(wr[0]>=f0&&wr[0]<=f1?wr[0]:TODAY)+'"><span class="eyb">This weekend</span><b class="tnum">'+wkN+'</b><span>events, '+dl(wr[0])+' – '+dl(wr[1]).split(" ").slice(1).join(" ")+'</span></button>'+
+  '<button class="card'+(S.free?" on":"")+'" data-a="free"><span class="eyb">Free entry</span><b class="tnum">'+frN+'</b><span>'+(S.free?"showing free events only · tap to show all":"free events "+(wk?"in the next five weeks":"this month")+" · tap to show only these")+'</span></button></div>':"")+'</div><aside class="card cagenda"><div class="eyb">'+(sel===TODAY?"Today":sel<TODAY?"Earlier":"Selected day")+'</div><h2>'+sl+'</h2>'+(onDay.length?onDay.map(evRow).join(""):'<p class="sm" style="margin:6px 0 10px">'+(sel<TODAY?"This day has passed.":"Nothing listed on this day.")+'</p>')+
   '<div class="eyb" style="margin-top:18px">Coming up next</div>'+(next.length?next.map(evRow).join(""):'<p class="sm">No later events listed yet.</p>')+'</aside></div></div>';
  return h}
 function newsView(){const cats=["All"].concat(Object.keys(NC)),q=S.q.toLowerCase();const N=NEWS.filter(n=>(S.nc==="All"||n.c===S.nc)&&(!q||(n.t+" "+n.s+" "+n.c).toLowerCase().includes(q)));
