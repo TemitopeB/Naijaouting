@@ -2251,6 +2251,36 @@ select.sel optgroup,.md select optgroup,.cform select optgroup,.tz-tseg button,.
  .glb .maplibregl-ctrl-group button{width:32px;height:32px}
  .glarea{right:8px;top:8px;height:34px;padding:0 14px;font-size:12.5px}
 }
+
+/* ===== Near me: tidy layout (25 Nov 2026) ===== */
+.split.nolo>.mapbox{display:flex}
+@media (max-width:760px){.split.nolo>.mapbox{display:none!important}}
+.split>.mapbox>.legend{top:16px;bottom:auto}
+.nflt{display:flex;flex-direction:column;gap:8px;margin:2px 0 14px}
+.nfr{display:flex;align-items:center;gap:10px;min-width:0}
+.nfr>.sl{flex:none;width:62px;margin:0;font-size:11px;letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--mu)}
+.nscr{flex:1;min-width:0;flex-wrap:nowrap!important;overflow-x:auto;margin:0!important;scrollbar-width:none;padding:2px 0}
+.nscr::-webkit-scrollbar{display:none}
+.nscr .chip{flex:none}
+.nstat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--ln);border-radius:18px;background:var(--pn);box-shadow:var(--sh0);overflow:hidden}
+.nstat>div{display:flex;flex-direction:column;gap:2px;padding:12px 14px}
+.nstat>div+div{border-left:1px solid var(--ln)}
+.nstat b{font-size:22px;line-height:1.1;font-weight:600}
+.nstat span{font-size:12.5px;color:var(--mu);line-height:1.3}
+.nlist{border:1px solid var(--ln);border-radius:18px;background:var(--pn);box-shadow:var(--sh0);overflow:hidden}
+.split .lp .nlist .ev{padding:12px 14px;border-radius:0}
+.nlist .ev+.ev{border-top:1px solid var(--ln)}
+.nev .nvn{min-width:0}.nev .nvn>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.nev .ntg{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin-top:2px}
+.nev .ndt{font-size:12.5px;color:var(--mu)}
+.nbrow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(148px,44%);gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 6px;scrollbar-width:thin}
+.nbrow .nbc{scroll-snap-align:start}
+.nbrow .nbic{color:rgba(255,255,255,.9)}
+.nbrow .nbt b{font:600 14px/1.3 var(--font-display)}
+.nbrow .nbt>span{font-size:12.5px;color:var(--mu)}
+.nbrow .nbk{position:absolute;left:8px;bottom:8px;z-index:1;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.95);color:#141614;font:600 12px/1 var(--font-numbers);box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.nmore{width:100%;justify-content:center;margin:10px 0 0;gap:6px}
+@media (min-width:1101px){.nbrow{grid-auto-columns:minmax(150px,31%)}}
 </style>
 </head>
 <body>
@@ -4274,8 +4304,10 @@ function nearData(){const q=S.q.toLowerCase();
  return {ev,inR:ev.filter(x=>x.d<=N.r),pl,plR:pl.filter(x=>x.d<=N.r)}}
 function nCount(){if(!NEAR)return "";return all().filter(v=>{const d=evKm(v);return d!=null&&d<=N.r}).length}
 const HOT='<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>';
-function nRow(x){const v=x.v,d=v.s.split("-"),now=isLive(v);
- return '<button class="ev" data-a="open" data-id="'+v.id+'">'+dtb(v)+'<div class="bd"><span class="nm">'+esc(v.name)+'</span><span class="meta"><b class="dist">'+(x.ll[2]==="v"?"":"≈")+fk(x.d)+'</b>'+drv(x.d,[NEAR.lat,NEAR.lon],[x.ll[0],x.ll[1]])+'</span><span class="meta">'+SV.pin+esc(v.venue||"Venue TBC")+", "+esc(v.city)+'</span><span class="meta">'+SV.cal+fd(v.s,v.e)+'</span><span>'+catTag(v.cat)+(now?HOT:isTd(v)?'<span class="tag td">Today</span>':"")+(isFree(v)?'<span class="tag ok">Free</span>':"")+'</span></div></button>'}
+function nRow(x){const v=x.v,now=isLive(v),pin=x.ll[2]==="v",area=!pin&&x.d<2;
+ /* when only the area is known (no venue pin), a tiny distance like "50 m · 5 min walk" would mislead, so say "In your area" */
+ const dist=area?'<b class="dist">In your area</b>':'<b class="dist tnum">'+(pin?"":"≈")+fk(x.d)+'</b>'+drv(x.d,[NEAR.lat,NEAR.lon],[x.ll[0],x.ll[1]]);
+ return '<button class="ev nev" data-a="open" data-id="'+v.id+'">'+dtb(v)+'<div class="bd"><span class="nm">'+esc(v.name)+'</span><span class="meta">'+dist+'</span><span class="meta nvn">'+SV.pin+'<span>'+esc(v.venue||"Venue TBC")+", "+esc(v.city)+'</span></span><span class="ntg">'+catTag(v.cat)+(now?HOT:isTd(v)?'<span class="tag td">Today</span>':"")+(isFree(v)?'<span class="tag ok">Free</span>':"")+'<span class="ndt tnum">'+fd(v.s,v.e)+'</span></span></div></button>'}
 function nPlace(x){const p=x.p;return '<button class="ev" data-a="popen" data-id="'+p.id+'"><div class="thumb" style="width:64px;height:64px;background:'+tgrad(p.cat)+'">'+(phOf(p)?'<img class="phth" src="'+esc(phThumb(p))+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">':"")+tico(p.cat,24)+'</div><div class="bd"><span class="nm">'+esc(p.name)+'</span><span class="meta"><b class="dist">'+fk(x.d)+'</b>'+drv(x.d,[NEAR.lat,NEAR.lon],[p.lat,p.lon])+'</span><span class="meta">'+SV.pin+esc(p.town)+", "+esc(dn(p.state))+'</span><span><span class="tag" style="background:'+tcc(p.cat)[0]+'22;color:'+tcc(p.cat)[0]+'">'+tico(p.cat,11)+esc(p.cat)+'</span>'+tbadges(p)+'</span></div></button>'}
 function nMap(D){const R=N.r,W=R*1.2,c=Math.cos(NEAR.lat*Math.PI/180),xy=(la,lo)=>[(lo-NEAR.lon)*111.32*c,-(la-NEAR.lat)*110.57],s=W*.0075,fs=W*.04;
  const rings={2:[1,2],5:[2,5],10:[2,5,10],25:[5,10,25],50:[10,25,50],150:[25,50,150]}[R]||[R/2,R];
@@ -4309,24 +4341,26 @@ function nearView(){const nOpen=!NEAR||N.chg;
   (N.msg?'<p class="sm" role="status" style="margin:10px 0 0;color:var(--warn)">'+esc(N.msg)+'</p>':"")+
   '<p class="sm" style="margin:10px 0 0">Your location is kept on this device only.</p></div>';
  const head='<h1 class="hdf" style="margin:0 0 4px;font-size:28px">Near me</h1><p class="sm" style="margin:0 0 14px">What’s on around you, and how far it is.</p>';
- if(!NEAR)return '<div class="split"><div class="lp">'+head+loc+'</div><div class="mapbox">'+base(VBN,"","Map of Nigeria")+'<div class="nhint"><span class="me-dot" style="width:18px;height:18px"></span><b>Set your location</b><span class="sm">Your events will appear here on a map around you.</span><button class="btn p" data-a="nfocus" style="margin-top:10px">Search your area</button></div></div></div>';
+ if(!NEAR)return '<div class="split nolo"><div class="lp">'+head+loc+'</div><div class="mapbox">'+base(VBN,"","Map of Nigeria")+'<div class="nhint"><span class="me-dot" style="width:18px;height:18px"></span><b>Set your location</b><span class="sm">Your events will appear here on a map around you.</span><button class="btn p" data-a="nfocus" style="margin-top:10px">Search your area</button></div></div></div>';
  const D=nearData(),today=D.inR.filter(x=>x.v.s<=TODAY&&x.v.e>=TODAY),kk=ll=>ll[0].toFixed(4)+","+ll[1].toFixed(4),FO=N.focus?D.inR.filter(x=>kk(x.ll)===N.focus):[];if(N.focus&&!FO.length)N.focus="";
  const RS=[2,5,10,25,50,150],WS=[["today","Today"],["wk","This weekend"],["n7","Next 7 days"],["n30","Next 30 days"],["up","Any date"]];
  const ix=RS.indexOf(N.r),wider=RS[ix+1];
  const top=D.inR.slice(0,6),share="What’s on near "+(NEAR.src==="gps"?(NEAR.near||"me"):NEAR.name)+" (NaijaOuting):\n"+top.map(x=>"• "+x.v.name+" – "+fd(x.v.s,x.v.e)+", "+(x.v.venue||x.v.city)+" ("+fk(x.d)+")").join("\n");
+ const lim=N.lim||10,todayTop=(today.length&&N.when!=="today")?today.slice(0,3):[],seen=new Set(todayTop.map(x=>x.v.id)),rest=D.inR.filter(x=>!seen.has(x.v.id)),pls=(D.plR.length?D.plR:D.pl).slice(0,8);
  let L=head+loc+
-  '<div class="sl" style="margin:0 0 6px">DISTANCE</div><div class="chips" style="margin-bottom:10px">'+RS.map(r=>'<button class="chip'+(N.r===r?" on":"")+'" data-a="nr" data-v="'+r+'">'+r+' km</button>').join("")+'</div>'+
-  '<div class="sl" style="margin:0 0 6px">WHEN</div><div class="chips" style="margin-bottom:10px">'+WS.map(w=>'<button class="chip'+(N.when===w[0]?" on":"")+'" data-a="nw" data-v="'+w[0]+'">'+w[1]+'</button>').join("")+'</div>'+
-  '<div class="chips" style="margin-bottom:14px"><button class="chip'+(N.sort==="dist"?" on":"")+'" data-a="ns" data-v="dist">Nearest first</button><button class="chip'+(N.sort==="date"?" on":"")+'" data-a="ns" data-v="date">Soonest first</button><button class="chip'+(S.free?" on":"")+'" data-a="free">Free entry</button>'+(S.cat!=="All"?'<button class="chip on" data-a="cat" data-v="All">'+esc(S.cat)+' ✕</button>':"")+'</div>'+
-  '<div class="strip4" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="card"><b>'+D.inR.length+'</b><span class="sm">events within '+N.r+'&nbsp;km</span></div><div class="card"><b style="color:var(--hot)">'+today.length+'</b><span class="sm">on today</span></div><div class="card"><b>'+D.plR.length+'</b><span class="sm">places to visit</span></div></div>';
- if(today.length&&N.when!=="today")L+='<div class="nsec"><span><span class="pulse" style="background:var(--hot);display:inline-block;margin-right:8px"></span>On today near you</span></div>'+today.slice(0,3).map(nRow).join("");
+  '<div class="nflt"><div class="nfr"><span class="sl">Distance</span><div class="chips nscr">'+RS.map(r=>'<button class="chip'+(N.r===r?" on":"")+'" data-a="nr" data-v="'+r+'">'+r+' km</button>').join("")+'</div></div>'+
+  '<div class="nfr"><span class="sl">When</span><div class="chips nscr">'+WS.map(w=>'<button class="chip'+(N.when===w[0]?" on":"")+'" data-a="nw" data-v="'+w[0]+'">'+w[1]+'</button>').join("")+'</div></div>'+
+  '<div class="nfr"><span class="sl">Show</span><div class="chips nscr"><button class="chip'+(N.sort==="dist"?" on":"")+'" data-a="ns" data-v="dist">Nearest first</button><button class="chip'+(N.sort==="date"?" on":"")+'" data-a="ns" data-v="date">Soonest first</button><button class="chip'+(S.free?" on":"")+'" data-a="free">Free entry</button>'+(S.cat!=="All"?'<button class="chip on" data-a="cat" data-v="All">'+esc(S.cat)+' ✕</button>':"")+'</div></div></div>'+
+  '<div class="nstat"><div><b class="tnum">'+D.inR.length+'</b><span>events within '+N.r+'&nbsp;km</span></div><div><b class="tnum" style="color:var(--hot)">'+today.length+'</b><span>on today</span></div><div><b class="tnum">'+D.plR.length+'</b><span>places to visit</span></div></div>';
  if(FO.length)L+='<div class="nsec fo"><span>'+FO.length+(FO[0].ll[2]==="v"?' events at '+esc(FO[0].v.venue):' events in '+esc(FO[0].v.city)+' without an exact venue pin')+'</span><button class="lnk" data-a="nfocus" data-v="">Show all ✕</button></div>'+FO.map(nRow).join("");
- L+='<div class="nsec"><span>Events within '+N.r+' km</span>'+(top.length?'<a class="lnk" style="display:inline-flex;align-items:center;text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(share)+'">Share list</a>':"")+'</div>';
- if(D.inR.length)L+=D.inR.map(nRow).join("");
- else{L+='<div class="empty" style="margin-bottom:12px">No listed events within '+N.r+' km for these dates.'+(wider?'<div class="act" style="justify-content:center;margin-top:10px"><button class="btn p" data-a="nr" data-v="'+wider+'">Look within '+wider+' km</button>'+(N.when!=="up"?'<button class="btn" data-a="nw" data-v="up">Any date</button>':"")+'</div>':"")+'</div>';
+ if(todayTop.length)L+='<div class="nsec"><span><span class="pulse" style="background:var(--hot);display:inline-block;margin-right:8px"></span>On today near you</span>'+(today.length>3?'<button class="lnk" data-a="nw" data-v="today">All '+today.length+'</button>':"")+'</div><div class="nlist">'+todayTop.map(nRow).join("")+'</div>';
+ if(pls.length)L+='<div class="nsec"><span>'+(D.plR.length?"Places to visit within "+N.r+" km":"Nearest places to visit")+'</span><button class="lnk" data-a="go" data-v="tour">Tourism →</button></div><div class="nbrow">'+pls.map(x=>{const p=x.p,ph=phOf(p);return nbCard('data-a="popen" data-id="'+p.id+'" aria-label="'+esc(p.name)+', '+esc(p.cat)+', '+fk(x.d).replace("\u00a0"," ")+' away"',ph?(safeImg(ph.th)||ph.img):"",tgrad(p.cat),tico(p.cat,30),p.name,esc(p.cat),"",fk(x.d))}).join("")+'</div>';
+ L+='<div class="nsec"><span>'+(seen.size?"More events":"Events")+' within '+N.r+' km</span>'+(top.length?'<a class="lnk" style="display:inline-flex;align-items:center;text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(share)+'">Share list</a>':"")+'</div>';
+ if(rest.length)L+='<div class="nlist">'+rest.slice(0,lim).map(nRow).join("")+'</div>'+(rest.length>lim?'<button class="btn nmore" data-a="nmore">Show '+Math.min(20,rest.length-lim)+' more <span class="sm">('+(rest.length-lim)+' left)</span></button>':"");
+ else if(D.inR.length)L+='<p class="sm" style="margin:0 0 8px">That’s everything within '+N.r+' km for these dates.</p>';
+ if(!D.inR.length){L+='<div class="empty" style="margin-bottom:12px">No listed events within '+N.r+' km for these dates.'+(wider?'<div class="act" style="justify-content:center;margin-top:10px"><button class="btn p" data-a="nr" data-v="'+wider+'">Look within '+wider+' km</button>'+(N.when!=="up"?'<button class="btn" data-a="nw" data-v="up">Any date</button>':"")+'</div>':"")+'</div>';
   if(D.ev.length)L+='<div class="nsec"><span>Nearest events anywhere</span></div>'+D.ev.slice().sort((a,b)=>a.d-b.d).slice(0,4).map(nRow).join("")}
- L+='<div class="nsec"><span>'+(D.plR.length?"Places to visit within "+N.r+" km":"Nearest places to visit")+'</span><button class="lnk" data-a="go" data-v="tour">Tourism →</button></div>'+(D.plR.length?D.plR.slice(0,6):D.pl.slice(0,3)).map(nPlace).join("");
- L+='<p class="sm" style="margin-top:16px">Distances are straight-line from '+(NEAR.src==="gps"?"your location":esc(NEAR.name))+'; drive times are rough guides without traffic. ≈ means the venue isn’t pinned yet, so we measured to its area or city centre.</p>';
+ L+='<p class="sm" style="margin-top:16px">Distances are straight-line from '+(NEAR.src==="gps"?"your location":esc(NEAR.name))+'; drive times are rough guides without traffic. ≈ means the venue isn’t pinned yet, so we measured to its area or city centre; “In your area” means it’s in your part of town but its exact spot isn’t known.</p>';
  const leg='<div class="legend"><span><i style="background:#2F80ED"></i>You</span><span><i style="background:var(--ac)"></i>Event (colour = category)</span><span><i style="background:var(--gold);border-radius:2px;transform:rotate(45deg)"></i>Place to visit</span><span>Rings: '+fk(N.r)+'</span></div>';
  return '<div class="split"><div class="lp">'+L+'</div><div class="mapbox">'+nMap(D)+leg+'</div></div>'}
 
@@ -4561,10 +4595,11 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="npick"){const x=NRES[+v];if(!x)return;setNear({name:x.k==="area"?x.n:x.n+", "+x.sub,lat:x.lat,lon:x.lon,src:x.k==="area"||x.k==="city"?"area":"lm"});NQ="";NRES=[];N.chg=0}else if(a==="nquick"){const f=FLAT_A[+v];if(f){setNear({name:f.name,lat:f.lat,lon:f.lon,src:"area"});N.chg=0;NQ=""}}
  else if(a==="nclear"){NEAR=null;N.msg="";try{localStorage.removeItem("ne_near")}catch(x){}}
  else if(a==="nfocus"){N.focus=v||"";if(v)setTimeout(()=>{const h=document.querySelector(".split .lp .nsec.fo");if(h)h.scrollIntoView({block:"start",behavior:"smooth"})},30)}
- else if(a==="nr"){N.r=+v;N.focus="";try{localStorage.setItem("ne_nr",v)}catch(x){}}else if(a==="nw")N.when=v;else if(a==="ns")N.sort=v;else if(a==="nsort")S.nsort=S.nsort?0:1;
+ else if(a==="nr"){N.r=+v;N.lim=0;N.focus="";try{localStorage.setItem("ne_nr",v)}catch(x){}}else if(a==="nw"){N.when=v;N.lim=0}else if(a==="ns"){N.sort=v;N.lim=0}else if(a==="nsort")S.nsort=S.nsort?0:1;
  else if(a==="tsub")T.sub=v;else if(a==="tcat")T.cat=v;else if(a==="tunesco")T.unesco=T.unesco?0:1;else if(a==="thide")T.hide=T.hide?0:1;
  else if(a==="mzin"){zTo(1.6,null,true);return}else if(a==="mzout"){zTo(1/1.6,null,true);return}else if(a==="mzfit"){zFit();return}
  else if(a==="tlist")T.list=T.list===v?"all":v;else if(a==="tclear"){T.cat="All";T.zone="All";T.unesco=0;T.hide=0;T.list="all";T.q=""}
+ else if(a==="nmore"){N.lim=(N.lim||10)+20}
  else if(a==="bbset"){S.bb=v?v.split(",").map(Number):null;S.bbf=mapSig();setTimeout(glAreaUpd,0)}
  else if(a==="xnav"){S.back=S.place?{k:"p",id:S.place}:S.open?{k:"e",id:S.open}:null;if(v==="p"){T.sel=id;S.place=id;S.open=null}else{S.place=null;S.open=id;S.sel=id}const D=$("#drawer");if(D)D.scrollTop=0}
  else if(a==="xback"){const b=S.back;S.back=null;if(b){if(b.k==="p"){T.sel=b.id;S.place=b.id;S.open=null}else{S.place=null;S.open=b.id;S.sel=b.id}}const D=$("#drawer");if(D)D.scrollTop=0}
