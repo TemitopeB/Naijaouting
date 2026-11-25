@@ -249,7 +249,7 @@ A tall flyer header with the countdown date block, a "Checked" badge, title, sta
 - **Don't** add font families beyond the four in `fonts/type-v1.css`, or write font names directly in components.
 - **Don't** show the NaijaOuting logo or wordmark until the owner asks for it back, and don't use third-party logos from the internet.
 - **Don't** show invented counts, testimonials, ratings or partner logos.
-- **Don't** box the landing page into a narrow centred column; it runs full width with slim gutters.
+- **Don't** box the landing page into a narrow column. Coloured bands run full width; the content inside sits in a centred column up to 1360px (`--pad`), so wide screens stay balanced. Sections are separated by one even gap (`--sec`, 64–104px). On phones, section intros, buttons and the hero are centred; cards and lists stay left-aligned.
 - **Do** keep landing page containers white with a visible edge (#CFCDC4) and a layered shadow, on beige (#EEEDE8) or deeper beige (#E3E1D9) bands, never white on white. Marigold (#E9A21B) is the one bold band, for Detty December.
 
 ## Events app v2 (18 Nov 2026)

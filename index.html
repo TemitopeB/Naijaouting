@@ -411,6 +411,46 @@ body{font-feature-settings:normal}
 button,select,input,textarea{font-family:inherit}
 .num b,.mini b,.dt b,.dt i{font-family:var(--font-numbers);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 .hp h1{overflow-wrap:break-word}
+
+/* ===== layout audit (25 Nov 2026) =====
+   1. wide screens: content sits in a centred 1360px column (bands stay full width)
+   2. one even gap between every section
+   3. tablets: menu button instead of the squeezed link bar; "Why" cards in two columns
+   4. phones: section intros, buttons and the hero are centred */
+:root{--pad:max(var(--gut),calc((100vw - 1360px) / 2))}
+.top .w,#week>.w,#why>.w,body>footer>.w{padding-left:var(--pad)!important;padding-right:var(--pad)!important}
+.cityp,.dec,.app{padding-left:var(--pad)!important;padding-right:var(--pad)!important}
+.og1{padding-left:var(--pad)!important}.og2{padding-right:var(--pad)!important}
+.hp{--gx:var(--pad);padding-left:var(--pad)!important;padding-right:var(--pad)!important}
+.sld{left:calc(var(--pad) - 6px)!important}
+:root{--sec:clamp(64px,7vw,104px)}
+#week,#cities,#decS,#why,#organisers,#app{margin-top:var(--sec)!important}
+#decS .dec{margin-top:0!important}
+body>footer{margin-top:var(--sec)!important}
+.og1 small{display:none}
+@media (min-width:1001px){.app{grid-template-columns:minmax(0,1fr) minmax(0,.8fr)!important}.app>:last-child{justify-self:center}}
+@media (min-width:761px) and (max-width:1279px){.hp .st2{display:none}}
+@media (min-width:761px) and (max-width:980px){
+ .top nav{display:none!important}
+ .top .r{margin-left:auto}
+ .top .r .ib{display:grid!important;order:1}
+ .bento{grid-template-columns:1fr 1fr!important}.bento .big{grid-column:1/-1}
+}
+@media (max-width:760px){
+ .hp>div:has(h1){text-align:center}
+ .hp h1,.hp p.s{margin-left:auto;margin-right:auto}
+ .hp .srch{text-align:left}
+ .sld{left:0!important;right:0;justify-content:center}
+ .head{align-items:center!important;text-align:center}
+ .below{justify-content:center}
+ .cityp>div:first-child,.intro,.og1,.app>div:first-child{text-align:center}
+ .og1 .steps{text-align:left}
+ .app ul,.inst,.sto{justify-content:center}
+ .inst{flex-direction:column}
+ .sto{align-items:center}
+ .dec{align-items:center!important;text-align:center}
+}
+@media (min-width:600px) and (max-width:1000px){.fg{grid-template-columns:repeat(4,minmax(0,1fr))!important}.fg>div:first-child{grid-column:1/-1}}
 </style>
 </head>
 <body>
