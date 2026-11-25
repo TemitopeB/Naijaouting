@@ -71,12 +71,12 @@
   var st = document.createElement("style");
   st.textContent = ".no-ish{position:fixed;inset:0;z-index:9999;display:grid;align-items:end;justify-items:center}" +
     ".no-ish-sc{position:absolute;inset:0;background:rgba(31,26,22,.55)}" +
-    ".no-ish-p{position:relative;width:min(440px,100%);margin:12px;background:#fff;color:#1F1A16;border-radius:24px;padding:22px 22px 18px;font:400 15px/1.55 Inter,system-ui,sans-serif;box-shadow:0 30px 60px -20px rgba(0,0,0,.45)}" +
+    ".no-ish-p{position:relative;width:min(440px,100%);margin:12px;background:#fff;color:#1F1A16;border-radius:24px;padding:22px 22px 18px;font:400 15px/1.55 var(--font-interface,'Plus Jakarta Sans',system-ui,sans-serif);box-shadow:0 30px 60px -20px rgba(0,0,0,.45)}" +
     "html.installed [data-install]{display:none!important}" +
     "html.installed [data-install]{display:none!important}" +
     ".no-ish-p h3{margin:0 0 10px;font-size:18px}.no-ish-p ol{margin:0 0 10px;padding-left:20px}.no-ish-p li{margin:6px 0}.no-ish-p svg{vertical-align:-3px;color:#0B6B4C}" +
     ".no-ish-p p{margin:0 0 14px;color:#6B625A;font-size:13.5px}" +
-    ".no-ish-ok{width:100%;height:46px;border:0;border-radius:999px;background:#0B6B4C;color:#fff;font:600 15px/1 Inter,system-ui,sans-serif;cursor:pointer}" +
+    ".no-ish-ok{width:100%;height:46px;border:0;border-radius:999px;background:#0B6B4C;color:#fff;font:600 15px/1 var(--font-interface,'Plus Jakarta Sans',system-ui,sans-serif);cursor:pointer}" +
     "@media (min-width:700px){.no-ish{align-items:center}}";
   document.head.appendChild(st);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", refresh); else refresh();

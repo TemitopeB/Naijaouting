@@ -31,33 +31,33 @@ colors:
   night-red: "#FF5B66"
 typography:
   headline:
-    fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif"
+    fontFamily: "'Space Grotesk', 'Noto Sans', system-ui, sans-serif"
     fontSize: "28px"
     fontWeight: 600
     lineHeight: 1.1
     letterSpacing: "-0.03em"
   title:
-    fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif"
+    fontFamily: "'Space Grotesk', 'Noto Sans', system-ui, sans-serif"
     fontSize: "15px"
     fontWeight: 700
     lineHeight: 1.3
   body:
-    fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif"
-    fontSize: "15px"
+    fontFamily: "'Plus Jakarta Sans', 'Noto Sans', system-ui, sans-serif"
+    fontSize: "clamp(15px, .85rem + .2vw, 16px)"
     fontWeight: 400
     lineHeight: 1.5
   label:
-    fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif"
+    fontFamily: "'Plus Jakarta Sans', 'Noto Sans', system-ui, sans-serif"
     fontSize: "12px"
     fontWeight: 600
     letterSpacing: "0.06em"
   control:
-    fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif"
+    fontFamily: "'Plus Jakarta Sans', 'Noto Sans', system-ui, sans-serif"
     fontSize: "13px"
     fontWeight: 600
     lineHeight: 1.5
   date-numeral:
-    fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif"
+    fontFamily: "'IBM Plex Sans', 'Noto Sans', system-ui, sans-serif"
     fontSize: "15px"
     fontWeight: 800
     lineHeight: 1
@@ -127,7 +127,7 @@ NaijaOuting looks like a calm, well-kept guidebook laid over a busy city. The ch
 
 The system is an **Operate** interface first: a browsing and planning tool used mostly on phones, on mobile data, often opened from a WhatsApp link. Density is medium. Cards are large and picture-first; controls are rounded pills that are easy to hit with a thumb. Trust signals ("Checked", "Official seller", scam warnings, "Venue to be confirmed") are part of the visual language, not footnotes.
 
-The landing page (`/`) shares the app's palette, shapes and shadows but has its own editorial voice, modelled on awwwards.com: a full-width layout with slim side gutters (`clamp(16px, 3.4vw, 56px)`), a near edge-to-edge hero panel, **Inter Tight** at semi-bold (600) for very large display headings (hero up to 120px, sections up to 64px), light (300) lead text on large screens, and plain sentence-case labels above headings.
+The landing page (`/`) shares the app's palette, shapes and shadows but has its own editorial voice, modelled on awwwards.com: a full-width layout with slim side gutters (`clamp(16px, 3.4vw, 56px)`), a near edge-to-edge hero panel, **Space Grotesk** at semi-bold (600) for very large display headings (hero up to 120px, sections up to 64px), Plus Jakarta Sans lead text on large screens, and plain sentence-case labels above headings.
 
 **Key Characteristics:**
 - Picture-first event cards: a square flyer or category illustration, then category label, title, date, place.
@@ -166,23 +166,24 @@ A restrained neutral base with one green action colour and two signal colours, m
 
 ## Typography
 
-**Display Font:** Inter (with system-ui fallback)
-**Body Font:** Inter
-**Landing page font:** Inter Tight (display 600, leads 300–400), see Overview
-**Wordmark Font:** Bricolage Grotesque (reserved for the NaijaOuting wordmark, which is currently hidden by the owner's choice)
+Four self-hosted families, each with one job. Files live in `/fonts/` (variable woff2, trimmed to the weights below, split into latin / latin-ext / vietnamese subsets); `fonts/type-v1.css` holds the `@font-face` rules and the tokens. Pages link that stylesheet and preload only the Plus Jakarta Sans and Space Grotesk latin files.
 
-**Character:** One workmanlike sans for everything, carried by weight and size rather than by contrast between families. Tight negative tracking on headlines, open tracking on small uppercase labels.
+**Display:** Space Grotesk 400–700 (`--font-display`, aliased as `--fd`): page and section headings, event and place titles, featured and promo headings, landing headlines.
+**Interface:** Plus Jakarta Sans 400–800 (`--font-interface`, aliased as `--fb` and `--fm`): body, navigation, buttons, chips, inputs, dropdowns, labels, descriptions, footer, admin.
+**Numbers:** IBM Plex Sans 400–700 (`--font-numbers`, aliased as `--fn`, utility class `.tnum`): prices, currency, dates and times, date tiles, counts, statistics, distances. Always with `font-variant-numeric: tabular-nums`.
+**Fallback:** a Noto Sans subset (`--font-fallback` begins with it) covering only what the three families lack: Hausa hooked letters (Ɓ ɓ Ɗ ɗ Ƙ ƙ Ƴ ƴ), ǹ, combining tone marks, Latin Extended Additional, Vietnamese and the whole currency block. After it come metric-matched local fallbacks (Arial / Liberation Sans with size-adjust and ascent/descent overrides, so text barely moves when the web font arrives), then system fonts, symbol fonts and emoji.
+**Wordmark:** Bricolage Grotesque, reserved for the hidden NaijaOuting wordmark (`--fw`).
 
-### Hierarchy
-- **Headline** (600, 28px, line-height 1.1, -0.03em): page headings such as "200 Events".
-- **Title** (700, about 15px, line-height 1.3): event card titles, list rows, section heads in panels.
-- **Body** (400, 15px, line-height 1.5): descriptions, event "about" text, Review notes.
-- **Control** (600, 13px): buttons, chips, segmented controls.
-- **Label** (600, 12px, 0.06em tracking, uppercase): category labels on cards ("BUSINESS", "FILM & THEATRE"), sidebar group names ("DISCOVER", "MORE").
-- **Date numeral** (800, 15px) paired with a tracked 11px weekday/month: the date pill on cards.
+**Character:** a confident, slightly technical grotesk on top, a warm friendly sans underneath, and a precise plex for anything you count or pay. Tight negative tracking on headlines, open tracking on small uppercase labels.
+
+### Scale (tokens in `type-v1.css`)
+- `--fs-hero` 36→56px, `--fs-h1` 30→40px, `--fs-h2` 24→28px, `--fs-title` 18→20px, `--fs-card` 17→18px, `--fs-body` 15→16px, `--fs-sm` 13→14px, `--fs-xs` 12px, `--fs-price` 18→20px, `--fs-nav` 14px, all fluid with `clamp()`.
+- Event and place page titles: `clamp(26px, 1.2rem + 1.25vw, 36px)`; drawer section titles use `--fs-h2`.
+- Card titles, chips, controls and card price lines keep their existing sizes so card heights and the grid don't change. The landing hero keeps its own larger clamp (up to 120px).
+- Weights: `--wt-regular` 400, `--wt-medium` 500, `--wt-semibold` 600, `--wt-bold` 700, `--wt-heavy` 800. Plus Jakarta Sans has no 300, so "light" text renders at 400.
 
 ### Named Rules
-**The Weight Not Family Rule.** Hierarchy comes from weight and size inside Inter. Don't introduce a second family inside the app.
+**The Role Not Element Rule.** Pick the font by what the text is, not where it sits: a price inside a heading still uses `--font-numbers`. Never write a font name directly in a component; use the four tokens.
 
 ## Layout
 
@@ -245,7 +246,7 @@ A tall flyer header with the countdown date block, a "Checked" badge, title, sta
 
 ### Don't:
 - **Don't** add coloured glow shadows; use the neutral shadow vocabulary.
-- **Don't** introduce new font families inside the app.
+- **Don't** add font families beyond the four in `fonts/type-v1.css`, or write font names directly in components.
 - **Don't** show the NaijaOuting logo or wordmark until the owner asks for it back, and don't use third-party logos from the internet.
 - **Don't** show invented counts, testimonials, ratings or partner logos.
 - **Don't** box the landing page into a narrow centred column; it runs full width with slim gutters.
@@ -253,7 +254,7 @@ A tall flyer header with the countdown date block, a "Checked" badge, title, sta
 
 ## Events app v2 (18 Nov 2026)
 
-- Headings use Inter Tight (`--fd`), body stays Inter, matching the landing page.
+- Headings use the display token (`--fd`, now Space Grotesk), body the interface token (now Plus Jakarta Sans); see Typography.
 - Event cards: picture badge carries the start date; the line under the title carries only what the badge can't: "Until <end>" for multi-day events, a short start time, and the entry price (green when free). No price known: "Entry details: see organiser". The pin line shows "Venue, City" when the venue name is short.
 - Phones: 4:3 card pictures; search is a full search bar in the header, "+ Add" is a small outline button.
 - Computers: four columns from about 1280px; filters in one row (search, category, city, "More filters" sheet, Sort menu).

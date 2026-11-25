@@ -9,15 +9,17 @@
 <script src="/js/supabase.js"></script>
 <script src="/js/config.js"></script>
 <script src="/js/shim.js"></script>
+<link rel="preload" href="/fonts/plus-jakarta-sans-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/type-v1.css">
 <style>
 :root{--bg:#FBF7F1;--ink:#1F1A16;--mu:#6B625A;--ln:#EADFCF;--g:#0B6B4C;--g2:#095A40;--gs:#E3F1EA;--cor:#E5603F}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:400 16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;padding:24px 16px}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--font-interface);padding:24px 16px}
 .card{width:100%;max-width:400px;background:#fff;border:1px solid var(--ln);border-radius:24px;padding:32px 28px}
 h1{margin:0 0 6px;font-size:24px;letter-spacing:-.01em}p{margin:0 0 20px;color:var(--mu);font-size:15px}
 label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
 input{width:100%;height:48px;border:1px solid var(--ln);border-radius:12px;padding:0 14px;font:inherit;background:#fff}
 input:focus{outline:2.5px solid var(--g);outline-offset:1px;border-color:transparent}
-.btn{display:flex;align-items:center;justify-content:center;width:100%;height:50px;margin-top:20px;border:0;border-radius:999px;background:var(--g);color:#fff;font:600 15.5px/1 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;cursor:pointer;text-decoration:none}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;height:50px;margin-top:20px;border:0;border-radius:999px;background:var(--g);color:#fff;font:600 15.5px/1 var(--font-interface);cursor:pointer;text-decoration:none}
 .btn:hover{background:var(--g2)}.btn.ln{background:#fff;color:var(--ink);border:1px solid var(--ln);margin-top:10px}
 .msg{margin-top:16px;padding:12px 14px;border-radius:12px;font-size:14px;display:none}.msg.on{display:block}
 .msg.ok{background:var(--gs);color:var(--g)}.msg.bad{background:#FBE3DB;color:#9A2E14}
@@ -31,11 +33,12 @@ body.wide{place-items:start center}body.wide .card{max-width:760px}
 .lead .tag{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 8px;margin-left:6px;background:#FCEFD9;color:#9A5B0C}
 .lead .tag.ai{background:#E3F1EA;color:#0B6B4C}
 .lead .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.lead .row a,.lead .row button{height:36px;padding:0 14px;border-radius:999px;font:600 13.5px/1 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;display:inline-flex;align-items:center;cursor:pointer;text-decoration:none}
+.lead .row a,.lead .row button{height:36px;padding:0 14px;border-radius:999px;font:600 13.5px/1 var(--font-interface);display:inline-flex;align-items:center;cursor:pointer;text-decoration:none}
 .lead .row .go{background:var(--g);color:#fff;border:0}.lead .row .rd{background:#fff;color:var(--ink);border:1px solid var(--ln)}
 .lead .row .x{background:#fff;color:var(--mu);border:1px solid var(--ln)}
 .empty{color:var(--mu);font-size:14px;padding:14px 0}
 [hidden]{display:none!important}
+h1,h2{font-family:var(--font-display);letter-spacing:-.02em}.tnum{font-family:var(--font-numbers)}
 </style>
 </head>
 <body>

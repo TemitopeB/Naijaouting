@@ -16,10 +16,9 @@
 <meta name="apple-mobile-web-app-title" content="NaijaOuting">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script src="/js/pwa.js" defer></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@600;700&display=swap">
+<link rel="preload" href="/fonts/plus-jakarta-sans-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/space-grotesk-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/type-v1.css">
 <style>
 /* Layout: one-screen app. Ink ticker, white masthead with grouped section tabs, then each section fills the rest.
    Map = list on the left, map on the right (listings-site pattern). Pages = centred column, max 1240px. */
@@ -35,9 +34,8 @@
  /* map */
  --land:#E2ECE1;--land2:#D6E6D7;--lnd:#9DBFA6;--wt:#DCE6EA;--wt2:#E9F0F1;--road:#A9C2D2;
  --sh:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(0,0,0,.07);--r:18px;
- --fd:'Inter Tight','Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
- --fb:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
- --fm:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+ /* type roles (families and sizes live in /fonts/type-v1.css): display headings, interface text and labels, numbers */
+ --fd:var(--font-display);--fb:var(--font-interface);--fm:var(--font-interface);--fn:var(--font-numbers);
  --pb:#141414;--pbt:#FFFFFF;--edge:transparent;--sh0:0 1px 2px rgba(20,20,18,.05),0 8px 24px -6px rgba(20,20,18,.13);--shs:0 2px 6px rgba(20,20,18,.04),0 14px 36px -10px rgba(20,20,18,.16);--raise:linear-gradient(180deg,#FFFFFF,#F4F4F1);--raiseb:0 1px 2px rgba(20,20,18,.07),0 5px 14px -4px rgba(20,20,18,.14),inset 0 0 0 1px rgba(20,20,18,.045);--pbg:linear-gradient(180deg,#2E2E2C,#0E0E0E);--pbsh:0 1px 2px rgba(0,0,0,.25),0 8px 18px -8px rgba(0,0,0,.5),0 10px 22px -12px rgba(240,83,45,.55);
  color-scheme:light;
 }
@@ -997,7 +995,7 @@ html.app .evpan .fbar .chip,html.app .evpan .fbar .sel,html.app .evpan .fbar .cd
 html.app .evpan .fbar .seg.sm button{height:28px}
 /* brand: Confluence symbol + naijaouting wordmark */
 :root{--on:#0B7A4B;--ons:rgba(14,138,85,.13)}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--on:#3DD68C;--ons:rgba(61,214,140,.15)}}:root[data-theme="dark"]{--on:#3DD68C;--ons:rgba(61,214,140,.15)}
-:root{--lg1:#0B6B4C;--lg2:#E9A21B;--lg3:#0B6B4C;--fw:'Bricolage Grotesque',var(--fd)}
+:root{--lg1:#0B6B4C;--lg2:#E9A21B;--lg3:#0B6B4C;--fw:'Bricolage Grotesque','Inter Tight',var(--fd)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--lg1:#1FA463;--lg2:#F2B233;--lg3:#F7F4EE}}
 :root[data-theme="dark"]{--lg1:#1FA463;--lg2:#F2B233;--lg3:#F7F4EE}
 :root[data-mode="contrast"]{--lg1:#FFFFFF;--lg2:#FFD400;--lg3:#FFFFFF}
@@ -1612,7 +1610,7 @@ html.app .hr .btn.p{height:40px!important;min-height:40px}
  .split{grid-template-columns:1fr minmax(330px,380px)}
 }
 html.installed [data-install]{display:none!important}
-.revpill{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:9000;height:44px;padding:0 20px;border:0;border-radius:999px;background:#1F1A16;color:#fff;font:600 14px/1 Inter,system-ui,sans-serif;box-shadow:0 14px 30px -12px rgba(0,0,0,.5);cursor:pointer}
+.revpill{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:9000;height:44px;padding:0 20px;border:0;border-radius:999px;background:#1F1A16;color:#fff;font:600 14px/1 var(--font-interface);box-shadow:0 14px 30px -12px rgba(0,0,0,.5);cursor:pointer}
 .revpill:hover{background:#000}html.app .revpill{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 /* speed: the browser skips cards and rows that are far off-screen */
 .tgrid>.tc{content-visibility:auto;contain-intrinsic-size:auto 340px}
@@ -1784,7 +1782,7 @@ html.app .zctl{bottom:10px;right:10px}html.app .zctl button{width:34px;height:34
 :root:root .tgrid .tc:not(.cx):hover .tci .tpc,:root:root .tgrid .tc:not(.cx):focus-within .tci .tpc{filter:none!important}}
 
 /* ===== events app v2 (18 Nov 2026): faster to browse, easier to compare ===== */
-/* headings in Inter Tight, like the landing page */
+/* headings use the display font (--fd), like the landing page */
 .dxh h2,.eh h1,.ph h1{font-family:var(--fd);letter-spacing:-.02em}
 /* cards: one facts line (until · time · price) and the venue, no repeated date */
 .tcx .tdl{display:flex;flex-wrap:wrap;align-items:center;gap:0 6px;opacity:1!important;color:var(--tx2,var(--tx))}
@@ -2174,6 +2172,32 @@ html.app .view,.view{overscroll-behavior-y:auto!important;overscroll-behavior-x:
 .ptr.go svg{transform:rotate(180deg)}
 .ptr.spin svg{animation:ptrs .8s linear infinite}
 @keyframes ptrs{to{transform:rotate(360deg)}}
+</style>
+<style id="type-v1">
+/* ===== Typography v1: role assignments. Families, sizes and weights are tokens in /fonts/type-v1.css ===== */
+body{font-family:var(--font-interface);font-size:var(--fs-body);font-feature-settings:normal}
+@media (max-width:760px){body{font-size:var(--fs-body)!important}}
+button,input,select,textarea{font-family:inherit}
+/* Display: page titles, event and place titles, section headings (Space Grotesk) */
+h1,h2,h3,.hdf,.ph h1,.evp h1,.dr h2,.dx .dxh h2,.feat .fart .h,.promo h3,.prose h2,.md h2{font-family:var(--font-display)}
+.ph h1,.evp h1,.evp .evpan h1{font-size:clamp(26px,1.2rem + 1.25vw,36px)!important;letter-spacing:var(--ls-display)}
+.dr h2,.dx .dxh h2{font-size:var(--fs-h2)!important;line-height:var(--lh-heading);letter-spacing:var(--ls-display)}
+/* Interface: buttons, links, labels and small UI that used the heading font (Plus Jakarta Sans) */
+.dx .dxs b,.dx .dxl,.dx .dxsrc,.dx .dxp,.dx .dxgh,.dx .dxcr,.tsep span,.tsep small,.lgd summary,.curo b,.arrc b,.pld .plkv b,.dx2 .dxcard .dxgf .eyb,
+select.sel optgroup,.md select optgroup,.cform select optgroup,.tz-tseg button,.fftag,.ffbar .seg button,#form input[type=file]::file-selector-button{font-family:var(--font-interface)}
+.dx .dxgh,.dx2 .dxcard .dxgf .eyb{letter-spacing:var(--ls-label)}
+/* Numbers: dates, times, counts, distances, prices and statistics (IBM Plex Sans, tabular figures) */
+.dt b,.dt span,.dt i,.ecard .img .dd b,.ecard .img .dd span,.thumb .dd,.stamp b,.stamp i,.stamp span,.stamp2 b,.stamp2 i,.stamp2 span,
+.tpd b,.tpd i,.eld b,.eld i,.tfd b,.tfd i,.cal .dn,.cal .dn i,.pdd b,
+.tk-cnt,.nav .cnt,.crail .chip .n,.cddb .n,.cddo .n,.chip .k,
+.mstat b,.strip4 b,.num b,.qstats b,.btot b,.cvout,.facts li::before,.steps li::before,
+.pr,.fxc,.fxi b,.entry .eh>div>span,.pld .pldist,.tdist,.tnum{font-family:var(--font-numbers)!important;font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+:root:root .tgrid .tfd b,:root:root .tgrid .tfd i{font-family:var(--font-numbers)!important}
+/* the main ticket price on an event page */
+.entry .eh>div>span{font-weight:var(--wt-semibold);line-height:1.35;color:var(--tx);overflow-wrap:anywhere}
+.pr{white-space:nowrap}
+/* long names, venues and prices never push a layout wider */
+.dx .dxh h2,.tcb .nm,.tcx .nm,.eln,.ph h1,.evp h1{overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -2971,7 +2995,7 @@ function evCard(v){const img=safeImg(v.img),c=cc(v.cat),now=isLive(v),en=entLabe
   '<div class="tmt"><span class="vn">'+(v.online?ONLSVG+'<span>'+esc(v.plat||"Online")+'</span>':PINSVG+'<span>'+esc(vShort(v))+'</span>')+'</span></div></div></div>'}
 /* card facts: dates beyond the badge, a short time and the entry price, so people can compare at a glance */
 function tShort(t){t=String(t||"").replace(/\s*\(?WAT\)?/ig,"").trim();if(!t)return "";const lc=x=>x.replace(/\s*(am|pm)\b/ig,(m,a)=>a.toLowerCase());if(t.length<=14&&/\d/.test(t))return lc(t);const m=t.match(/\b\d{1,2}(?:[:.]\d{2})?\s?(?:am|pm)\b/i);return m?lc(m[0]):""}
-function cardFacts(v,en){const p=[];if(v.e>v.s){const e=new Date(v.e+"T00:00:00");p.push("Until "+(v.e===TODAY?"today":e.getDate()+" "+MON[e.getMonth()]))}const t=tShort(v.time);if(t)p.push(esc(t));if(en[0]){const fx=v.intl?"":fxOf(en[0]);p.push('<b class="pr'+(en[1]?" ok":"")+'">'+esc(en[0])+'</b>'+(fx?'<i class="fxc">'+fx+'</i>':""))}return p}
+function cardFacts(v,en){const p=[];if(v.e>v.s){const e=new Date(v.e+"T00:00:00");p.push('<span class="tnum">Until '+(v.e===TODAY?"today":e.getDate()+" "+MON[e.getMonth()])+'</span>')}const t=tShort(v.time);if(t)p.push('<span class="tnum">'+esc(t)+'</span>');if(en[0]){const fx=v.intl?"":fxOf(en[0]);p.push('<b class="pr'+(en[1]?" ok":"")+'">'+esc(en[0])+'</b>'+(fx?'<i class="fxc">'+fx+'</i>':""))}return p}
 function vShort(v){const x=String(v.venue||"").split(/,|\(| – | - /)[0].trim();return x&&x.length<=30&&x.toLowerCase()!==String(v.city).toLowerCase()?x+", "+v.city:v.city}
 function evLine(v){const img=safeImg(v.img),now=isLive(v),en=entLabel(v),dt=NEAR?distTxt(v):"",st=stTag(v),d=new Date(v.s+"T00:00:00");
  const tags=(st||(now?'<span class="tag on onw"><i class="lvd" aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="tag td onw">Today</span>':""))+(en[0]?'<span class="tag en2 '+(en[1]?"ok":"n")+'">'+en[0]+'</span>':"");
@@ -3161,7 +3185,7 @@ function mapSvg(L){
   const areaLabels=()=>{const fs=1.25*U,ls=.06*U,LB=[];return mapAreas(zc).map(a=>{const q=P(a[2],a[1]),t=a[0].toUpperCase(),hw=(t.length*(fs*.64+ls))/2,box=[q[0]-hw,q[1]-fs*.85,q[0]+hw,q[1]+fs*.25];
    if(OB.some(([ox,oy,or])=>{const dx=Math.max(box[0]-ox,0,ox-box[2]),dy=Math.max(box[1]-oy,0,oy-box[3]);return dx*dx+dy*dy<or*or}))return "";
    if(LB.some(l=>box[0]<l[2]&&box[2]>l[0]&&box[1]<l[3]&&box[3]>l[1]))return "";LB.push(box);
-   return '<text x="'+q[0].toFixed(2)+'" y="'+q[1].toFixed(2)+'" text-anchor="middle" font-size="'+fs.toFixed(2)+'" font-weight="700" letter-spacing="'+ls.toFixed(2)+'" font-family="Inter,system-ui,sans-serif" fill="var(--mu)" stroke="var(--land)" stroke-width="'+(.5*U).toFixed(2)+'" paint-order="stroke" opacity=".9" pointer-events="none">'+esc(t)+'</text>'}).join("")};
+   return '<text x="'+q[0].toFixed(2)+'" y="'+q[1].toFixed(2)+'" text-anchor="middle" font-size="'+fs.toFixed(2)+'" font-weight="700" letter-spacing="'+ls.toFixed(2)+'" font-family="Plus Jakarta Sans,Noto Sans,system-ui,sans-serif" fill="var(--mu)" stroke="var(--land)" stroke-width="'+(.5*U).toFixed(2)+'" paint-order="stroke" opacity=".9" pointer-events="none">'+esc(t)+'</text>'}).join("")};
   if(zg){const sp=26*px;b+=shown.map((p,j)=>{const an=j*2.39996,rr=j?sp*.55*Math.sqrt(j):0;return [p.v,p.x+rr*Math.cos(an),p.y+rr*Math.sin(an)]}).sort((a,q)=>a[2]-q[2]).map(a=>pin(...a)).join("")}
   else{const ks=Object.keys(G).sort((p,q)=>((G[p].length>=3)-(G[q].length>=3))||(G[p].length-G[q].length));b+=ks.map(k=>{const g=G[k];if(g.length<3){return g.map((p,j)=>pin(p.v,p.x+(j?9*px:0),p.y)).join("")}
    const gx=g.reduce((a,p)=>a+p.x,0)/g.length,gy=g.reduce((a,p)=>a+p.y,0)/g.length,r=(15+Math.min(11,g.length*.45))*px;OB.push([gx,gy,r+6*px]);
@@ -4289,7 +4313,7 @@ function access(v){const T=TICKETS[v.name]||{},f=v.fee||"";let t=T.t||v.tk;
  if(!t){if(/invitation/i.test(f))t="invite";else if(/free/i.test(f)&&/rsvp|regist/i.test(f))t="reg";else if(/free/i.test(f))t="free";else if(/₦|\$|sold out/i.test(f))t="paid";else t="unknown"}
  return {t,p:T.p||v.tp||(f&&f!==SEE?f:""),l:T.l||v.tl||(v.link?[["Event link",v.link]]:[]),n:T.n||""}}
 const isFree=v=>{const a=access(v);return a.t==="free"||(a.t==="reg"&&/free/i.test(a.p))};
-function entryTag(v){const a=access(v);return a.t==='free'?'<span class="tag ok">Free</span>':a.t==='reg'?'<span class="tag ok">'+(/free/i.test(a.p)?'Free · register':'Register')+'</span>':a.t==='paid'?'<span class="tag n">'+(/₦/.test(a.p)?'From '+(a.p.match(/₦[\d,]+/)||[''])[0]:'Ticketed')+'</span>':a.t==='mixed'?'<span class="tag n">Free + paid</span>':a.t==='invite'?'<span class="tag n">Invite only</span>':''}
+function entryTag(v){const a=access(v);return a.t==='free'?'<span class="tag ok">Free</span>':a.t==='reg'?'<span class="tag ok">'+(/free/i.test(a.p)?'Free · register':'Register')+'</span>':a.t==='paid'?'<span class="tag n tnum">'+(/₦/.test(a.p)?'From '+(a.p.match(/₦[\d,]+/)||[''])[0]:'Ticketed')+'</span>':a.t==='mixed'?'<span class="tag n">Free + paid</span>':a.t==='invite'?'<span class="tag n">Invite only</span>':''}
 const ACC={free:["Free entry","ok"],reg:["Registration required","ok"],paid:["Paid tickets","wn"],mixed:["Free and paid options","wn"],soon:["Tickets not on sale yet","n"],invite:["Invitation only","n"],unknown:["Entry details not published","n"]};
 function entryBox(v){const a=access(v),L=a.l||[],safe=u=>/^https:\/\//.test(u||"")?u:"";
  const lab=a.t==="reg"&&/free/i.test(a.p)?"Free · registration required":ACC[a.t][0];
@@ -4764,7 +4788,7 @@ function drawerHTML(v,q,d1,d2){
  const tg=tags(v).replace('<span class="tag on"><i class="lvd" aria-hidden="true"></i>On now</span>',"").replace('<span class="tag td">Today</span>',"");
  const ven=!v.venue&&ADMIN&&DB&&/^[br]/.test(v.id)?'<span class="vedit"><input data-vin="'+v.id+'" placeholder="Add the venue" aria-label="Venue for '+esc(v.name)+'" autocomplete="off"><button class="btn p" data-a="vsave" data-id="'+v.id+'">Save</button></span>':'<b>'+esc(v.venue||"Venue to be confirmed")+'</b>';
  const place=[v.city,v.state&&v.state!==v.city&&v.state!=="FCT"?v.state+" State":v.state==="FCT"?"FCT":""].filter(Boolean).join(", ")+(NEAR&&evKm(v)!=null?" · "+(evLL(v)[2]==="v"?"":"≈")+fk(evKm(v))+" away":"");
- const facts='<div class="dxf"><div class="dxr"><span class="dxi">'+DXI.cal+'</span><span class="dxs"><b>'+fd(v.s,v.e)+'</b>'+(v.time?'<span>'+esc(v.time)+(v.online&&!/WAT|lagos/i.test(v.time)?" (Lagos time)":"")+'</span>':"")+tzBlock(v)+'</span><a class="dxl" target="_blank" rel="noopener" href="'+esc(calUrl(v,d1,d2))+'">Add to calendar</a></div>'+
+ const facts='<div class="dxf"><div class="dxr"><span class="dxi">'+DXI.cal+'</span><span class="dxs"><b class="tnum">'+fd(v.s,v.e)+'</b>'+(v.time?'<span class="tnum">'+esc(v.time)+(v.online&&!/WAT|lagos/i.test(v.time)?" (Lagos time)":"")+'</span>':"")+tzBlock(v)+'</span><a class="dxl" target="_blank" rel="noopener" href="'+esc(calUrl(v,d1,d2))+'">Add to calendar</a></div>'+
   (v.online?'<div class="dxr"><span class="dxi">'+ONLSVG.replace('width="14" height="14"','width="18" height="18"')+'</span><span class="dxs"><b>Online · '+esc(v.plat||"Webinar")+'</b><span>The join link usually comes after you register on the official page.</span></span></div></div>':'<div class="dxr"><span class="dxi">'+DXI.pin+'</span><span class="dxs">'+ven+'<span>'+esc(place)+'</span></span><a class="dxl" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+q+'">Map</a></div></div>');
  const g=igOf(v),src=g?'<a class="dxsrc" href="'+esc(safeUrl(g[1])||("https://www.instagram.com/"+encodeURIComponent(g[0]||"")+"/"))+'" target="_blank" rel="noopener">'+(v.img?"Flyer from ":"Source: ")+(g[0]?"@"+esc(g[0])+" on Instagram":"Instagram post")+' '+DXI.ext+'</a>':"";
  const adm=ADMIN&&DB&&/^[br]/.test(v.id)?'<div class="adm"><span>Owner tools</span><button class="btn" data-a="aedit" data-id="'+v.id+'">Edit</button><button class="btn" data-a="adel" data-id="'+v.id+'">Remove</button></div><div class="adm stadm"><span>Live status</span>'+Object.keys(STX).map(k=>'<button class="btn'+((stOf(v)||{}).st===k?" p":"")+'" data-a="ast" data-v="'+k+'" data-id="'+v.id+'">'+STX[k][0].replace("✓ ","")+'</button>').join("")+(stOf(v)?'<button class="btn g" data-a="ast" data-v="" data-id="'+v.id+'">Clear</button>':"")+'<input id="stnote" placeholder="Note for everyone (optional)" aria-label="Status note" value="'+esc((stOf(v)||{}).note||"")+'"></div>':"";

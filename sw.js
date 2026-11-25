@@ -2,11 +2,12 @@
  * NaijaOuting app helper (service worker).
  * - Pages and data: always try the internet first, so people see the latest events;
  *   fall back to the last saved copy when offline.
- * - Pictures and libraries: saved after the first visit, so the app opens fast.
+ * - Pictures, fonts and libraries: saved after the first visit, so the app opens fast
+ *   (font files have a version in their name, so a saved copy is never stale).
  * - The database (Supabase) and other websites are never cached here.
  * Change VERSION to make every phone refresh its saved copy.
  */
-const VERSION = "v73";
+const VERSION = "v74";
 // Pictures keep the same saved copy across updates (their file names change when the picture changes),
 // so a new version of the site doesn't make every phone download all the pictures again.
 const SHELL = `shell-${VERSION}`, MEDIA = "media-keep-1";
@@ -52,6 +53,6 @@ self.addEventListener("fetch", e => {
     return;
   }
   if (url.pathname.startsWith("/admin")) return;
-  if (/^\/(_blob|events\/flyers|img|covers|icons|events\/lib)\//.test(url.pathname)) { e.respondWith(cacheFirst(req)); return; }
+  if (/^\/(_blob|events\/flyers|img|covers|icons|events\/lib|fonts)\//.test(url.pathname)) { e.respondWith(cacheFirst(req)); return; }
   e.respondWith(networkFirst(req));
 });
