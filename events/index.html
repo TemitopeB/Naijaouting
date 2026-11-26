@@ -2343,6 +2343,9 @@ html.app .tz-tfl:not(.fo){display:none}
 .rvsrc{display:inline-block;margin-top:2px;color:var(--ac);text-decoration:underline}
 
 /* ===== extra venues (form, event page, cards) ===== */
+#form .ffb.ffpulse{animation:ffp 1.4s ease-in-out 3}
+@keyframes ffp{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ac) 55%,transparent)}70%{box-shadow:0 0 0 12px transparent}100%{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion:reduce){#form .ffb.ffpulse{animation:none;outline:3px solid var(--ac);outline-offset:3px}}
 .fvx{display:flex;flex-direction:column;gap:10px}
 .fvx:empty{display:none}
 .fvxr{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px dashed var(--ln);border-radius:14px;background:var(--pn2)}
@@ -3112,7 +3115,7 @@ function tripShareText(){const st=okStops(),ev=tripEvents();let t="My Nigeria tr
 
 
 /* ---------- filtering ---------- */
-function inWhen(v){const w=S.when;if(w==="all")return true;if(w==="date"){const a=S.d1||TODAY,b=S.d2&&S.d2>=a?S.d2:a;return v.s<=b&&v.e>=a}if(w==="up")return v.e>=TODAY;if(w==="today")return v.s<=TODAY&&v.e>=TODAY;if(w==="n7")return v.s<=add(TODAY,7)&&v.e>=TODAY;
+function inWhen(v){const w=S.when;if(w==="all")return true;if(w==="date"){const a=S.d1||TODAY,b=S.d2&&S.d2>=a?S.d2:a;return v.s<=b&&v.e>=a}if(w==="up")return v.e>=TODAY;if(w==="today")return v.s<=TODAY&&v.e>=TODAY;if(w==="n7")return v.s<=add(TODAY,6)&&v.e>=TODAY;
  if(w==="wk"){const dow=NOW.getDay();const ws=dow===0?add(TODAY,-1):add(TODAY,6-dow);return v.s<=add(ws,1)&&v.e>=ws}
  const ms=NOW.getFullYear()+"-"+pad(NOW.getMonth()+1);return v.s.slice(0,7)<=ms&&v.e.slice(0,7)>=ms}
 function list(opt){opt=opt||{};const q=S.q.toLowerCase(),qq=qClean(q),syn=q?synOf(q):[];return all().filter(v=>(opt.anyDate||inWhen(v))&&(S.cat==="All"||v.cat===S.cat)&&(opt.anyCity||S.city==="All"||v.city===S.city||vxOf(v).some(x=>x.city===S.city))&&(!S.src||v.src||v.rev)&&(!S.free||isFree(v))&&(!S.onl||(S.view!=="events"&&S.view!=="cal")||v.online)&&ftOK(v)&&(!q||(t=>t.includes(q)||(qq&&t.includes(qq)))((v.name+" "+v.venue+" "+v.city+" "+v.state+" "+v.cat+(v.online?" online webinar "+(v.plat||""):"")+vxOf(v).map(x=>" "+x.venue+" "+x.city).join("")).toLowerCase())||(syn.length&&syn.some(k=>lbOf(v).has(k))))).sort((a,b)=>a.s<b.s?-1:a.s>b.s?1:a.name<b.name?-1:1)}
@@ -4386,7 +4389,7 @@ function locate(){if(GEO==="blocked"){N.msg=GEO_OFF_MSG;render();return}if(!navi
   e=>{N.busy=0;if(e&&e.code===1&&(IN_FRAME||GEO==="blocked")){GEO="blocked";N.msg=GEO_OFF_MSG}else N.msg=e&&e.code===1?"Location is turned off for NaijaOuting. Allow it in your browser’s site settings, or search for your area instead.":"We couldn’t find your location just now. Search for your area or a landmark instead.";render()},
   {enableHighAccuracy:true,timeout:15000,maximumAge:60000})}catch(x){N.busy=0;GEO="blocked";N.msg=GEO_OFF_MSG;render()}}
 function nWhen(v){const w=N.when;if(w==="up")return true;if(w==="today")return v.s<=TODAY&&v.e>=TODAY;if(w==="wk"){const r=weekendRange();return v.s<=r[1]&&v.e>=r[0]}
- return v.s<=add(TODAY,w==="n7"?7:30)}
+ return v.s<=add(TODAY,w==="n7"?6:30)}
 function nearData(){const q=S.q.toLowerCase();
  const ev=all().filter(v=>nWhen(v)&&(S.cat==="All"||v.cat===S.cat)&&(!S.free||isFree(v))&&(!q||(v.name+" "+v.venue+" "+v.city+" "+v.cat).toLowerCase().includes(q))).map(v=>{const ll=nearLL(v);return ll?{v,ll,d:km(NEAR.lat,NEAR.lon,ll[0],ll[1])}:null}).filter(Boolean);
  ev.sort(N.sort==="dist"?(a,b)=>a.d-b.d||(a.v.s<b.v.s?-1:1):(a,b)=>a.v.s<b.v.s?-1:a.v.s>b.v.s?1:a.d-b.d);
@@ -5648,7 +5651,11 @@ function deepLink(){let P;try{P=new URLSearchParams(((location.hash||"").replace
  if(P.get("free")==="1"){S.free=1;hit=true}
  const D1=P.get("d1"),D2=P.get("d2"),RX=/^\d{4}-\d\d-\d\d$/;if(D1&&RX.test(D1)){S.d1=D1;S.d2=D2&&RX.test(D2)&&D2>=D1?D2:"";S.when="date";if(!vw)S.view="events";hit=true}
  const q=P.get("q");if(q){S.q=q.slice(0,80);const qi=document.getElementById("q");if(qi)qi.value=S.q;hit=true}
- if(P.get("add")==="1"){const pf=P.get("pf");setTimeout(()=>{try{openForm(null);$("#modal").hidden=false;if(pf){const o=JSON.parse(pf);if(o&&typeof o==="object")ffApply(o)}}catch(x){}},400);hit=true}
+ const mo=P.get("mo");if(mo&&/^\d{4}-(0[1-9]|1[0-2])$/.test(mo)){S.view="cal";S.calMode="month";S.y=+mo.slice(0,4);S.m=+mo.slice(5)-1;S.cd=mo+"-01">=TODAY?mo+"-01":TODAY;hit=true}
+ if(P.has("signin")){let n=0;const t=setInterval(()=>{n++;if((window.ACCT&&ACCT.ready)||n>40){clearInterval(t);if(window.ACCT)try{glAct("acct")}catch(x){}}},250);hit=true}
+ if(P.get("add")==="1"){const pf=P.get("pf"),ff=P.get("ff")==="1";setTimeout(()=>{try{openForm(null);$("#modal").hidden=false;if(pf){const o=JSON.parse(pf);if(o&&typeof o==="object")ffApply(o)}
+   /* from "Fill from flyer": point at the flyer button straight away */
+   if(ff){const b=document.querySelector("#form .ffb");if(b){b.classList.add("ffpulse");b.scrollIntoView({block:"center"});setTimeout(()=>b.classList.remove("ffpulse"),4200)}}}catch(x){}},400);hit=true}
  const e=P.get("e");if(e){const v=evFind(e);if(v){S.open=v.id;S.sel=v.id;PENDLINK=null;hit=true}else{PENDLINK=e;if(REMLOADED)endedLookup(e);else setTimeout(()=>{if(PENDLINK===e)endedLookup(e)},6000)}}
  return hit}
 addEventListener("hashchange",()=>{if(deepLink())render()});

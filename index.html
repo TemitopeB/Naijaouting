@@ -503,14 +503,14 @@ body>footer{margin-top:var(--sec)!important}
 <body>
 <header class="top" id="top"><div class="w">
  <nav aria-label="Sections"><a class="on" href="#">Home</a><a href="#week">Top picks</a><a href="#cities">Cities</a><a href="#organisers">For organisers</a><a href="/events/#v=map">Map</a></nav>
- <div class="r"><a class="lsi" href="/events/#signin" data-acct hidden>Sign in</a><a class="btn ln sm" href="/events/#add=1">Add event</a><a class="btn sm" href="/events/#v=events">Browse events</a><button class="ib" type="button" aria-label="Menu" aria-expanded="false" aria-controls="msheet"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+ <div class="r"><a class="lsi" href="/events/#v=events&signin=1" data-acct hidden>Sign in</a><a class="btn ln sm" href="/events/#add=1">Add event</a><a class="btn sm" href="/events/#v=events">Browse events</a><button class="ib" type="button" aria-label="Menu" aria-expanded="false" aria-controls="msheet"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
 </div></header>
 <div class="msheet" id="msheet" role="dialog" aria-modal="true" aria-label="Menu"><div class="sc" data-close></div><div class="pnl">
  <div class="x"><button class="ib" type="button" data-close aria-label="Close menu">✕</button></div>
  <a href="#week" data-close>Top picks<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="#cities" data-close>Cities<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="#organisers" data-close>For organisers<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="#app" data-close>Get the app<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
  <a href="/events/#v=map">Map<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
  <a href="/events/#add=1">Add event<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
- <a href="/events/#signin" data-acct hidden>Sign in<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+ <a href="/events/#v=events&signin=1" data-acct hidden>Sign in<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
  <a class="btn" href="/events/#v=events">Browse all events</a>
 </div></div>
 
@@ -565,7 +565,7 @@ body>footer{margin-top:var(--sec)!important}
  <div class="og1"><span class="kick">For organisers</span><h2>Hosting an event? List it free.</h2><p>Send your flyer and we’ll fill in the details. We check it, then it goes on the map.</p>
   <ol class="steps"><li><span>1</span>Upload your flyer</li><li><span>2</span>Check the details we filled in</li><li><span>3</span>Live after a quick review</li></ol>
   <a class="btn amb" href="/events/#add=1">Add event <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><small>No fees · No sign-up</small></div>
- <a class="og2" href="/events/#add=1"><h3>Fill from flyer</h3><p>No typing · No fees · No sign-up</p><div class="up" aria-hidden="true"><img id="ogImg" src="" alt=""><div><b>Reading your flyer…</b><i>Name, date, venue and price</i><div class="bar"><s></s></div></div></div><p>Nothing goes live until it’s been checked.</p></a>
+ <a class="og2" href="/events/#add=1&ff=1"><h3>Fill from flyer</h3><p>No typing · No fees · No sign-up</p><div class="up" aria-hidden="true"><img id="ogImg" src="" alt=""><div><b>Reading your flyer…</b><i>Name, date, venue and price</i><div class="bar"><s></s></div></div></div><p>Nothing goes live until it’s been checked.</p></a>
 </div></section>
 
 <section id="app"><div class="w"><div class="app">
@@ -623,7 +623,7 @@ const wkN=up.filter(e=>inWin(e,"wk")).length;
 if(wkN){$("#tagN").textContent=wkN;$("#tagT").textContent=(wkN===1?"event":"events")+(dow===0||dow===6?" on this weekend":" this weekend")}
 else{$("#tagN").textContent=up.length;$("#tagT").textContent="upcoming events"}
 $("#sub").textContent="Concerts, parties, comedy, food and culture across "+plural(cities.length,"city").replace("citys","cities")+", checked and linked to the official ticket seller.";
-$("#mapN").textContent=up.length;$("#nUp").textContent=up.length;$("#nCi").textContent=cities.length;
+$("#mapN").textContent=up.filter(e=>e.ci!=="Online").length;$("#nUp").textContent=up.length;$("#nCi").textContent=cities.length;
 /* phone in the app section: the real map, with today's event counts per city and the next events */
 (function(){const box=$("#phDots");if(!box)return;
  const XY={"Lagos":[3.4,6.5],"Abuja":[7.49,9.06],"Port Harcourt":[7.01,4.82],"Calabar":[8.33,4.96],"Enugu":[7.51,6.45],"Ibadan":[3.9,7.38],"Kaduna":[7.44,10.52],"Kano":[8.52,12],"Owerri":[7.03,5.48],"Asaba":[6.73,6.2],"Uyo":[7.93,5.04],"Jos":[8.89,9.9],"Umuahia":[7.49,5.53],"Benin City":[5.63,6.34],"Maiduguri":[13.16,11.85],"Abeokuta":[3.35,7.15],"Lokoja":[6.73,7.8],"Yenagoa":[6.26,4.92],"Keffi":[7.87,8.85],"Warri":[5.78,5.55],"Ilorin":[4.55,8.5],"Akure":[5.2,7.25],"Sokoto":[5.24,13.06],"Makurdi":[8.54,7.73]};
@@ -689,6 +689,7 @@ const dec=up.filter(e=>e.s<=decE&&e.e>=decS),days=Math.ceil((dt(decS)-dt(TODAY))
 if(!dec.length||TODAY.slice(5,7)<"10")$("#decS").hidden=true;
 $("#decTxt").textContent=plural(dec.length,"event")+" in "+plural(new Set(dec.map(e=>e.ci)).size,"city").replace("citys","cities")+(days>0?" · starts in "+plural(days,"day"):"");
 if(days<=0)$("#dec b").textContent="It’s Detty December";
+ $("#dec").href=L("v=cal&mo="+Y+"-12");
 
 /* hero photos */
 const pics=$$(".slides picture"),dots=$$("#sld button");let pi=0,tm=null;
