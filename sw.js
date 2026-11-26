@@ -7,7 +7,7 @@
  * - The database (Supabase) and other websites are never cached here.
  * Change VERSION to make every phone refresh its saved copy.
  */
-const VERSION = "v92";
+const VERSION = "v93";
 // Pictures keep the same saved copy across updates (their file names change when the picture changes),
 // so a new version of the site doesn't make every phone download all the pictures again.
 const SHELL = `shell-${VERSION}`, MEDIA = "media-keep-1";

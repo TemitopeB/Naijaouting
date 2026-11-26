@@ -18,7 +18,7 @@
 <script src="/js/pwa.js" defer></script>
 <link rel="preload" href="/fonts/plus-jakarta-sans-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/space-grotesk-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/fonts/type-v1.css">
+<link rel="stylesheet" href="/fonts/type-v2.css">
 <style>
 /* Layout: one-screen app. Ink ticker, white masthead with grouped section tabs, then each section fills the rest.
    Map = list on the left, map on the right (listings-site pattern). Pages = centred column, max 1240px. */
@@ -34,7 +34,7 @@
  /* map */
  --land:#E2ECE1;--land2:#D6E6D7;--lnd:#9DBFA6;--wt:#DCE6EA;--wt2:#E9F0F1;--road:#A9C2D2;
  --sh:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(0,0,0,.07);--r:18px;
- /* type roles (families and sizes live in /fonts/type-v1.css): display headings, interface text and labels, numbers */
+ /* type roles (families and sizes live in /fonts/type-v2.css): display headings, interface text and labels, numbers */
  --fd:var(--font-display);--fb:var(--font-interface);--fm:var(--font-interface);--fn:var(--font-numbers);
  --pb:#141414;--pbt:#FFFFFF;--edge:transparent;--sh0:0 1px 2px rgba(20,20,18,.05),0 8px 24px -6px rgba(20,20,18,.13);--shs:0 2px 6px rgba(20,20,18,.04),0 14px 36px -10px rgba(20,20,18,.16);--raise:linear-gradient(180deg,#FFFFFF,#F4F4F1);--raiseb:0 1px 2px rgba(20,20,18,.07),0 5px 14px -4px rgba(20,20,18,.14),inset 0 0 0 1px rgba(20,20,18,.045);--pbg:linear-gradient(180deg,#2E2E2C,#0E0E0E);--pbsh:0 1px 2px rgba(0,0,0,.25),0 8px 18px -8px rgba(0,0,0,.5),0 10px 22px -12px rgba(240,83,45,.55);
  color-scheme:light;
@@ -2176,7 +2176,7 @@ html.app .view,.view{overscroll-behavior-y:auto!important;overscroll-behavior-x:
 @keyframes ptrs{to{transform:rotate(360deg)}}
 </style>
 <style id="type-v1">
-/* ===== Typography v1: role assignments. Families, sizes and weights are tokens in /fonts/type-v1.css ===== */
+/* ===== Typography v1: role assignments. Families, sizes and weights are tokens in /fonts/type-v2.css ===== */
 body{font-family:var(--font-interface);font-size:var(--fs-body);font-feature-settings:normal}
 @media (max-width:760px){body{font-size:var(--fs-body)!important}}
 button,input,select,textarea{font-family:inherit}
