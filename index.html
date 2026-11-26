@@ -484,6 +484,7 @@ body>footer{margin-top:var(--sec)!important}
 .ph2zm{position:absolute;right:7px;bottom:20px;display:flex;flex-direction:column;border-radius:8px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.2);overflow:hidden}
 .ph2zm i{width:20px;height:20px;display:grid;place-items:center;font-style:normal;font-size:12px;line-height:1;color:#333}.ph2zm i+i{border-top:1px solid #e5e5e5}
 .mini .mcr{display:block;margin-top:2px;font-size:9.5px;line-height:1.2;color:var(--mu);opacity:.85}
+.ctg li.ctx{display:none}.cityp.all .ctg li.ctx{display:block}
 .ph2cr{position:absolute;right:4px;bottom:4px;padding:1px 5px;border-radius:999px;background:rgba(255,255,255,.85);font-size:5.5px;line-height:1.4;color:#555;white-space:nowrap}
 .ph2lh{display:flex;align-items:baseline;gap:4px;padding:10px 14px 4px;font-size:11px;color:#3A3C37}.ph2lh b{font:700 14px/1 var(--font-numbers);color:#141614}
 .ph2rows{display:flex;flex-direction:column;gap:6px;padding:0 10px;flex:1;min-height:0;overflow:hidden}
@@ -623,7 +624,7 @@ const wkN=up.filter(e=>inWin(e,"wk")).length;
 if(wkN){$("#tagN").textContent=wkN;$("#tagT").textContent=(wkN===1?"event":"events")+(dow===0||dow===6?" on this weekend":" this weekend")}
 else{$("#tagN").textContent=up.length;$("#tagT").textContent="upcoming events"}
 $("#sub").textContent="Concerts, parties, comedy, food and culture across "+plural(cities.length,"city").replace("citys","cities")+", checked and linked to the official ticket seller.";
-$("#mapN").textContent=up.filter(e=>e.ci!=="Online").length;$("#nUp").textContent=up.length;$("#nCi").textContent=cities.length;
+$("#mapN").textContent=up.filter(e=>e.ci!=="Online").length;$("#nUp").textContent=up.length;$("#nCi").textContent=cities.filter(([c])=>c!=="Online").length;
 /* phone in the app section: the real map, with today's event counts per city and the next events */
 (function(){const box=$("#phDots");if(!box)return;
  const XY={"Lagos":[3.4,6.5],"Abuja":[7.49,9.06],"Port Harcourt":[7.01,4.82],"Calabar":[8.33,4.96],"Enugu":[7.51,6.45],"Ibadan":[3.9,7.38],"Kaduna":[7.44,10.52],"Kano":[8.52,12],"Owerri":[7.03,5.48],"Asaba":[6.73,6.2],"Uyo":[7.93,5.04],"Jos":[8.89,9.9],"Umuahia":[7.49,5.53],"Benin City":[5.63,6.34],"Maiduguri":[13.16,11.85],"Abeokuta":[3.35,7.15],"Lokoja":[6.73,7.8],"Yenagoa":[6.26,4.92],"Keffi":[7.87,8.85],"Warri":[5.78,5.55],"Ilorin":[4.55,8.5],"Akure":[5.2,7.25],"Sokoto":[5.24,13.06],"Makurdi":[8.54,7.73]};
@@ -679,15 +680,19 @@ $("#cats").innerHTML='<span>Browse:</span>'+CL.map(([c,l])=>'<a href="'+L("v=eve
 
 /* cities */
 const mx=cities.length?cities[0][1]:1;
-$("#cityGrid").innerHTML=cities.slice(0,6).map(([c,n])=>'<li><a class="ct" href="'+L("v=events&city="+encodeURIComponent(c))+'" '+T+'><span class="ctt"><b>'+esc(c)+'</b><i aria-hidden="true">→</i></span><span class="ctn">'+plural(n,"event")+'</span><span class="ctb"><s style="width:'+Math.max(6,Math.round(n/mx*100))+'%"></s></span></a></li>').join("");
-$("#allCities").innerHTML="See all "+cities.length+" cities "+ARR;
+/* the first six show; "See all N cities" opens the rest right here */
+$("#cityGrid").innerHTML=cities.filter(([c])=>c!=="Online").map(([c,n],i)=>'<li'+(i>=6?' class="ctx"':'')+'><a class="ct" href="'+L("v=events&city="+encodeURIComponent(c))+'" '+T+'><span class="ctt"><b>'+esc(c)+'</b><i aria-hidden="true">→</i></span><span class="ctn">'+plural(n,"event")+'</span><span class="ctb"><s style="width:'+Math.max(6,Math.round(n/mx*100))+'%"></s></span></a></li>').join("");
+{const nc=cities.filter(([c])=>c!=="Online").length,ab=$("#allCities"),cp=ab.closest(".cityp"),lab=()=>{const o=cp.classList.contains("all");ab.innerHTML=(o?"Show fewer cities":"See all "+nc+" cities")+" "+ARR;ab.setAttribute("aria-expanded",o)};
+ ab.href="#cities";ab.setAttribute("role","button");ab.setAttribute("aria-controls","cityGrid");lab();
+ if(nc<=6)ab.hidden=true;
+ ab.addEventListener("click",e=>{e.preventDefault();cp.classList.toggle("all");lab();if(!cp.classList.contains("all"))document.getElementById("cities").scrollIntoView({block:"start",behavior:"smooth"});else{const f=cp.querySelector(".ctx a");f&&f.focus({preventScroll:true})}})}
 $("#fCities").innerHTML=cities.slice(0,5).map(([c])=>'<a href="'+L("v=events&city="+encodeURIComponent(c))+'" '+T+'>'+esc(c)+'</a>').join("");
 
 /* december */
 const Y=+TODAY.slice(0,4),decS=Y+"-12-01",decE=(Y+1)+"-01-01";
 const dec=up.filter(e=>e.s<=decE&&e.e>=decS),days=Math.ceil((dt(decS)-dt(TODAY))/864e5);
 if(!dec.length||TODAY.slice(5,7)<"10")$("#decS").hidden=true;
-$("#decTxt").textContent=plural(dec.length,"event")+" in "+plural(new Set(dec.map(e=>e.ci)).size,"city").replace("citys","cities")+(days>0?" · starts in "+plural(days,"day"):"");
+$("#decTxt").textContent=plural(dec.length,"event")+" in "+plural(new Set(dec.map(e=>e.ci).filter(c=>c!=="Online")).size,"city").replace("citys","cities")+(days>0?" · starts in "+plural(days,"day"):"");
 if(days<=0)$("#dec b").textContent="It’s Detty December";
  $("#dec").href=L("v=cal&mo="+Y+"-12");
 
