@@ -2359,6 +2359,12 @@ html.app .tz-tfl:not(.fo){display:none}
 .vxn{flex:none;margin-left:6px;font-style:normal;font-size:11.5px;font-weight:600;color:var(--ac);background:var(--acs);padding:1px 7px;border-radius:999px;white-space:nowrap}
 </style>
 <style id="dz-v1">
+/* drive time: on narrow cards the date and the drive time can't share the picture, so the drive time moves under the title */
+.tgrid .tc{container:tcard/inline-size}
+.tdx{display:none;align-items:center;gap:5px;min-width:0;color:var(--mu);font:600 12px/1.3 var(--font-numbers);font-variant-numeric:tabular-nums}
+.tdx svg{flex:none;width:12px;height:12px;color:var(--ac)}
+.tdx span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@container tcard (max-width:250px){.tci .tdist{display:none!important}.tdx{display:flex}}
 /* card size slider beside Grid / List */
 .dz-c{--dzn:var(--pn2);display:inline-flex;align-items:center;flex:none;height:36px;padding:0 3px;border-radius:12px;background:var(--pn2);position:relative;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 .dz-e{width:28px;height:30px;min-height:0;border:0;border-radius:9px;background:none;color:var(--mu);display:grid;place-items:center;cursor:pointer;padding:0;flex:none;transition:background .18s,color .18s,transform .2s cubic-bezier(.3,1.5,.5,1)}
@@ -3212,7 +3218,7 @@ function evCard(v){const img=safeImg(v.img),c=cc(v.cat),now=isLive(v),en=entLabe
   (img?'<img class="tbg" src="'+esc(img)+'" alt="" aria-hidden="true" loading="lazy" decoding="async" onerror="this.remove()"><img class="tfl" src="'+esc(img)+'" alt="Flyer: '+esc(v.name)+'" loading="lazy" decoding="async" onerror="this.remove()">':"")+'<span class="tfd" aria-hidden="true"><i>'+bd[0]+'</i><b>'+bd[1]+'</b><i>'+bd[2]+'</i>'+(v.online&&v.time?'<i class="tft">· '+esc(String(v.time).toUpperCase().replace(/\s*WAT$/,""))+'</i>':"")+'</span>';
  return '<div class="tc'+(isCx(v)?" cx":"")+(v.online?" onl":"")+'" data-a="open" data-id="'+v.id+'" style="--c:'+c[0]+';--c2:'+c[1]+'">'+
   '<div class="tci">'+art+'<div class="tct">'+(st||(now?'<span class="onb"><i aria-hidden="true"></i>On now</span>':isTd(v)?'<span class="onb td">Today</span>':""))+(v.online?'<span class="onb olb">'+ONLSVG+'Online</span>':"")+evBtns(v,"fav")+'</div>'+(dt?'<span class="tdist" title="'+esc(distKm(v))+'">'+(/walk$/.test(dt)?WALKSVG:CARSVG)+'<span>'+esc(dt.replace(/ drive$/,"").replace(/(\d+) hrs? (\d+) min/,"$1h $2m"))+'</span></span>':"")+'</div>'+
-  '<div class="tcx"><span class="tec">'+esc(v.cat)+(v.online?" · Online":"")+'</span><a class="nm" href="#e='+evSlug(v)+'" data-a="open" data-id="'+v.id+'">'+esc(v.name)+'</a><span class="tdl'+(F.length?"":" mu")+'">'+(F.length?F.join('<i class="dot" aria-hidden="true">·</i>'):"Entry details: see organiser")+'</span>'+gfLine(v)+
+  '<div class="tcx"><span class="tec">'+esc(v.cat)+(v.online?" · Online":"")+'</span><a class="nm" href="#e='+evSlug(v)+'" data-a="open" data-id="'+v.id+'">'+esc(v.name)+'</a><span class="tdl'+(F.length?"":" mu")+'">'+(F.length?F.join('<i class="dot" aria-hidden="true">·</i>'):"Entry details: see organiser")+'</span>'+gfLine(v)+(dt?'<span class="tdx" title="'+esc(distKm(v))+'">'+(/walk$/.test(dt)?WALKSVG:CARSVG)+'<span>'+esc(dt.replace(/ drive$/,"").replace(/(\d+) hrs? (\d+) min/,"$1h $2m"))+'</span></span>':"")+
   '<div class="tmt"><span class="vn">'+(v.online?ONLSVG+'<span>'+esc(v.plat||"Online")+'</span>':PINSVG+'<span>'+esc(vShort(v))+'</span>'+(vxOf(v).length?'<em class="vxn">+'+vxOf(v).length+' more</em>':""))+'</span></div></div></div>'}
 /* card facts: dates beyond the badge, a short time and the entry price, so people can compare at a glance */
 function tShort(t){t=String(t||"").replace(/\s*\(?WAT\)?/ig,"").trim();if(!t)return "";const lc=x=>x.replace(/\s*(am|pm)\b/ig,(m,a)=>a.toLowerCase());if(t.length<=14&&/\d/.test(t))return lc(t);const m=t.match(/\b\d{1,2}(?:[:.]\d{2})?\s?(?:am|pm)\b/i);return m?lc(m[0]):""}
