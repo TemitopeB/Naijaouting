@@ -61,6 +61,15 @@
           "value": "public, max-age=0, must-revalidate"
         }
       ]
+    },
+    {
+      "source": "/e/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
     }
   ],
   "rewrites": [
@@ -71,6 +80,14 @@
     {
       "source": "/_blob/:id(s-[0-9a-z]+)/",
       "destination": "https://fcdebtyopthaikonnfsd.supabase.co/storage/v1/object/public/flyers/:id"
+    },
+    {
+      "source": "/cal/:city/:cats.ics",
+      "destination": "/api/cal?city=:city&cats=:cats"
+    },
+    {
+      "source": "/e/:slug/",
+      "destination": "/e/_/index.html"
     }
   ],
   "git": {

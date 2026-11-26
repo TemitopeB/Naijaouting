@@ -150,3 +150,21 @@ Each run's summary (Actions tab → the run) shows how many events each source g
 - Reading flyers automatically with AI isn't available on this version; type details in, or add an AI service later.
 - Flyers uploaded through the site are stored in Supabase Storage (bucket `flyers`) and shown at `/_blob/...`.
 - Flyers from the Claude version are in `_blob/` and `events/flyers/`.
+
+## Event pages, calendar feeds and weekend picks
+
+`scripts/publish.py` runs four times a day (`.github/workflows/publish.yml`, using the same
+`SUPABASE_URL` and `SUPABASE_ANON_KEY` secrets as the landing data). It builds:
+
+- `e/<event>/`: a light page per event with the preview tags WhatsApp, Facebook, X and Google
+  read, and a 1200x630 preview picture in `e/img/`. The app's share buttons link here. People who
+  have used the app before go straight into it; new visitors see the light page first. An event
+  approved since the last run still works: `/e/<event>/` falls back to `e/_/`, which opens the app.
+- `data/feed.json`: the checked events behind the calendar feeds (`api/cal.js`, served as
+  `/cal/<city>/<kinds>.ics`, for example `/cal/lagos/music,comedy.ics`) and the installed
+  app's reminders.
+- `weekend/`: this weekend's picks per city, with a "Copy for WhatsApp" button. WhatsApp has no
+  official way to post to a Channel automatically, so paste the copied message into the Channel.
+- `sitemap.xml` for search engines.
+
+Nothing in these files invents a price, venue or date; unknown details are left out.
