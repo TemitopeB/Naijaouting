@@ -2358,6 +2358,66 @@ html.app .tz-tfl:not(.fo){display:none}
 .dx .dxf .dxr.dxvx{border-top:0}
 .vxn{flex:none;margin-left:6px;font-style:normal;font-size:11.5px;font-weight:600;color:var(--ac);background:var(--acs);padding:1px 7px;border-radius:999px;white-space:nowrap}
 </style>
+<style id="dz-v1">
+/* card size slider beside Grid / List */
+.dz-c{--dzn:var(--pn2);display:inline-flex;align-items:center;flex:none;height:36px;padding:0 3px;border-radius:12px;background:var(--pn2);position:relative;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.dz-e{width:28px;height:30px;min-height:0;border:0;border-radius:9px;background:none;color:var(--mu);display:grid;place-items:center;cursor:pointer;padding:0;flex:none;transition:background .18s,color .18s,transform .2s cubic-bezier(.3,1.5,.5,1)}
+.dz-e:hover{background:var(--pn);color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.dz-e:active{transform:scale(.88)}
+.dz-e[aria-disabled="true"]{opacity:.38;pointer-events:none}
+.dz-e:focus-visible{outline:2px solid var(--tx);outline-offset:1px}
+.dz-w{--p:calc(10px + (100% - 20px)*var(--t));position:relative;display:block;width:80px;height:36px;margin:0 4px;flex:none}
+#dz{-webkit-appearance:none;appearance:none;display:block;width:100%;height:36px;margin:0;padding:0;background:none;cursor:pointer;outline:none;min-height:0;border:0;box-shadow:none}
+#dz::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:var(--dzk),linear-gradient(90deg,color-mix(in srgb,var(--ac) 82%,var(--tx)),var(--ac)) 0 0/var(--p) 100% no-repeat,color-mix(in srgb,var(--tx) 15%,transparent)}
+#dz::-moz-range-track{height:6px;border-radius:6px;background:var(--dzk),linear-gradient(90deg,color-mix(in srgb,var(--ac) 82%,var(--tx)),var(--ac)) 0 0/var(--p) 100% no-repeat,color-mix(in srgb,var(--tx) 15%,transparent)}
+#dz::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-7px;border:0;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 5px var(--ac),0 1px 2px rgba(0,0,0,.2),0 3px 10px color-mix(in srgb,var(--ac) 40%,transparent);transition:transform .22s cubic-bezier(.3,1.5,.5,1),box-shadow .22s}
+#dz::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 5px var(--ac),0 1px 2px rgba(0,0,0,.2),0 3px 10px color-mix(in srgb,var(--ac) 40%,transparent);transition:transform .22s cubic-bezier(.3,1.5,.5,1),box-shadow .22s}
+#dz:hover::-webkit-slider-thumb{box-shadow:inset 0 0 0 5px var(--ac),0 1px 2px rgba(0,0,0,.2),0 0 0 6px color-mix(in srgb,var(--ac) 16%,transparent)}
+#dz:hover::-moz-range-thumb{box-shadow:inset 0 0 0 5px var(--ac),0 1px 2px rgba(0,0,0,.2),0 0 0 6px color-mix(in srgb,var(--ac) 16%,transparent)}
+.dz-c.drag #dz::-webkit-slider-thumb{transform:scale(1.2);box-shadow:inset 0 0 0 4px var(--ac),0 2px 10px rgba(0,0,0,.22),0 0 0 8px color-mix(in srgb,var(--ac) 20%,transparent)}
+.dz-c.drag #dz::-moz-range-thumb{transform:scale(1.2);box-shadow:inset 0 0 0 4px var(--ac),0 2px 10px rgba(0,0,0,.22),0 0 0 8px color-mix(in srgb,var(--ac) 20%,transparent)}
+#dz:focus-visible::-webkit-slider-thumb{box-shadow:inset 0 0 0 5px var(--ac),0 0 0 3px var(--pn2),0 0 0 5px var(--tx)}
+#dz:focus-visible::-moz-range-thumb{box-shadow:inset 0 0 0 5px var(--ac),0 0 0 3px var(--pn2),0 0 0 5px var(--tx)}
+.dz-b{position:absolute;left:var(--p);top:calc(100% + 2px);z-index:60;transform:translate(-50%,-5px) scale(.9);opacity:0;pointer-events:none;padding:6px 10px;border-radius:9px;background:var(--tx);color:var(--bg);font:650 12px/1 var(--font-interface,var(--fb));letter-spacing:.01em;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.2);transition:opacity .16s,transform .24s cubic-bezier(.3,1.4,.5,1)}
+.dz-b::before{content:"";position:absolute;left:50%;top:-3px;width:8px;height:8px;margin-left:-4px;background:inherit;border-radius:2px;transform:rotate(45deg)}
+.dz-c.drag .dz-b,.dz-w:hover .dz-b,#dz:focus-visible+.dz-b{opacity:1;transform:translate(-50%,0) scale(1)}
+:root[data-mode="contrast"] .dz-c{box-shadow:inset 0 0 0 1px currentColor}
+html.app .dz-c{height:44px;padding:0 2px;flex:0 1 150px;min-width:116px;margin-left:auto}
+html.app .ehl .lay{order:2}
+html.app .dz-e{width:30px;height:40px}
+html.app .dz-w{flex:1 1 auto;width:auto;min-width:44px;height:44px}
+html.app #dz{height:44px}
+html.app .ehl{gap:8px}
+html.app .ehl h1{flex:none}
+@media (max-width:370px){html.app .dz-c{min-width:96px}html.app .dz-e[data-dzs="-1"]{display:none}}
+/* sizes: computer = cards narrow smoothly with the slider; phone = 1, 2 or 3 per row */
+:root:root:root:not(.app) .evp.dz .tgrid{grid-template-columns:repeat(auto-fill,minmax(var(--cmin),1fr))!important;gap:clamp(10px,calc(var(--cmin)*.08),20px)!important}
+:root:root:root.app .evp.dz .tgrid{grid-template-columns:repeat(var(--cols),minmax(0,1fr))!important}
+:root:root:root.app .evp.dz2 .tgrid{gap:10px!important}
+:root:root:root.app .evp.dz3 .tgrid{gap:7px!important}
+:root:root:root .evp.dz2 .tgrid .tc,:root:root:root .evp.dz3 .tgrid .tc{padding:5px!important;border-radius:18px!important}
+:root:root:root .evp.dz3 .tgrid .tc{border-radius:15px!important}
+:root:root:root .evp.dz2 .tgrid .tcx,:root:root:root .evp.dz3 .tgrid .tcx{padding:10px 8px 10px!important;gap:2px!important}
+:root:root:root .evp.dz2 .tgrid .tcx .nm,:root:root:root .evp.dz3 .tgrid .tcx .nm{font-size:14px!important;line-height:1.25!important;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:break-word!important}
+:root:root:root .evp.dz3 .tgrid .tcx .nm{font-size:13px!important}
+:root:root:root .evp.dz2 .tgrid .tec{font-size:10px!important}
+:root:root:root .evp.dz2 .tgrid .tdl,:root:root:root .evp.dz2 .tgrid .tmt{font-size:12px!important}
+:root:root:root .evp.dz2 .tgrid .tmt .vn svg{display:none}
+:root:root:root .evp.dz3 .tgrid .tec,:root:root:root .evp.dz3 .tgrid .tmt,:root:root:root .evp.dz3 .tgrid .shr,:root:root:root .evp.dz3 .tgrid .vxn{display:none!important}
+:root:root:root .evp.dz3 .tgrid .tdl{font-size:11.5px!important}
+:root:root:root .evp.dz2 .tgrid .fav,:root:root:root .evp.dz3 .tgrid .fav{scale:.86;transform-origin:top right}
+:root:root:root .evp.dz3 .tgrid .tfd,:root:root:root .evp.dz3 .tgrid .tpd{scale:.86;transform-origin:bottom left}
+:root:root:root .evp.dz2 .tgrid .onb,:root:root:root .evp.dz3 .tgrid .onb{scale:.86;transform-origin:top left}
+:root:root:root.app .evp.dz2 .tgrid .shr{display:none!important}
+:root:root:root.app .evp.dz3 .tgrid .tc{padding:4px!important;border-radius:13px!important}
+:root:root:root.app .evp.dz3 .tgrid .tcx{padding:7px 5px 8px!important}
+:root:root:root.app .evp.dz3 .tgrid .tcx .nm{font-size:12px!important}
+:root:root:root.app .evp.dz3 .tgrid .tdl{font-size:11px!important}
+:root:root:root.app .evp.dz3 .tgrid .onb{display:none!important}
+:root:root:root.app .evp.dz3 .tgrid .fav{scale:.74}
+:root:root:root.app .evp.dz3 .tgrid .tfd,:root:root:root.app .evp.dz3 .tgrid .tpd{scale:.72}
+:root:root:root.app .evp.dz3 .tgrid .tsep small{display:none}
+</style>
 </head>
 <body>
 <div id="app">
@@ -3174,7 +3234,61 @@ function evList(L,so){let G=[];
    else k=new Date(v.s+"T00:00:00").toLocaleDateString("en-GB",{month:"long",year:"numeric"});let g=G.find(x=>x[0]===k);if(!g)G.push(g=[k,[]]);g[1].push(v)})}
  else G=[[so==="az"?"A to Z":"Nearest first",L]];
  return '<div class="elist">'+G.map(g=>'<section><h2 class="elh">'+esc(g[0])+' <span>'+g[1].length+'</span></h2><div class="elg">'+g[1].map(evLine).join("")+'</div></section>').join("")+'</div>'}
-function layTog(){const g=EVLAY!=="list";return '<div class="lay" role="group" aria-label="Layout"><button class="'+(g?"on":"")+'" data-a="evlay" data-v="grid" aria-pressed="'+g+'" title="Grid view"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg><span>Grid</span></button><button class="'+(g?"":"on")+'" data-a="evlay" data-v="list" aria-pressed="'+!g+'" title="List view"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="4.5" width="4" height="4" rx="1"/><rect x="3.5" y="15.5" width="4" height="4" rx="1"/><path d="M11 6.5h9.5M11 17.5h9.5"/></svg><span>List</span></button><button class="lcal" data-a="go" data-v="cal" title="Calendar view" aria-label="Calendar view"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Calendar</span></button></div>'}
+function layTog(){const g=EVLAY!=="list";return '<div class="lay" role="group" aria-label="Layout"><button class="'+(g?"on":"")+'" data-a="evlay" data-v="grid" aria-pressed="'+g+'" title="Grid view"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg><span>Grid</span></button><button class="'+(g?"":"on")+'" data-a="evlay" data-v="list" aria-pressed="'+!g+'" title="List view"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="4.5" width="4" height="4" rx="1"/><rect x="3.5" y="15.5" width="4" height="4" rx="1"/><path d="M11 6.5h9.5M11 17.5h9.5"/></svg><span>List</span></button><button class="lcal" data-a="go" data-v="cal" title="Calendar view" aria-label="Calendar view"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Calendar</span></button></div>'+dzCtl()}
+/* ---------- card size slider (Events grid): drag to fit more events on one screen ---------- */
+let DZT=0;try{DZT=Math.min(1,Math.max(0,+localStorage.getItem("ne_dz")||0))}catch(x){}
+const DZ_D=["Large","Medium","Small","Compact"],DZ_P=["1 per row","2 per row","3 per row"];
+function dzApp(){return document.documentElement.classList.contains("app")}
+function dzStops(){return dzApp()?DZ_P:DZ_D}
+function dzIdx(t){return Math.round(t*(dzStops().length-1))}
+function dzSnap(t){const n=dzStops().length-1;return Math.round(t*n)/n}
+function dzState(t){if(dzApp()){const c=1+Math.round(t*2);return {lv:c,k:"--cols",v:String(c)}}const m=240-118*t;return {lv:m>=185?1:m>=140?2:3,k:"--cmin",v:m.toFixed(1)+"px"}}
+function dzPage(){if(EVLAY==="list"||DZT<=.001)return "";const z=dzState(DZT);return ' dz dz'+z.lv+'" style="'+z.k+':'+z.v}
+function dzTicks(){const n=dzStops().length;return Array.from({length:n},(_,k)=>"radial-gradient(circle at calc(10px + (100% - 20px)*"+(k/(n-1)).toFixed(4)+") 50%,var(--dzn) 0 1.5px,transparent 2px)").join(",")}
+const DZB='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/></svg>',
+ DZS='<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="5" height="5" rx="1.3"/><rect x="9.5" y="3" width="5" height="5" rx="1.3"/><rect x="16" y="3" width="5" height="5" rx="1.3"/><rect x="3" y="9.5" width="5" height="5" rx="1.3"/><rect x="9.5" y="9.5" width="5" height="5" rx="1.3"/><rect x="16" y="9.5" width="5" height="5" rx="1.3"/><rect x="3" y="16" width="5" height="5" rx="1.3"/><rect x="9.5" y="16" width="5" height="5" rx="1.3"/><rect x="16" y="16" width="5" height="5" rx="1.3"/></svg>';
+function dzCtl(){if(EVLAY==="list")return "";const L=dzStops(),i=dzIdx(DZT);
+ return '<div class="dz-c" role="group" aria-label="Card size"><button type="button" class="dz-e" data-dzs="-1" aria-label="Bigger cards" title="Bigger cards"'+(i<=0?' aria-disabled="true"':'')+'>'+DZB+'</button>'+
+  '<span class="dz-w" style="--t:'+DZT+';--dzk:'+dzTicks()+'"><input id="dz" type="range" min="0" max="1" step="any" value="'+DZT+'" aria-label="Card size" aria-valuetext="'+L[i]+'"><span class="dz-b" aria-hidden="true">'+L[i]+'</span></span>'+
+  '<button type="button" class="dz-e" data-dzs="1" aria-label="Smaller cards" title="Smaller cards"'+(i>=L.length-1?' aria-disabled="true"':'')+'>'+DZS+'</button></div>'}
+function dzScroller(el){for(let p=el&&el.parentElement;p&&p!==document.body;p=p.parentElement){const o=getComputedStyle(p).overflowY;if((o==="auto"||o==="scroll")&&p.scrollHeight>p.clientHeight+1)return p}return document.scrollingElement||document.documentElement}
+const dzCols=g=>g?getComputedStyle(g).gridTemplateColumns.split(" ").filter(Boolean).length:0;
+let DZA=new Set();
+/* apply a size: keeps the card you were looking at in place, and glides cards to their new spots when the number per row changes */
+function dzApply(t){DZT=t;const L=dzStops(),i=dzIdx(t),w=document.querySelector(".dz-w"),inp=document.getElementById("dz");
+ if(w){w.style.setProperty("--t",t);const b=w.querySelector(".dz-b");if(b&&b.textContent!==L[i])b.textContent=L[i]}
+ if(inp){if(Math.abs(+inp.value-t)>1e-4)inp.value=t;inp.setAttribute("aria-valuetext",L[i])}
+ document.querySelectorAll(".dz-e").forEach(b=>{const d=+b.dataset.dzs;if((d<0&&i<=0)||(d>0&&i>=L.length-1))b.setAttribute("aria-disabled","true");else b.removeAttribute("aria-disabled")});
+ const pg=document.querySelector(".evp");if(!pg||EVLAY==="list")return;
+ const g=pg.querySelector(".tgrid"),vh=innerHeight,old=new Map();let anc=null,aTop=0;
+ if(g){pg.querySelectorAll(".tgrid>.tc,.tgrid>.tsep").forEach(c=>{const r=c.getBoundingClientRect();if(r.bottom>-150&&r.top<vh+150){old.set(c,r);if(!anc&&r.bottom>110){anc=c;aTop=r.top}}})}
+ const k0=dzCols(g),lv0=pg.className;
+ const z=dzState(t),on=t>.001;pg.classList.remove("dz","dz1","dz2","dz3");pg.style.removeProperty("--cmin");pg.style.removeProperty("--cols");
+ if(on){pg.classList.add("dz","dz"+z.lv);pg.style.setProperty(z.k,z.v)}
+ if(!g)return;
+ DZA.forEach(a=>a.cancel());DZA.clear();
+ if(anc){const d=anc.getBoundingClientRect().top-aTop;if(Math.abs(d)>.5){const sc=dzScroller(g);sc.scrollTop+=d}}
+ if(dzCols(g)===k0&&pg.className===lv0)return;
+ if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+ old.forEach((r,c)=>{const n=c.getBoundingClientRect();if(n.bottom<-150||n.top>vh+150||!n.width||!n.height)return;
+  const dx=r.left-n.left,dy=r.top-n.top,sx=r.width/n.width,sy=r.height/n.height;
+  if(Math.abs(dx)<1&&Math.abs(dy)<1&&Math.abs(sx-1)<.01&&Math.abs(sy-1)<.01)return;
+  DZA.add(c.animate([{transformOrigin:"0 0",transform:"translate("+dx+"px,"+dy+"px) scale("+sx+","+sy+")"},{transformOrigin:"0 0",transform:"none"}],{duration:380,easing:"cubic-bezier(.22,.9,.24,1)"}))});
+ pg.querySelectorAll(".tgrid>.tc").forEach(c=>{if(old.has(c))return;const n=c.getBoundingClientRect();if(n.bottom>0&&n.top<vh)DZA.add(c.animate([{opacity:0,transform:"translateY(10px) scale(.96)"},{opacity:1,transform:"none"}],{duration:320,delay:60,easing:"cubic-bezier(.22,.9,.24,1)",fill:"backwards"}))})}
+let dzRaf=0,dzNext=0,dzTw=0,dzDown=false;
+function dzReq(t){dzNext=t;if(!dzRaf)dzRaf=requestAnimationFrame(()=>{dzRaf=0;dzApply(dzNext)})}
+function dzTo(t1){cancelAnimationFrame(dzTw);cancelAnimationFrame(dzRaf);dzRaf=0;const t0=DZT,st=performance.now(),D=matchMedia("(prefers-reduced-motion: reduce)").matches?0:260;
+ const f=now=>{const k=D?Math.min(1,(now-st)/D):1,e=1-Math.pow(1-k,3);dzApply(t0+(t1-t0)*e);if(k<1)dzTw=requestAnimationFrame(f);else try{localStorage.setItem("ne_dz",String(t1))}catch(x){}};dzTw=requestAnimationFrame(f)}
+function dzDrag(on){const c=document.querySelector(".dz-c");if(c)c.classList.toggle("drag",on)}
+function dzEnd(){if(!dzDown)return;dzDown=false;dzDrag(false);const i=document.getElementById("dz");dzTo(dzSnap(i?+i.value:DZT))}
+document.addEventListener("pointerdown",e=>{if(e.target&&e.target.id==="dz"){cancelAnimationFrame(dzTw);dzDown=true;dzDrag(true)}});
+document.addEventListener("pointerup",dzEnd);document.addEventListener("pointercancel",dzEnd);
+document.addEventListener("input",e=>{if(e.target&&e.target.id==="dz"){cancelAnimationFrame(dzTw);dzReq(+e.target.value)}});
+document.addEventListener("change",e=>{if(e.target&&e.target.id==="dz"){if(dzDown)dzEnd();else dzTo(dzSnap(+e.target.value))}});
+document.addEventListener("keydown",e=>{if(!e.target||e.target.id!=="dz")return;const n=dzStops().length-1,i=dzIdx(DZT);let j=null;
+ if(e.key==="ArrowRight"||e.key==="ArrowUp"||e.key==="PageUp")j=i+1;else if(e.key==="ArrowLeft"||e.key==="ArrowDown"||e.key==="PageDown")j=i-1;else if(e.key==="Home")j=0;else if(e.key==="End")j=n;
+ if(j==null)return;e.preventDefault();dzTo(Math.max(0,Math.min(n,j))/n)});
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest(".dz-e");if(!b)return;e.preventDefault();e.stopPropagation();const n=dzStops().length-1,j=Math.max(0,Math.min(n,dzIdx(DZT)+ +b.dataset.dzs));if(j/n!==DZT)dzTo(j/n)},true);
 function nPill(c){return '<span class="cpill" style="background:'+(NC[c]||"#94A3B8")+'26;--nc:'+(NC[c]||"#94A3B8")+'">'+esc(c)+'</span>'}
 
 /* ---------- sidebar ---------- */
@@ -3482,7 +3596,7 @@ function eventsView(){let L=list();const FY=S.fy&&meN()&&S.view==="events"?fyBan
  if(so==="near"&&NEAR)L.sort((a,b)=>(evKm(a)??1e9)-(evKm(b)??1e9));else if(so==="az")L.sort((a,b)=>a.name.localeCompare(b.name));
  const W=[["up","Upcoming"],["today","Today"],["wk","Weekend"],["n7","Next 7 days"],["mo","This month"]];
  const filt=S.cat!=="All"||S.city!=="All"||S.when!=="up"||S.src||S.free||S.onl||S.q||(S.ft||[]).length||S.fy;
- return '<div class="page evp"><div class="evtop"><div class="evpan">'+vseg(EVSEG)+'<div class="eh"><div class="ehl"><h1 title="'+(S.city!=="All"?"In "+esc(S.city)+". ":"Across Nigeria. ")+'Open any event for directions, tickets and a budget planner."><span class="hc">'+(FY?FY.n:L.length)+'</span> '+(FY?"For you · ":"")+(S.onl?(S.cat==="All"?"Online events":esc(S.cat)+" online"):S.cat==="All"?"Events":esc(S.cat))+(S.city!=="All"?' <span class="hcity">in '+esc(S.city)+'</span>':'')+(S.when==="date"?' <span class="hcity">· '+dlab()+'</span>':'')+'</h1>'+layTog()+'</div>'+
+ return '<div class="page evp'+dzPage()+'"><div class="evtop"><div class="evpan">'+vseg(EVSEG)+'<div class="eh"><div class="ehl"><h1 title="'+(S.city!=="All"?"In "+esc(S.city)+". ":"Across Nigeria. ")+'Open any event for directions, tickets and a budget planner."><span class="hc">'+(FY?FY.n:L.length)+'</span> '+(FY?"For you · ":"")+(S.onl?(S.cat==="All"?"Online events":esc(S.cat)+" online"):S.cat==="All"?"Events":esc(S.cat))+(S.city!=="All"?' <span class="hcity">in '+esc(S.city)+'</span>':'')+(S.when==="date"?' <span class="hcity">· '+dlab()+'</span>':'')+'</h1>'+layTog()+'</div>'+
   '<div class="seg" role="group" aria-label="Dates">'+W.map(w=>'<button class="'+(S.when===w[0]?"on":"")+'" data-a="when" data-v="'+w[0]+'" aria-pressed="'+(S.when===w[0])+'">'+w[1]+'</button>').join("")+'<button class="dpb'+(S.when==="date"?" on":"")+'" data-a="dpick" aria-expanded="'+!!(S.dpo||S.when==="date")+'">'+DPIC+(S.when==="date"?dlab():"Pick dates")+'</button></div></div>'+
   ubar()+drow(L.length)+'<div class="fbar">'+fyChip(" fyd")+catRail()+'<select class="sel" data-a="citysel" aria-label="City"><option value="All">All cities</option>'+Object.keys(CITY).map(c=>'<option'+(S.city===c?" selected":"")+'>'+c+'</option>').join("")+'</select>'+
   (nX=>'<button class="ufb fmore'+(nX?" on":"")+'" data-a="fsopen" aria-haspopup="dialog">'+FSVG+'<span class="ufl">More filters</span>'+(nX?'<b>'+nX+'</b>':'')+'</button>')((!!S.onl)+(!!S.free)+(!!S.src)+(S.ft||[]).length)+(filt?'<button class="lnk" data-a="clear">Clear</button>':"")+
