@@ -385,7 +385,7 @@ def make_preview(e, out_path):
     data = buf.getvalue()
     if not out_path.exists() or out_path.read_bytes() != data:
         out_path.write_bytes(data)
-    return hashlib.md5(data).hexdigest()[:8]
+    return hashlib.md5(data).hexdigest()[:8], flyer is not None
 
 
 # ---------------------------------------------------------------- event page
@@ -687,7 +687,9 @@ def main():
         elif args.no_images:
             ver = "0"
         else:
-            ver = make_preview(e, img)
+            ver, ok = make_preview(e, img)
+            if not ok:
+                e["im"] = ""  # the flyer link isn't a picture we can show (e.g. an Instagram post page)
         p = E / e["k"]
         p.mkdir(exist_ok=True)
         page = event_page(e, ver)
