@@ -1,13 +1,17 @@
-# Every morning: re-check the official page of each upcoming event for cancellations,
-# postponements, new dates, venue changes and sold-out notices (scripts/recheck.py).
-# Nothing changes on the site by itself: each change becomes a suggestion in
-# Review -> Corrections ("Found by the daily check"), applied only when an admin taps it.
+# Twice a day: re-check the official page of each upcoming event for cancellations,
+# postponements, new dates, venue changes and sold-out notices (scripts/recheck.py), and search
+# the news for events that only have Instagram links.
+# Clear changes (Eventbrite's own data, or a sentence copied from the official page / news source that
+# really is on that page) are applied on the site straight away and listed in Review with an Undo
+# button. Anything less certain waits in Review -> Corrections for an admin to tap.
+# Set the repository variable RECHECK_AUTO_APPLY to 0 to go back to "suggest only".
 # Secrets: SUPABASE_URL, SUPABASE_SERVICE_KEY, GEMINI_API_KEY (and optionally EVENTBRITE_TOKEN).
 name: Daily event re-check
 
 on:
   schedule:
     - cron: "13 7 * * *"      # every day, 08:13 Lagos time
+    - cron: "13 16 * * *"     # and 17:13 Lagos time
   workflow_dispatch:
     inputs:
       all:
@@ -46,4 +50,5 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           EVENTBRITE_TOKEN: ${{ secrets.EVENTBRITE_TOKEN }}
+          RECHECK_AUTO_APPLY: ${{ vars.RECHECK_AUTO_APPLY || '1' }}
         run: python scripts/recheck.py ${{ (github.event_name == 'workflow_dispatch' && inputs.all) && '--all' || '' }}

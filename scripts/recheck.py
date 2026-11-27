@@ -2,9 +2,11 @@
 Daily re-check: looks again at the official page of every upcoming event and spots
 cancellations, postponements, new dates, venue changes and sold-out notices.
 
-Nothing changes on the site by itself. Each change it finds becomes a suggestion in the
-Review queue (Corrections, "Found by the daily check"), with the page link and the exact
-sentence it read. One tap on "Mark as ..." applies it for everyone.
+Clear changes are applied on the site straight away: Eventbrite's own data, or a sentence copied
+from the official page (or a news report) that really is on that page, with high confidence.
+Each one is also listed in Review ("Updated on the site by the daily check") with the page link,
+the exact sentence and an Undo button. Less certain findings wait in Review for one tap.
+Set RECHECK_AUTO_APPLY=0 to go back to suggestions only.
 
 How it checks:
   - Eventbrite links: Eventbrite's own API says whether the event was cancelled and gives
@@ -12,11 +14,13 @@ How it checks:
   - Other official pages: the page text is read; only if it mentions words like
     "cancelled", "postponed", "new date" or "venue" does Gemini read it closely. Gemini's
     answer is used only when the sentence it quotes is really on the page.
-  - Instagram, Facebook and WhatsApp links can't be read automatically and are skipped.
+  - Instagram, Facebook and WhatsApp links can't be read automatically. For events in the next
+    10 days that only have those links (or none), Gemini searches the web for news of a change,
+    and the finding counts only if the quoted sentence is really on the source page.
   - It follows each website's robots.txt (pages a site asks robots not to visit are skipped),
     says who it is, and waits at least 3 seconds between pages on the same website.
 
-Schedule: events in the next 14 days are checked every day; later events on Mondays.
+Schedule: twice a day for events in the next 14 days; later events on Mondays.
 A change already suggested (waiting, applied or dismissed) is not suggested again.
 
 Runs on GitHub Actions (.github/workflows/recheck.yml).
@@ -220,13 +224,13 @@ def eventbrite_check(e, url):
     start = ((j.get("start") or {}).get("local") or "")[:10]
     vname = ((j.get("venue") or {}).get("name") or "").strip()
     if stat in ("canceled", "cancelled"):
-        return {"status": "cancelled", "quote": "Eventbrite lists this event as cancelled.", "new_date": "", "new_venue": ""}
+        return {"status": "cancelled", "quote": "Eventbrite lists this event as cancelled.", "new_date": "", "new_venue": "", "confidence": 1, "how": "eventbrite"}
     if start and start != e["s"] and start > e["s"]:
-        return {"status": "postponed", "quote": f"Eventbrite now gives the start date as {start}.", "new_date": start, "new_venue": ""}
+        return {"status": "postponed", "quote": f"Eventbrite now gives the start date as {start}.", "new_date": start, "new_venue": "", "confidence": 1, "how": "eventbrite"}
     if vname and e["ve"] and squash(vname) not in squash(e["ve"]) and squash(e["ve"]) not in squash(vname) and not j.get("online_event"):
-        return {"status": "venue", "quote": f"Eventbrite now gives the venue as {vname}.", "new_date": "", "new_venue": vname}
+        return {"status": "venue", "quote": f"Eventbrite now gives the venue as {vname}.", "new_date": "", "new_venue": vname, "confidence": 1, "how": "eventbrite"}
     if (j.get("ticket_availability") or {}).get("is_sold_out"):
-        return {"status": "soldout", "quote": "Eventbrite shows the tickets as sold out.", "new_date": "", "new_venue": ""}
+        return {"status": "soldout", "quote": "Eventbrite shows the tickets as sold out.", "new_date": "", "new_venue": "", "confidence": 1, "how": "eventbrite"}
     return {"status": "ok"}
 
 
@@ -268,8 +272,74 @@ def gemini_check(e, url, text):
     nd = str(j.get("new_date", "")).strip()
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", nd):
         nd = ""
-    return {"status": st, "quote": q[:400], "new_date": nd, "new_venue": str(j.get("new_venue", "")).strip()[:120]}
+    return {"status": st, "quote": q[:400], "new_date": nd, "new_venue": str(j.get("new_venue", "")).strip()[:120],
+            "confidence": float(j.get("confidence") or 0), "how": "page"}
 
+
+
+# ---------------- events with no readable official page: look for news of a change ----------------
+SEARCH_PROMPT = """Search the web for recent news or official announcements about this event in Nigeria:
+"{name}", listed for {date} at "{venue}", {city}.
+
+Has it been postponed, cancelled, moved to another venue, or sold out? Answer ONLY with JSON:
+{{"status": "ok|cancelled|postponed|venue|soldout|unclear",
+  "quote": "the exact sentence from the source that says so, copied word for word, or empty",
+  "source": "the web address of that source, or empty",
+  "new_date": "YYYY-MM-DD or empty", "new_venue": "venue name or empty", "confidence": 0.0-1.0}}
+
+Rules: it must be this event and this year's edition. Answer "ok" if you find nothing saying it changed.
+If sources disagree or you are not sure, answer "unclear". Never guess a date or venue."""
+
+
+def search_check(e):
+    """Gemini searches the web; a change only counts if the quoted sentence is really on the source page."""
+    ans, srcs = gemini.ask(SEARCH_PROMPT.format(name=e["n"], date=e["s"] if e["s"] == e["e"] else f"{e['s']} to {e['e']}",
+                                                venue=e["ve"] or "venue not given", city=e["ci"] or "Nigeria"),
+                           search=True, temperature=0.0)
+    j = gemini.parse_json(ans)
+    if not isinstance(j, dict):
+        return None
+    st = str(j.get("status", "")).lower()
+    q = str(j.get("quote", "")).strip()
+    if st not in STATES or float(j.get("confidence") or 0) < 0.8 or len(squash(q)) < 12:
+        return {"status": "ok"}
+    cands = []
+    for u in [str(j.get("source", "")).strip()] + [gemini.real_url(x["uri"]) for x in srcs[:6]]:
+        if u.startswith("https://") and u not in cands and not SKIP_HOSTS.search(host(u)):
+            cands.append(u)
+    for u in cands[:4]:
+        try:
+            if not allowed(u):
+                continue
+            text = page_text(fetch(u))
+        except Exception:
+            continue
+        if squash(q) in squash(text):
+            nd = str(j.get("new_date", "")).strip()
+            return {"status": st, "quote": q[:400], "new_date": nd if re.fullmatch(r"\d{4}-\d{2}-\d{2}", nd) else "",
+                    "new_venue": str(j.get("new_venue", "")).strip()[:120], "url": u,
+                    "confidence": float(j.get("confidence") or 0), "how": "search"}
+    return {"status": "unclear"}
+
+
+# ---------------- applying a change on the site straight away ----------------
+AUTO = os.environ.get("RECHECK_AUTO_APPLY", "1") != "0"
+
+
+def site_hash(s):
+    """Same as hsh() in events/index.html (FNV-1a over UTF-16 code units), so the site finds the status."""
+    h = 2166136261
+    b = s.encode("utf-16-le")
+    for i in range(0, len(b), 2):
+        h ^= b[i] | (b[i + 1] << 8)
+        h = (h * 16777619) & 0xFFFFFFFF
+    return h
+
+
+def sure_enough(r):
+    """Only clear, verified findings go live by themselves: Eventbrite's own data, or a sentence copied
+    from the official page / a news source that really is on that page, with high confidence."""
+    return r.get("how") == "eventbrite" or (r.get("how") in ("page", "search") and r.get("confidence", 0) >= 0.85)
 
 # ---------------- suggestions ----------------
 def human_date(d):
@@ -315,7 +385,7 @@ def main():
     events = site_events(db)
     log(f"{len(events)} upcoming events on the site")
 
-    todo, skipped_social, no_link = [], 0, 0
+    todo, skipped_social, no_link, searchq = [], 0, 0, []
     for e in events:
         if a.only and a.only.lower() not in e["n"].lower():
             continue
@@ -325,6 +395,8 @@ def main():
             continue
         urls = [u for u in e["u"] if u.startswith("http") and not SKIP_HOSTS.search(host(u))]
         if not urls:
+            if e["s"] <= (today + dt.timedelta(days=10)).isoformat() and e["st"] not in ("postponed",):
+                searchq.append(e)
             if e["u"]:
                 skipped_social += 1
             else:
@@ -375,14 +447,35 @@ def main():
             if k in seen:
                 continue
             item = make_item(e, res["url"], res)
+            item["_r"] = res
             found.append(item)
             seen[k] = today.isoformat()
             log(f"  CHANGE  {e['n']}: {item['note']}  <{res['url']}>  “{item['quote'][:120]}”")
 
+    searched = 0
+    for e in sorted(searchq, key=lambda x: x["s"])[:int(os.environ.get("RECHECK_SEARCH_MAX", "20"))]:
+        try:
+            r = search_check(e)
+        except gemini.GeminiError as ex:
+            log(f"  Gemini search unavailable ({ex}); stopping web searches for today")
+            break
+        searched += 1
+        if r and r.get("status") == "postponed" and r.get("new_date") and r["new_date"] <= e["s"]:
+            continue
+        if r and r.get("status") in STATES and r["status"] != e["st"]:
+            k = "|".join([e["n"], r["status"], r.get("new_date", ""), squash(r.get("new_venue", ""))])
+            if k in seen:
+                continue
+            item = make_item(e, r["url"], r)
+            item["_r"] = r
+            found.append(item)
+            seen[k] = today.isoformat()
+            log(f"  CHANGE (news)  {e['n']}: {item['note']}  <{r['url']}>  “{item['quote'][:120]}”")
+    log(f"searched the web for {searched} events that have no readable official page")
     log(f"read {read} pages, {ai} read closely by Gemini, {len(found)} changes found, {len(failed)} couldn't be read, {blocked} skipped (the site asks robots not to visit)")
     md = [f"### Daily event re-check, {today.isoformat()}",
           f"- Events checked: **{len(todo)}** ({read} pages read, {ai} read closely, {blocked} skipped by the site's robots.txt)",
-          f"- Changes found: **{len(found)}** (in Review → Corrections, waiting for you)"]
+          f"- Changes found: **{len(found)}** (clear ones are applied on the site straight away; the rest wait in Review → Corrections)"]
     for it in found:
         md.append(f"  - {it['name']}: {LABEL[it['st']]}{(' · ' + it['snote']) if it['snote'] else ''} — [{host(it['url'])}]({it['url']})")
     if failed:
@@ -393,6 +486,18 @@ def main():
     if a.dry_run:
         log("dry run: nothing saved")
         return
+    applied = 0
+    for it in found:
+        r = it.pop("_r", {}) or {}
+        if AUTO and sure_enough(r):
+            db.put("overrides", "s" + str(site_hash(it["name"])),
+                   {"name": it["name"], "status": {"st": it["st"], "note": it.get("snote", ""), "at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                                                   "by": "check", "url": it["url"]}})
+            it["applied"] = True
+            applied += 1
+            log(f"  APPLIED on the site: {it['name']} -> {LABEL[it['st']]}")
+    if applied:
+        summary(f"- **Updated on the site automatically: {applied}** (each one is in Review with an Undo button)")
     if found:
         doc = db.get("corrections", CORR_DOC) or {}
         items = (doc.get("items") or []) + found
