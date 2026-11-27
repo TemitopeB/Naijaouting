@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
   const free = toks.includes("free"), cats = toks.filter(t => t !== "free" && t !== "all");
   let feed;
   try {
-    const r = await fetch(`https://${req.headers.host}/data/feed.json`, { headers: { "user-agent": "naijaouting-cal" } });
+    const r = await fetch(SITE + "/data/feed.json", { headers: { "user-agent": "naijaouting-cal" } });
     if (!r.ok) throw new Error(String(r.status));
     feed = await r.json();
   } catch (e) {
