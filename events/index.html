@@ -2364,11 +2364,6 @@ html.app .tz-tfl:not(.fo){display:none}
 .vxn{flex:none;margin-left:6px;font-style:normal;font-size:11.5px;font-weight:600;color:var(--ac);background:var(--acs);padding:1px 7px;border-radius:999px;white-space:nowrap}
 </style>
 <style id="grow-v1">
-/* speed: cards below the screen aren't laid out or painted until you scroll near them */
-.tgrid>.tc{content-visibility:auto;contain-intrinsic-size:auto 400px}
-.evp.dz2 .tgrid>.tc{contain-intrinsic-size:auto 300px}.evp.dz3 .tgrid>.tc{contain-intrinsic-size:auto 230px}
-html.app .tgrid>.tc{contain-intrinsic-size:auto 430px}html.app .evp.dz2 .tgrid>.tc{contain-intrinsic-size:auto 300px}html.app .evp.dz3 .tgrid>.tc{contain-intrinsic-size:auto 220px}
-.tapd{opacity:.72;transition:none!important}
 /* new since your last visit */
 .nws{display:flex;align-items:center;gap:12px;margin:0 0 16px;padding:10px 10px 10px 14px;border-radius:18px;background:color-mix(in srgb,var(--ac) 10%,var(--pn));border:1px solid color-mix(in srgb,var(--ac) 28%,transparent)}
 .nwi{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--ac);color:#fff}
@@ -3657,7 +3652,7 @@ function eventsView(){let L=list();const FY=S.fy&&meN()&&S.view==="events"?fyBan
   ubar()+drow(L.length)+'<div class="fbar">'+fyChip(" fyd")+catRail()+'<select class="sel" data-a="citysel" aria-label="City"><option value="All">All cities</option>'+Object.keys(CITY).map(c=>'<option'+(S.city===c?" selected":"")+'>'+c+'</option>').join("")+'</select>'+
   (nX=>'<button class="ufb fmore'+(nX?" on":"")+'" data-a="fsopen" aria-haspopup="dialog">'+FSVG+'<span class="ufl">More filters</span>'+(nX?'<b>'+nX+'</b>':'')+'</button>')((!!S.onl)+(!!S.free)+(!!S.src)+(S.ft||[]).length)+(filt?'<button class="lnk" data-a="clear">Clear</button>':"")+
   '<button class="ufb curd" data-a="curp" aria-label="Show prices in another currency">Prices in <b>'+(CUR==="NGN"?"₦":curSym(CUR))+'</b></button><label class="ssort"><span>Sort</span><select class="sel" data-a="sortsel" aria-label="Sort events">'+[["soon","Soonest"],["near","Nearest"],["az","A–Z"]].map(x=>'<option value="'+x[0]+'"'+(so===x[0]?" selected":"")+'>'+x[1]+'</option>').join("")+'</select></label></div>'+fyStrip()+((S.ft||[]).length?'<div class="fys"><span class="fysl">Showing:</span>'+S.ft.map(k=>'<button class="chip sm fyp" data-a="ftg" data-v="'+k+'" aria-label="Remove '+esc(LBN[k][1])+'">'+esc(LBN[k][1])+' <span aria-hidden="true">✕</span></button>').join("")+'</div>':"")+(SY.length&&!(S.ft||[]).length&&L.some(v=>SY.some(k=>lbOf(v).has(k)))?'<div class="fys syn"><span class="fysl">Including events for '+SY.map(k=>esc(lcf(LBN[k][2]))).join(", ")+'.</span><button class="chip sm" data-a="synonly" data-v="'+SY.join(",")+'">Only show these</button></div>':"")+'</div></div>'+savBanner()+nwStrip()+wkLink()+
-  (FY?FY.html:L.length?(EVLAY==="list"?evList(L,so):gridHTML(SP?evGridItems(SP):L.map(evCard))):S.onl?'<div class="empty"><b style="color:var(--tx)">No webinars listed for these dates yet</b><p class="sm" style="margin:6px 0 0">Online events and webinars by Nigerian organisers show up here once they’re checked. Hosting one?</p><div class="act" style="justify-content:center;margin-top:12px"><button class="btn p" data-a="submit">Add a webinar</button><button class="btn" data-a="clear">See all events</button></div></div>':(S.q?'<div class="empty"><b style="color:var(--tx)">Nothing found for “'+esc(S.q)+'”</b><p class="sm" style="margin:6px 0 0">Check the spelling, or try an artist, venue, city or type of event'+((S.cat!=="All"||S.city!=="All"||S.when!=="up"||S.free||S.src||(S.ft&&S.ft.length)||S.fy)?'. Some filters are also on, so clearing them may help.':'.')+'</p><div class="act" style="justify-content:center;margin-top:12px"><button class="btn p" data-a="qclr">Clear search</button>'+((S.cat!=="All"||S.city!=="All"||S.when!=="up"||S.free||S.src||(S.ft&&S.ft.length)||S.fy)?'<button class="btn" data-a="clear">Clear all filters</button>':'')+'</div><p class="sm" style="margin:14px 0 0">Know an event we’re missing? <button class="lnk" data-a="submit">Add it</button></p></div>':'<div class="empty"><b style="color:var(--tx)">No events match these filters</b><p class="sm" style="margin:6px 0 0">Try another date, city or category.</p><div class="act" style="justify-content:center;margin-top:12px"><button class="btn" data-a="clear">Clear filters</button></div></div>'))+'</div>'}
+  (FY?FY.html:L.length?(EVLAY==="list"?evList(L,so):'<div class="grid tgrid">'+(SP?evGrid(SP):L.map(evCard).join(""))+'</div>'):S.onl?'<div class="empty"><b style="color:var(--tx)">No webinars listed for these dates yet</b><p class="sm" style="margin:6px 0 0">Online events and webinars by Nigerian organisers show up here once they’re checked. Hosting one?</p><div class="act" style="justify-content:center;margin-top:12px"><button class="btn p" data-a="submit">Add a webinar</button><button class="btn" data-a="clear">See all events</button></div></div>':(S.q?'<div class="empty"><b style="color:var(--tx)">Nothing found for “'+esc(S.q)+'”</b><p class="sm" style="margin:6px 0 0">Check the spelling, or try an artist, venue, city or type of event'+((S.cat!=="All"||S.city!=="All"||S.when!=="up"||S.free||S.src||(S.ft&&S.ft.length)||S.fy)?'. Some filters are also on, so clearing them may help.':'.')+'</p><div class="act" style="justify-content:center;margin-top:12px"><button class="btn p" data-a="qclr">Clear search</button>'+((S.cat!=="All"||S.city!=="All"||S.when!=="up"||S.free||S.src||(S.ft&&S.ft.length)||S.fy)?'<button class="btn" data-a="clear">Clear all filters</button>':'')+'</div><p class="sm" style="margin:14px 0 0">Know an event we’re missing? <button class="lnk" data-a="submit">Add it</button></p></div>':'<div class="empty"><b style="color:var(--tx)">No events match these filters</b><p class="sm" style="margin:6px 0 0">Try another date, city or category.</p><div class="act" style="justify-content:center;margin-top:12px"><button class="btn" data-a="clear">Clear filters</button></div></div>'))+'</div>'}
 function calView(){const L=list({anyDate:true}),wk=S.calMode!=="month";let days=[],title,lead=0;
  if(wk){const st=add(TODAY,-NOW.getDay());for(let i=0;i<35;i++)days.push(add(st,i));const a=new Date(days[0]+"T00:00:00"),z=new Date(days[34]+"T00:00:00");title="Next 5 weeks";var sub=a.getDate()+" "+MON[a.getMonth()]+" – "+z.getDate()+" "+MON[z.getMonth()]+" "+z.getFullYear();if(!S.cd||S.cd<days[0]||S.cd>days[34])S.cd=TODAY}
  else{const y=S.y,m=S.m,ms=y+"-"+pad(m+1),dim=new Date(y,m+1,0).getDate();lead=new Date(y,m,1).getDay();for(let d=1;d<=dim;d++)days.push(ms+"-"+pad(d));title=MON[m]+" "+y;var sub="";if(!S.cd||S.cd.slice(0,7)!==ms)S.cd=ms===TODAY.slice(0,7)?TODAY:ms+"-01"}
@@ -4810,23 +4805,19 @@ function zFit(){const sv=zSvg();if(!sv)return;const ovb=sv.getAttribute("viewBox
  document.addEventListener("wheel",e=>{if(APP)return;const sv=e.target.closest&&e.target.closest("#view .mapbox>svg.zm");if(!sv)return;e.preventDefault();
   const f=Math.exp(-Math.max(-60,Math.min(60,e.deltaY))*(e.ctrlKey?.01:.003));zTo(f,zPt(sv,e.clientX,e.clientY),false)},{passive:false})})();
 /* several database updates arriving together cause one rebuild, not one each */
-/* taps: show the press straight away, then rebuild the view after the browser has painted it,
-   so a tap never feels stuck while a long list is redrawn */
-let TRQ=0;function tapRender(t){try{if(t&&t.classList){if(t.matches(".seg>button,.vseg button,.lay button,#bnav>button")&&!t.classList.contains("on")){const g=t.parentElement;g.querySelectorAll(":scope>.on").forEach(x=>{x.classList.remove("on");x.setAttribute("aria-pressed","false")});t.classList.add("on")}t.classList.add("tapd")}}catch(x){}
- if(TRQ)return;TRQ=1;requestAnimationFrame(()=>setTimeout(()=>{if(!TRQ)return;TRQ=0;render()},0))}
 let RSOON=0;function renderSoon(){if(RSOON)return;RSOON=1;const go=()=>{if(!RSOON)return;RSOON=0;render()};requestAnimationFrame(go);setTimeout(go,120)}
 /* opening or closing an event's details only updates the details panel on list-style pages */
 const LIGHT=new Set(["events","saved","cal","daily","news","trip"]);
 function lightOpen(){drawer();document.querySelectorAll("#view .ev.on").forEach(e=>e.classList.remove("on"));
  if(S.open){const e=document.querySelector('#view .ev[data-id="'+CSS.escape(S.open)+'"]');if(e)e.classList.add("on")}
  if(typeof BK!=="undefined"&&!BK.busy)bkQueue()}
-function render(){RSOON=0;TRQ=0;side();const V=$("#view"),same=render._v===S.view,keep=[],sw=same?scrollY:null,oFs=document.querySelector(".fsw .fs"),fsY=oFs?oFs.scrollTop:0,fsK=oFs?(oFs.classList.contains("fypk")?"fy":"fs"):"";
+function render(){side();const V=$("#view"),same=render._v===S.view,keep=[],sw=same?scrollY:null,oFs=document.querySelector(".fsw .fs"),fsY=oFs?oFs.scrollTop:0,fsK=oFs?(oFs.classList.contains("fypk")?"fy":"fs"):"";
  if(same)V.querySelectorAll(".mv,.mvb,.page,.rp,.lp,.split,.hrs,.uch,.calwrap,.evp,.mapbox").forEach(e=>{if(e.scrollTop||e.scrollLeft)keep.push([skey(e),e.scrollTop,e.scrollLeft])});const vst=same?V.scrollTop:0;
  const osv=same?V.querySelector(".mapbox>svg"):null,ovb=osv?osv.getAttribute("viewBox"):null;
  V.innerHTML=S.view==="map"?mapView():S.view==="events"?eventsView():S.view==="cal"?calView():S.view==="news"?newsView():S.view==="trip"?tripView():S.view==="explore"?exploreView():S.view==="near"?nearView():S.view==="arrive"?arriveView():S.view==="tour"?tourView():S.view==="saved"?savedView():S.view==="daily"?dailyView():S.view==="about"?aboutView():S.view==="help"?helpView():S.view==="contact"?contactView():S.view==="privacy"?privacyView():S.view==="organisers"?orgView():S.view==="ended"?endedView():S.view==="account"?(window.ACCT?ACCT.view():""):quizView();
  if(S.view!=="map"&&S.view!=="events")S.fs=0;if(S.fs)V.insertAdjacentHTML("beforeend",fsheet());if(S.fyp)V.insertAdjacentHTML("beforeend",fyPick());if(S.curp)V.insertAdjacentHTML("beforeend",curPick());curBtns();{const nFs=document.querySelector(".fsw .fs");if(nFs&&fsK===(nFs.classList.contains("fypk")?"fy":"fs")){nFs.classList.add("still");nFs.scrollTop=fsY}}
  const pg=V.querySelector(".page");if(pg&&!pg.querySelector(".foot"))pg.insertAdjacentHTML("beforeend",foot());else if(!pg){const L=V.querySelector(".rp,.lp");if(L)L.insertAdjacentHTML("beforeend",rfoot())}
- if(S.view==="events"&&EVLAY!=="list")gridFill(Math.max(sw||0,vst||0));else{GREST=[];GTOK++}render._v=S.view;V.scrollTop=vst;keep.forEach(k=>{const e=V.querySelector(k[0]);if(e){e.scrollTop=k[1];e.scrollLeft=k[2]}});if(sw!=null&&scrollY!==sw)scrollTo(0,sw);zSetup();if(ovb)mapTween(ovb);
+ render._v=S.view;V.scrollTop=vst;keep.forEach(k=>{const e=V.querySelector(k[0]);if(e){e.scrollTop=k[1];e.scrollLeft=k[2]}});if(sw!=null&&scrollY!==sw)scrollTo(0,sw);zSetup();if(ovb)mapTween(ovb);
  drawer()}
 
 /* ---------- ticker ---------- */
@@ -4940,7 +4931,7 @@ document.addEventListener("click",e=>{if(e.target&&e.target.id==="moresh"){e.tar
  else if(a==="qa"){qAns(+v)}else if(a==="qn"){qNext()}else if(a==="qr"){qStart(v)}else if(a==="qquit"){qQuit()}else if(a==="qshare"){qShare();return}
  else return;
  if((a==="open"||a==="close")&&LIGHT.has(S.view)&&!S.fs){lightOpen();return}
- tapRender(t)});
+ render()});
 
 document.addEventListener("input",e=>{const t=e.target;
  if(t.dataset.bud){const b=BUD[t.dataset.id]||(BUD[t.dataset.id]={});b[t.dataset.bud]=t.value.replace(/[^\d.]/g,"");const o=$("#bud-sum");if(o)o.textContent=naira(budTotal(b))}
@@ -5290,16 +5281,6 @@ let LGO=false,CVN={};
 document.addEventListener("toggle",e=>{const d=e.target;if(d&&d.classList&&d.classList.contains("lgd"))LGO=d.open},true);
 function evSplit(L){const w7=add(TODAY,7);return [L.filter(v=>v.s>=TODAY&&v.s<=w7),L.filter(v=>v.s<TODAY).sort((a,b)=>a.e<b.e?-1:a.e>b.e?1:a.name<b.name?-1:1),L.filter(v=>v.s>w7)]}
 function evSep(t,n,h){return '<h2 class="tsep">'+t+' <span>'+n+'</span>'+(h?'<small>'+h+'</small>':"")+'</h2>'}
-function evGridItems(P){const a=P[0],b=P[1],c=P[2];return a.map(evCard).concat(b.length&&(a.length||c.length)?[evSep("Still running",b.length,"Started earlier, still on")]:[],b.map(evCard),c.length&&(a.length||b.length)?[evSep("Coming later",c.length,"")]:[],c.map(evCard))}
-/* long lists: the first screens of cards go in straight away, the rest follow in small batches while the phone is idle */
-let GREST=[],GTOK=0;
-function gridHTML(items){GREST=items.slice(24);GTOK++;return '<div class="grid tgrid" id="evgrid">'+items.slice(0,24).join("")+'</div>'}
-function gridMore(n){const g=document.getElementById("evgrid");if(!g||!GREST.length)return false;g.insertAdjacentHTML("beforeend",GREST.splice(0,n).join(""));return true}
-function gridFill(y){/* before restoring the scroll position, make sure the page is long enough to reach it */
- const g=document.getElementById("evgrid"),sc=g&&dzScroller(g),H=()=>sc.scrollHeight-sc.clientHeight;
- if(g&&y)while(GREST.length&&H()<y+sc.clientHeight)if(!gridMore(36))break;
- const tok=GTOK,step=()=>{if(tok!==GTOK||!GREST.length)return;gridMore(30);if(GREST.length)idle(step)};if(GREST.length)idle(step)}
-const idle=f=>("requestIdleCallback" in window)?requestIdleCallback(f,{timeout:400}):setTimeout(f,60);
 function evGrid(P){const a=P[0],b=P[1],c=P[2];return a.map(evCard).join("")+(b.length&&(a.length||c.length)?evSep("Still running",b.length,"Started earlier, still on"):"")+b.map(evCard).join("")+(c.length&&(a.length||b.length)?evSep("Coming later",c.length,""):"")+c.map(evCard).join("")}
 const CVV=[["0deg",1,1,"0 0"],["0deg",-1,1.18,"-6% 3%"],["0deg",1,1.18,"6% -3%"],["0deg",-1,1,"0 0"]];
 function cvVar(c){const i=CVN[c]=(CVN[c]||0)+1,v=CVV[(i-1)%CVV.length];return "--cvh:"+v[0]+";--cvf:"+v[1]+";--cvz:"+v[2]+";--cvo:"+v[3]}

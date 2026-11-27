@@ -7,7 +7,7 @@
  * - The database (Supabase) and other websites are never cached here.
  * Change VERSION to make every phone refresh its saved copy.
  */
-const VERSION = "v97";
+const VERSION = "v98";
 // Pictures keep the same saved copy across updates (their file names change when the picture changes),
 // so a new version of the site doesn't make every phone download all the pictures again.
 const SHELL = `shell-${VERSION}`, MEDIA = "media-keep-1";
@@ -54,26 +54,8 @@ self.addEventListener("fetch", e => {
   }
   if (url.pathname.startsWith("/admin") || url.pathname.startsWith("/api/") || url.pathname.startsWith("/cal/")) return;
   if (/^\/(_blob|events\/flyers|img|covers|icons|events\/lib|fonts)\//.test(url.pathname)) { e.respondWith(cacheFirst(req)); return; }
-  // A shared event link (/e/<event>/) opened by someone who already uses the app: go straight into
-  // the app instead of loading the preview page first (this helper is only here for people who've used it).
-  const m = req.mode === "navigate" && url.pathname.match(/^\/e\/([^\/]+)\/?$/);
-  if (m && m[1] !== "_" && m[1] !== "img") { e.respondWith(Response.redirect("/events/#e=" + m[1], 302)); return; }
-  // The app's own pages: use the internet when it answers quickly, otherwise open the saved copy at once
-  // (it refreshes in the background), so a slow connection never leaves a blank screen.
-  if (req.mode === "navigate" && (url.pathname === "/events/" || url.pathname === "/")) { e.respondWith(quickPage(e, req)); return; }
   e.respondWith(networkFirst(req));
 });
-function quickPage(e, req) {
-  const net = fetch(req).then(res => {
-    if (res && res.ok && res.type === "basic") { const copy = res.clone(); caches.open(SHELL).then(c => c.put(req.url.split("#")[0].split("?")[0], copy)); }
-    return res;
-  });
-  e.waitUntil(net.catch(() => {}));
-  return caches.match(req.url.split("#")[0].split("?")[0]).then(hit => {
-    if (!hit) return net.catch(() => caches.match("/events/").then(r => r || Response.error()));
-    return Promise.race([net.catch(() => hit), new Promise(r => setTimeout(() => r(hit), 2500))]);
-  });
-}
 
 /* Reminders for saved events in the installed app (Android, no account needed).
    The page keeps a short list of saved events in the "no-data" cache; about twice a day the phone
