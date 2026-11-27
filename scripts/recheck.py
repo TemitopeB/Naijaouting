@@ -13,6 +13,8 @@ How it checks:
     "cancelled", "postponed", "new date" or "venue" does Gemini read it closely. Gemini's
     answer is used only when the sentence it quotes is really on the page.
   - Instagram, Facebook and WhatsApp links can't be read automatically and are skipped.
+  - It follows each website's robots.txt (pages a site asks robots not to visit are skipped),
+    says who it is, and waits at least 3 seconds between pages on the same website.
 
 Schedule: events in the next 14 days are checked every day; later events on Mondays.
 A change already suggested (waiting, applied or dismissed) is not suggested again.
@@ -35,6 +37,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import urllib.robotparser
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -137,7 +140,38 @@ def host(u):
         return ""
 
 
+_robots, _last = {}, {}
+
+
+def allowed(url):
+    """Follow each site's visiting rules (robots.txt), like the weekly sweep does."""
+    u = urllib.parse.urlparse(url)
+    base = f"{u.scheme}://{u.netloc}"
+    if base not in _robots:
+        rp = urllib.robotparser.RobotFileParser()
+        try:
+            req = urllib.request.Request(base + "/robots.txt", headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=20) as r:
+                rp.parse(r.read().decode("utf-8", "replace").splitlines())
+        except urllib.error.HTTPError as ex:
+            rp.parse([] if ex.code in (404, 410) else ["User-agent: *", "Disallow: /"])  # no rules: allowed; locked: stay out
+        except Exception:
+            rp.parse([])
+        _robots[base] = rp
+    return _robots[base].can_fetch(UA, url)
+
+
+def polite(url):
+    """At least 3 seconds between two pages on the same website."""
+    h = urllib.parse.urlparse(url).netloc
+    wait = 3 - (time.time() - _last.get(h, 0))
+    if wait > 0:
+        time.sleep(wait)
+    _last[h] = time.time()
+
+
 def fetch(url):
+    polite(url)
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.5",
                                                "Accept-Language": "en-GB,en;q=0.9"})
     with urllib.request.urlopen(req, timeout=25) as r:
@@ -301,7 +335,7 @@ def main():
     todo = todo[:a.limit]
     log(f"checking {len(todo)} events ({skipped_social} only have Instagram/Facebook links, {no_link} have no official link)")
 
-    found, failed, read, ai = [], [], 0, 0
+    found, failed, read, ai, blocked = [], [], 0, 0, 0
     for e, urls in todo:
         res = None
         for u in urls:
@@ -311,6 +345,9 @@ def main():
                     if res is not None:
                         res["url"] = u
                         break
+                if not allowed(u):
+                    blocked += 1
+                    continue
                 raw = fetch(u)
                 read += 1
                 text = page_text(raw)
@@ -331,7 +368,6 @@ def main():
                 break
             except (urllib.error.URLError, TimeoutError, ConnectionError, ValueError) as ex:
                 failed.append((e["n"], u, str(getattr(ex, "code", "") or ex)[:60]))
-            time.sleep(0.6)
         if res and res.get("status") == "postponed" and res.get("new_date") and res["new_date"] <= e["s"]:
             res = {"status": "ok"}  # the listing already shows the new date
         if res and res.get("status") in STATES and res["status"] != e["st"]:
@@ -343,9 +379,9 @@ def main():
             seen[k] = today.isoformat()
             log(f"  CHANGE  {e['n']}: {item['note']}  <{res['url']}>  “{item['quote'][:120]}”")
 
-    log(f"read {read} pages, {ai} read closely by Gemini, {len(found)} changes found, {len(failed)} couldn't be read")
+    log(f"read {read} pages, {ai} read closely by Gemini, {len(found)} changes found, {len(failed)} couldn't be read, {blocked} skipped (the site asks robots not to visit)")
     md = [f"### Daily event re-check, {today.isoformat()}",
-          f"- Events checked: **{len(todo)}** ({read} pages read, {ai} read closely)",
+          f"- Events checked: **{len(todo)}** ({read} pages read, {ai} read closely, {blocked} skipped by the site's robots.txt)",
           f"- Changes found: **{len(found)}** (in Review → Corrections, waiting for you)"]
     for it in found:
         md.append(f"  - {it['name']}: {LABEL[it['st']]}{(' · ' + it['snote']) if it['snote'] else ''} — [{host(it['url'])}]({it['url']})")

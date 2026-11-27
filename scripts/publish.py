@@ -490,7 +490,7 @@ def event_page(e, ver):
 <ul class="facts">{facts}</ul>
 <div class="act">{btns}</div>
 {f'<p class="ab">{esc(e["ab"])}</p>' if e["ab"] else ''}
-<p class="note">Checked by NaijaOuting before it went live. Tickets are sold by the organiser or their official seller, never by us. Dates and venues can change, so check with the organiser before you travel.</p>
+<p class="note">Checked by NaijaOuting before it went live. Tickets are sold by the organiser or their official seller, never by us. Dates and venues can change, so check with the organiser before you travel. Organiser or ticket seller? <a href="/events/#v=organisers">Ask us to update or remove this listing</a>.</p>
 <a class="more" href="{esc(city_link)}">{esc(more)} →</a>
 </main></body></html>
 """
