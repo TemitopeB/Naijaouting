@@ -2365,7 +2365,7 @@ html.app .tz-tfl:not(.fo){display:none}
 </style>
 <style id="grow-v1">
 /* speed: cards below the screen aren't laid out or painted until you scroll near them */
-html.fast1 .tgrid>.tc{content-visibility:auto;contain-intrinsic-size:auto 400px}
+.tgrid>.tc{content-visibility:auto;contain-intrinsic-size:auto 400px}
 .evp.dz2 .tgrid>.tc{contain-intrinsic-size:auto 300px}.evp.dz3 .tgrid>.tc{contain-intrinsic-size:auto 230px}
 html.app .tgrid>.tc{contain-intrinsic-size:auto 430px}html.app .evp.dz2 .tgrid>.tc{contain-intrinsic-size:auto 300px}html.app .evp.dz3 .tgrid>.tc{contain-intrinsic-size:auto 220px}
 .tapd{opacity:.72;transition:none!important}
@@ -2953,7 +2953,6 @@ let SUB=[];try{SUB=JSON.parse(localStorage.getItem("ne_sub")||"[]").map((v,i)=>c
 let FAV=[],BUD={},CHK={};try{FAV=JSON.parse(localStorage.getItem("ne_fav")||"[]")}catch(x){}
 function saveFav(){try{localStorage.setItem("ne_fav",JSON.stringify(FAV))}catch(x){}}
 function togFav(id){const i=FAV.indexOf(id);if(i>=0)FAV.splice(i,1);else FAV.push(id);saveFav()}
-var FASTQ=(location.search.match(/[?&]fast=(\d)/)||[])[1]||"";if(FASTQ)document.documentElement.classList.add("fast"+FASTQ);
 let MSG=[],REMOTE=[],PEND=[],CORR=[],DB=null,ADMIN=false,UID=null,TRIP=[];try{TRIP=JSON.parse(localStorage.getItem("ne_trip")||"[]")}catch(x){}
 const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],DOW=["SUN","MON","TUE","WED","THU","FRI","SAT"];
 const $=s=>document.querySelector(s);
@@ -4813,7 +4812,7 @@ function zFit(){const sv=zSvg();if(!sv)return;const ovb=sv.getAttribute("viewBox
 /* several database updates arriving together cause one rebuild, not one each */
 /* taps: show the press straight away, then rebuild the view after the browser has painted it,
    so a tap never feels stuck while a long list is redrawn */
-let TRQ=0;function tapRender(t){if(!FASTQ){render();return}try{if(t&&t.classList){if(t.matches(".seg>button,.vseg button,.lay button,#bnav>button")&&!t.classList.contains("on")){const g=t.parentElement;g.querySelectorAll(":scope>.on").forEach(x=>{x.classList.remove("on");x.setAttribute("aria-pressed","false")});t.classList.add("on")}t.classList.add("tapd")}}catch(x){}
+let TRQ=0;function tapRender(t){try{if(t&&t.classList){if(t.matches(".seg>button,.vseg button,.lay button,#bnav>button")&&!t.classList.contains("on")){const g=t.parentElement;g.querySelectorAll(":scope>.on").forEach(x=>{x.classList.remove("on");x.setAttribute("aria-pressed","false")});t.classList.add("on")}t.classList.add("tapd")}}catch(x){}
  if(TRQ)return;TRQ=1;requestAnimationFrame(()=>setTimeout(()=>{if(!TRQ)return;TRQ=0;render()},0))}
 let RSOON=0;function renderSoon(){if(RSOON)return;RSOON=1;const go=()=>{if(!RSOON)return;RSOON=0;render()};requestAnimationFrame(go);setTimeout(go,120)}
 /* opening or closing an event's details only updates the details panel on list-style pages */
@@ -5294,13 +5293,13 @@ function evSep(t,n,h){return '<h2 class="tsep">'+t+' <span>'+n+'</span>'+(h?'<sm
 function evGridItems(P){const a=P[0],b=P[1],c=P[2];return a.map(evCard).concat(b.length&&(a.length||c.length)?[evSep("Still running",b.length,"Started earlier, still on")]:[],b.map(evCard),c.length&&(a.length||b.length)?[evSep("Coming later",c.length,"")]:[],c.map(evCard))}
 /* long lists: the first screens of cards go in straight away, the rest follow in small batches while the phone is idle */
 let GREST=[],GTOK=0;
-function gridHTML(items){if(!FASTQ){GREST=[];return '<div class="grid tgrid" id="evgrid">'+items.join("")+'</div>'}GREST=items.slice(24);GTOK++;return '<div class="grid tgrid" id="evgrid">'+items.slice(0,24).join("")+'</div>'}
+function gridHTML(items){GREST=items.slice(24);GTOK++;return '<div class="grid tgrid" id="evgrid">'+items.slice(0,24).join("")+'</div>'}
 function gridMore(n){const g=document.getElementById("evgrid");if(!g||!GREST.length)return false;g.insertAdjacentHTML("beforeend",GREST.splice(0,n).join(""));return true}
 function gridFill(y){/* before restoring the scroll position, make sure the page is long enough to reach it */
  const g=document.getElementById("evgrid"),sc=g&&dzScroller(g),H=()=>sc.scrollHeight-sc.clientHeight;
  if(g&&y)while(GREST.length&&H()<y+sc.clientHeight)if(!gridMore(36))break;
- const tok=GTOK,step=()=>{if(tok!==GTOK||!GREST.length)return;gridMore(30);if(GREST.length)idle(step)};if(GREST.length)idle(step)}
-const idle=f=>("requestIdleCallback" in window)?requestIdleCallback(f,{timeout:400}):setTimeout(f,60);
+ const tok=GTOK,step=()=>{if(tok!==GTOK||!GREST.length)return;if(!gridMore(30)){GREST=[];return}if(GREST.length)setTimeout(step,40)};if(GREST.length)setTimeout(step,80)}
+document.addEventListener("scroll",e=>{if(!GREST.length)return;const g=document.getElementById("evgrid");if(!g)return;const r=g.getBoundingClientRect();if(r.bottom<innerHeight*3)gridMore(36)},{capture:true,passive:true});
 function evGrid(P){const a=P[0],b=P[1],c=P[2];return a.map(evCard).join("")+(b.length&&(a.length||c.length)?evSep("Still running",b.length,"Started earlier, still on"):"")+b.map(evCard).join("")+(c.length&&(a.length||b.length)?evSep("Coming later",c.length,""):"")+c.map(evCard).join("")}
 const CVV=[["0deg",1,1,"0 0"],["0deg",-1,1.18,"-6% 3%"],["0deg",1,1.18,"6% -3%"],["0deg",-1,1,"0 0"]];
 function cvVar(c){const i=CVN[c]=(CVN[c]||0)+1,v=CVV[(i-1)%CVV.length];return "--cvh:"+v[0]+";--cvf:"+v[1]+";--cvz:"+v[2]+";--cvo:"+v[3]}

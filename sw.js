@@ -7,7 +7,7 @@
  * - The database (Supabase) and other websites are never cached here.
  * Change VERSION to make every phone refresh its saved copy.
  */
-const VERSION = "v98";
+const VERSION = "v99";
 // Pictures keep the same saved copy across updates (their file names change when the picture changes),
 // so a new version of the site doesn't make every phone download all the pictures again.
 const SHELL = `shell-${VERSION}`, MEDIA = "media-keep-1";
@@ -54,6 +54,10 @@ self.addEventListener("fetch", e => {
   }
   if (url.pathname.startsWith("/admin") || url.pathname.startsWith("/api/") || url.pathname.startsWith("/cal/")) return;
   if (/^\/(_blob|events\/flyers|img|covers|icons|events\/lib|fonts)\//.test(url.pathname)) { e.respondWith(cacheFirst(req)); return; }
+  // A shared event link (/e/<event>/) opened by someone who already uses the app: go straight into
+  // the app instead of loading the preview page first (this helper only exists for people who've used it).
+  const m = req.mode === "navigate" && url.pathname.match(/^\/e\/([^\/]+)\/?$/);
+  if (m && m[1] !== "_" && m[1] !== "img") { e.respondWith(Response.redirect(new URL("/events/#e=" + m[1], location.origin).href, 302)); return; }
   e.respondWith(networkFirst(req));
 });
 
