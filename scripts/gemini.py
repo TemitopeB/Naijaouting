@@ -139,7 +139,19 @@ def model():
 
 # Google Search grounding is free (500 requests a day) only on the 2.5 Flash models; newer Flash
 # models need a paid plan for it. Searches therefore try these first.
-SEARCH_MODELS = ["models/gemini-2.5-flash", "models/gemini-2.5-flash-lite"]
+def search_models():
+    """2.5 Flash models this key can use (any variant name), newest first, then the usual ones."""
+    names, token = [], ""
+    while True:
+        j = _call("GET", "/models?pageSize=200" + (f"&pageToken={token}" if token else ""))
+        names += [m["name"] for m in j.get("models", []) if "generateContent" in m.get("supportedGenerationMethods", [])]
+        token = j.get("nextPageToken", "")
+        if not token:
+            break
+    two5 = [n for n in names if re.search(r"gemini-2\.5-flash", n) and not re.search(r"image|tts|audio|live", n)]
+    two5.sort(key=lambda n: ("lite" in n, "preview" in n, -len(n)))
+    print("  models for web search:", ", ".join(x.split("/")[-1] for x in two5[:6]) or "(no 2.5 Flash model on this key)")
+    return two5[:4] + [m for m in candidates()[:2] if m not in two5]
 
 
 def ask(prompt, search=False, temperature=0.2, models=None):
