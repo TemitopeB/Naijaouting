@@ -111,12 +111,24 @@ def fetch_account(s, ver, uid, tok, h, n):
     return (j.get("business_discovery") or {}).get("media", {}).get("data", []), None
 
 
+def wait(seconds):
+    """Wait, showing a line every minute so it's clear the tool is still working."""
+    end = time.time() + seconds
+    while True:
+        left = end - time.time()
+        if left <= 0:
+            return
+        if seconds >= 120:
+            print(f"    … still waiting, about {int(left // 60) + 1} min left", flush=True)
+        time.sleep(min(60, left))
+
+
 def pause():
     """Go slower as the hourly allowance fills up, so Instagram doesn't block the run."""
     p = USAGE["pct"]
     if p >= 90:
         print(f"  (Instagram allowance {p}% used: resting 15 minutes so the run isn't blocked)")
-        time.sleep(900)
+        wait(900)
     elif p >= 75:
         time.sleep(60)
     elif p >= 50:
@@ -171,9 +183,9 @@ def main():
             code = (err or {}).get("code")
             if err and code in (4, 17, 32, 613, -1) and tries < 6:
                 tries += 1
-                wait = 600 if code != -1 else 30
-                print(f"  {'Instagram says we are reading too fast' if code != -1 else 'Connection problem'}. Waiting {wait // 60 or 1} minute{'s' if wait >= 120 else ''}, then trying @{h} again ({tries}/6)…")
-                time.sleep(wait)
+                pause_s = 600 if code != -1 else 30
+                print(f"  {'Instagram says we are reading too fast' if code != -1 else 'Connection problem'}. Waiting {pause_s // 60 or 1} minute{'s' if pause_s >= 120 else ''}, then trying @{h} again ({tries}/6)…", flush=True)
+                wait(pause_s)
                 continue
             break
         if err:
