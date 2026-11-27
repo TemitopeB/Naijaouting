@@ -467,7 +467,9 @@ def main():
         try:
             r = search_check(e)
         except gemini.GeminiError as ex:
-            log(f"  Gemini search unavailable ({ex}); stopping web searches for today")
+            log(f"  Gemini search unavailable ({str(ex)[:120]}); stopping web searches for today")
+            for q_ in gemini.QUOTA_LOG[-2:]:
+                log("    limit hit: " + q_[:220])
             break
         searched += 1
         if r and r.get("status") == "postponed" and r.get("new_date") and r["new_date"] <= e["s"]:
