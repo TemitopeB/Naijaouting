@@ -137,13 +137,31 @@ def model():
     raise QuotaError("every available Gemini model is out of free quota for now")
 
 
-def ask(prompt, search=False, temperature=0.2):
-    """Returns (text, sources). sources = [{'title': domain, 'uri': grounding link}]"""
+# Google Search grounding is free (500 requests a day) only on the 2.5 Flash models; newer Flash
+# models need a paid plan for it. Searches therefore try these first.
+SEARCH_MODELS = ["models/gemini-2.5-flash", "models/gemini-2.5-flash-lite"]
+
+
+def ask(prompt, search=False, temperature=0.2, models=None):
+    """Returns (text, sources). sources = [{'title': domain, 'uri': grounding link}].
+    models: try only these (in order), without affecting the shared model choice."""
     body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}],
             "generationConfig": {"temperature": temperature}}
     if search:
         body["tools"] = [{"google_search": {}}]
-    while True:
+    if models:
+        last = None
+        for m in models:
+            try:
+                j = _call("POST", f"/{m}:generateContent", body)
+                break
+            except (QuotaError, SlowError) as ex:
+                last = ex
+                QUOTA_LOG.append(f"{m.split('/')[-1]}{' + Google Search' if search else ''}: {ex}")
+        else:
+            raise QuotaError(f"no listed model could answer ({last})")
+    else:
+      while True:
         m = model()
         try:
             j = _call("POST", f"/{m}:generateContent", body)

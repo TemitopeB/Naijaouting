@@ -295,7 +295,7 @@ def search_check(e):
     """Gemini searches the web; a change only counts if the quoted sentence is really on the source page."""
     ans, srcs = gemini.ask(SEARCH_PROMPT.format(name=e["n"], date=e["s"] if e["s"] == e["e"] else f"{e['s']} to {e['e']}",
                                                 venue=e["ve"] or "venue not given", city=e["ci"] or "Nigeria"),
-                           search=True, temperature=0.0)
+                           search=True, temperature=0.0, models=gemini.SEARCH_MODELS)
     j = gemini.parse_json(ans)
     if not isinstance(j, dict):
         return None
