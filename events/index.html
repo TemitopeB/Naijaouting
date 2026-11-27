@@ -2493,6 +2493,9 @@ html.app .ehl h1{flex:none}
 :root:root:root.app .evp.dz3 .tgrid .tsep small{display:none}
 </style>
 <style id="nav-v2">
+/* phone: the open search box keeps the same height and gap from the top as the closed one, so it never jumps up toward the address bar */
+html.app.sopen header{height:56px!important;min-height:56px;padding-top:0!important;padding-bottom:0!important}
+html.app.sopen header .search{height:42px!important;align-self:center}
 /* phone: typing boxes use 16px text so the phone doesn't zoom or shift the page when you tap them */
 html.app input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]),html.app textarea,html.app select{font-size:16px!important}
 /* ===== phone: the search box never slides under the browser's address bar (the page itself never scrolls, only its content) ===== */
