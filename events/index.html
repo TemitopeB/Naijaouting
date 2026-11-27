@@ -2364,8 +2364,18 @@ html.app .tz-tfl:not(.fo){display:none}
 .vxn{flex:none;margin-left:6px;font-style:normal;font-size:11.5px;font-weight:600;color:var(--ac);background:var(--acs);padding:1px 7px;border-radius:999px;white-space:nowrap}
 </style>
 <style id="grow-v1">
+/* smooth scrolling: the "On now" badges no longer blur what's behind them or animate a shadow (both repaint
+   every frame); the little live rings keep pulsing, but pause while you scroll and on cards in a list */
+.onb{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.onb i{animation:none!important;box-shadow:none!important}
+.onb i::after{animation:none!important;opacity:0}
+.tgrid .onb::after,.evl .onb::after{animation:none!important;opacity:0}
+.onb i::before,.lvd::after,.pulse::after{will-change:transform,opacity}
+html.scr .onb i::before,html.scr .lvd::after,html.scr .pulse::after,html.scr .onb::after,html.scr .tk-bar{animation-play-state:paused!important}
 /* speed: cards below the screen aren't laid out or painted until you scroll near them */
 .tgrid>.tc{content-visibility:auto;contain-intrinsic-size:auto 400px}
+.tz-tlist>.ev{content-visibility:auto;contain-intrinsic-size:auto 110px}
+.ncard{content-visibility:auto;contain-intrinsic-size:auto 320px}
 .evp.dz2 .tgrid>.tc{contain-intrinsic-size:auto 300px}.evp.dz3 .tgrid>.tc{contain-intrinsic-size:auto 230px}
 html.app .tgrid>.tc{contain-intrinsic-size:auto 430px}html.app .evp.dz2 .tgrid>.tc{contain-intrinsic-size:auto 300px}html.app .evp.dz3 .tgrid>.tc{contain-intrinsic-size:auto 220px}
 .tapd{opacity:.72;transition:none!important}
@@ -4796,19 +4806,19 @@ function zTo(f,pt,smooth){const sv=zSvg();if(!sv)return;const B=zB(sv),cur=sv.ge
  z.k=nk;z.cx=pt[0]-fx*w+w/2;z.cy=pt[1]-fy*h+h/2;if(nk===1){z.cx=B[0]+B[2]/2;z.cy=B[1]+B[3]/2}
  const ovb=cur.join(" ");zApply(sv);if(smooth)mapTween(ovb)}
 function zFit(){const sv=zSvg();if(!sv)return;const ovb=sv.getAttribute("viewBox");delete ZM[S.view];zApply(sv);mapTween(ovb)}
-(function(){let P={},st=null;
+(function(){let P={},st=null,ZRAF=0,ZLAST=[0,0],WACC=0,WPT=[0,0];
  document.addEventListener("pointerdown",e=>{const sv=e.target.closest&&e.target.closest("#view .mapbox>svg.zm");if(!sv)return;P[e.pointerId]=[e.clientX,e.clientY];const ids=Object.keys(P);
   if(ids.length===2){const a=P[ids[0]],b=P[ids[1]];st={pinch:1,d:Math.hypot(a[0]-b[0],a[1]-b[1])||1,moved:true}}
   else if(ids.length===1){const z=ZM[S.view];st=z&&z.k>1?{x:e.clientX,y:e.clientY,cx:z.cx,cy:z.cy,moved:false}:{x:e.clientX,y:e.clientY,moved:false,idle:1}}},true);
  document.addEventListener("pointermove",e=>{if(!st||!P[e.pointerId])return;P[e.pointerId]=[e.clientX,e.clientY];const sv=zSvg();if(!sv)return;
-  if(st.pinch){const ids=Object.keys(P);if(ids.length<2)return;const a=P[ids[0]],b=P[ids[1]],d=Math.hypot(a[0]-b[0],a[1]-b[1])||1;const pt=zPt(sv,(a[0]+b[0])/2,(a[1]+b[1])/2);zTo(d/st.d,pt,false);st.d=d;ZDRAG=true;return}
+  if(st.pinch){ZDRAG=true;if(!ZRAF)ZRAF=requestAnimationFrame(()=>{ZRAF=0;if(!st||!st.pinch)return;const ids=Object.keys(P);if(ids.length<2)return;const a=P[ids[0]],b=P[ids[1]],d=Math.hypot(a[0]-b[0],a[1]-b[1])||1;const pt=zPt(sv,(a[0]+b[0])/2,(a[1]+b[1])/2);zTo(d/st.d,pt,false);st.d=d});return}
   if(st.idle)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!st.moved&&Math.hypot(dx,dy)<5)return;st.moved=true;ZDRAG=true;
-  const m=sv.getScreenCTM();if(!m)return;const z=ZM[S.view];if(!z)return;z.cx=st.cx-dx/m.a;z.cy=st.cy-dy/m.d;zApply(sv)},true);
+  ZLAST=[dx,dy];if(!ZRAF)ZRAF=requestAnimationFrame(()=>{ZRAF=0;if(!st||st.pinch)return;const m=sv.getScreenCTM();if(!m)return;const z=ZM[S.view];if(!z)return;z.cx=st.cx-ZLAST[0]/m.a;z.cy=st.cy-ZLAST[1]/m.d;zApply(sv)})},true);
  const up=e=>{delete P[e.pointerId];if(!Object.keys(P).length){st=null;if(ZDRAG)setTimeout(()=>{ZDRAG=false},350)}else if(st&&st.pinch){st=null}};
  document.addEventListener("pointerup",up,true);document.addEventListener("pointercancel",up,true);
  document.addEventListener("click",e=>{if(ZDRAG&&e.target.closest&&e.target.closest("#view .mapbox>svg.zm")){e.stopPropagation();e.preventDefault();ZDRAG=false}},true);
  document.addEventListener("wheel",e=>{if(APP)return;const sv=e.target.closest&&e.target.closest("#view .mapbox>svg.zm");if(!sv)return;e.preventDefault();
-  const f=Math.exp(-Math.max(-60,Math.min(60,e.deltaY))*(e.ctrlKey?.01:.003));zTo(f,zPt(sv,e.clientX,e.clientY),false)},{passive:false})})();
+  WACC+=Math.max(-60,Math.min(60,e.deltaY))*(e.ctrlKey?.01:.003);WPT=[e.clientX,e.clientY];if(!ZRAF)ZRAF=requestAnimationFrame(()=>{ZRAF=0;const f=Math.exp(-WACC);WACC=0;zTo(f,zPt(sv,WPT[0],WPT[1]),false)})},{passive:false})})();
 /* several database updates arriving together cause one rebuild, not one each */
 /* taps: show the press straight away, then rebuild the view after the browser has painted it,
    so a tap never feels stuck while a long list is redrawn */
@@ -5299,7 +5309,11 @@ function gridFill(y){/* before restoring the scroll position, make sure the page
  const g=document.getElementById("evgrid"),sc=g&&dzScroller(g),H=()=>sc.scrollHeight-sc.clientHeight;
  if(g&&y)while(GREST.length&&H()<y+sc.clientHeight)if(!gridMore(36))break;
  const tok=GTOK,step=()=>{if(tok!==GTOK||!GREST.length)return;if(!gridMore(30)){GREST=[];return}if(GREST.length)setTimeout(step,40)};if(GREST.length)setTimeout(step,80)}
-document.addEventListener("scroll",e=>{if(!GREST.length)return;const g=document.getElementById("evgrid");if(!g)return;const r=g.getBoundingClientRect();if(r.bottom<innerHeight*3)gridMore(36)},{capture:true,passive:true});
+let SCRF=0,SCRT=0;
+document.addEventListener("scroll",()=>{
+ if(!SCRT){document.documentElement.classList.add("scr");document.querySelectorAll("#view svg").forEach(v=>{try{v.pauseAnimations&&v.pauseAnimations()}catch(x){}})}
+ clearTimeout(SCRT);SCRT=setTimeout(()=>{SCRT=0;document.documentElement.classList.remove("scr");document.querySelectorAll("#view svg").forEach(v=>{try{v.unpauseAnimations&&v.unpauseAnimations()}catch(x){}})},160);
+ if(!GREST.length||SCRF)return;SCRF=requestAnimationFrame(()=>{SCRF=0;const g=document.getElementById("evgrid");if(!g)return;const r=g.getBoundingClientRect();if(r.bottom<innerHeight*3)gridMore(36)})},{capture:true,passive:true});
 function evGrid(P){const a=P[0],b=P[1],c=P[2];return a.map(evCard).join("")+(b.length&&(a.length||c.length)?evSep("Still running",b.length,"Started earlier, still on"):"")+b.map(evCard).join("")+(c.length&&(a.length||b.length)?evSep("Coming later",c.length,""):"")+c.map(evCard).join("")}
 const CVV=[["0deg",1,1,"0 0"],["0deg",-1,1.18,"-6% 3%"],["0deg",1,1.18,"6% -3%"],["0deg",-1,1,"0 0"]];
 function cvVar(c){const i=CVN[c]=(CVN[c]||0)+1,v=CVV[(i-1)%CVV.length];return "--cvh:"+v[0]+";--cvf:"+v[1]+";--cvz:"+v[2]+";--cvo:"+v[3]}
