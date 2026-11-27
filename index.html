@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script src="/js/pwa.js" defer></script>
 <style>
-:root{--bg:#F4F3EF;--sand:#ECEBE6;--ink:#141614;--mu:#5C5E58;--mu2:#6D6F68;--ln:#E8E6E0;--ln2:#DAD8D1;--g:#0B6B4C;--g2:#08573D;--gs:#E3EFE9;--amb:#E9A21B;--ambs:#FBF1DC;--cor:#C27A0A;--cors:#FBF1DC;
+:root{--bg:#FFFFFF;--sand:#F3F7F5;--ink:#141614;--mu:#5C5E58;--mu2:#6D6F68;--ln:#E8E6E0;--ln2:#DAD8D1;--g:#0B6B4C;--g2:#08573D;--gs:#E3EFE9;--amb:#E9A21B;--ambs:#FBF1DC;--cor:#C27A0A;--cors:#FBF1DC;
  --f:var(--font-interface);--max:1200px}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}html,body{overflow-x:clip}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f);-webkit-font-smoothing:antialiased}
@@ -228,7 +228,7 @@ body>footer{margin-top:112px}
  footer{border-radius:26px 26px 0 0;margin-top:56px}.fg{grid-template-columns:1fr 1fr}
 }
 .inst{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 18px}.inst span{font-size:13.5px;color:#D7EDE3}
-.inst .btn{background:#fff;color:var(--g)}.inst .btn:hover{background:#ECEBE6}
+.inst .btn{background:#fff;color:var(--g)}.inst .btn:hover{background:#E7F0EC}
 html.installed [data-install]{display:none!important}
 @media (max-width:760px){.inst .btn{width:100%}}
 
@@ -318,9 +318,9 @@ footer{font-size:14px}footer h4{font-weight:600}
 .seg{border-color:#DAD8D1}
 
 /* ===== clearer containers, round 2 (18 Nov 2026): white surfaces get a visible edge everywhere, background a step deeper ===== */
-:root{--edge:#D2D0C8;--bg:#EEEDE8;--sand:#E4E2DA}
+:root{--edge:#D2D0C8;--bg:#FFFFFF;--sand:#F3F7F5}
 body{background:var(--bg)}
-.top{background:rgba(238,237,232,.9)}
+.top{background:rgba(255,255,255,.92)}
 .top nav,.btn.ln,.btn.ink,.seg,.cats a,.ib{border:1px solid var(--edge)!important;box-shadow:0 1px 2px rgba(24,28,26,.06)}
 .pk,.bx{border:1px solid var(--edge)!important;box-shadow:0 1px 2px rgba(24,28,26,.06),0 12px 28px -18px rgba(24,28,26,.28)!important}
 .pk:hover{border-color:#B9B7AE!important}
@@ -377,13 +377,13 @@ body{background:var(--bg)}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none!important}}
 
 /* ===== containers v3 (18 Nov 2026): white containers with strong shadows on beige bands; marigold December ===== */
-:root{--card-edge:#CFCDC4;--card-sh:0 1px 2px rgba(20,22,20,.08),0 4px 10px -2px rgba(20,22,20,.08),0 18px 36px -14px rgba(20,22,20,.30);--band2:#E3E1D9}
+:root{--card-edge:#CFCDC4;--card-sh:0 1px 2px rgba(20,22,20,.08),0 4px 10px -2px rgba(20,22,20,.08),0 18px 36px -14px rgba(20,22,20,.30);--band2:#EAF4EE}
 /* every white container: visible edge + real shadow */
 .pk,.bx,.ct,.steps li,.og2 .up,.top nav,.seg,.btn.ln,.btn.ink{background:#fff!important;border:1px solid var(--card-edge)!important;box-shadow:var(--card-sh)!important}
 .pk:hover,.ct:hover{box-shadow:0 2px 4px rgba(20,22,20,.10),0 26px 48px -16px rgba(20,22,20,.38)!important;transform:translateY(-3px)}
 /* bands: beige and a deeper beige, never white, so the white cards always contrast */
 .cityp{background:var(--band2)!important}
-.ctb{background:#E4E2DA!important}
+.ctb{background:var(--sand)!important}
 .og1{background:var(--band2)!important}
 .og2{background:var(--band2)!important}
 #organisers .w{background:var(--band2)}

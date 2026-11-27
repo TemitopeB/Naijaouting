@@ -2364,6 +2364,9 @@ html.app .tz-tfl:not(.fo){display:none}
 .vxn{flex:none;margin-left:6px;font-style:normal;font-size:11.5px;font-weight:600;color:var(--ac);background:var(--acs);padding:1px 7px;border-radius:999px;white-space:nowrap}
 </style>
 <style id="grow-v1">
+/* phone: a pure white page (the computer keeps its soft background so the white panels stand out) */
+@media (prefers-color-scheme:light){html.app:not([data-theme="dark"]):not([data-mode]){--bg:#FFFFFF;--bg2:#FFFFFF;--pn2:#F4F6F5;--pn3:#EEF2F0}}
+html.app[data-theme="light"]:not([data-mode]){--bg:#FFFFFF;--bg2:#FFFFFF;--pn2:#F4F6F5;--pn3:#EEF2F0}
 .gkb{margin:10px 0}.gkb label{display:block;margin-bottom:6px}.gkr{display:flex;gap:8px;flex-wrap:wrap}.gkr input{flex:1 1 220px;min-height:40px;padding:0 12px;border:1px solid var(--ln2);border-radius:10px;background:var(--pn);color:var(--tx);font:inherit}
 /* audit fixes */
 html.app .ubar .dpc:not(.on) .dpl{display:none}
