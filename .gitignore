@@ -4,3 +4,5 @@ __pycache__/
 .env
 .env.*
 config.json
+tools/instagram/seen.json
+tools/instagram/out/
