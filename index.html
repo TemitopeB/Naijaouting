@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
 <title>NaijaOuting · What’s on in Nigeria</title>
 <meta name="description" content="Find concerts, parties, festivals, comedy and more across Nigeria, checked and linked to the official ticket seller.">
 <link rel="preload" href="/fonts/space-grotesk-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
@@ -503,6 +503,9 @@ body>footer{margin-top:var(--sec)!important}
 .app{align-items:center!important}
 @media (min-width:1001px){.app>.ph2{align-self:center;margin:40px 0 56px}}
 @media (max-width:760px){.ph2{width:236px;justify-self:center;margin:8px auto 44px}.ph2s{height:488px}}
+
+/* phones: 16px in the Where/When boxes so tapping them never zooms or shifts the page */
+@media (max-width:760px){select,input,textarea{font-size:16px!important}}
 </style>
 </head>
 <body>

@@ -5,7 +5,7 @@
 <script src="/js/config.js"></script>
 <script src="/js/shim.js"></script>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>NaijaOuting</title>
 <link rel="icon" href="/icons/favicon-32.png" sizes="32x32">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -2493,6 +2493,8 @@ html.app .ehl h1{flex:none}
 :root:root:root.app .evp.dz3 .tgrid .tsep small{display:none}
 </style>
 <style id="nav-v2">
+/* phone: typing boxes use 16px text so the phone doesn't zoom or shift the page when you tap them */
+html.app input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]),html.app textarea,html.app select{font-size:16px!important}
 /* ===== phone: the search box never slides under the browser's address bar (the page itself never scrolls, only its content) ===== */
 @media (max-width:600px){
  html.app,html.app body{height:100%;height:100dvh;overflow:hidden;overscroll-behavior:none}
@@ -3431,6 +3433,10 @@ function applyLayout(){const l=(typeof SET!=="undefined"&&SET.layout)||"auto",n=
 const BN=["events","map","near","saved"],MOREV=["online","trip","arrive","tour","explore","news"];
 function vseg(o){return '<div class="vseg" role="tablist">'+o.map(x=>'<button role="tab" class="'+(S.view===x[0]?"on":"")+'" aria-selected="'+(S.view===x[0])+'" data-a="go" data-v="'+x[0]+'">'+x[1]+'</button>').join("")+'</div>'}
 const EVSEG=[["events","List"],["cal","Calendar"]],EXSEG=[["explore","States"],["tour","Tourism"]];
+/* phone: when the keyboard opens, keep the top of the app where it is (some phones push the whole page up) */
+(function(){if(!("visualViewport" in window))return;let t=0;const snap=()=>{if(!document.documentElement.classList.contains("app"))return;const a=document.activeElement;if(!a||!/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))return;
+ const r=a.getBoundingClientRect(),vv=visualViewport;if(r.top>=0&&r.bottom<=vv.height+vv.offsetTop-8&&(window.scrollY||document.documentElement.scrollTop||document.body.scrollTop)){window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0}};
+ document.addEventListener("focusin",()=>{clearTimeout(t);t=setTimeout(snap,60);setTimeout(snap,350)});visualViewport.addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(snap,60)})})();
 let BNLAST="";
 function bnav(){if(!APP)return;const cv={cal:"events"}[S.view]||S.view;const nm={};NAV.forEach(n=>nm[n[0]]=n);const ic=d=>'<span class="bni"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg></span>';
  const act=BN.includes(cv)?cv:"more",pop=BNLAST&&BNLAST!==act?" pop":"";BNLAST=act;const sv=FAV.length;
