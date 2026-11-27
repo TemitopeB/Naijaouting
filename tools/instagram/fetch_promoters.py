@@ -158,6 +158,7 @@ def main():
     ap.add_argument("--all", action="store_true", help="keep every post, not only ones that look like events")
     ap.add_argument("--only", help="comma-separated handles to read instead of the whole list")
     ap.add_argument("--again", action="store_true", help="include posts collected before")
+    ap.add_argument("--from", dest="start", type=int, default=1, help="start at this account number (to continue a run that stopped)")
     ap.add_argument("--list", default=str(HERE / "promoters.txt"), help="the promoters file")
     a = ap.parse_args()
 
@@ -170,10 +171,14 @@ def main():
     s.headers["User-Agent"] = "NaijaOuting promoter reader"
 
     rows, files, skipped, failed, looked = [], {}, [], [], 0
+    stopped_at = None
     print(f"Reading {len(H)} accounts (posts from the last {a.days} days)…")
     print("It goes slower when Instagram's hourly allowance fills up. Press Ctrl+C to stop early: what's collected so far is still saved.")
     try:
       for i, h in enumerate(H, 1):
+        if i < a.start:
+            continue
+        stopped_at = i
         media, err, tries = None, None, 0
         while True:
             try:
@@ -191,7 +196,10 @@ def main():
         if err:
             code, msg = err.get("code"), err.get("message", "")
             if code in (190,):
-                print(f"Your token has expired or isn't valid ({msg}). Make a new one and put it in config.json.")
+                print(f"\nYour token has expired or isn't valid ({msg}).")
+                print("Make a new one (see README: Extend Access Token) and put it in config.json.")
+                print(f"Then continue from here with:  python fetch_promoters.py --from {i}")
+                stopped_at = -i
                 break
             (skipped if code in (110, 100) else failed).append((h, msg[:90]))
             print(f"  [{i}/{len(H)}] @{h}: skipped ({'personal account or not found' if code in (110, 100) else msg[:60]})")
@@ -227,6 +235,8 @@ def main():
         pause()
     except KeyboardInterrupt:
         print("\nStopped early. Saving what was collected…")
+        if stopped_at:
+            print(f"To continue later from this account:  python fetch_promoters.py --from {stopped_at}")
 
     out = HERE / "out"
     out.mkdir(exist_ok=True)
@@ -235,7 +245,7 @@ def main():
         w = csv.writer(buf)
         w.writerow(["instagram_account", "post_url", "post_date", "flyer_files", "caption"])
         w.writerows(rows)
-        z = out / f"posts_{dt.date.today().isoformat()}.zip"
+        z = out / f"posts_{dt.datetime.now().strftime('%Y-%m-%d_%H%M%S')}.zip"
         with zipfile.ZipFile(z, "w", zipfile.ZIP_DEFLATED) as zf:
             zf.writestr("posts.csv", buf.getvalue())
             for n, b in files.items():
