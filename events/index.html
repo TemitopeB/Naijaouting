@@ -2492,6 +2492,53 @@ html.app .ehl h1{flex:none}
 :root:root:root.app .evp.dz3 .tgrid .tfd,:root:root:root.app .evp.dz3 .tgrid .tpd{scale:.72}
 :root:root:root.app .evp.dz3 .tgrid .tsep small{display:none}
 </style>
+<style id="nav-v2">
+/* ===== phone: the search box never slides under the browser's address bar (the page itself never scrolls, only its content) ===== */
+@media (max-width:600px){
+ html.app,html.app body{height:100%;height:100dvh;overflow:hidden;overscroll-behavior:none}
+ html.app #app{height:100%;height:100dvh}
+}
+/* ===== phone: floating tab dock ===== */
+html.app #bnav.bnav{margin:0 12px calc(10px + env(safe-area-inset-bottom,0px));padding:6px;border:0;border-radius:26px;background:linear-gradient(180deg,#17231D,#0B120E);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 16px 34px -14px rgba(4,24,14,.7),0 4px 10px -4px rgba(4,24,14,.35);gap:2px;position:relative;z-index:30}
+html.app #bnav button{height:56px;gap:3px;color:rgba(236,244,239,.62);font-size:11px!important;font-weight:600;letter-spacing:.01em;border-radius:20px;transition:color .2s}
+html.app #bnav button::before{display:none}
+html.app #bnav .bni{position:relative;display:grid;place-items:center;width:46px;height:30px;border-radius:15px;transition:background .25s,box-shadow .25s,transform .25s cubic-bezier(.3,1.5,.5,1)}
+html.app #bnav .bni svg{width:21px;height:21px;color:currentColor}
+html.app #bnav button:active .bni{transform:scale(.88)}
+html.app #bnav button.on{color:#fff}
+html.app #bnav button.on .bni{background:linear-gradient(135deg,#25B678,#0B7A55);box-shadow:0 6px 16px -6px rgba(37,182,120,.75),inset 0 1px 0 rgba(255,255,255,.25)}
+html.app #bnav button.on .bnl{font-weight:700}
+html.app #bnav button.on.pop .bni{animation:bnpop .42s cubic-bezier(.3,1.6,.45,1)}
+@keyframes bnpop{0%{transform:scale(.6);opacity:.4}100%{transform:scale(1);opacity:1}}
+html.app #bnav .bnb{position:absolute;top:5px;left:calc(50% + 6px);min-width:17px;height:17px;padding:0 5px;border-radius:9px;background:#F2B233;color:#1B1405;font:800 10px/17px var(--font-numbers,var(--fb));font-style:normal;box-shadow:0 0 0 2px #111A15;pointer-events:none}
+html.app #bnav button:focus-visible{outline:2px solid #7CE0B0;outline-offset:-2px}
+:root[data-theme="dark"] html.app #bnav.bnav,html[data-theme="dark"].app #bnav.bnav{background:linear-gradient(180deg,#1F2B25,#141C18);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 0 1px rgba(255,255,255,.06),0 16px 34px -14px rgba(0,0,0,.8)}
+@media (prefers-reduced-motion:reduce){html.app #bnav button.on.pop .bni{animation:none}}
+/* phone: More sheet tiles */
+.mgrid{gap:10px}
+.mgrid button{background:var(--pn);border:1px solid var(--ln);border-radius:20px;min-height:92px;gap:8px;box-shadow:0 1px 2px rgba(20,30,25,.05);transition:transform .15s,box-shadow .2s}
+.mgrid button:active{transform:scale(.96)}
+.mgrid button svg{width:40px;height:40px;padding:9px;border-radius:13px;background:color-mix(in srgb,var(--ac) 12%,transparent);color:var(--ac);box-sizing:border-box}
+.mgrid button:nth-child(6n+2) svg{background:color-mix(in srgb,#E9A21B 18%,transparent);color:#A86F12}
+.mgrid button:nth-child(6n+3) svg{background:color-mix(in srgb,#2F80ED 14%,transparent);color:#2366C4}
+.mgrid button:nth-child(6n+4) svg{background:color-mix(in srgb,#C2410C 13%,transparent);color:#B13C0B}
+.mgrid button:nth-child(6n+5) svg{background:color-mix(in srgb,#7C3AED 13%,transparent);color:#6D35D0}
+.mgrid button:nth-child(6n) svg{background:color-mix(in srgb,#0E7490 14%,transparent);color:#0E6A82}
+/* ===== computer: sidebar ===== */
+html:not(.app) #side .grp{display:flex;align-items:center;gap:8px}
+html:not(.app) #side .grp::before{content:"";width:14px;height:3px;border-radius:3px;background:#E9A21B}
+html:not(.app) #side .nav{height:44px;padding:0 10px 0 6px;gap:12px;border-radius:14px;transition:background .18s,color .18s}
+html:not(.app) #side .nav svg{flex:none;width:32px;height:32px;padding:7px;border-radius:10px;box-sizing:border-box;background:var(--pn2);color:var(--mu2);opacity:1;transition:background .2s,color .2s,box-shadow .2s,transform .2s}
+html:not(.app) #side .nav:hover{background:color-mix(in srgb,var(--ac) 6%,transparent);color:var(--tx)}
+html:not(.app) #side .nav:hover svg{color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--pn))}
+html:not(.app) #side .nav.on{background:linear-gradient(90deg,color-mix(in srgb,var(--ac) 13%,var(--pn)),color-mix(in srgb,var(--ac) 4%,var(--pn)));box-shadow:none;color:var(--tx);font-weight:700;margin:2px 0;width:100%;padding:0 10px 0 6px}
+html:not(.app) #side .nav.on::before{content:"";position:absolute;left:-12px;top:10px;bottom:10px;width:4px;border-radius:0 4px 4px 0;background:var(--ac)}
+html:not(.app) #side .nav.on svg{background:linear-gradient(135deg,#25B678,#0B7A55);color:#fff;box-shadow:0 6px 14px -6px rgba(16,140,90,.7)}
+html:not(.app) #side .nav .cnt{min-width:30px;height:22px;padding:0 8px;border-radius:11px;background:var(--pn2);color:var(--mu2);font:600 12px/22px var(--font-numbers,var(--fb));text-align:center}
+html:not(.app) #side .nav.on .cnt{background:var(--ac);color:#fff}
+:root[data-theme="dark"] html:not(.app) #side .nav.on svg,html[data-theme="dark"]:not(.app) #side .nav.on svg{color:#06140D}
+</style>
 </head>
 <body>
 <div id="app">
@@ -3384,8 +3431,10 @@ function applyLayout(){const l=(typeof SET!=="undefined"&&SET.layout)||"auto",n=
 const BN=["events","map","near","saved"],MOREV=["online","trip","arrive","tour","explore","news"];
 function vseg(o){return '<div class="vseg" role="tablist">'+o.map(x=>'<button role="tab" class="'+(S.view===x[0]?"on":"")+'" aria-selected="'+(S.view===x[0])+'" data-a="go" data-v="'+x[0]+'">'+x[1]+'</button>').join("")+'</div>'}
 const EVSEG=[["events","List"],["cal","Calendar"]],EXSEG=[["explore","States"],["tour","Tourism"]];
-function bnav(){if(!APP)return;const cv={cal:"events"}[S.view]||S.view;const nm={};NAV.forEach(n=>nm[n[0]]=n);const ic=d=>'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>';
- $("#bnav").innerHTML=BN.map(k=>'<button class="'+(cv===k?"on":"")+'" data-a="go" data-v="'+k+'"'+(cv===k?' aria-current="page"':"")+'>'+ic(nm[k][2])+nm[k][1]+'</button>').join("")+'<button class="'+(BN.includes(cv)?"":"on")+'" data-a="more">'+ic('<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>')+'More</button>'}
+let BNLAST="";
+function bnav(){if(!APP)return;const cv={cal:"events"}[S.view]||S.view;const nm={};NAV.forEach(n=>nm[n[0]]=n);const ic=d=>'<span class="bni"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg></span>';
+ const act=BN.includes(cv)?cv:"more",pop=BNLAST&&BNLAST!==act?" pop":"";BNLAST=act;const sv=FAV.length;
+ $("#bnav").innerHTML=BN.map(k=>'<button class="'+(act===k?"on"+pop:"")+'" data-a="go" data-v="'+k+'"'+(act===k?' aria-current="page"':"")+'>'+ic(nm[k][2])+(k==="saved"&&sv?'<i class="bnb" aria-label="'+sv+' saved">'+(sv>99?"99+":sv)+'</i>':"")+'<span class="bnl">'+nm[k][1]+'</span></button>').join("")+'<button class="'+(act==="more"?"on"+pop:"")+'" data-a="more">'+ic('<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>')+'<span class="bnl">More</span></button>'}
 function moreView(){const nm={};NAV.forEach(n=>nm[n[0]]=n);
  $("#morebox").innerHTML='<div class="grab"></div><div class="mgrid">'+MOREV.map(k=>'<button data-a="go" data-v="'+k+'"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+nm[k][2]+'</svg>'+nm[k][1]+'</button>').join("")+'<button data-a="settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>Settings</button>'+(window.ACCT?ACCT.moreTile():"")+(ADMIN?'<button data-a="review" class="mrev"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13h4l2 3h4l2-3h4"/><path d="M5.5 5h13L21 13v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-5z"/></svg>Review<i class="revn"'+(revN()?"":" hidden")+'>'+(revN()>99?"99+":revN()||"")+'</i></button>':"")+'<button data-install data-install-always><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7M9 11l3 3 3-3"/></svg>Install app</button></div>'+
  '<div class="mlist"><a class="mla" href="/weekend/">This weekend’s picks<span aria-hidden="true">›</span></a>'+[["about","About us"],["help","Help and FAQ"],["contact","Contact us"],["organisers","For organisers"],["privacy","Privacy and terms"]].map(x=>'<button data-a="go" data-v="'+x[0]+'">'+x[1]+'<span aria-hidden="true">›</span></button>').join("")+'</div><p class="sm" style="text-align:center;margin:14px 0 0">© 2026 NaijaOuting</p>'}
