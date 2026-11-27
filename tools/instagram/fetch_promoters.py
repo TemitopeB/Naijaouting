@@ -68,10 +68,10 @@ def load_config():
         sys.exit("Missing config.json. Copy config.example.json to config.json and fill it in.")
     c = json.loads(p.read_text(encoding="utf-8"))
     tok = c.get("access_token") or c.get("token")
-    uid = c.get("ig_user_id") or c.get("instagram_business_account_id") or c.get("user_id")
+    uid = c.get("ig_user_id") or c.get("instagram_user_id") or c.get("instagram_business_account_id") or c.get("user_id")
     if not tok or not uid or "PASTE" in str(tok):
         sys.exit("config.json needs access_token and ig_user_id.")
-    return tok, str(uid), c.get("api_version", "v21.0")
+    return tok, str(uid), c.get("api_version") or c.get("graph_version") or "v21.0"
 
 
 FIELDS = ("business_discovery.username({h}){{username,name,"
