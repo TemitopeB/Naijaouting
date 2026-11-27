@@ -79,13 +79,50 @@ FIELDS = ("business_discovery.username({h}){{username,name,"
           "children{{media_type,media_url,thumbnail_url}}}}}}")
 
 
+USAGE = {"pct": 0}
+
+
+def note_usage(r):
+    """Instagram reports how much of the hourly allowance is used (in %); remember the highest figure."""
+    pct = 0
+    for k in ("x-app-usage", "x-business-use-case-usage"):
+        v = r.headers.get(k)
+        if not v:
+            continue
+        try:
+            j = json.loads(v)
+            vals = []
+            for x in (j.values() if k.endswith("case-usage") else [j]):
+                for y in (x if isinstance(x, list) else [x]):
+                    vals += [y.get("call_count", 0), y.get("total_cputime", 0), y.get("total_time", 0)]
+            pct = max([pct] + [int(t or 0) for t in vals])
+        except Exception:
+            pass
+    USAGE["pct"] = pct
+
+
 def fetch_account(s, ver, uid, tok, h, n):
     r = s.get(f"{API}/{ver}/{uid}", params={"fields": FIELDS.format(h=h, n=n), "access_token": tok}, timeout=40)
+    note_usage(r)
     j = r.json()
     if "error" in j:
         e = j["error"]
         return None, e
     return (j.get("business_discovery") or {}).get("media", {}).get("data", []), None
+
+
+def pause():
+    """Go slower as the hourly allowance fills up, so Instagram doesn't block the run."""
+    p = USAGE["pct"]
+    if p >= 90:
+        print(f"  (Instagram allowance {p}% used: resting 15 minutes so the run isn't blocked)")
+        time.sleep(900)
+    elif p >= 75:
+        time.sleep(60)
+    elif p >= 50:
+        time.sleep(15)
+    else:
+        time.sleep(3)
 
 
 def pictures(m):
@@ -105,7 +142,7 @@ def pictures(m):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--days", type=int, default=21, help="how far back to look (default 21 days)")
-    ap.add_argument("--per-account", type=int, default=15, help="recent posts to look at per account (default 15)")
+    ap.add_argument("--per-account", type=int, default=10, help="recent posts to look at per account (default 10)")
     ap.add_argument("--all", action="store_true", help="keep every post, not only ones that look like events")
     ap.add_argument("--only", help="comma-separated handles to read instead of the whole list")
     ap.add_argument("--again", action="store_true", help="include posts collected before")
@@ -122,21 +159,32 @@ def main():
 
     rows, files, skipped, failed, looked = [], {}, [], [], 0
     print(f"Reading {len(H)} accounts (posts from the last {a.days} days)…")
-    for i, h in enumerate(H, 1):
-        media, err = fetch_account(s, ver, uid, tok, h, a.per_account)
+    print("It goes slower when Instagram's hourly allowance fills up. Press Ctrl+C to stop early: what's collected so far is still saved.")
+    try:
+      for i, h in enumerate(H, 1):
+        media, err, tries = None, None, 0
+        while True:
+            try:
+                media, err = fetch_account(s, ver, uid, tok, h, a.per_account)
+            except requests.RequestException as x:
+                media, err = None, {"code": -1, "message": f"connection problem: {type(x).__name__}"}
+            code = (err or {}).get("code")
+            if err and code in (4, 17, 32, 613, -1) and tries < 6:
+                tries += 1
+                wait = 600 if code != -1 else 30
+                print(f"  {'Instagram says we are reading too fast' if code != -1 else 'Connection problem'}. Waiting {wait // 60 or 1} minute{'s' if wait >= 120 else ''}, then trying @{h} again ({tries}/6)…")
+                time.sleep(wait)
+                continue
+            break
         if err:
             code, msg = err.get("code"), err.get("message", "")
             if code in (190,):
-                sys.exit(f"Your token has expired or isn't valid ({msg}). Make a new one and put it in config.json.")
-            if code in (4, 17, 32, 613):
-                print("  Instagram says we're reading too fast. Waiting 10 minutes…")
-                time.sleep(600)
-                media, err = fetch_account(s, ver, uid, tok, h, a.per_account)
-            if err:
-                (skipped if code in (110, 100) else failed).append((h, msg[:90]))
-                print(f"  [{i}/{len(H)}] @{h}: skipped ({'personal account or not found' if code in (110, 100) else msg[:60]})")
-                time.sleep(1.2)
-                continue
+                print(f"Your token has expired or isn't valid ({msg}). Make a new one and put it in config.json.")
+                break
+            (skipped if code in (110, 100) else failed).append((h, msg[:90]))
+            print(f"  [{i}/{len(H)}] @{h}: skipped ({'personal account or not found' if code in (110, 100) else msg[:60]})")
+            pause()
+            continue
         kept = 0
         for m in media:
             looked += 1
@@ -164,7 +212,9 @@ def main():
             seen.add(m["id"])
             kept += 1
         print(f"  [{i}/{len(H)}] @{h}: {kept} post{'s' if kept != 1 else ''}")
-        time.sleep(1.2)  # stay well inside Instagram's limit (about 200 requests an hour)
+        pause()
+    except KeyboardInterrupt:
+        print("\nStopped early. Saving what was collected…")
 
     out = HERE / "out"
     out.mkdir(exist_ok=True)
@@ -190,6 +240,8 @@ def main():
         print(f"\n{len(failed)} accounts had other errors:")
         for h, msg in failed:
             print(f"  @{h}: {msg}")
+        print("\nTo try just these again later:")
+        print("  python fetch_promoters.py --only " + ",".join(h for h, _ in failed))
 
 
 if __name__ == "__main__":

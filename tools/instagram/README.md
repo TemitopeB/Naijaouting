@@ -33,3 +33,7 @@ Then on the site: **Review → Import events → choose `out/posts_<date>.zip`**
 - Add or remove accounts in `promoters.txt`. Any line with an @handle counts.
 - Posts already collected are remembered in `seen.json`, so each zip only has new posts.
 - The token lasts about 60 days. When it runs out, the script says so: extend it again (step 4).
+- Instagram allows only so many reads an hour. The script watches how much is used and slows down
+  (or rests 15 minutes) before it gets blocked; if it is blocked anyway, it waits and tries the same
+  account again instead of skipping it. A full run of ~170 accounts can take about an hour.
+- Press Ctrl+C to stop early: the posts collected so far are still saved to the zip.
